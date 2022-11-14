@@ -1,0 +1,1 @@
+from real-time.module.siparis_namespace import SiparisNamespace

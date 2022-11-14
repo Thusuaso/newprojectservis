@@ -1,0 +1,1 @@
+from models.tedarikci_model.tedariki_liste import *

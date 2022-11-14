@@ -1,0 +1,557 @@
+from models import TakvimSchema,TakvimModel
+from models.yeniTeklifler import *
+from helpers import SqlConnect,TarihIslemler
+from flask_restful import Resource
+from flask import jsonify 
+import datetime
+from models.shared import StyleSchema,StyleSchema
+
+
+class TeklifAnaSayfaData(Resource):
+
+    def get(self,username):
+
+        teklif = Teklif(username)
+        print(username)
+        data = {
+            'takvimList' : teklif.getTakvimList(),
+            'temsilciOzetList' : teklif.getTemsilciListOzet(),
+            'hatirlatmaList' : teklif.getHatirlatmaList(),
+            'musteriOzetList' : teklif.getMusteriOzetList()
+        }
+
+        return jsonify(data)
+
+class TeklifAyrintiListe(Resource):
+
+    def get(self,kullaniciAdi):
+
+        teklif = TeklifListeler() 
+
+        liste = teklif.getKullaniciListeAyrinti(kullaniciAdi)
+
+        blist = teklif.getKullaniciListeAyrinti_BList(kullaniciAdi)
+
+        data = {
+
+            "liste" : liste,
+            "blist" : blist
+        }
+
+        return jsonify(data)
+
+
+
+class TeklifAyrintiListeHepsi(Resource):
+
+    def get(self):
+
+        teklif = TeklifListeler()
+
+        liste = teklif.getKullaniciListeHepsi()
+        blist = teklif.getKullaniciListeHepsi_BList()
+
+        data = {
+
+            "liste" : liste,
+            "blist" : blist
+        }
+
+        return jsonify(data)
+
+
+class Teklif:
+
+    def __init__(self,username):
+        self.data = SqlConnect().data
+        self.tarihIslem = TarihIslemler()
+        self.kullaniciId = self.data.getStoreList("Select ID from KullaniciTB where KullaniciAdi=?",(username))[0].ID
+
+    
+    def getTakvimList(self):
+
+        liste = list()
+        if self.__getTakvimDataList() != None:
+            
+            takvim_list = self.__getTakvimDataList()
+        
+        """
+        
+        for item in self.__getTakvimDataSatisciList():
+
+            takvim_list.append(item)
+        """
+        #hatırlatma tarih kontrolu geride kalan tarihlerin güncellenmesi
+        
+
+        for item in takvim_list:
+
+            model = TakvimModel()
+            model.id = item.TeklifId 
+            model.title = item.MusteriAdi
+           # model.goruldu = item.Goruldu
+            #model.url = 'http://localhost:8080/#/siparisler/uretim'
+            if item.KullaniciAdi == 'Fadime':
+                model.color = 'orange'
+            if item.KullaniciAdi == 'Gizem':
+                model.color = 'yellow'
+            if item.KullaniciAdi == 'Ozlem':
+                model.color = '#CF4FD5'
+            if item.KullaniciAdi == 'Ozgul':
+                model.color = '#F39C27'
+            if item.KullaniciAdi == 'Fatmanur':
+                model.color = 'green'    
+            if item.KullaniciAdi == 'Fatih':
+                model.color = 'blue' 
+            if item.KullaniciAdi == 'Sema':
+                model.color = '#641537'
+            if item.KullaniciAdi == 'Hakan':
+                model.color = '#a2c4c9' 
+            
+            
+            if item.HatirlatmaTarihi != None:
+                model.start = self.tarihIslem.getDate(item.HatirlatmaTarihi).strftime("%Y-%m-%d")
+                model.end = self.tarihIslem.getDate(item.HatirlatmaSonTarih).strftime("%Y-%m-%d")
+                model.hatirlatmaAciklama = item.HatirlatmaAciklama
+                model.hatirlatmaDurum = item.HatirlatilmaDurumu
+                
+                
+                
+            liste.append(model)
+
+        
+        schema = TakvimSchema(many=True)
+
+        return schema.dump(liste)
+
+    def getTemsilciListOzet(self):
+
+        result = self.data.getList(
+            #10 Gizem
+            #16 Fadime
+            #19 Özlem
+            """
+          	select * from KullaniciTB where Teklif=1
+            """
+        )
+
+        liste = list()
+        id = 1
+        for item in result:
+
+            model = TemsilciOzetModel()
+            model.id = id
+            model.adi = item.KullaniciAdi 
+            model.teklifSayisi = int(self.__getTakipTeklifSayisi(item.ID))
+            model.proformaSayisi = int(self.__getTeklifProformaSayisi(item.ID))
+            liste.append(model)
+            id += 1
+
+        schema = TemsilciOzetSchema(many=True)
+
+        return schema.dump(liste)
+
+    def getMusteriOzetList(self):
+        liste = list()
+
+        result = self.data.getStoreList(
+            """
+            select
+            
+            m.MusteriAdi,
+            k.KullaniciAdi,
+            u.UlkeAdi,
+            count(*) as TeklifSayisi
+            from
+            YeniTeklifTB yt, YeniTeklif_MusterilerTB m,YeniTeklif_UlkeTB u,KullaniciTB k
+            where
+            yt.MusteriId=m.Id and m.UlkeId=u.Id and yt.TakipEt=1
+            and yt.KullaniciId=? and k.ID=yt.KullaniciId
+            group by m.MusteriAdi,u.UlkeAdi,k.KullaniciAdi
+            order by count(*) desc
+            """,(self.kullaniciId)
+        )
+
+        for item in result:
+            model = MusteriOzetModel()
+            
+            model.musteriAdi = item.MusteriAdi
+            model.kullaniciAdi = item.KullaniciAdi 
+            model.ulkeAdi = item.UlkeAdi 
+            model.teklifSayisi = item.TeklifSayisi 
+
+            liste.append(model)
+
+        schema = MusteriOzetSchema(many=True)
+
+        return schema.dump(liste)
+
+    def getHatirlatmaList(self):
+        
+        liste = list()
+
+        result = self.data.getStoreList(
+            """
+            select
+            yt.Id as TeklifId,
+            yt.HatirlatmaTarihi,
+            m.MusteriAdi,
+            u.UlkeAdi
+            from
+            YeniTeklifTB yt,YeniTeklif_UlkeTB u,YeniTeklif_MusterilerTB m
+            where
+            yt.MusteriId=m.Id and m.UlkeId=u.Id and yt.TakipEt=1
+            and yt.HatirlatmaTarihi is not null 
+            and yt.KullaniciId=?
+            """,(self.kullaniciId)
+        )
+
+        for item in result:
+            model = HatirlatmaModel()
+            model.id = item.TeklifId
+            model.tarih = self.tarihIslem.getDate(item.HatirlatmaTarihi).strftime("%d-%m-%Y")
+            model.musteriAdi = item.MusteriAdi 
+            model.ulkeAdi = item.UlkeAdi 
+
+            liste.append(model)
+
+        schema = HatirlatmaSchema(many=True)
+
+        return schema.dump(liste)
+
+
+    def __getTakipTeklifSayisi(self,kullaniciId):
+
+        item = self.data.getStoreList(
+            """
+            Select count(*) as durum from YeniTeklifTB where 
+            KullaniciId=? and TakipEt=1
+            """,(kullaniciId)
+        )[0]
+
+        return item.durum
+
+    def __getTeklifProformaSayisi(self,kullaniciId):
+
+        item = self.data.getStoreList(
+            """
+             Select count(*) as durum from YeniTeklifTB where
+             KullaniciId=? and TakipEt=1 and Proforma_Cloud=1
+            """,(kullaniciId)
+        )[0]
+
+        return item.durum
+
+    def __getTakvimDataList(self):
+        result = self.data.getStoreList(
+            """
+            select
+            yt.Id as TeklifId,
+            yt.HatirlatmaTarihi,
+            m.MusteriAdi,
+            u.UlkeAdi,
+            k.KullaniciAdi,
+            yt.HatirlatmaSonTarih,
+            yt.Goruldu,
+			yt.HatirlatmaAciklama,
+			yt.HatirlatilmaDurumu
+            from
+            YeniTeklifTB yt,YeniTeklif_UlkeTB u,
+            YeniTeklif_MusterilerTB m,KullaniciTB k
+            where
+            yt.MusteriId=m.Id and m.UlkeId=u.Id and yt.TakipEt=1
+            and yt.HatirlatmaTarihi is not null  
+            and k.ID=yt.KullaniciId and yt.KullaniciId=?
+            """,(self.kullaniciId)
+        )
+
+        return result
+
+    def __getTakvimDataSatisciList(self):
+        result = self.data.getStoreList(
+            """
+          select 0 as TeklifId,
+            Hatirlatma_Tarih as HatirlatmaTarihi,
+            Hatirlatma_Notu,
+            MusteriAdi,
+            (select k.KullaniciAdi from KullaniciTB k where k.ID=Temsilci) as KullaniciAdi
+            from SatisciAyrintiTB where Temsilci=?
+            """,(self.kullaniciId)
+        )
+
+        return result
+    
+    def __hatirlatmaTarihKontrol(self,hatirlatmaTarihi,id):
+
+        _tarih = str(hatirlatmaTarihi).split('-')
+
+        yil = int(_tarih[0])
+        ay = int(_tarih[1])
+        gun = int(_tarih[2])
+
+        tarih = datetime.datetime(yil,ay,gun)
+
+        bugun = datetime.datetime.today()
+
+        kontrol = bugun - tarih
+    
+        if kontrol.days > 0:
+            self.data.update_insert(
+                """
+                update YeniTeklifTB set HatirlatmaTarihi=DateAdd(day,1,HatirlatmaTarihi),
+                HatirlatmaSonTarih=DateAdd(day,1,HatirlatmaSonTarih)
+                where Id=?
+                """,(id)
+            )
+            print('Güncelleme Yapıldı')
+
+   
+
+
+class TeklifListeler:
+
+    def __init__(self):
+        self.data = SqlConnect().data
+        self.tarihIslem = TarihIslemler()
+
+    def getKullaniciListeAyrinti(self,kullaniciAdi):
+        kullaniciId = self.data.getStoreList("Select ID from KullaniciTB where KullaniciAdi=?",(kullaniciAdi))[0].ID
+        liste = list()
+
+        result = self.data.getStoreList(
+            """
+            select
+            t.Tarih,
+            t.Id,
+            m.MusteriAdi,
+            u.UlkeAdi,
+            t.TeklifOncelik,
+            k.KullaniciAdi,
+            t.Goruldu,
+            t.Sira
+            from
+            YeniTeklifTB t,YeniTeklif_MusterilerTB m,
+            YeniTeklif_UlkeTB u,KullaniciTB k
+            where
+            t.MusteriId=m.Id and u.Id=m.UlkeId
+            and k.ID=t.KullaniciId and t.TakipEt=1
+            and k.ID=? and t.BList=0  order by t.TeklifOncelik asc
+            """,(kullaniciId)
+        )
+
+        
+        for item in result:
+            model = KullaniciListeAyrintiModel()
+            model.id = item.Id
+            model.musteriAdi = item.MusteriAdi 
+            model.tarih = self.tarihIslem.getDate(item.Tarih).strftime("%Y-%m-%d")
+            model.ulkeAdi = item.UlkeAdi
+            model.teklifOncelik = item.TeklifOncelik
+            model.goruldu = item.Goruldu 
+            model.sira = item.Sira
+            kullaniciAdi = ""
+            if item.KullaniciAdi == "Gizem":
+                kullaniciAdi = "GU"
+            if item.KullaniciAdi == "Fadime":
+                kullaniciAdi = "FY"
+            if item.KullaniciAdi == "Ozlem":
+                kullaniciAdi = "OO"
+            if item.KullaniciAdi == "Fatih":
+                kullaniciAdi = "FS"
+            if item.KullaniciAdi == "Ozgul":
+                kullaniciAdi = "OA"
+            if item.KullaniciAdi == "Fatmanur":
+                kullaniciAdi = "FNY" 
+            if item.KullaniciAdi == "Sema":
+                kullaniciAdi = "Sİ" 
+            if item.KullaniciAdi == "Hakan":
+                kullaniciAdi = "HK"        
+
+            model.temsilciAdi = kullaniciAdi
+
+            liste.append(model)
+
+        schema = KullaniciListeAyrintiSchema(many=True)
+
+        return schema.dump(liste)
+
+    def getKullaniciListeAyrinti_BList(self,kullaniciAdi):
+        kullaniciId = self.data.getStoreList("Select ID from KullaniciTB where KullaniciAdi=?",(kullaniciAdi))[0].ID
+        liste = list()
+
+        result = self.data.getStoreList(
+            """
+            select
+            t.Tarih,
+            t.Id,
+            m.MusteriAdi,
+            u.UlkeAdi,
+            t.TeklifOncelik,
+            k.KullaniciAdi,
+            t.Goruldu,
+            t.Sira
+            from
+            YeniTeklifTB t,YeniTeklif_MusterilerTB m,
+            YeniTeklif_UlkeTB u,KullaniciTB k
+            where
+            t.MusteriId=m.Id and u.Id=m.UlkeId
+            and k.ID=t.KullaniciId and t.TakipEt=1
+            and k.ID=? and t.BList=1
+            """,(kullaniciId)
+        )
+
+        
+        for item in result:
+            model = KullaniciListeAyrintiModel()
+            model.id = item.Id
+            model.musteriAdi = item.MusteriAdi 
+            model.tarih = self.tarihIslem.getDate(item.Tarih).strftime("%Y-%m-%d")
+            model.ulkeAdi = item.UlkeAdi
+            model.teklifOncelik = item.TeklifOncelik
+            model.goruldu = item.Goruldu 
+            model.sira = item.Sira
+            kullaniciAdi = ""
+            if item.KullaniciAdi == "Gizem":
+                kullaniciAdi = "GU"
+            if item.KullaniciAdi == "Fadime":
+                kullaniciAdi = "FY"
+            if item.KullaniciAdi == "Ozlem":
+                kullaniciAdi = "OO"
+            if item.KullaniciAdi == "Fatih":
+                kullaniciAdi = "FS"
+            if item.KullaniciAdi == "Ozgul":
+                kullaniciAdi = "OA"
+            if item.KullaniciAdi == "Fatmanur":
+                kullaniciAdi = "FNY"
+            if item.KullaniciAdi == "Sema":
+                kullaniciAdi = "Sİ"   
+            if item.KullaniciAdi == "Hakan":
+                kullaniciAdi = "HK"  
+            model.temsilciAdi = kullaniciAdi
+
+            liste.append(model)
+
+        schema = KullaniciListeAyrintiSchema(many=True)
+
+        return schema.dump(liste)
+
+
+
+    def getKullaniciListeHepsi(self):
+        liste = list()
+
+        result = self.data.getList(
+            """
+          select
+            t.Tarih,
+            t.Id,
+            m.MusteriAdi,
+            u.UlkeAdi,
+            t.TeklifOncelik,
+            k.KullaniciAdi,
+            t.Goruldu,
+            t.Sira
+            from
+            YeniTeklifTB t,YeniTeklif_MusterilerTB m,
+            YeniTeklif_UlkeTB u,KullaniciTB k
+            where
+            t.MusteriId=m.Id and u.Id=m.UlkeId
+            and k.ID=t.KullaniciId and t.TakipEt=1
+            and t.BList=0  order by t.TeklifOncelik , t.Tarih asc
+            """
+        )
+
+        
+        for item in result:
+            model = KullaniciListeAyrintiModel()
+            model.id = item.Id
+            model.musteriAdi = item.MusteriAdi 
+            model.tarih = self.tarihIslem.getDate(item.Tarih).strftime("%Y-%m-%d")
+            model.ulkeAdi = item.UlkeAdi
+            model.teklifOncelik = item.TeklifOncelik
+            kullaniciAdi = ""
+            model.sira = item.Sira
+            model.goruldu = item.Goruldu
+            if item.KullaniciAdi == "Gizem":
+                kullaniciAdi = "GU"
+            if item.KullaniciAdi == "Fadime":
+                kullaniciAdi = "FY"
+            if item.KullaniciAdi == "Ozlem":
+                kullaniciAdi = "OO"
+            if item.KullaniciAdi == "Fatih":
+                kullaniciAdi = "FS"
+            if item.KullaniciAdi == "Ozgul":
+                kullaniciAdi = "OA"
+            if item.KullaniciAdi == "Fatmanur":
+                kullaniciAdi = "FNY"
+            if item.KullaniciAdi == "Sema":
+                kullaniciAdi = "Sİ"        
+            if item.KullaniciAdi == "Hakan":
+                kullaniciAdi = "HK" 
+            model.temsilciAdi = kullaniciAdi
+
+            liste.append(model)
+
+        schema = KullaniciListeAyrintiSchema(many=True)
+
+        return schema.dump(liste)
+
+    
+    def getKullaniciListeHepsi_BList(self):
+        liste = list()
+
+        result = self.data.getList(
+            """
+            select
+            t.Tarih,
+            t.Id,
+            m.MusteriAdi,
+            u.UlkeAdi,
+            t.TeklifOncelik,
+            k.KullaniciAdi,
+            t.Goruldu,
+            t.Sira
+            from
+            YeniTeklifTB t,YeniTeklif_MusterilerTB m,
+            YeniTeklif_UlkeTB u,KullaniciTB k
+            where
+            t.MusteriId=m.Id and u.Id=m.UlkeId
+            and k.ID=t.KullaniciId and t.TakipEt=1
+            and t.BList=1
+            """
+        )
+
+        
+        for item in result:
+            model = KullaniciListeAyrintiModel()
+            model.id = item.Id
+            model.musteriAdi = item.MusteriAdi 
+            model.tarih = self.tarihIslem.getDate(item.Tarih).strftime("%Y-%m-%d")
+            model.ulkeAdi = item.UlkeAdi
+            model.teklifOncelik = item.TeklifOncelik
+            kullaniciAdi = ""
+            model.sira = item.Sira
+            model.goruldu = item.Goruldu
+            if item.KullaniciAdi == "Gizem":
+                kullaniciAdi = "GU"
+            if item.KullaniciAdi == "Fadime":
+                kullaniciAdi = "FY"
+            if item.KullaniciAdi == "Ozlem":
+                kullaniciAdi = "OO"
+            if item.KullaniciAdi == "Fatih":
+                kullaniciAdi = "FS"
+            if item.KullaniciAdi == "Ozgul":
+                kullaniciAdi = "OA"
+            if item.KullaniciAdi == "Fatmanur":
+                kullaniciAdi = "FNY" 
+            if item.KullaniciAdi == "Sema":
+                kullaniciAdi = "Sİ"       
+            if item.KullaniciAdi == "Hakan":
+                kullaniciAdi = "HK"
+            model.temsilciAdi = kullaniciAdi
+
+            liste.append(model)
+
+        schema = KullaniciListeAyrintiSchema(many=True)
+
+        return schema.dump(liste)

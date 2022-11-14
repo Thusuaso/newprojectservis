@@ -1,0 +1,17 @@
+from models.yeniTeklifler.temsilciOzet import TemsilciOzetModel,TemsilciOzetSchema
+from models.yeniTeklifler.hatirlatma import HatirlatmaModel,HatirlatmaSchema
+from models.yeniTeklifler.musteriOzet import MusteriOzetModel,MusteriOzetSchema
+from models.yeniTeklifler.yuzey import YuzeyModel,YuzeySchema
+from models.yeniTeklifler.urun import UrunSchema,UrunModel
+from models.yeniTeklifler.ulke import UlkeModel,UlkeSchema
+from models.yeniTeklifler.kalinlik import KalinlikModel,KalinlikSchema
+from models.yeniTeklifler.enBoy import EnBoyModel,EnBoySchema
+from models.yeniTeklifler.musteri import MusteriModel,MusteriSchema
+from models.yeniTeklifler.kategori import KategoriModel,KategoriSchema
+from models.yeniTeklifler.teklifUrunKayit import TeklifUrunKayitModel,TeklifUrunKayitSchema
+from models.yeniTeklifler.teklif import TeklifModel,TeklifSchema
+from models.yeniTeklifler.kullaniciListeAyrinti import KullaniciListeAyrintiModel,KullaniciListeAyrintiSchema
+from models.yeniTeklifler.tumTeklifler import TumTekliflerModel,TumTekliflerSchema
+from models.yeniTeklifler.eskiTeklifler import EskiTekliflerModel,EskiTekliflerSchema
+
+

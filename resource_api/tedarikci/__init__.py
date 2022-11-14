@@ -1,0 +1,1 @@
+from resource_api.tedarikci.tedarikciRest import *

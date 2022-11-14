@@ -1,0 +1,4 @@
+from resource_api.teklifler.teklif_kategori_resource import TeklifKategoriResource
+from resource_api.teklifler.musteri import MusteriResource
+from resource_api.teklifler.ulke import UlkeResource
+from resource_api.teklifler.bgpProject import *

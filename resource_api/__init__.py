@@ -1,0 +1,1 @@
+from resource_api.kullanici import Kullanici,DataKullanici

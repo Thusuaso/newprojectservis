@@ -1,0 +1,1 @@
+from models.tedarikci_form.tedarikciForm import *

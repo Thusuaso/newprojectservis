@@ -1,0 +1,1 @@
+from resource_api.efesfinans.eodemeler.eodeme_islem import EfesOdemeIslem
