@@ -148,6 +148,7 @@ class TeklifFormModel(Resource):
     def get(self,teklifId):
 
         teklifIslem = TeklifIslem()
+        print(teklifId)
         data = {
 
             'teklif' : teklifIslem.getTeklif(teklifId),
@@ -237,6 +238,8 @@ class TeklifIslem:
         model.numuneNot = item.NumuneNot
         model.blist = item.BList 
         model.company = item.Company
+        model.email = item.Email
+        model.phone = item.Phone
         schema = TeklifSchema()
 
         return schema.dump(model)
@@ -322,7 +325,7 @@ class TeklifIslem:
             model.kalinlikId = item.KalinlikId 
             model.kalinlik = item.Kalinlik 
             model.yuzeyIslemId = item.YuzeyIslemId
-            model.yuzeyIslem = item.IslemAdi
+            model.yuzeyIslem = item.IslemAdi 
             model.fobFiyat = item.FobFiyat 
             model.teklifFiyat = item.TeklifFiyat
             model.birim = item.Birim
@@ -613,10 +616,14 @@ class TeklifIslem:
                     ProformaNot,
                     NumuneNot,
                     BList,
-                    Company
+                    Company,
+                    Email,
+                    Phone
                 )
                 values
                 (
+                    ?,
+                    ?,
                     ?,
                     ?,
                     ?,
@@ -691,7 +698,7 @@ class TeklifIslem:
                     item['teklifOncelik'],
                     item['proformaNot'],
                     item['numuneNot'],
-                    item['blist'],item['company']
+                    item['blist'],item['company'],item['email'],item['phone']
                 )
             )
             return True
@@ -812,7 +819,9 @@ class TeklifIslem:
                 NumuneNot=?,
                 BList=?,
                 HatirlatilmaDurumu=?,
-                Company=?
+                Company=?,
+                Email=?,
+                Phone=?
                 where Id=?
                 """,
                 (
@@ -855,6 +864,9 @@ class TeklifIslem:
                     item['blist'],
                     hatirlatmaDurum,
                     item['company'],
+                    item['email'],
+                    item['phone'],
+                    
                     item['id']
                 )
             )

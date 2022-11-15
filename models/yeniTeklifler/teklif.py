@@ -44,6 +44,8 @@ class TeklifSchema(Schema):
     sira = fields.Int()
     blist = fields.Boolean()
     company = fields.String()
+    email = fields.String()
+    phone = fields.String()
 
 class TeklifModel:
     id = None
@@ -88,3 +90,5 @@ class TeklifModel:
     sira = 0
     blist = False
     company = ""
+    email = ""
+    phone = ""
