@@ -101,6 +101,10 @@ api.add_resource(BgpProjectCompanyDetailListApi,'/bgpProject/getBgpProjectCompan
 api.add_resource(BgpServiceSelectedCompanyApi,'/bgpProject/getBgpServiceSelectedCompany/<string:firmaAdi>',methods=['GET'])
 api.add_resource(BgpProjectCountryListApi,'/bgpProject/getBgpProjectCountryList',methods=['GET'])
 api.add_resource(BgpProjectByCountryandReseptationApi,'/bgpProject/getBgpProjectCountryandReseptation',methods=['GET'])
+api.add_resource(BgpProjectFileSave,'/bgpProject/setBgpProjectFile',methods=['POST'])
+
+
+
 
 api.add_resource(SiparisBolmeGuncellemeApi,'/siparis/siparisBolmeGuncelleme',methods=['POST','GET'])
 

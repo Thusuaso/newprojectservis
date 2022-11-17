@@ -53,6 +53,11 @@ class SiparislerSchema(Schema):
     detayTutar_4 = fields.Float()
     detayAciklama_4 = fields.String()
 
+    
+    detayTutar_4_sipBolme = fields.Float()
+    
+    
+    
     siparisSahibi = fields.Int()
     operasyon = fields.Int()
     finansman = fields.Int()
@@ -61,8 +66,9 @@ class SiparislerSchema(Schema):
 
     sigorta_id = fields.Boolean()
     sigorta_tutar = fields.Float()
-
+    sigorta_tutar_satis = fields.Float()
     evrakGideri = fields.Float()
+    iade = fields.Float()
     ilaclamaGideri = fields.Float()
     eta = fields.String()
     konteynerAyrinti = fields.String()
@@ -100,7 +106,6 @@ class SiparislerSchema(Schema):
     kayit_kisi =fields.String()
     mail = fields.String()
     opChange = fields.Boolean()
-    iade = fields.Float()
 
 class SiparislerModel:
     id = None
@@ -139,6 +144,7 @@ class SiparislerModel:
     ulke = ""
     komisyon = 0
     toplamPalet = None
+    iade = 0
 
     detayAciklama_1 = ""
     detayMekmarNot_1 = ""
@@ -157,13 +163,13 @@ class SiparislerModel:
 
     detayTutar_4 = 0
     detayAciklama_4 = ""
-
+    detayTutar_4_sipBolme = 0
     siparisSahibi = None
     kayitKapali = False
 
     sigorta_id = False
     sigorta_tutar = 0
-    
+    sigorta_tutar_satis=0
     evrakGideri = 0
     ilaclamaGideri = 0
     eta = ""
@@ -199,7 +205,6 @@ class SiparislerModel:
     profit_usd = 0
     mekus_masraf = 0
     kayit_kisi = ""
-    iade = 0 
 
 
     

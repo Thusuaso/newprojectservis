@@ -108,10 +108,8 @@ class MaliyetRaporIslem:
             """
         )
     def getMaliyetListesi(self):
-
         liste = list()
         for item in self.siparisler:
-         
             urun_model = self.urunler.getUrunModel(item.siparis_no)
           
             item.toplam_bedel += urun_model.toplam_bedel
@@ -230,7 +228,7 @@ class MaliyetRaporIslem:
             item.masraf_toplam += (
                 item.mekmar_alim + item.mekmoz_alim + item.dis_alim + item.nakliye + item.gumruk +
                 item.ilaclama + item.liman + item.navlun + item.pazarlama + item.banka_masrafi 
-                 + item.diger_masraflar+item.ozel_iscilik+item.kurye_masrafi
+                 + item.diger_masraflar+item.ozel_iscilik+item.kurye_masrafi + item.sigorta
             )
             if(item.dosya_kapanma_date == '-'):
                 item.kar_zarar = 0
@@ -390,7 +388,7 @@ class MaliyetRaporIslem_Yil: # hepsi butonna basıldıgında bu alan çalışır
             else :
                  item.dosya_kapanma_date =  '-'   
             fatura_sayisi = 0
-            
+
 
             for fat in self.dtTedarikci_group_result:
                 if fat.SiparisNo == item.siparis_no:
@@ -425,6 +423,7 @@ class MaliyetRaporIslem_Yil: # hepsi butonna basıldıgında bu alan çalışır
 
             for ted_fatura in self.dtMekmarFaturaList:
                 if ted_fatura.SiparisNo == item.siparis_no:
+                    print("siparis_no",item.siparis_no)
                     model = TedarikciFaturaModel()
                     model = TedarikciFaturaModel()
                    

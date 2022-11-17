@@ -21,6 +21,7 @@ class OzelMaliyetListeSchema(Schema):
     ilaclama = fields.Float()
     liman = fields.Float()
     sigorta = fields.Float()
+    sigorta_tutar_satis = fields.Float()
     detay_1 = fields.Float()
     detay_2 = fields.Float()
     detay_3 = fields.Float()
@@ -93,6 +94,7 @@ class OzelMaliyetListeModel:
     ilaclama = 0
     liman = 0
     sigorta = 0
+    sigorta_tutar_satis = 0
     Kur = 0
     detay_1 = 0
     detay_2 = 0

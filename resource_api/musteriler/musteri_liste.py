@@ -29,6 +29,7 @@ class MusteriIslem:
             m.Telefon,
             m.Sira,
 			m.Notlar,
+            m.SonKullanici,
 			(select KullaniciAdi from KullaniciTB ku where ku.ID = m.Satisci) as Satisci
             from
             MusterilerTB m,YeniTeklif_UlkeTB u,KullaniciTB k
@@ -56,7 +57,7 @@ class MusteriIslem:
             model.telefon = item.Telefon
             model.sira = item.Sira
             model.satisci = item.Satisci
-
+            model.sonkullanici = item.SonKullanici
             liste.append(model)
 
         schema = MusteriListeSchema(many=True)

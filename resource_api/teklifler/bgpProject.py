@@ -12,7 +12,7 @@ class BgpProjectApiList(Resource):
     def get(self,temsilci):
         islem = BgpProjects()
         result = islem.getBgpProjectList(temsilci)
-        ulkeler = islem.getUlkeList()
+        ulkeler = islem.getUlkeList(temsilci)
         return {'result':result,'ulkeler':ulkeler}
     
 class BgpProjectAyrintiApi(Resource):
@@ -72,6 +72,14 @@ class BgpProjectCompanyStatusApi(Resource):
         result,basicData = islem.getBgpProjectCompanyStatus(username)
         return {'result':result,'chartData':basicData}
     
+    
+    
+class BgpProjectByCountryandReseptationApi(Resource):
+    def get(self):
+        islem = BgpProjects()
+        result = islem.getBgpProjectCountryandReseptation()
+        return {'result':result}
+    
 class BgpProjectCompanyStatusDetailApi(Resource):
     def get(self,ulkeAdi):
         islem = BgpProjects()
@@ -102,10 +110,10 @@ class BgpProjectCountryListApi(Resource):
         islem = BgpProjects()
         result = islem.getCountryList()
         return result
-    
-class BgpProjectByCountryandReseptationApi(Resource):
-    def get(self):
-        islem = BgpProjects()
-        result = islem.getBgpProjectCountryandReseptation()
-        return {'result':result}
         
+class BgpProjectFileSave(Resource):
+    def post(self):
+        data = request.get_json()
+        islem = BgpProjects()
+        result = islem.setFileData(data)
+        return result

@@ -54,6 +54,7 @@ class MusteriDetayIslem:
         model.selectOncelik = item.MusteriOncelik
         model.takip = item.Takip
         model.notlar = item.Notlar
+        model.sonkullanici = item.SonKullanici
 
         
 
@@ -183,11 +184,11 @@ class MusteriDetayIslem:
                     FirmaAdi,Unvan,UlkeId,Marketing,Aktif,
                     Sira,Mt_No,MusteriTemsilciId,
                     KullaniciID,MailAdresi,Telefon,
-                    Devir,Ozel,Adres,MusteriOncelik,Satisci,Notlar
+                    Devir,Ozel,Adres,MusteriOncelik,Satisci,Notlar,SonKullanici
                 )
                 values
                 (
-                    ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?
+                    ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?
                 )
                 """,
                 (
@@ -196,7 +197,7 @@ class MusteriDetayIslem:
                     item['mt_no'],item['musteri_temsilci_id'],
                     item['kullanici_id'],item['mail_adresi'],
                     item['telefon'],item['devir'],item['ozel'],
-                    item['adres'],item['selectOncelik'],item['satisci'],item['notlar']
+                    item['adres'],item['selectOncelik'],item['satisci'],item['notlar'],item['sonkullanici']
                 )
             )
 
@@ -212,11 +213,11 @@ class MusteriDetayIslem:
                 """
                 update MusterilerTB set FirmaAdi=?,Unvan=?,Adres=?,UlkeId=?,
                 Marketing=?,Sira=?,MusteriTemsilciId=?,MailAdresi=?,
-                Telefon=?,Devir=?,Ozel=? , MusteriOncelik=?,Satisci=?,Notlar=? where ID=?
+                Telefon=?,Devir=?,Ozel=? , MusteriOncelik=?,Satisci=?,Notlar=?,SonKullanici=? where ID=?
                 """,(
                     item['musteri_adi'],item['unvan'],item['adres'],item['ulke_id'],
                     item['marketing'],item['sira'],item['musteri_temsilci_id'],
-                    item['mail_adresi'],item['telefon'],item['devir'],item['ozel'], item['selectOncelik'],item['satisci'],item['notlar'],
+                    item['mail_adresi'],item['telefon'],item['devir'],item['ozel'], item['selectOncelik'],item['satisci'],item['notlar'],item['sonkullanici'],
                     item['id']
                 )
             )

@@ -75,6 +75,8 @@ class BgpProjects():
                     
                     model.ulkeAdi = item.UlkeAdi
                     model.ulkeLogo = item.UlkeLogo
+                    model.filelink = item.Filelink
+                    model.fileCloud = item.FileCloud
                     liste.append(model)
                 schema = BgpProjectsListSchema(many=True)
                 return schema.dump(liste)
@@ -96,6 +98,8 @@ class BgpProjects():
                         model.borderColor = 'blue'
                     model.ulkeAdi = item.UlkeAdi
                     model.ulkeLogo = item.UlkeLogo
+                    model.filelink = item.Filelink
+                    model.fileCloud = item.FileCloud
                     liste.append(model)
                 schema = BgpProjectsListSchema(many=True)
                 return schema.dump(liste)
@@ -224,7 +228,8 @@ class BgpProjects():
                else:
                    model.unvanColor = 'white'
                model.unvan = item.Unvan
-               
+               model.filelink = item.Filelink
+               model.fileStatus = item.FileCloud
                liste.append(model)
             schema = BgpProjectsAyrintiSchema(many=True)
             return schema.dump(liste)
@@ -314,28 +319,64 @@ class BgpProjects():
             print('setBgpProjectDelete hata',str(e))
             return False
     
-    def getUlkeList(self):
-
-        result = self.data.getList(
+    def getUlkeList(self,id):
+        if id == 10:
+            result = self.data.getList(
             """
-            select * from YeniTeklif_UlkeTB
+            select 
+
+
+                        UlkeAdi 
+
+
+                    from 
+
+
+                    BgpProjectDetailList 
+
+
+
+                    group by
+                        UlkeAdi
             """
-        )
+            )
 
-        liste = list()
+            liste = list()
+            for item in result:
+                model = BgpProjectsCountryListModel()
+                model.ulkeAdi = item.UlkeAdi
+                liste.append(model)
+            schema = BgpProjectsCountryListSchema(many=True)
+            return schema.dump(liste)
+        else:
+            result = self.data.getStoreList(
+                """
+                select 
 
-        for item in result:
 
-            model = BgpProjectsUlkeModel()
-            model.id = item.Id
-            model.ulke_adi = item.UlkeAdi
-            model.logo = item.Png_Flags
+                            UlkeAdi 
 
-            liste.append(model)
 
-        schema = BgpProjectsUlkeSchema(many=True)
+                        from 
 
-        return schema.dump(liste)
+
+                        BgpProjectDetailList 
+
+
+                        where Temsilci=?
+
+                        group by
+                            UlkeAdi
+                """,(id)
+                )
+
+            liste = list()
+            for item in result:
+                model = BgpProjectsCountryListModel()
+                model.ulkeAdi = item.UlkeAdi
+                liste.append(model)
+            schema = BgpProjectsCountryListSchema(many=True)
+            return schema.dump(liste)
     
     def getBgpProjectsHatirlatmaList(self,userId):
         
@@ -710,19 +751,9 @@ class BgpProjects():
             print('getBgpProjectsCompanyDetailList hata',str(e))
             return False
         
-    def getCountryList(self):
-        result = self.data.getList("""
-                                   select count(bgp.UlkeAdi),bgp.UlkeAdi as UlkeAdi from BgpProjectDetailList bgp group by bgp.UlkeAdi
-
-                                   """)
-        liste = list()
-        for item in result:
-            model = BgpProjectsCountryListModel()
-            model.ulkeAdi = item.UlkeAdi
-            liste.append(model)
-        schema = BgpProjectsCountryListSchema(many=True)
-        return schema.dump(liste)
-    
+        
+        
+        
     def getBgpProjectCountryandReseptation(self):
         result = self.data.getList("""
                             select 
@@ -750,3 +781,29 @@ class BgpProjects():
             
         schema = BgpProjectsCountryandReseptationSchema(many=True)
         return schema.dump(liste)
+    
+    
+    def getCountryList(self):
+        result = self.data.getList("""
+                                   select count(bgp.UlkeAdi),bgp.UlkeAdi as UlkeAdi from BgpProjectDetailList bgp group by bgp.UlkeAdi
+
+                                   """)
+        liste = list()
+        for item in result:
+            model = BgpProjectsCountryListModel()
+            model.ulkeAdi = item.UlkeAdi
+            liste.append(model)
+        schema = BgpProjectsCountryListSchema(many=True)
+        return schema.dump(liste)
+    
+    def setFileData(self,data):
+        try:
+            self.data.update_insert("""
+                                        update BgpNetworkProjects SET Filelink=?,FileCloud=? where ID=?
+
+                                    """,(data['link'],True,data['id']))
+
+            return True
+        except Exception as e:
+            print("setFileData hata",str(e))
+            return False

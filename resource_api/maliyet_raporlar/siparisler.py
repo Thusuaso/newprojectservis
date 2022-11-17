@@ -42,6 +42,8 @@ class Siparisler:
             s.EvrakGideri,
             s.depo_yukleme,
             s.sigorta_id,
+            s.sigorta_Tutar,
+            s.sigorta_tutar_satis,
 
 			(select k.KullaniciAdi from KullaniciTB k WHERE k.ID = s.SiparisSahibi) as siparisci,
 			(select k.KullaniciAdi from KullaniciTB k WHERE k.ID = s.Operasyon) as operasyon,
@@ -112,8 +114,10 @@ class Siparisler:
 
             if item.depo_yukleme != None:
                  model.mekus_id  = item.depo_yukleme    
-
-            model.toplam_bedel = navlun + detay_tutar_1 + detay_tutar_2 + detay_tutar_3 
+            if item.sigorta_tutar_satis != None:
+                model.sigorta_tutar_satis = item.sigorta_tutar_satis
+                
+            model.toplam_bedel = navlun + detay_tutar_1 + detay_tutar_2 + detay_tutar_3 + model.sigorta_tutar_satis
             model.mekus_masraf = detay_tutar_4
           
             navlun_alis = 0
@@ -135,7 +139,9 @@ class Siparisler:
             if item.DetayAlis_3 != None:
                 detay_alis_3 = item.DetayAlis_3
                 model.detay_3 = detay_alis_3
-
+            if item.sigorta_Tutar != None:
+                
+                model.sigorta = item.sigorta_Tutar
               
 
             model.navlun = navlun_alis
@@ -189,6 +195,9 @@ class Siparisler_Yil:
             s.Komisyon,
             s.EvrakGideri,
             s.depo_yukleme,
+            s.sigorta_Tutar,
+            s.sigorta_id,
+            s.sigorta_tutar_satis,
             (select k.KullaniciAdi from KullaniciTB k WHERE k.ID = s.SiparisSahibi) as siparisci,
 			(select k.KullaniciAdi from KullaniciTB k WHERE k.ID = s.Operasyon) as operasyon,
 			(select sum(ozel.Tutar) from SiparisEkstraGiderlerTB ozel  where ozel.SiparisNo=s.SiparisNo) as ozeliscilik,
@@ -256,7 +265,18 @@ class Siparisler_Yil:
             if item.depo_yukleme != None:
                  model.mekus_id  = item.depo_yukleme    
 
-            model.toplam_bedel = navlun + detay_tutar_1 + detay_tutar_2 + detay_tutar_3 
+            if item.sigorta_Tutar != None:
+                 model.sigorta  = item.sigorta_Tutar
+            else:
+                model.sigorta = 0
+                
+            if item.sigorta_tutar_satis != None:
+                 model.sigorta_tutar_satis  = item.sigorta_tutar_satis
+            else:
+                model.sigorta_tutar_satis = 0
+
+            model.sigorta_id = item.sigorta_id
+            model.toplam_bedel = navlun + detay_tutar_1 + detay_tutar_2 + detay_tutar_3 + model.sigorta_tutar_satis
             model.mekus_masraf = detay_tutar_4
            
             navlun_alis = 0
@@ -282,7 +302,7 @@ class Siparisler_Yil:
               
 
             model.navlun = navlun_alis
-            model.diger_masraflar = detay_alis_1 + detay_alis_2 + detay_alis_3  + detay_tutar_4
+            model.diger_masraflar = detay_alis_1 + detay_alis_2 + detay_alis_3  + detay_tutar_4 + model.sigorta
             model.ulke_adi = item.UlkeAdi
             model.marketing = item.Marketing
             model.teslim_sekli = item.TeslimTur

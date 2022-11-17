@@ -8,6 +8,8 @@ class BgpProjectsListSchema(Schema):
     ulkeAdi = fields.String()
     ulkeLogo = fields.String()
     borderColor = fields.String()
+    filelink = fields.String()
+    fileCloud = fields.Boolean()
 class BgpProjectsListModel:
 
     id = 0
@@ -17,6 +19,8 @@ class BgpProjectsListModel:
     ulkeAdi=""
     ulkeLogo=""
     borderColor=""
+    filelink = ""
+    fileCloud = False
     
 
 class BgpProjectsAyrintiSchema(Schema):
@@ -37,6 +41,8 @@ class BgpProjectsAyrintiSchema(Schema):
     interested = fields.Boolean()
     unvan = fields.String()
     unvanColor = fields.String()
+    filelink = fields.String()
+    fileStatus = fields.Boolean()
 class BgpProjectsAyrintiModel:
     id = 0
     projectName = ""
@@ -55,6 +61,8 @@ class BgpProjectsAyrintiModel:
     interested = False
     unvan = ""
     unvanColor = ""
+    filelink = ""
+    fileStatus = False
     
 class BgpProjectsUlkeSchema(Schema):
     id= fields.Int()
@@ -87,10 +95,6 @@ class BgpProjectsCompanyDetailListSchema(Schema):
 class BgpProjectsCompanyDetailListModel:
     firmaAdi =""
     
-class BgpProjectsCountryListSchema(Schema):
-    ulkeAdi = fields.String() 
-class BgpProjectsCountryListModel:
-    ulkeAdi = ""
     
 class BgpProjectsCountryandReseptationSchema(Schema):
     temsilci = fields.String()
@@ -104,3 +108,10 @@ class BgpProjectsCountryandReseptationModel:
     temsilciId = 0
     ulkeAdi = ""
     projectSum = 0
+    
+    
+class BgpProjectsCountryListSchema(Schema):
+    ulkeAdi = fields.String() 
+class BgpProjectsCountryListModel:
+    ulkeAdi = ""
+    

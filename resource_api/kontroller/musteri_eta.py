@@ -182,9 +182,9 @@ class MusteriEta:
                 if self.finansOdemelerKontrol(item[0]) == False:
                     if self.pesinatMailGonderildiMi(item[0]) == 0:
                         
-                        MailService('' +"Ödemeler Tablosu Kontrol Edilmeli!", "bilgiislem@mekmar.com"," "+ 'Sipariş Bölme Gerçekleşti' + " "+f'{item[0]} Siparişi için ödemeler tablosunu kontrol et')
-                        MailService('' +"Ödemeler Tablosu Kontrol Edilmeli!", "info@mekmar.com"," "+ 'Sipariş Bölme Gerçekleşti' + " "+f'{item[0]} Siparişi için ödemeler tablosunu kontrol et')
-                        MailService('' +"Ödemeler Tablosu Kontrol Edilmeli!", "huseyin@mekmer.com"," "+ 'Sipariş Bölme Gerçekleşti' + " "+f'{item[0]} Siparişi için ödemeler tablosunu kontrol et')
+                        MailService('' +"Ödemeler Tablosu Kontrol Edilmeli!", "bilgiislem@mekmar.com"," "+ 'Peşinat Girildi.' + " "+f'{item[0]} Siparişi için ödemeler tablosunu kontrol et')
+                        MailService('' +"Ödemeler Tablosu Kontrol Edilmeli!", "info@mekmar.com"," "+ 'Peşinat Girildi.' + " "+f'{item[0]} Siparişi için ödemeler tablosunu kontrol et')
+                        MailService('' +"Ödemeler Tablosu Kontrol Edilmeli!", "huseyin@mekmer.com"," "+ 'Peşinat Girildi.' + " "+f'{item[0]} Siparişi için ödemeler tablosunu kontrol et')
                         self.pesinatMailGonderildiMiUpdate(item[0])
                         
             return True

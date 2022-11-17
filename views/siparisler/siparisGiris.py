@@ -132,7 +132,8 @@ class SiparisGiris:
             model.evrakGideri = result.EvrakGideri 
         if result.sigorta_Tutar != None:
             model.sigorta_tutar = result.sigorta_Tutar     
-            
+        if result.sigorta_tutar_satis !=None:
+            model.sigorta_tutar_satis = result.sigorta_tutar_satis
         model.konteynerAyrinti = result.KonteynerAyrinti
         model.konteynerNo = result.KonteynerNo
         if result.İlaclamaGideri != None:
@@ -240,7 +241,7 @@ class SiparisGiris:
               if(siparis['siparisDurumId']==1 and (siparis['odemeTurId']==1 or siparis['odemeTurId'] ==2) ):
                 MailService(siparis['siparisNo'] + " nolu Sipariş Tahsil Edilmeli", "huseyin@mekmarmarble.com", siparis['siparisNo'] + ' nolu yeni sipariş bekleyende, tahsilatını gerçekleştirip üretime alınız!') 
 
-            #   self.mailGonderInsert(siparis,siparis['siparisNo']) #yeni sipariş için
+              self.mailGonderInsert(siparis,siparis['siparisNo']) #yeni sipariş için
               info = siparis['kayit_kisi'].capitalize() + ', ' + siparis['siparisNo'] + ' ' +  'Siparişini Girdi.'
               DegisiklikMain(siparis['kayit_kisi'],info)
               islem = AnaSayfaDegisiklik()
@@ -295,7 +296,7 @@ class SiparisGiris:
             self.__siparisUrunDataKayit(urunlerYeni,siparis['siparisNo'],marketing,siparis['musteriId'])
             if len(urunlerDegisenler) >= 1 : # ürün değiştirme 
               
-            #   self.mailGonderUpdate(siparis,urunlerDegisenler,siparis['siparisNo'])
+              self.mailGonderUpdate(siparis,urunlerDegisenler,siparis['siparisNo'])
               info = siparis['kayit_kisi'].capitalize() + ', ' + siparis['siparisNo'] + ' ' +  'Sipariş Ürün Bilgilerini Güncelledi.'
               DegisiklikMain(siparis['kayit_kisi'],info)
               
@@ -308,7 +309,7 @@ class SiparisGiris:
             if len(urunlerYeni) >= 1 : #yeni ürün ekleme
               info = siparis['kayit_kisi'].capitalize() + ', ' + siparis['siparisNo'] + ' ' +  'Yeni Ürün Ekledi.'
               DegisiklikMain(siparis['kayit_kisi'],info)
-            #   self.mailGonderNew(siparis,urunlerYeni,siparis['siparisNo'])
+              self.mailGonderNew(siparis,urunlerYeni,siparis['siparisNo'])
               
               if(len(urunlerYeni) == 1):
                 degisiklik = siparis['kayit_kisi'].capitalize() + ', ' + siparis['siparisNo'] + ' siparişine ' + urunlerYeni[0]['uretimAciklama'] + ', ' + str(urunlerYeni[0]['miktar']) +' ' + self.__birim(urunlerYeni[0]['urunBirimId']) + ' $'+str(urunlerYeni[0]['satisFiyati']) +' dan eklemiştir.'
@@ -356,7 +357,7 @@ class SiparisGiris:
             elif len(urunlerSilinenler) >= 1 : # ürün silindi ise
               info = siparis['kayit_kisi'].capitalize() + ', ' + siparis['siparisNo'] + ' ' +  'Bir Ürün Kalemi Silindi.'
               DegisiklikMain(siparis['kayit_kisi'],info)
-            #   self.mailGonderDelete(siparis,urunlerSilinenler,siparis['siparisNo']) 
+              self.mailGonderDelete(siparis,urunlerSilinenler,siparis['siparisNo']) 
               if(len(urunlerSilinenler) == 1):
                 degisiklik = siparis['kayit_kisi'].capitalize() + ', ' + siparis['siparisNo'] + ' siparişine ' + urunlerSilinenler[0]['uretimAciklama'] + ', ' + str(urunlerSilinenler[0]['miktar']) +' ' + self.__birim(urunlerSilinenler[0]['urunBirimId']) + ' $'+str(urunlerSilinenler[0]['satisFiyati']) +' dan silinmiştir.'
                 degisiklikAlani = 'Siparişler'
@@ -446,10 +447,10 @@ class SiparisGiris:
                         NavlunSatis,KullaniciID,SiparisDurumID,UretimAciklama,SevkiyatAciklama,FinansAciklama,OdemeAciklama,TahminiYuklemeTarihi,
                         Vade,Ulke,UlkeId,Komisyon,DetayAciklama_1,DetayMekmarNot_1,DetayTutar_1,DetayAlis_1,DetayAciklama_2,DetayMekmarNot_2,
                         DetayTutar_2,DetayAlis_2,DetayAciklama_3,DetayMekmarNot_3,DetayTutar_3,DetayTutar_4,DetayAciklama_4,DetayAlis_3,SiparisSahibi,EvrakGideri,Eta,
-                        KonteynerAyrinti,KonteynerNo,TeslimYeri,FaturaKesimTurID,AktarmaLimanAdi,depo_yukleme,sigorta_id,sigorta_Tutar,Operasyon ,Finansman,Iade,MalBedeli
+                        KonteynerAyrinti,KonteynerNo,TeslimYeri,FaturaKesimTurID,AktarmaLimanAdi,depo_yukleme,sigorta_id,sigorta_Tutar,Operasyon ,Finansman,Iade,sigorta_tutar_satis
                     )
                     values
-                    (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+                    (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
                     """,(
                         siparis['siparisNo'],s_tarihi,siparis['odemeTurId'],siparis['teslimTurId'],siparis['musteriId'],
                         siparis['pesinat'],siparis['navlunFirma'],siparis['navlunMekmarNot'],siparis['navlunAlis'],siparis['navlunSatis'],
@@ -458,7 +459,7 @@ class SiparisGiris:
                         siparis['detayAciklama_1'],siparis['detayMekmarNot_1'],siparis['detayTutar_1'],siparis['detayAlis_1'],
                         siparis['detayAciklama_2'],siparis['detayMekmarNot_2'],siparis['detayTutar_2'],siparis['detayAlis_2'],
                         siparis['detayAciklama_3'],siparis['detayMekmarNot_3'],siparis['detayTutar_3'],siparis['detayTutar_4'],siparis['detayAciklama_4'],siparis['detayAlis_3'],siparis['siparisSahibi'],
-                        siparis['evrakGideri'],siparis['eta'],siparis['konteynerAyrinti'],siparis['konteynerNo'],siparis['teslimYeri'],siparis['faturaKesimTurId'],siparis['liman'],siparis['depo'], siparis['sigorta_id'],siparis['sigorta_tutar'],siparis['operasyon'],siparis['finansman'],siparis['iade'],siparis['malBedeli']
+                        siparis['evrakGideri'],siparis['eta'],siparis['konteynerAyrinti'],siparis['konteynerNo'],siparis['teslimYeri'],siparis['faturaKesimTurId'],siparis['liman'],siparis['depo'], siparis['sigorta_id'],siparis['sigorta_tutar'],siparis['operasyon'],siparis['finansman'],siparis['iade'],siparis['sigorta_tutar_satis']
                     )
                 )
                 
@@ -580,7 +581,7 @@ class SiparisGiris:
                 DetayAciklama_1=?,DetayMekmarNot_1=?,DetayTutar_1=?,DetayAlis_1=?,
                 DetayAciklama_2=?,DetayMekmarNot_2=?,DetayTutar_2=?,DetayAlis_2=?,
                 DetayAciklama_3=?,DetayMekmarNot_3=?,DetayTutar_3=?,DetayTutar_4=?,DetayAciklama_4=?,DetayAlis_3=?,SiparisSahibi=?,EvrakGideri=?,
-                KonteynerAyrinti=?,KonteynerNo=?,FaturaKesimTurID =? ,AktarmaLimanAdi =? , depo_yukleme=? ,sigorta_id=?,sigorta_Tutar=?, Operasyon =? , Finansman =?,Iade=?,MalBedeli=? where SiparisNo=?
+                KonteynerAyrinti=?,KonteynerNo=?,FaturaKesimTurID =? ,AktarmaLimanAdi =? , depo_yukleme=? ,sigorta_id=?,sigorta_Tutar=?, Operasyon =? , Finansman =?, Iade=?,sigorta_tutar_satis=? where SiparisNo=?
                 """,(
                     siparis['odemeTurId'],siparis['teslimTurId'],siparis['pesinat'],siparis['navlunFirma'],siparis['navlunMekmarNot'],
                     siparis['navlunAlis'],siparis['navlunSatis'],siparis['kullaniciId'],siparis['uretimAciklama'],siparis['sevkiyatAciklama'],siparis['finansAciklama'],
@@ -588,7 +589,8 @@ class SiparisGiris:
                     siparis['detayAciklama_1'],siparis['detayMekmarNot_1'],siparis['detayTutar_1'],siparis['detayAlis_1'],
                     siparis['detayAciklama_2'],siparis['detayMekmarNot_2'],siparis['detayTutar_2'],siparis['detayAlis_2'],
                     siparis['detayAciklama_3'],siparis['detayMekmarNot_3'],siparis['detayTutar_3'],siparis['detayTutar_4'],siparis['detayAciklama_4'],siparis['detayAlis_3'],
-                    siparis['siparisSahibi'],evrak_gider,siparis['konteynerAyrinti'],siparis['konteynerNo'], siparis['faturaKesimTurId'],siparis['liman'],siparis['depo'], siparis['sigorta_id'],siparis['sigorta_tutar'], siparis['operasyon'], siparis['finansman'],siparis['iade'],siparis['malBedeli'],siparis['siparisNo']
+                    siparis['siparisSahibi'],evrak_gider,siparis['konteynerAyrinti'],siparis['konteynerNo'], siparis['faturaKesimTurId'],siparis['liman'],siparis['depo'], siparis['sigorta_id'],
+                    siparis['sigorta_tutar'], siparis['operasyon'], siparis['finansman'],siparis['iade'],siparis['sigorta_tutar_satis'],siparis['siparisNo']
                 )
             )
             
