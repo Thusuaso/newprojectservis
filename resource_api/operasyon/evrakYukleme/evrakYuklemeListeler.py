@@ -64,7 +64,6 @@ class EvrakListeler:
             if item.SiparisFaturaTurID == 13 and item.YuklemeEvrakID == 50 and siparis_no == item.SiparisNo:               
               
                 firma_id , adi= self.__getFirmaId(item.FaturaKayitID)
-                print(firma_id,adi)
                 if firma_id != None:
                     evrak = f"https://file-service.mekmar.com/file/download/customer/{firma_id}/{item.EvrakAdi}"
 

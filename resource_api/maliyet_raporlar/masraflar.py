@@ -432,9 +432,9 @@ class Masraflar_Yil:
         evrak = ''
 
         for item in self.dtMasraflar:
-
+            
             if item.SiparisFaturaTurID == 13 and item.YuklemeEvrakID == 50 and siparis_no == item.SiparisNo:               
-              
+                print(item)
                 firma_id = self.__getFirmaId(item.FaturaKayitID)
                 if firma_id != None:
                     evrak = f"https://file-service.mekmar.com/file/download/customer/{firma_id}/{item.EvrakAdi}"

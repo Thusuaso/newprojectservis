@@ -17,7 +17,6 @@ def user_connect():
 
 @socketio.on('siparis_iscilik_event',namespace='/siparis')
 def siparis_iscilik_event(data):
-    print(data)
     socketio.emit('siparis_iscilik_emit',data,broadcast=True,namespace='/siparis')
 
 

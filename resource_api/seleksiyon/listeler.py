@@ -397,7 +397,7 @@ class UretimUrunKartKasaKontrol:
     def getUretimUrunKartKasaKontrol(self,urunKartId):
         try:
             result = self.data.getStoreList("""
-                                                select * from UretimTB where UrunKartID = ?
+                                                select * from UretimTB where UrunDurumID=1 and UrunKartID = ?
                                             """,urunKartId)
             if len(result) >0:
                 return True

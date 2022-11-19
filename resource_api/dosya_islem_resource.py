@@ -7,7 +7,6 @@ product_path ='products/'
 class DosyaIslemResource(Resource):
 
     def get(self,path):
-       print(path)
        dowload_directory = 'dosyalar/'
 
        return send_from_directory(dowload_directory,path,as_attachment=True)

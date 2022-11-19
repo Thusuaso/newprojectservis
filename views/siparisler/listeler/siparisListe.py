@@ -250,7 +250,6 @@ class SiparisListe:
         )
         urunListesi = list()
         sira = 1
-        print(siparisResult)
         item = siparisResult
 
        
