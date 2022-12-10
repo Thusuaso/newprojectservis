@@ -47,6 +47,7 @@ class EvrakListeModel:
 
 class FaturaListeSchema(Schema):
     id = fields.Int() 
+    faturaId = fields.Int()
     yuklemeTarihi =fields.DateTime()
     adi = fields.String()
     Draft = fields.String()
@@ -59,7 +60,8 @@ class FaturaListeSchema(Schema):
 
 class FaturaListeModel:
 
-    id = None 
+    id = None
+    faturaId = 0
     yuklemeTarihi = ""  
     adi = ""  
     Draft =""

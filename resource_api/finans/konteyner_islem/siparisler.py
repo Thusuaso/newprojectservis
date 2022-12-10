@@ -20,7 +20,7 @@ class Siparisler:
             s.DetayTutar_1,
             s.DetayTutar_2,
             s.DetayTutar_3,
-          
+            s.sigorta_tutar_satis,
             m.FirmaAdi,
             s.MusteriID,
             m.Marketing,
@@ -42,7 +42,7 @@ class Siparisler:
             s.DetayTutar_1,
             s.DetayTutar_2,
             s.DetayTutar_3,
-           
+            s.sigorta_tutar_satis,
             m.FirmaAdi,
             s.MusteriID,
             m.Marketing,
@@ -139,6 +139,7 @@ class Siparisler:
                 "detaytutar_1" : float(0),
                 "detaytutar_2" : float(0),
                 "detaytutar_3" : float(0),
+                "sigorta_tutar_satis":float(0),
                  "Odemeler" : float(0),
                 "urunbedel"  : float(self.__getUrunToplam(item.SiparisNo)),
                 "toplam_tutar" : float(self.__getUrunToplam(item.SiparisNo)),
@@ -169,7 +170,10 @@ class Siparisler:
 
             if item.Odemeler != None:
                 data['Odemeler'] = float(item.Odemeler)
-                
+            
+            if item.sigorta_tutar_satis != None:
+                data['sigorta_tutar_satis'] = float(item.sigorta_tutar_satis)
+            
             data['toplam_tutar'] += toplam  
             
             self.siparis_list.append(data)
@@ -188,6 +192,7 @@ class Siparisler:
                 "detaytutar_1" : float(0),
                 "detaytutar_2" : float(0),
                 "detaytutar_3" : float(0),
+                "sigorta_tutar_satis":float(0),
                 "Odemeler" : float(0),
                 "urunbedel"  : float(self.__getUrunToplam_Eski(item.SiparisNo)),
                 "temsilci" : item.temsilci,
@@ -210,6 +215,8 @@ class Siparisler:
             if item.Odemeler != None:
                 data['Odemeler'] = float(item.Odemeler)    
 
+            if item.sigorta_tutar_satis != None:
+                data['sigorta_tutar_satis'] = float(item.sigorta_tutar_satis)
            
             
             self.eski_siparis_list.append(data)
@@ -228,6 +235,7 @@ class Siparisler:
                 "detaytutar_1" : float(0),
                 "detaytutar_2" : float(0),
                 "detaytutar_3" : float(0),
+                "sigorta_tutar_satis":float(0),
                 "Odemeler" : float(0),
                 "urunbedel"  : float(0),
                 "toplam_tutar" : float(0),

@@ -30,15 +30,18 @@ class Musteri:
     def getUlkeyeGoreMusteriList(self,year):
         try:
             result = self.data.getStoreList("""
-                                                select 
-                                                    count(m.UlkeId) as SiparisSayisi,
-                                                    m.UlkeId as UlkeId,
-                                                    (select yu.UlkeAdi from YeniTeklif_UlkeTB yu where yu.Id = m.UlkeId) as UlkeAdi
+                                                select
 
-                                                from MusterilerTB m
-                                                    inner join SiparislerTB s on s.MusteriID = m.ID
-                                                where YEAR(s.SiparisTarihi) = ?
-                                                group by m.UlkeId
+                                                    (select yu.UlkeAdi from YeniTeklif_UlkeTB yu where yu.Id = s.UlkeId) as UlkeAdi,
+                                                    count(s.UlkeId) as SiparisSayisi,
+                                                    s.UlkeId as UlkeId
+
+                                                from SiparislerTB s
+
+                                                where
+                                                    YEAR(s.SiparisTarihi) = ? and s.SiparisDurumID in (2,3)
+                                                group by
+                                                    s.UlkeId
                                             
                                             """,(year))
             liste = list()
@@ -58,12 +61,14 @@ class Musteri:
         try:
             halihazirdakisip = self.data.getStoreList("""
                                                             select 
-                                                                s.SiparisTarihi as SiparisTarihi,
-                                                                s.SiparisNo as SiparisNo,
-                                                                m.FirmaAdi as FirmaAdi
+
+                                                                s.SiparisNo,
+                                                                s.SiparisTarihi,
+                                                                (select m.FirmaAdi from MusterilerTB m where m.ID = s.MusteriID) as FirmaAdi
+
                                                             from SiparislerTB s
-                                                                inner join MusterilerTB m on m.ID = s.MusteriID
-                                                            where m.UlkeId=? and YEAR(s.SiparisTarihi) = ? and s.SiparisDurumID=2 
+                                                            where
+                                                                s.UlkeId=? and YEAR(s.SiparisTarihi) = ? and s.SiparisDurumID=2
                                                       
                                                       
                                                       """,(ulkeId,year))
@@ -87,13 +92,15 @@ class Musteri:
         try:
             yuklenenSip = self.data.getStoreList("""
                                                     select 
-                                                                s.SiparisTarihi as SiparisTarihi,
-                                                                s.SiparisNo as SiparisNo,
-                                                                m.FirmaAdi as FirmaAdi,
-                                                                s.YuklemeTarihi as YuklemeTarihi
+
+                                                                s.SiparisNo,
+                                                                s.SiparisTarihi,
+                                                                (select m.FirmaAdi from MusterilerTB m where m.ID = s.MusteriID) as FirmaAdi,
+                                                                s.YuklemeTarihi
+
                                                             from SiparislerTB s
-                                                                inner join MusterilerTB m on m.ID = s.MusteriID
-                                                            where m.UlkeId=? and YEAR(s.SiparisTarihi) = ? and s.SiparisDurumID=3
+                                                            where
+                                                                s.UlkeId=? and YEAR(s.SiparisTarihi) = ? and s.SiparisDurumID=3
                                                  
                                                  
                                                  """,(ulkeId,year))

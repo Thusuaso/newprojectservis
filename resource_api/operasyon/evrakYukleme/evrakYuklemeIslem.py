@@ -88,7 +88,6 @@ class EtiketKayitIslemApi(Resource):
 
 class EtiketListApi(Resource):
     def get(self,etiketNo):
-        print(etiketNo)
         islem = EtiketIslem()
         result = islem.getEtiketLink(etiketNo)
         return jsonify(result)
@@ -122,3 +121,27 @@ class EtiketIslem:
                                         """,(etiketkodu))
         link =  f"https://file-service.mekmar.com/file/download/etiket/{result[0][0]}/{result[0][1]}"
         return link
+    
+    
+class EvrakSilmeIslemApi(Resource):
+    def get(self,id,siparisNo):
+        islem = EvrakSilmeIslem()
+        result = islem.setDeleteEvrak(id,siparisNo)
+        
+        return jsonify(result)
+    
+class EvrakSilmeIslem:
+    def __init__(self):
+        self.data = SqlConnect().data
+    
+    def setDeleteEvrak(self,id,siparisNo):
+        try:
+            
+            self.data.update_insert("""
+                                        delete SiparisFaturaKayitTB where ID=? and SiparisNo=?
+                                    
+                                    """,(id,siparisNo))
+            return True
+        except Exception as e:
+            print("setDeleteEvrak hata",str(e))
+            return False

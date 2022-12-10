@@ -11,9 +11,26 @@ class Siparisler:
         self.ay = ay
 
         self.siparis_listesi = list()
+        self.alisFiyatiKontrolSql = self.data.getStoreList("""
+                                                    select 
 
+
+                                                        su.AlisFiyati,
+                                                        s.SiparisNo
+
+                                                    from SiparislerTB s , 
+                                                         SiparisUrunTB su 
+                                                    where 
+                                                        s.SiparisNo = su.SiparisNo and 
+                                                        Year(s.YuklemeTarihi)=? and 
+                                                        Month(s.YuklemeTarihi)=? and 
+                                                        su.AlisFiyati in (0,Null)
+                                                                                                    
+                                                                                                    
+                                                   """,(yil,ay))
+    
         self.__siparisOlustur()
-
+        
         
 
     def __siparisOlustur(self):
@@ -154,9 +171,22 @@ class Siparisler:
                 model.pazarlama = item.Komisyon
             model.yukleme_year = item.YuklemeYil
             model.yukleme_month = item.YuklemeAy
-            
+            if self.__getAlisControl(item.SiparisNo):
+                model.alisFiyatiKontrol = "#F1948A"
             self.siparis_listesi.append(model)
 
+    
+    def __getAlisControl(self,siparisNo):
+        if len(self.alisFiyatiKontrolSql)>0:
+            for item in self.alisFiyatiKontrolSql:
+                if item.SiparisNo != siparisNo:
+                    continue
+                else:
+                    return True
+        else:
+            return False
+    
+    
 class Siparisler_Yil:
 
     def __init__(self,yil):
@@ -165,7 +195,23 @@ class Siparisler_Yil:
         self.yil = yil        
 
         self.siparis_listesi = list()
+        self.alisFiyatiKontrolSql = self.data.getStoreList("""
+                                                    select 
 
+
+                                                        su.AlisFiyati,
+                                                        s.SiparisNo
+
+                                                    from SiparislerTB s , 
+                                                         SiparisUrunTB su 
+                                                    where 
+                                                        s.SiparisNo = su.SiparisNo and 
+                                                        Year(s.YuklemeTarihi)=? and 
+                                                        su.AlisFiyati in (0,Null)
+                                                                                                    
+                                                                                                    
+                                                   """,(yil))
+    
         self.__siparisOlustur()
 
         
@@ -310,8 +356,19 @@ class Siparisler_Yil:
             if item.Komisyon != None:
                 model.pazarlama = item.Komisyon
             model.yukleme_month = item.YuklemeMonth
+            if self.__getAlisControl(item.SiparisNo):
+                model.alisFiyatiKontrol = "#F1948A"
             self.siparis_listesi.append(model)
             
+    def __getAlisControl(self,siparisNo):
+        if len(self.alisFiyatiKontrolSql)>0:
+            for item in self.alisFiyatiKontrolSql:
+                if item.SiparisNo != siparisNo:
+                    continue
+                else:
+                    return True
+        else:
+            return False
 
         
         

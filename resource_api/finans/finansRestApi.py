@@ -247,6 +247,29 @@ class KonteynerExcelCiktiApi(Resource):
 
         return send_file(excel_path,as_attachment=True)
 
+class KonteynerOdemelerListesiExcelApi(Resource):
+
+    def post(self):
+
+        data_list = request.get_json()
+
+        islem = ExcelCiktiIslem()
+
+        result = islem.odemelerCikti(data_list)
+
+        return jsonify({'status' : result})
+
+    def get(self):
+
+        excel_path = 'resource_api/finans/konteyner_islem/dosyalar/odemeler_listesi.xlsx'
+
+        return send_file(excel_path,as_attachment=True)
+
+
+
+
+
+
 class DepoExcelCiktiApi(Resource):
 
     def post(self):
@@ -393,7 +416,33 @@ class DovizListe(Resource):
           
         }
 
-        return jsonify(data)              
+        return jsonify(data)
+    
+class ByMarketingMonthLoadApi(Resource):
+    def get(self):
+        islem = Marketing()
+        icPiyasa = islem.getMarketingMonthIcPiyasaLoad()
+        mekmer = islem.getMarketingMonthMekmerLoad()
+        data = {
+            'icPiyasa':icPiyasa,
+            'mekmer':mekmer
+            
+        }
+        return data
+
+class ByMarketingMonthLoadIcPiyasaAyrintiApi(Resource):
+    def get(self,month):
+        islem = Marketing()
+        icPiyasa = islem.getMarketingMonthIcPiyasaAyrintiLoad(month)
+
+        return icPiyasa
+
+class ByMarketingMonthLoadMekmerAyrintiApi(Resource):
+    def get(self,month):
+        islem = Marketing()
+        icPiyasa = islem.getMarketingMonthMekmerAyrintiLoad(month)
+
+        return icPiyasa      
 
 
 

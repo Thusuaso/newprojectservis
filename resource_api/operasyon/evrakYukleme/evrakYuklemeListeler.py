@@ -317,6 +317,7 @@ class EvrakListeler:
             
             model = FaturaListeModel()
             model.faturano = item.YuklemeEvrakID
+            model.faturaId = item.ID
             model.id = id
             model.yuklemeTarihi = item.EvrakYuklemeTarihi
             model.kullanici = item.kullanici

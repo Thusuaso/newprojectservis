@@ -129,7 +129,6 @@ class TeklifFormListeler(Resource):
         teklif = TeklifIslem()
 
         data = {
-
             'kategoriList' : teklif.getKategoriList(),
             'urunList' : teklif.getUrunList(),
             'enBoyList' : teklif.getEnBoyList(),
@@ -137,7 +136,6 @@ class TeklifFormListeler(Resource):
             'yuzeyList' : teklif.getYuzeyList(),
             'musteriList' : teklif.getMusteriList(),
             'ulkeList' : teklif.getUlkeList()
-           
         }
 
         return jsonify(data)
@@ -191,7 +189,15 @@ class TeklifIslem:
 
         item = self.data.getStoreList(
             """
-            Select * from YeniTeklifTB where Id=?
+            Select 
+
+                yt.*,
+                (select ym.Company from YeniTeklif_MusterilerTB ym where ym.Id =yt.MusteriId ) CompanyN,
+                (select ym.Phone from YeniTeklif_MusterilerTB ym where ym.Id =yt.MusteriId ) PhoneN,
+                (select ym.Mail from YeniTeklif_MusterilerTB ym where ym.Id =yt.MusteriId ) MailN
+
+
+            from YeniTeklifTB yt where Id=?
             """,(teklifId)
         )[0]
 
@@ -237,9 +243,9 @@ class TeklifIslem:
         model.proformaNot = item.ProformaNot 
         model.numuneNot = item.NumuneNot
         model.blist = item.BList 
-        model.company = item.Company
-        model.email = item.Email
-        model.phone = item.Phone
+        model.company = item.CompanyN
+        model.email = item.MailN
+        model.phone = item.PhoneN
         schema = TeklifSchema()
 
         return schema.dump(model)

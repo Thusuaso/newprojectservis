@@ -75,3 +75,79 @@ class MusteriSiparisAyrintiModel:
     SiparisNo = ""
     Satisci = ""
     Operasyon = ""
+
+class TeklifMusterilerSchema(Schema):
+    id = fields.Int()
+    customer = fields.String()
+    company = fields.String()
+    email = fields.String()
+    phone = fields.String()
+    country = fields.Int()
+    user = fields.Int()
+    
+class TeklifMusterilerModel:
+    id = 0
+    customer = ""
+    company = ""
+    email = ""
+    phone = ""
+    country = 0
+    user = 0
+    
+class FuarMusterilerSchema(Schema):
+    id = fields.Int()
+    customer = fields.String()
+    company = fields.String()
+    email = fields.String()
+    phone = fields.String()
+    country = fields.Int()
+    user = fields.Int()
+    adress = fields.String()
+    kullanici = fields.Int()
+    satisci = fields.String()
+    linkOn = fields.String()
+    linkArka = fields.String()
+    
+    
+class FuarMusterilerModel:
+    id = 0
+    customer = ""
+    company = ""
+    email = ""
+    phone = ""
+    country = 0
+    user = 0
+    adress = ""
+    satisci = ""
+    kullanici = 0
+    linkOn = ""
+    linkArka=""
+    
+class BgpMusterilerSchema(Schema):
+    id = fields.Int()
+    customer = fields.String()
+    company = fields.String()
+    email = fields.String()
+    phone = fields.String()
+    country = fields.String()
+    user = fields.Int()
+    adress = fields.String()
+    kullanici = fields.Int()
+    satisci = fields.String()
+    linkOn = fields.String()
+    linkArka = fields.String()
+    
+    
+class BgpMusterilerModel:
+    id = 0
+    customer = ""
+    company = ""
+    email = ""
+    phone = ""
+    country = ""
+    user = 0
+    adress = ""
+    satisci = ""
+    kullanici = 0
+    linkOn = ""
+    linkArka=""

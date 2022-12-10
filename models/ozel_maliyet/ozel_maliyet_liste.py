@@ -75,6 +75,7 @@ class OzelMaliyetListeSchema(Schema):
     ortalama_kur = fields.Float()
     yukleme_year = fields.Int()
     yukleme_month = fields.Int()
+    alisFiyatiKontrol = fields.String()
 class OzelMaliyetListeModel:
 
     id = None
@@ -113,7 +114,7 @@ class OzelMaliyetListeModel:
     operasyon = ""
     siparisci = ""
     faturatur = ""
-
+    alisFiyatiKontrol = ""
     sigorta_evrak = ""
     gumruk_evrak = ""
     ilaclama_evrak = ""

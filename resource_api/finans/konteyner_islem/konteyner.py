@@ -25,7 +25,6 @@ class Konteyner:
 
         liste = list()
         for item in groupList:
-        
             if item[0] == 'Maya' or item[0] == 'Villo Home - USA':
                 continue
             else:
@@ -143,7 +142,7 @@ class Konteyner:
             if gun == 26:
                 mail = MailAttempt()
                 mail.mailSend(musteriler,genelBakiye,"bilgiislem@mekmar.com")
-                mail.mailSend(musteriler,genelBakiye,"mehmet@mekmar.com")
+                mail.mailSend(musteriler,genelBakiye,"mehmet@mekmer.com")
                 sql.update_insert("""
                                     update MailControl_ Set mailControl = ? WHERE ID = ?
                                   
@@ -220,8 +219,8 @@ class Konteyner:
         for item in self.siparis_list:
             
             if musteriid == item['musteriid']:
-                top = float(item['navlunsatis']) + float(item['detaytutar_1']) + float(item['detaytutar_2']) + float(item['detaytutar_3'])  + float(item['urunbedel'])
-                ciro +=  (float(item['navlunsatis']) + float(item['detaytutar_1']) + float(item['detaytutar_2']) + float(item['detaytutar_3'])  + float(item['urunbedel']))
+                top = float(item['navlunsatis']) + float(item['detaytutar_1']) + float(item['detaytutar_2']) + float(item['detaytutar_3'])  + float(item['urunbedel']) + float(item['sigorta_tutar_satis'])
+                ciro +=  (float(item['navlunsatis']) + float(item['detaytutar_1']) + float(item['detaytutar_2']) + float(item['detaytutar_3'])  + float(item['urunbedel']) + float(item['sigorta_tutar_satis'])) 
                 if item['Odemeler'] == None :
                    item['Odemeler'] = 0
                 if top - item['Odemeler'] > 10 : 
@@ -241,8 +240,8 @@ class Konteyner:
         masraf = 0
         for item in self.eski_siparis_list:
             if musteriadi == item['musteriadi']:
-                top = float(item['navlunsatis']) + float(item['detaytutar_1']) + float(item['detaytutar_2']) + float(item['detaytutar_3'])  + float(item['urunbedel'])
-                model.devir += float(item['navlunsatis']) + float(item['detaytutar_1']) + float(item['detaytutar_2']) + float(item['detaytutar_3'])  + float(item['urunbedel'])
+                top = float(item['navlunsatis']) + float(item['detaytutar_1']) + float(item['detaytutar_2']) + float(item['detaytutar_3'])  + float(item['urunbedel']) + float(item['sigorta_tutar_satis'])
+                model.devir += float(item['navlunsatis']) + float(item['detaytutar_1']) + float(item['detaytutar_2']) + float(item['detaytutar_3'])  + float(item['urunbedel']) + float(item['sigorta_tutar_satis'])
                 if item['Odemeler'] == None :
                    item['Odemeler'] = 0
                 if top - item['Odemeler'] > 10 : 

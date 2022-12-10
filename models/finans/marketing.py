@@ -40,4 +40,40 @@ class MarketingAyrintiModel:
     musteri = ""
     marketing = ""
     toplamFob = 0
-    toplamCfr = 0    
+    toplamCfr = 0
+    
+    
+class MarketingMonthLoadModel:
+    month = ""
+    monthNum = 0
+    fob = 0
+    ddp = 0
+    
+class MarketingMonthLoadSchema(Schema):
+    
+    month = fields.String()
+    monthNum = fields.Int()
+    fob = fields.Float()
+    ddp = fields.Float()
+    
+    
+class MarketingMonthLoadAyrintiModel:
+    siparisNo = ""
+    fob = 0
+    navlun = 0
+    detay1 = 0
+    detay2 = 0
+    detay3 = 0
+    detay4 = 0
+    ddp = 0
+    
+class MarketingMonthLoadAyrintiSchema(Schema):
+    
+    siparisNo = fields.String()
+    fob = fields.Float()
+    navlun = fields.Float()
+    detay1 = fields.Float()
+    detay2 = fields.Float()
+    detay3 = fields.Float()
+    detay4 = fields.Float()
+    ddp = fields.Float()

@@ -34,7 +34,6 @@ from resource_api.raporlar.mekusMasrafları import MekusMasraflar
 from resource_api.raporlar.komisyonMasrafları import KomisyonMasraflar
 from resource_api.raporlar.bankaVeEvrakMasraflar import BankaVeEvrakMasraflar
 from resource_api.raporlar.orderProducts import MusteriBazindaUretim
-
 class SiteYeniUrunListApi(Resource):
 
     def get(self):
@@ -45,13 +44,7 @@ class SiteYeniUrunListApi(Resource):
 
 
         return liste
-class MusteriBazindaUretimApi(Resource):
-    def get(self):
-        islem = MusteriBazindaUretim()
-        result = islem.getMusteriBazindaUretim()
-        return jsonify(result)
-    
-    
+
 class YeniEklenenSiparislerListApi(Resource):
 
     def get(self):
@@ -275,60 +268,117 @@ class MusteriBazindaRaporExcellApi(Resource):
 
         return send_file(excel_path,as_attachment=True)
 
-class SevkiyatRaporHepsiApi(Resource):
+class SevkiyatRaporHepsiMekmerApi(Resource):
 
     def get(self,tarih):
 
         islem = SevkiyatRapor()
 
-        sevkiyat_listesi = islem.getSevkiyatListeHepsi(tarih)
+        sevkiyat_listesi = islem.getSevkiyatListeHepsiMekmer()
 
         return sevkiyat_listesi
     
     
-class SevkiyatRaporAllApi(Resource):
+class SevkiyatRaporAllMekmerApi(Resource):
 
     def get(self):
 
         islem = SevkiyatRapor()
 
-        sevkiyat_listesi = islem.getSevkiyatListeAll()
+        sevkiyat_listesi = islem.getSevkiyatListeAllMekmer()
 
         return sevkiyat_listesi
     
-    
 
-class SevkiyatRaporTarihApi(Resource):
+class SevkiyatRaporHepsiMekmarApi(Resource):
 
     def get(self,tarih):
 
         islem = SevkiyatRapor()
 
-        sevkiyat_listesi = islem.getSevkiyatListeTarih(tarih)
+        sevkiyat_listesi = islem.getSevkiyatListeHepsiMekmar()
 
         return sevkiyat_listesi
     
-class SevkiyatRaporTekTarihApi(Resource):
+    
+class SevkiyatRaporAllMekmarApi(Resource):
+
+    def get(self):
+
+        islem = SevkiyatRapor()
+
+        sevkiyat_listesi = islem.getSevkiyatListeAllMekmar()
+
+        return sevkiyat_listesi
+    
+    
+
+class SevkiyatRaporTarihMekmarApi(Resource):
 
     def get(self,tarih):
 
         islem = SevkiyatRapor()
 
-        sevkiyat_listesi = islem.getSevkiyatListeTekTarih(tarih)
+        sevkiyat_listesi = islem.getSevkiyatListeTarihMekmar(tarih)
+
+        return sevkiyat_listesi
+    
+class SevkiyatRaporTekTarihMekmarApi(Resource):
+
+    def get(self,tarih):
+
+        islem = SevkiyatRapor()
+
+        sevkiyat_listesi = islem.getSevkiyatListeTekTarihMekmar(tarih)
 
         return sevkiyat_listesi    
     
-
-
-class SevkiyatRaporIkiTarihApi(Resource):
+class SevkiyatRaporIkiTarihMekmarApi(Resource):
 
     def get(self,ilk_tarih,son_tarih):
 
         islem = SevkiyatRapor()
 
-        sevkiyat_listesi = islem.getSevkiyatListeIkiTarih(ilk_tarih,son_tarih)
+        sevkiyat_listesi = islem.getSevkiyatListeIkiTarihMekmar(ilk_tarih,son_tarih)
 
         return sevkiyat_listesi
+    
+    
+    
+class SevkiyatRaporTarihMekmerApi(Resource):
+
+    def get(self,tarih):
+
+        islem = SevkiyatRapor()
+
+        sevkiyat_listesi = islem.getSevkiyatListeTarihMekmer(tarih)
+
+        return sevkiyat_listesi
+    
+class SevkiyatRaporTekTarihMekmerApi(Resource):
+
+    def get(self,tarih):
+
+        islem = SevkiyatRapor()
+
+        sevkiyat_listesi = islem.getSevkiyatListeTekTarihMekmer(tarih)
+
+        return sevkiyat_listesi    
+    
+class SevkiyatRaporIkiTarihMekmerApi(Resource):
+
+    def get(self,ilk_tarih,son_tarih):
+
+        islem = SevkiyatRapor()
+
+        sevkiyat_listesi = islem.getSevkiyatListeIkiTarihMekmer(ilk_tarih,son_tarih)
+
+        return sevkiyat_listesi
+
+
+
+
+
 
 class SevkiyatRaporExcelApi(Resource):
 
@@ -837,6 +887,17 @@ class UlkeBazindaSevkiyatApi(Resource):
             
         return jsonify(result)
     
+class UlkeBazindaSevkiyatAyrintiApi(Resource):
+
+    def get(self,ulkeId):
+
+        islem = UlkeBazindaSevkiyat()
+        
+        
+        result = islem.getUlkeBazindaSevkiyatAyrinti(ulkeId)
+            
+        return jsonify(result)
+    
 class UlkeBazindaSevkiyatYearsApi(Resource):
 
     def get(self,year):
@@ -1033,8 +1094,38 @@ class UlkeBazindaExcellCikti(Resource):
 
         excel_path = 'resource_api/raporlar/dosyalar/ulkebzindaSevkiyat.xlsx'
 
-        return send_file(excel_path,as_attachment=True)  
+        return send_file(excel_path,as_attachment=True)
     
+    
+class MonthMarketingExcellCikti(Resource):
+    def post(self):
+
+        data_list = request.get_json()
+        islem = ExcelCiktiIslemMusteri()
+
+        result = islem.get_month_marketing_excel_cikti(data_list)
+        return jsonify({'status' : result})
+
+    def get(self):
+
+        excel_path = 'resource_api/raporlar/dosyalar/monthMarketingExcel.xlsx'
+
+        return send_file(excel_path,as_attachment=True)
+
+class MonthMarketingAyrintiExcellCikti(Resource):
+    def post(self):
+
+        data_list = request.get_json()
+        islem = ExcelCiktiIslemMusteri()
+
+        result = islem.get_month_marketing_ayrinti_excel_cikti(data_list)
+        return jsonify({'status' : result})
+
+    def get(self):
+
+        excel_path = 'resource_api/raporlar/dosyalar/monthMarketingAyrintiExcel.xlsx'
+
+        return send_file(excel_path,as_attachment=True)
     
             
 
@@ -1098,6 +1189,16 @@ class YuklemeRaporIslemApi(Resource):
         }
       
         return jsonify(data)
+
+class IstatistiklerApi(Resource):
+    def get(self):
+        
+        islem = Istatistikler()
+        result = islem.getNewCustomerDataList()
+        return result
+        
+        
+        
 
 class YuklemeAtlantaRaporIslemApi(Resource):
 
@@ -1247,6 +1348,13 @@ class OrderRaporApi(Resource):
         islem = Order()
         resultProducts = islem.getOrderProducts(po)
         return jsonify(resultProducts)
+    
+    
+class MusteriBazindaUretimApi(Resource):
+    def get(self):
+        islem = MusteriBazindaUretim()
+        result = islem.getMusteriBazindaUretim()
+        return jsonify(result)
 
     
         
@@ -1346,12 +1454,48 @@ class UrunlerUretimListApi(Resource):
         islem = UretimUrunler()
         result = islem.getUretimUrunlerListesi()
         return jsonify(result)
+    
+    
+class UrunlerUretimListMekmarApi(Resource):
+    def get(self):
+        
+        islem = UretimUrunler()
+        result = islem.getUretimUrunlerListesiMekmar()
+        return jsonify(result)
+    
+class UrunlerUretimListMekmerApi(Resource):
+    def get(self):
+        
+        islem = UretimUrunler()
+        result = islem.getUretimUrunlerListesiMekmer()
+        return jsonify(result)
+    
+    
+    
 class UrunlerUretimListAyrintiApi(Resource):
     def get(self,urunKartId):
         
         islem = UretimUrunler()
         result = islem.getUretimUrunlerAyrintiListesi(urunKartId)
         return jsonify(result)
+   
+class UrunlerUretimListAyrintiMekmarApi(Resource):
+    def get(self,urunKartId):
+        
+        islem = UretimUrunler()
+        result = islem.getUretimUrunlerAyrintiListesiMekmar(urunKartId)
+        return jsonify(result)
+    
+class UrunlerUretimListAyrintiMekmerApi(Resource):
+    def get(self,urunKartId):
+        
+        islem = UretimUrunler()
+        result = islem.getUretimUrunlerAyrintiListesiMekmer(urunKartId)
+        return jsonify(result)
+   
+   
+   
+   
     
 class UrunlerUretimExcelApi(Resource):
     
@@ -1369,7 +1513,61 @@ class UrunlerUretimExcelApi(Resource):
         
         excel_path = 'resource_api/raporlar/dosyalar/uretilen_listesi.xlsx'
 
-        return send_file(excel_path,as_attachment=True)  
+        return send_file(excel_path,as_attachment=True)
+    
+    
+class SevkiyatRaporHepsiAllApi(Resource):
+
+    def get(self,tarih):
+
+        islem = SevkiyatRapor()
+
+        sevkiyat_listesi = islem.getSevkiyatListeHepsiAll()
+
+        return sevkiyat_listesi
+    
+    
+class SevkiyatRaporAllAllApi(Resource):
+
+    def get(self):
+
+        islem = SevkiyatRapor()
+
+        sevkiyat_listesi = islem.getSevkiyatListeAllAll()
+
+        return sevkiyat_listesi
+    
+
+
+class SevkiyatRaporTarihAllApi(Resource):
+
+    def get(self,tarih):
+
+        islem = SevkiyatRapor()
+
+        sevkiyat_listesi = islem.getSevkiyatListeTarihAll(tarih)
+
+        return sevkiyat_listesi
+    
+class SevkiyatRaporTekTarihAllApi(Resource):
+
+    def get(self,tarih):
+
+        islem = SevkiyatRapor()
+
+        sevkiyat_listesi = islem.getSevkiyatListeTekTarihAll(tarih)
+
+        return sevkiyat_listesi    
+    
+class SevkiyatRaporIkiTarihAllApi(Resource):
+
+    def get(self,ilk_tarih,son_tarih):
+
+        islem = SevkiyatRapor()
+
+        sevkiyat_listesi = islem.getSevkiyatListeIkiTarihAll(ilk_tarih,son_tarih)
+
+        return sevkiyat_listesi
 
 
 

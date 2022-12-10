@@ -1,0 +1,1 @@
+from models.istatistikler.istatistiklerModel import istatistiklerSchema,istatistiklerModel

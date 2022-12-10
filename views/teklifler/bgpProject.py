@@ -228,8 +228,6 @@ class BgpProjects():
                else:
                    model.unvanColor = 'white'
                model.unvan = item.Unvan
-               model.filelink = item.Filelink
-               model.fileStatus = item.FileCloud
                liste.append(model)
             schema = BgpProjectsAyrintiSchema(many=True)
             return schema.dump(liste)

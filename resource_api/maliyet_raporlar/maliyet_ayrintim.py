@@ -60,6 +60,7 @@ class MaliyetRaporuAyrinti:
            s.DetayTutar_4,
 		   s.EvrakGideri,
 		   s.Komisyon,
+            s.alisFiyatiControl,
             s.Pesinat,
             (
             select Sum(Tutar) from OdemelerTB o where o.SiparisNo=s.SiparisNo
@@ -71,7 +72,9 @@ class MaliyetRaporuAyrinti:
             ) as BankaMasraf,
             (
               select Sum(SatisToplam) from SiparisUrunTB u where u.SiparisNo=s.SiparisNo
-            ) as UrunBedeli        
+            ) as UrunBedeli,
+			sigorta_id,
+			sigorta_Tutar       
             from
             SiparislerTB s,MusterilerTB m
             where
@@ -126,10 +129,13 @@ class MaliyetRaporuAyrinti:
              model.kurye = item.EvrakGideri
             else : model.kurye = 0
             
-           
-            
+            if item.sigorta_Tutar !=None:
+                model.sigorta = item.sigorta_Tutar
+            else: model.sigorta = 0
+            if item.alisFiyatiControl != None:
+                model.alisFiyatiControl = item.alisFiyatiControl
             model.mekmer_alim , model.mek_moz_alim , model.dis_alim = self.__tedarikciMaliyet(siparisno)
-            model.nakliye , model.gumruk , model.ilaclama , model.liman  , model.sigorta = self.__digerMaliyet(siparisno)
+            model.nakliye , model.gumruk , model.ilaclama , model.liman = self.__digerMaliyet(siparisno)
             model.ozel_iscilik = self.__ozelIscilik(siparisno)
             model.total_in = model.sigorta + model.liman + model.ilaclama +  model.gumruk + model.nakliye + model.mekmer_alim + model.mek_moz_alim + model.dis_alim + model.banka_masrafi + model.ozel_iscilik + model.navlun_alis + model.detay_1 + model.detay_2 + model.detay_3 + model.mekus_masraf + model.komisyon + model.kurye
            
@@ -152,7 +158,6 @@ class MaliyetRaporuAyrinti:
             """,(siparisno)
         )
        
-        liste = list()
         mekmer = 0
         mek_moz = 0
         dis = 0
@@ -202,7 +207,7 @@ class MaliyetRaporuAyrinti:
             elif item.SiparisFaturaTurID == 9 and item.YuklemeEvrakID == 50:  
                   liman += item.Tutar
   
-        return nakliye,  gumruk  ,ilaclama ,liman,sigorta
+        return nakliye,  gumruk  ,ilaclama ,liman
 
     def __ozelIscilik(self,siparisno):
 
@@ -223,4 +228,14 @@ class MaliyetRaporuAyrinti:
   
         return ozel_iscilik  
 
-  
+    def setAlisFiyatiKontrolDegistir(self,data):
+        print("setAlisFiyatiKontrolDegistir" ,data)
+        try:
+            self.data.update_insert("""
+                                        update SiparislerTB SET alisFiyatiControl =? WHERE SiparisNo=?
+
+                                    """,(data['alisFiyatiControl'],data['siparisno']))
+            return True
+        except Exception as e:
+            print("setAlisFiyatiKontrolDegistir hata", str(e))
+            return False

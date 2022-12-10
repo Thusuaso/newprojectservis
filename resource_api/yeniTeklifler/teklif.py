@@ -12,7 +12,6 @@ class TeklifAnaSayfaData(Resource):
     def get(self,username):
 
         teklif = Teklif(username)
-        print(username)
         data = {
             'takvimList' : teklif.getTakvimList(),
             'temsilciOzetList' : teklif.getTemsilciListOzet(),

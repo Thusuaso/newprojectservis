@@ -82,4 +82,12 @@ class MaliyetRaporExcelApi(Resource):
         excel_path = 'resource_api/maliyet_raporlar/dosyalar/ayo_maliyet_listesi.xlsx'
 
         return send_file(excel_path,as_attachment=True)
+    
+    
+class AyoAlisFiyatiDegistirApi(Resource):
+    def post(self):
+        data = request.get_json()
+        islem = MaliyetRaporuAyrinti()
+        result = islem.setAlisFiyatiKontrolDegistir(data)
+        return jsonify(result)
 

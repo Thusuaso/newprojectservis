@@ -1,6 +1,6 @@
 from openpyxl import *
 import shutil
-
+from openpyxl.styles import PatternFill, Border, Side, Alignment, Protection, Font
 
 class ExcelCiktiIslem:
 
@@ -169,3 +169,40 @@ class ExcelCiktiIslem:
             print('ExcelCiktiIslem depoCikti Hata : ',str(e))
             return False
     
+    def odemelerCikti(self,data_list):
+
+        try:
+            source_path = 'resource_api/finans/konteyner_islem/sablonlar/odemeler_listesi.xlsx'
+            target_path = 'resource_api/finans/konteyner_islem/dosyalar/odemeler_listesi.xlsx'
+            shutil.copy2(source_path, target_path)
+
+
+            kitap = load_workbook(target_path)
+            sayfa = kitap.get_sheet_by_name('Sheet')
+            border = Border(left=Side(border_style="thin",color='FF000000'),right=Side(border_style="thin",color='FF000000'),top=Side(border_style="thin",color='FF000000'),bottom=Side(border_style="thin",color='FF000000'))
+            satir = 3
+            tutarToplam = 0
+            for item in data_list:
+                
+                sayfa.cell(satir,column=1,value=item['tarih']).border = border
+                sayfa.cell(satir,column=2,value=item['musteriadi']).border = border
+                sayfa.cell(satir,column=3,value=item['po']).border = border
+                sayfa.cell(satir,column=4,value=item['tutar']).border = border
+                tutarToplam += item['tutar']
+                satir += 1
+            a = sayfa.cell(satir,column=1,value='Toplam')
+            a.font = Font(bold=True)
+            a.border = border
+            sayfa.cell(satir,column=2,value='').border = border
+            sayfa.cell(satir,column=3,value='').border = border
+            b = sayfa.cell(satir,column=4,value=tutarToplam)
+            b.font = Font(bold=True)
+            b.border = border
+            kitap.save(target_path)
+            kitap.close()
+
+            return True
+
+        except Exception as e:
+            print('ExcelCiktiIslem odemelerCikti Hata : ',str(e))
+            return False

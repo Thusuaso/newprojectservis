@@ -391,6 +391,7 @@ api.add_resource(EvrakFaturaKayitIslem,'/islemler/evrak/evrakFaturaModel',method
 api.add_resource(EtiketKayitIslemApi,'/islemler/evrak/etiket',methods=['GET','POST','PUT'])
 api.add_resource(EtiketListApi,'/islemler/evrak/etiketList/<string:etiketNo>',methods=['GET'])
 
+api.add_resource(EvrakSilmeIslemApi,'/operasyon/fatura/deleteFaturaEvrak/<int:id>/<string:siparisNo>',methods=['GET'])
 
 #operasyon data işlemleri
 #api.add_resource(KonteynerFaturatIslem,'/konteynerfatura/kayitIslem',methods=['GET','POST','PUT'])
@@ -417,6 +418,7 @@ api.add_resource(TahsilatKayitSilme,'/finans/islemler/tahsilatKayitSilme/<int:id
 api.add_resource(DepoAyrintList,'/finans/listeler/depoAyrintiListesi/<int:musteriid>',methods=['GET'])
 api.add_resource(DepoAyrintiListExcell,'/finans/listeler/depoAyrintiExcellListe',methods=['POST','GET'])
 api.add_resource(KonteynerExcelCiktiApi,'/finans/dosyalar/konteynerExcelCikti',methods=['POST','GET'])
+api.add_resource(KonteynerOdemelerListesiExcelApi,'/finans/listeler/odemelerAyrintiListesiExcel',methods=['POST','GET'])
 api.add_resource(DepoExcelCiktiApi,'/finans/dosyalar/depoExcelCikti',methods=['GET','POST'])
 api.add_resource(KonteynerAyrintiCiktiApi,'/finans/dosyalar/konteynerAyrintiExcelListe',methods=['GET','POST'])
 api.add_resource(KonteynerOdemeCiktiApi,'/finans/dosyalar/konteynerOdemeExcelListe',methods=['GET','POST'])
@@ -479,6 +481,28 @@ api.add_resource(MusteriKayitSilmeApi,'/musteriler/islemler/musteriKayitSilme/<i
 api.add_resource(MusteriListesiYazdirmaApi,'/musteriler/dosya_islemleri/excelMusterilerDetayListesi',methods=['GET','POST'])
 api.add_resource(CustomerChangeFollowApi,'/customers/follow/<string:customer>/<string:follow>',methods=['GET'])
 
+#Teklif Müşterileri
+api.add_resource(TeklifMusterilerApi,"/listeler/teklifMusteriler",methods=['GET'])
+api.add_resource(TeklifMusterilerAyrintiApi,"/listeler/teklifMusterilerAyrinti/<int:id>",methods=['GET'])
+api.add_resource(TeklifMusterilerAyrintiGuncelleApi,"/listeler/setTeklifMusteriler",methods=['POST'])
+api.add_resource(TeklifMusterilerYeniKayitApi,"/listeler/setNewTeklifMusteriler",methods=['POST'])
+api.add_resource(TeklifMusterilerSilApi,"/listeler/setNewTeklifMusterilerSil/<int:id>",methods=['GET'])
+#Fuar Müşterileri
+api.add_resource(FuarMusterilerListApi,"/listeler/getFuarMusterilerList",methods=['GET'])
+api.add_resource(FuarMusterilerYeniKayitApi,"/listeler/setNewFuarMusteriler",methods=['POST'])
+api.add_resource(FuarMusterilerListAyrintiApi,"/listeler/getFuarMusterilerAyrintiList/<int:id>",methods=['GET'])
+api.add_resource(FuarMusterilerGuncelleApi,"/listeler/setNewFuarMusterilerGuncelle",methods=['POST'])
+api.add_resource(FuarMusterilerSilApi,"/listeler/setNewFuarMusterilerSil/<int:id>",methods=['GET'])
+#Bgp Müşterileri
+api.add_resource(BgpMusterilerListApi,"/listeler/getBgpMusterilerList",methods=['GET'])
+api.add_resource(BgpMusterilerYeniKayitApi,"/listeler/setNewBgpMusteriler",methods=['POST'])
+api.add_resource(BgpMusterilerListAyrintiApi,"/listeler/getBgpMusterilerAyrintiList/<int:id>",methods=['GET'])
+api.add_resource(BgpMusterilerGuncelleApi,"/listeler/setNewBgpMusterilerGuncelle",methods=['POST'])
+api.add_resource(BgpMusterilerSilApi,"/listeler/setNewBgpMusterilerSil/<int:id>",methods=['GET'])
+
+
+
+
 #raporlar
 api.add_resource(YuklemeRaporIslemApi,'/raporlar/listeler/yukleme/<int:yil>/<int:ay>',methods=['GET'])
 api.add_resource(YuklemeAtlantaRaporIslemApi,'/raporlar/listeler/atlantayukleme/<int:yil>/<int:ay>',methods=['GET'])
@@ -527,6 +551,9 @@ api.add_resource(MusteriBazindaAyrintiApi,'/raporlar/siparis/musteriBazindaAyrin
 api.add_resource(UreticiBazindaApi,'/islemler/listeler/ureticiDagilimi/<int:year>',methods=['GET'])
 api.add_resource(UreticiBazindaExcelApi,'/islemler/listeler/ureticiDagilimiExcelList',methods=['GET','POST'])
 api.add_resource(UlkeBazindaSevkiyatApi,'/raporlar/siparis/ulkeBazindaSevkiyat',methods=['GET'])
+api.add_resource(UlkeBazindaSevkiyatAyrintiApi,'/raporlar/siparis/ulkeBazindaSevkiyatAyrinti/<int:ulkeId>',methods=['GET'])
+
+
 api.add_resource(UlkeBazindaSevkiyatYearsApi,'/raporlar/siparis/ulkeBazindaSevkiyatYears/<int:year>',methods=['GET'])
 api.add_resource(NakliyeBazindaApi,'/islemler/listeler/nakliyeciDagilimi/<int:year>',methods=['GET'])
 api.add_resource(NakliyeBazindaExcelApi,'/islemler/listeler/nakliyeciDagilimiExcel',methods=['GET','POST'])
@@ -559,17 +586,30 @@ api.add_resource(UretimRaporIkiTarihApi,'/raporlar/listeler/uretimRaporIkiTarih/
 api.add_resource(UretimRaporExcelApi,'/raporlar/dosyalar/uretimRaporExcelListe',methods=['GET','POST'])
 
 
-api.add_resource(SevkiyatRaporHepsiApi,'/raporlar/listeler/sevkiyatRaporHepsi/<string:tarih>',methods=['GET'])
-api.add_resource(SevkiyatRaporAllApi,'/raporlar/listeler/sevkiyatRaporAll',methods=['GET'])
+api.add_resource(SevkiyatRaporHepsiMekmerApi,'/raporlar/listeler/sevkiyatRaporHepsiMekmer/<string:tarih>',methods=['GET'])
+api.add_resource(SevkiyatRaporAllMekmerApi,'/raporlar/listeler/sevkiyatRaporAllMekmer',methods=['GET'])
+
+api.add_resource(SevkiyatRaporHepsiMekmarApi,'/raporlar/listeler/sevkiyatRaporHepsiMekmar/<string:tarih>',methods=['GET'])
+api.add_resource(SevkiyatRaporAllMekmarApi,'/raporlar/listeler/sevkiyatRaporAllMekmar',methods=['GET'])
+
+api.add_resource(SevkiyatRaporTarihMekmarApi,'/raporlar/listeler/sevkiyatRaporTarihMekmar/<string:tarih>',methods=['GET'])
+api.add_resource(SevkiyatRaporTekTarihMekmarApi,'/raporlar/listeler/sevkiyatRaporTekTarihMekmar/<string:tarih>',methods=['GET'])
+api.add_resource(SevkiyatRaporIkiTarihMekmarApi,'/raporlar/listeler/sevkiyatRaporIkiTarihMekmar/<string:ilk_tarih>/<string:son_tarih>',methods=['GET'])
+
+api.add_resource(SevkiyatRaporTarihMekmerApi,'/raporlar/listeler/sevkiyatRaporTarihMekmer/<string:tarih>',methods=['GET'])
+api.add_resource(SevkiyatRaporTekTarihMekmerApi,'/raporlar/listeler/sevkiyatRaporTekTarihMekmer/<string:tarih>',methods=['GET'])
+api.add_resource(SevkiyatRaporIkiTarihMekmerApi,'/raporlar/listeler/sevkiyatRaporIkiTarihMekmer/<string:ilk_tarih>/<string:son_tarih>',methods=['GET'])
 
 
 
-api.add_resource(SevkiyatRaporTarihApi,'/raporlar/listeler/sevkiyatRaporTarih/<string:tarih>',methods=['GET'])
-api.add_resource(SevkiyatRaporTekTarihApi,'/raporlar/listeler/sevkiyatRaporTekTarih/<string:tarih>',methods=['GET'])
+api.add_resource(SevkiyatRaporHepsiAllApi,'/raporlar/listeler/sevkiyatRaporHepsiAll/<string:tarih>',methods=['GET'])
+api.add_resource(SevkiyatRaporAllAllApi,'/raporlar/listeler/sevkiyatRaporAllAll',methods=['GET'])
+api.add_resource(SevkiyatRaporTarihAllApi,'/raporlar/listeler/sevkiyatRaporTarihAll/<string:tarih>',methods=['GET'])
+api.add_resource(SevkiyatRaporTekTarihAllApi,'/raporlar/listeler/sevkiyatRaporTekTarihAll/<string:tarih>',methods=['GET'])
+api.add_resource(SevkiyatRaporIkiTarihAllApi,'/raporlar/listeler/sevkiyatRaporIkiTarihAll/<string:ilk_tarih>/<string:son_tarih>',methods=['GET'])
 
 
 
-api.add_resource(SevkiyatRaporIkiTarihApi,'/raporlar/listeler/sevkiyatRaporIkiTarih/<string:ilk_tarih>/<string:son_tarih>',methods=['GET'])
 api.add_resource(SevkiyatRaporExcelApi,'/raporlar/dosyalar/sevkiyatRaporExcelListe',methods=['GET','POST'])
 api.add_resource(StokRaporExcelApi,'/raporlar/listeler/stokRaporExcelListe',methods=['GET','POST'])
 api.add_resource(StokRaporAyrintiExcelApi,'/raporlar/listeler/stokRaporAyrintiExcelListe',methods=['GET','POST'])
@@ -581,7 +621,10 @@ api.add_resource(AtlantaStokExcelApi,'/raporlar/listeler/atlanta/stokExcelCikti'
 api.add_resource(UrunlerUretimListApi,'/raporlar/listeler/urunlerUretimListesi',methods=['GET'])
 api.add_resource(UrunlerUretimListAyrintiApi,'/raporlar/listeler/urunlerUretimAyrintiListesi/<int:urunKartId>',methods=['GET'])
 api.add_resource(UrunlerUretimExcelApi,'/raporlar/listeler/uretilenSipExcelListe',methods=['GET','POST'])
-
+api.add_resource(UrunlerUretimListAyrintiMekmarApi,'/raporlar/listeler/urunlerUretimAyrintiListesiMekmar/<int:urunKartId>',methods=['GET'])
+api.add_resource(UrunlerUretimListAyrintiMekmerApi,'/raporlar/listeler/urunlerUretimAyrintiListesiMekmer/<int:urunKartId>',methods=['GET'])
+api.add_resource(UrunlerUretimListMekmarApi,'/raporlar/listeler/urunlerUretimListesiMekmar',methods=['GET','POST'])
+api.add_resource(UrunlerUretimListMekmerApi,'/raporlar/listeler/urunlerUretimListesiMekmer',methods=['GET','POST'])
 
 
 #maliyet
@@ -600,6 +643,24 @@ api.add_resource(ByMarketingYuklemeExcelApi,"/raporlar/dosyalar/marketingExcellC
 api.add_resource(ByCustomersYuklemeExcelApi,"/raporlar/dosyalar/customersExcellCikti",methods=['POST','GET'])
 api.add_resource(ByMarketingDetailExcelApi,"/raporlar/dosyalar/byMarketingAyrintiExcellCikti",methods=['POST','GET'])
 api.add_resource(MusteriBazindaUretimApi,'/raporlar/musteri/uretim',methods=['GET','POST'])
+api.add_resource(ByMarketingMonthLoadApi,'/raporlar/marketing/ayBazinda/yukleme',methods=['POST','GET'])
+api.add_resource(ByMarketingMonthLoadIcPiyasaAyrintiApi,'/raporlar/marketing/ayBazinda/yuklemeIcPiyasaAyrinti/<int:month>',methods=['POST','GET'])
+api.add_resource(ByMarketingMonthLoadMekmerAyrintiApi,'/raporlar/marketing/ayBazinda/yuklemeMekmerAyrinti/<int:month>',methods=['POST','GET'])
+
+api.add_resource(MonthMarketingExcellCikti,'/raporlar/musteri/monthMarketingExcell',methods=['GET','POST'])
+api.add_resource(MonthMarketingAyrintiExcellCikti,'/raporlar/musteri/monthMarketingAyrintiExcell',methods=['GET','POST'])
+
+#Mekmer Dış Faturalama
+api.add_resource(MekmerDisFaturaModelApi,'/mekmer/disFaturaModel',methods=['GET','POST'])
+api.add_resource(MekmerDisFaturaIslemApi,'/mekmer/disFaturaIslem/kaydet',methods=['GET','POST'])
+api.add_resource(MekmerDisFaturaIslemGuncelleApi,'/mekmer/disFaturaIslem/guncelle',methods=['GET','POST'])
+api.add_resource(MekmerDisFaturaListApi,'/mekmer/disFaturaIslem/getMekmerDisFatura',methods=['GET','POST'])
+
+api.add_resource(MekmerDisFaturaKaydetApi,'/mekmer/disFaturaIslem/setMekmerFatura/<int:id>/<string:evrakAdi>',methods=['GET','POST'])
+
+api.add_resource(AyoAlisFiyatiDegistirApi,'/raporlar/ayo/alisFiyatiControlChange',methods=['GET','POST'])
+
+
 
 
 #excel çıktı işlemler

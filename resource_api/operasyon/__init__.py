@@ -10,3 +10,4 @@ from resource_api.operasyon.tedarikci_islem import *
 from resource_api.operasyon.denizcilik_islem import *
 from resource_api.operasyon.gumruk_ilaclama_islem import *
 from resource_api.operasyon.ozeliscilik_islem import *
+from resource_api.operasyon.mekmerDisFaturaIslem import *

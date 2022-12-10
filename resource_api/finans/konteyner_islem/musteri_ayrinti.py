@@ -39,7 +39,7 @@ class MusteriAyrinti:
             s.DetayTutar_1,
             s.DetayTutar_2,
             s.DetayTutar_3,
-           
+            s.sigorta_tutar_satis,
             s.Pesinat,
             (
             select Sum(Tutar) from OdemelerTB o where o.SiparisNo=s.SiparisNo
@@ -80,7 +80,7 @@ class MusteriAyrinti:
             
             urun_bedel = 0
             odeme = 0
-
+            sigorta  = 0
             if item.NavlunSatis != None:
                 navlun = item.NavlunSatis
             if item.DetayTutar_1 != None:
@@ -94,8 +94,9 @@ class MusteriAyrinti:
                 urun_bedel = item.UrunBedeli
             if item.Odeme != None:
                 odeme = item.Odeme
-
-            model.toplam = navlun + tutar_1 + tutar_2 + tutar_3  + urun_bedel
+            if item.sigorta_tutar_satis != None:
+                sigorta = item.sigorta_tutar_satis
+            model.toplam = navlun + tutar_1 + tutar_2 + tutar_3  + urun_bedel + sigorta
             model.siparis_total = model.toplam
             
             model.kalan = model.toplam - odeme
@@ -123,6 +124,7 @@ class MusteriAyrinti:
             s.DetayTutar_1,
             s.DetayTutar_2,
             s.DetayTutar_3,
+            s.sigorta_tutar_satis,
             
             (
             select Sum(Tutar) from OdemelerTB o where o.SiparisNo=s.SiparisNo
@@ -163,7 +165,7 @@ class MusteriAyrinti:
             tutar_1 = 0
             tutar_2 = 0
             tutar_3 = 0
-           
+            sigorta = 0 
             urun_bedel = 0
             odeme = 0
             
@@ -180,11 +182,12 @@ class MusteriAyrinti:
                 urun_bedel = item.UrunBedeli
             if item.Pesinat != None:
                 pesinat = item.Pesinat
-
+            if item.sigorta_tutar_satis != None:
+                sigorta = item.sigorta_tutar_satis
             if item.Odeme != None:
                 odeme = item.Odeme
             model.pesinat = pesinat
-            model.siparis_total = navlun + tutar_1 + tutar_2 + tutar_3 + urun_bedel
+            model.siparis_total = navlun + tutar_1 + tutar_2 + tutar_3 + urun_bedel + sigorta
             model.toplam = item.Pesinat
             model.kalan =  -odeme
             model.odenen_tutar = odeme

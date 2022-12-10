@@ -41,8 +41,7 @@ class BgpProjectsAyrintiSchema(Schema):
     interested = fields.Boolean()
     unvan = fields.String()
     unvanColor = fields.String()
-    filelink = fields.String()
-    fileStatus = fields.Boolean()
+
 class BgpProjectsAyrintiModel:
     id = 0
     projectName = ""
@@ -61,8 +60,7 @@ class BgpProjectsAyrintiModel:
     interested = False
     unvan = ""
     unvanColor = ""
-    filelink = ""
-    fileStatus = False
+
     
 class BgpProjectsUlkeSchema(Schema):
     id= fields.Int()

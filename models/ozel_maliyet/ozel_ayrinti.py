@@ -27,7 +27,7 @@ class OzelMaliyetAyrintiSchema(Schema):
     kurye = fields.Float()
     total_in = fields.Float()
     navlun = fields.Float()
-    
+    alisFiyatiControl = fields.Boolean()
    
     
   
@@ -57,6 +57,7 @@ class OzelMaliyetAyrintiModel:
     banka_masrafi = 0
     kurye = 0
     total_in = 0
+    alisFiyatiControl = False
     
 class BankaAyrintiSchema(Schema):
 

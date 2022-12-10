@@ -1149,56 +1149,30 @@ class Marketing:
             sayfa.cell(satir,column=3,value=toplamYuklemeCfr).font = Font(color='f44336',bold=True)
             
             
-            toplamYuklemeFobProduct = 0
-            toplamYuklemeCfrProduct = 0
-            for item in data['byMarketingProduct']:
-
-                sayfa.cell(satir2,column=5,value=item['marketing'])
-                
-                if(item['fobToplam'] != None):
-                    sayfa.cell(satir2,column=6,value=item['fobToplam'])
-                else:
-                    sayfa.cell(satir2,column=6,value=0)
-                
-                if(item['cfrToplam'] != None):
-                    sayfa.cell(satir2,column=7,value=item['cfrToplam'])
-                else:
-                    sayfa.cell(satir2,column=7,value=0)
-
-                toplamYuklemeFobProduct += self.__getNoneType(item['fobToplam'])
-                toplamYuklemeCfrProduct += self.__getNoneType(item['cfrToplam'])
-                
-                
-                satir2 += 1
-            sayfa.cell(satir2,column=5,value='Toplam').font = Font(color='f44336',bold=True)
-            sayfa.cell(satir2,column=6,value=toplamYuklemeFobProduct).font = Font(color='f44336',bold=True)
-            sayfa.cell(satir2,column=7,value=toplamYuklemeCfrProduct).font = Font(color='f44336',bold=True)
-            
-            
             toplamYuklemeFobWarehouse = 0
             toplamYuklemeCfrWarehouse = 0
             for item in data['byMarketingWarehouseLoad']:
 
-                sayfa.cell(satir3,column=9,value=item['marketing'])
+                sayfa.cell(satir3,column=5,value=item['marketing'])
                 
                 if(item['fobToplam'] != None):
-                    sayfa.cell(satir3,column=10,value=item['fobToplam'])
+                    sayfa.cell(satir3,column=6,value=item['fobToplam'])
                 else:
-                    sayfa.cell(satir3,column=10,value=0)
+                    sayfa.cell(satir3,column=6,value=0)
                 
                 if(item['cfrToplam'] != None):
-                    sayfa.cell(satir3,column=11,value=item['cfrToplam'])
+                    sayfa.cell(satir3,column=7,value=item['cfrToplam'])
                 else:
-                    sayfa.cell(satir3,column=11,value=0)
+                    sayfa.cell(satir3,column=7,value=0)
 
                 toplamYuklemeFobWarehouse += self.__getNoneType(item['fobToplam'])
                 toplamYuklemeCfrWarehouse += self.__getNoneType(item['cfrToplam'])
                 
                 
                 satir3 += 1
-            sayfa.cell(satir3,column=9,value='Toplam').font = Font(color='f44336',bold=True)
-            sayfa.cell(satir3,column=10,value=toplamYuklemeFobWarehouse).font = Font(color='f44336',bold=True)
-            sayfa.cell(satir3,column=11,value=toplamYuklemeCfrWarehouse).font = Font(color='f44336',bold=True)
+            sayfa.cell(satir3,column=5,value='Toplam').font = Font(color='f44336',bold=True)
+            sayfa.cell(satir3,column=6,value=toplamYuklemeFobWarehouse).font = Font(color='f44336',bold=True)
+            sayfa.cell(satir3,column=7,value=toplamYuklemeCfrWarehouse).font = Font(color='f44336',bold=True)
             
             toplamYuklemeFobImperialHomes = 0
             toplamYuklemeCfrImperialHomes = 0
