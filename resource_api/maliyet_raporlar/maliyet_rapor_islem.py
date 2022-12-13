@@ -211,8 +211,7 @@ class MaliyetRaporIslem:
 
             masraf_model = self.masraflar.getMasrafModel(item.siparis_no)
 
-            if item.siparis_no == '19FLOS23':
-                print(len(item.dis_alim_evrak))
+      
 
             item.gumruk = masraf_model.gumruk
             item.liman = masraf_model.liman
@@ -234,9 +233,12 @@ class MaliyetRaporIslem:
                 item.kar_zarar = 0
             else:
                 item.kar_zarar = item.toplam_bedel - item.masraf_toplam
+                item.kar_zarar_tl_yuzdesi = round(((item.kar_zarar / item.masraf_toplam ) * 100),2)
+                
             
             if item.dosya_kapanma_date == '-':
                 item.kar_zarar_tl = 0
+                item.kar_zarar_tl_yuzdesi = 0
             else:
                 
                 if item.doviz_kur !=0 and item.doviz_kur != None:
@@ -423,7 +425,6 @@ class MaliyetRaporIslem_Yil: # hepsi butonna basıldıgında bu alan çalışır
 
             for ted_fatura in self.dtMekmarFaturaList:
                 if ted_fatura.SiparisNo == item.siparis_no:
-                    print("siparis_no",item.siparis_no)
                     model = TedarikciFaturaModel()
                     model = TedarikciFaturaModel()
                    
@@ -462,8 +463,7 @@ class MaliyetRaporIslem_Yil: # hepsi butonna basıldıgında bu alan çalışır
 
             masraf_model = self.masraflar.getMasrafModel(item.siparis_no)
 
-            if item.siparis_no == '19FLOS23':
-                print(len(item.dis_alim_evrak))
+
 
             item.gumruk = masraf_model.gumruk
             item.liman = masraf_model.liman
@@ -486,6 +486,7 @@ class MaliyetRaporIslem_Yil: # hepsi butonna basıldıgında bu alan çalışır
                 item.kar_zarar = 0
             else:
                 item.kar_zarar = item.toplam_bedel - item.masraf_toplam
+                item.kar_zarar_tl_yuzdesi = round(((item.kar_zarar / item.masraf_toplam ) * 100),2)
                 
             if(item.dosya_kapanma_date == '-'):
                 item.kar_zarar_tl = 0

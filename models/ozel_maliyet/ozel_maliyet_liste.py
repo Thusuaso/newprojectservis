@@ -38,6 +38,7 @@ class OzelMaliyetListeSchema(Schema):
     kar_zarar = fields.Float()
     odeme_tarihi = fields.String()
     kar_zarar_tl = fields.Float()
+    kar_zarar_tl_yuzdesi = fields.Float()
     doviz_kur = fields.Float()
     Kur = fields.Float()
     nakliye_evrak = fields.String()
@@ -110,6 +111,7 @@ class OzelMaliyetListeModel:
     odeme_tarihi = ""
     doviz_kur = 0
     kar_zarar_tl = 0
+    kar_zarar_tl_yuzdesi=0
     nakliye_evrak = ""
     operasyon = ""
     siparisci = ""
