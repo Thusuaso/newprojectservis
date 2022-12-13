@@ -227,6 +227,7 @@ api.add_resource(TeklifProformaKaydet,'/islemler/teklif/proformaKaydet',methods=
 api.add_resource(TeklifDosyaKaydet,'/islemler/teklif/teklifDosyaKaydet',methods=['GET','POST','PUT'])
 api.add_resource(TeklifSonGorulmeKaydet,'/islemler/teklif/teklifSonGorulmeKaydet',methods=['GET','POST','PUT'])
 api.add_resource(HatirlatmaDurumGuncellemesi,'/islemler/teklif/hatirlatilmaDurum',methods=['GET','POST','PUT'])
+api.add_resource(TeklifMusterilerResourceApi,'/islemler/teklif/teklifMusteriler',methods=['GET'])
 
 api.add_resource(TeklifNumuneKaydet,'/islemler/teklif/teklifNumuneKaydet',methods=['GET','POST','PUT'])
 api.add_resource(TeklifDosyaSil,'/islemler/teklif/teklifDosyaSil',methods=['GET','PUT'])

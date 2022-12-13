@@ -140,6 +140,11 @@ class TeklifFormListeler(Resource):
 
         return jsonify(data)
 
+class TeklifMusterilerResourceApi(Resource):
+    def get(self):
+        teklif = TeklifIslem()
+        customers = teklif.getMusteriList()
+        return jsonify(customers)
 
 class TeklifFormModel(Resource):
     
