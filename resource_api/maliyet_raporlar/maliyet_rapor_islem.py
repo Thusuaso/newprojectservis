@@ -233,9 +233,8 @@ class MaliyetRaporIslem:
                 item.kar_zarar = 0
             else:
                 item.kar_zarar = item.toplam_bedel - item.masraf_toplam
-                item.kar_zarar_tl_yuzdesi = round(((item.kar_zarar / item.masraf_toplam ) * 100),2)
+                item.kar_zarar_tl_yuzdesi = round(((item.kar_zarar / item.toplam_bedel ) * 100),2)
                 
-            
             if item.dosya_kapanma_date == '-':
                 item.kar_zarar_tl = 0
                 item.kar_zarar_tl_yuzdesi = 0
@@ -486,7 +485,9 @@ class MaliyetRaporIslem_Yil: # hepsi butonna basıldıgında bu alan çalışır
                 item.kar_zarar = 0
             else:
                 item.kar_zarar = item.toplam_bedel - item.masraf_toplam
-                item.kar_zarar_tl_yuzdesi = round(((item.kar_zarar / item.masraf_toplam ) * 100),2)
+                item.kar_zarar_tl_yuzdesi = round(((item.kar_zarar / item.toplam_bedel ) * 100),2)
+                
+            print(item.toplam_bedel, item.kar_zarar)
                 
             if(item.dosya_kapanma_date == '-'):
                 item.kar_zarar_tl = 0

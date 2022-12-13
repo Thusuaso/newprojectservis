@@ -46,7 +46,7 @@ class TeklifSchema(Schema):
     company = fields.String()
     email = fields.String()
     phone = fields.String()
-
+    adress = fields.String()
 class TeklifModel:
     id = None
     tarih = ""
@@ -92,3 +92,4 @@ class TeklifModel:
     company = ""
     email = ""
     phone = ""
+    adress = ""

@@ -151,7 +151,6 @@ class TeklifFormModel(Resource):
     def get(self,teklifId):
 
         teklifIslem = TeklifIslem()
-        print(teklifId)
         data = {
 
             'teklif' : teklifIslem.getTeklif(teklifId),
@@ -199,7 +198,10 @@ class TeklifIslem:
                 yt.*,
                 (select ym.Company from YeniTeklif_MusterilerTB ym where ym.Id =yt.MusteriId ) CompanyN,
                 (select ym.Phone from YeniTeklif_MusterilerTB ym where ym.Id =yt.MusteriId ) PhoneN,
-                (select ym.Mail from YeniTeklif_MusterilerTB ym where ym.Id =yt.MusteriId ) MailN
+                (select ym.Mail from YeniTeklif_MusterilerTB ym where ym.Id =yt.MusteriId ) MailN,
+                (select ym.Adress from YeniTeklif_MusterilerTB ym where ym.Id =yt.MusteriId ) Adress,
+                
+                
 
 
             from YeniTeklifTB yt where Id=?
@@ -251,6 +253,7 @@ class TeklifIslem:
         model.company = item.CompanyN
         model.email = item.MailN
         model.phone = item.PhoneN
+        model.adress = item.Adress
         schema = TeklifSchema()
 
         return schema.dump(model)
@@ -551,7 +554,7 @@ class TeklifIslem:
             
             musteriId = item['musteriId']
             if musteriId == None:
-                musteriId = self.__musteriKayit(item['musteriAdi'],item['ulkeId'])
+                musteriId = self.__musteriKayit(item['musteriAdi'],item['ulkeId'],item)
              
             proformaTarih = None
             if len(item['hatirlatmaTarihi']) > 0:
@@ -712,6 +715,9 @@ class TeklifIslem:
                     item['blist'],item['company'],item['email'],item['phone']
                 )
             )
+            
+            
+            
             return True
         except Exception as e:
             print('Teklif kaydet hata : ', str(e))
@@ -1223,14 +1229,13 @@ class TeklifIslem:
 
         return tarih + datetime.timedelta(days=2)
 
-    def __musteriKayit(self,musteriAdi,ulkeId):
+    def __musteriKayit(self,musteriAdi,ulkeId,item):
         try:
+            
             self.data.update_insert(
                 """
-                insert into YeniTeklif_MusterilerTB (MusteriAdi,UlkeId)
-                values
-                (?,?)
-                """,(musteriAdi,ulkeId)
+                insert into YeniTeklif_MusterilerTB(MusteriAdi,Company,Mail,Phone,UlkeId,Adress) VALUES(?,?,?,?,?,?)
+                """,(musteriAdi,item['company'],item['email'],item['phone'],ulkeId,item['adress'])
             )
             
             musteriId = self.data.getStoreList(
