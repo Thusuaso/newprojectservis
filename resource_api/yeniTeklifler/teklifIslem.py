@@ -199,7 +199,7 @@ class TeklifIslem:
                 (select ym.Company from YeniTeklif_MusterilerTB ym where ym.Id =yt.MusteriId ) CompanyN,
                 (select ym.Phone from YeniTeklif_MusterilerTB ym where ym.Id =yt.MusteriId ) PhoneN,
                 (select ym.Mail from YeniTeklif_MusterilerTB ym where ym.Id =yt.MusteriId ) MailN,
-                (select ym.Adress from YeniTeklif_MusterilerTB ym where ym.Id =yt.MusteriId ) Adress,
+                (select ym.Adress from YeniTeklif_MusterilerTB ym where ym.Id =yt.MusteriId ) Adress
                 
                 
 
@@ -381,7 +381,6 @@ class TeklifIslem:
         
         
             
-            
         if len(guncellenenUrunler) > 0:
             for item in guncellenenUrunler:
                 
@@ -554,7 +553,7 @@ class TeklifIslem:
             
             musteriId = item['musteriId']
             if musteriId == None:
-                musteriId = self.__musteriKayit(item['musteriAdi'],item['ulkeId'],item)
+                musteriId = self.__musteriKayit(item['musteriAdi'],item['ulkeId'],item,kullaniciId)
              
             proformaTarih = None
             if len(item['hatirlatmaTarihi']) > 0:
@@ -897,12 +896,16 @@ class TeklifIslem:
       try:
             self.data.update_insert(
                 """
-                update YeniTeklif_MusterilerTB set MusteriAdi=?,UlkeId=?
+                update YeniTeklif_MusterilerTB set MusteriAdi=?,UlkeId=?,Company=?,Mail=?,Phone=?,Adress=?
                 where Id=?
                 """,
                 (
                     item['musteriAdi'],
                     item['ulkeId'],
+                    item['company'],
+                    item['email'],
+                    item['phone'],
+                    item['adress'],
                     item['id']
                 )
             )
@@ -1229,13 +1232,13 @@ class TeklifIslem:
 
         return tarih + datetime.timedelta(days=2)
 
-    def __musteriKayit(self,musteriAdi,ulkeId,item):
+    def __musteriKayit(self,musteriAdi,ulkeId,item,kullaniciId):
         try:
             
             self.data.update_insert(
                 """
-                insert into YeniTeklif_MusterilerTB(MusteriAdi,Company,Mail,Phone,UlkeId,Adress) VALUES(?,?,?,?,?,?)
-                """,(musteriAdi,item['company'],item['email'],item['phone'],ulkeId,item['adress'])
+                insert into YeniTeklif_MusterilerTB(MusteriAdi,Company,Mail,Phone,UlkeId,Adress,Kullanici) VALUES(?,?,?,?,?,?,?)
+                """,(musteriAdi,item['company'],item['email'],item['phone'],ulkeId,item['adress'],kullaniciId)
             )
             
             musteriId = self.data.getStoreList(
