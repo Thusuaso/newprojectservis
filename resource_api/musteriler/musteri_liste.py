@@ -342,9 +342,9 @@ class FuarMusteriler:
     def setFuarMusterilerGuncelle(self,data):
         try:
             self.data.update_insert("""
-                                        update FuarMusterilerTB SET Customer=?,Company=?,Email=?,Phone=?,Country=?,Adress=?,Orderer=? WHERE ID=?
+                                        update FuarMusterilerTB SET Customer=?,Company=?,Email=?,Phone=?,Country=?,Adress=?,Orderer=?,FilelinkOn=?,FilelinkArka=? WHERE ID=?
                                     
-                                    """,(data['customer'],data['company'],data['email'],data['phone'],data['country'],data['adress'],data['satisci'],data['id']))
+                                    """,(data['customer'],data['company'],data['email'],data['phone'],data['country'],data['adress'],data['satisci'],data['linkOn'],data['linkArka'],data['id']))
             
             return True
         except Exception as e:

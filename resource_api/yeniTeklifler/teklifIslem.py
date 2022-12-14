@@ -386,6 +386,7 @@ class TeklifIslem:
                 
                 self.__teklifUrunGuncelle(item)
 
+        
         if len(guncellenenMusteri) > 0:
             for item in guncellenenMusteri:
                 self.__teklifMusteriGuncelle(item)
