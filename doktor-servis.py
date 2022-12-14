@@ -488,6 +488,9 @@ api.add_resource(TeklifMusterilerAyrintiApi,"/listeler/teklifMusterilerAyrinti/<
 api.add_resource(TeklifMusterilerAyrintiGuncelleApi,"/listeler/setTeklifMusteriler",methods=['POST'])
 api.add_resource(TeklifMusterilerYeniKayitApi,"/listeler/setNewTeklifMusteriler",methods=['POST'])
 api.add_resource(TeklifMusterilerSilApi,"/listeler/setNewTeklifMusterilerSil/<int:id>",methods=['GET'])
+api.add_resource(TeklifMusKopyalamaApi,"/listeler/teklifmusteriler/customersCopyto",methods=['POST'])
+
+
 #Fuar Müşterileri
 api.add_resource(FuarMusterilerListApi,"/listeler/getFuarMusterilerList",methods=['GET'])
 api.add_resource(FuarMusterilerYeniKayitApi,"/listeler/setNewFuarMusteriler",methods=['POST'])

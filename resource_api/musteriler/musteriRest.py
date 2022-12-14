@@ -191,6 +191,13 @@ class TeklifMusterilerSilApi(Resource):
             'result':result
         }
         return jsonify(data)
+    
+class TeklifMusKopyalamaApi(Resource):
+    def post(self):
+        data = request.get_json()
+        islem = TeklifMusteriler()
+        status = islem.setTeklifMusterilerKopyala(data)
+        return jsonify(status)
         
 
 class FuarMusterilerYeniKayitApi(Resource):

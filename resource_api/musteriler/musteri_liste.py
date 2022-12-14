@@ -321,7 +321,45 @@ class TeklifMusteriler:
                                 """,(id))
         
         return True      
- 
+    
+    def setTeklifMusterilerKopyala(self,data):
+        try:
+            self.data.update_insert("""
+
+                                        insert into 
+                                        MusterilerTB(FirmaAdi,
+                                        UlkeId,
+                                        Unvan,
+                                        Adres,
+                                        MailAdresi,
+                                        Telefon,
+                                        Marketing,
+                                        MusteriTemsilciId,
+                                        KullaniciID,
+                                        Ozel,
+                                        Satisci,
+                                        MusteriOncelik,
+                                        Aktif) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)
+                                    
+                                    """,(data['customer'],
+                                         data['country'],
+                                         data['company'],
+                                         data['adress'],
+                                         data['email'],
+                                         data['phone'],
+                                         'Mekmar',
+                                         data['user'],
+                                         data['user'],
+                                         1,
+                                         data['user'],
+                                         'B',
+                                         1
+                                         
+                                         ))
+            return True
+        except Exception as e:
+            print('setTeklifMusterilerKopyala hata',str(e))
+        
  
 class FuarMusteriler:
     def __init__(self):
