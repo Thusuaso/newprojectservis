@@ -674,4 +674,4 @@ api.add_resource(SiparisCekiListesiApi, '/excel/listeler/siparisCekiListesi', me
 api.add_resource(SiparisEtiketListesiApi, '/excel/listeler/siparisEtiketListesi/<string:etiketAdi>', methods=['GET'])       
 
 if __name__ == '__main__':
-    app.run(port=5001,debug=True) #https://doktor-servis.mekmar.com/raporlar/listeler/uretimRaporuHepsi
+    app.run(port=5000,debug=True) #https://doktor-servis.mekmar.com/raporlar/listeler/uretimRaporuHepsi
