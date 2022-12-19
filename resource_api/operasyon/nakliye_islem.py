@@ -246,16 +246,15 @@ class NakliyeIslem:
 
     def setChangeNakliye(self,data):
         try:
-            print("setChangeNakliye ",data)
             self.data.update_insert("""
                                     update SiparisFaturaKayitTB SET Tutar=? where SiparisNo=? and EvrakAdi=?
 
-                                """,(float(data[0]['Tutar_dolar']),data[0]['siparis_no'],data[0]['faturaNo'] + '.pdf'))
+                                """,(float(data['Tutar_dolar']),data['siparis_no'],data['faturaNo'] + '.pdf'))
         
             self.data.update_insert("""
                                     update NakliyeFaturaKayitTB SET Kur=? where FaturaNo=?
 
-                                """,(float(data[0]['kur']),data[0]['faturaNo']))
+                                """,(float(data['kur']),data['faturaNo']))
             
  
             
