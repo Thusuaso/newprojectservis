@@ -114,8 +114,158 @@ class MusteriIslem:
             print('setCustomerFollowing',str(e))
             return False
 
+    def setSurfaceCustomers(self,data):
+        try:
+            surface_id = self.__setCountryId(data['surface'])
+            self.data.update_insert("""
+                                        insert into SurfaceCustomersTB(FirstName,LastName,Adress,City,Email,Phone,SurfaceId) VALUES(?,?,?,?,?,?,?)
+                                    
+                                    """,(data['name'],data['surname'],data['adress'],data['city'],data['email'],data['phone'],surface_id))
+            return True
+        except Exception as e:
+            print("setSurfaceCustomers hata",str(e))
+            return False
+
+    def setSurfaceCustomersUpdate(self,data):
+        try:
+            surface_id = self.__setCountryId(data['surface'])
+            self.data.update_insert("""
+                                        update SurfaceCustomersTB SET FirstName=?,LastName=?,Adress=?,City=?,Email=?,Phone=?,SurfaceId=? Where ID=?
+                                    
+                                    """,(data['name'],data['surname'],data['adress'],data['city'],data['email'],data['phone'],surface_id,data['id']))
+            
+            
+            
+            surfaceID = self.data.getStoreList("""
+                                                    select ID from CustomersSurfaceTB where Surface=?
+
+                                               """,(data['oldSurface']))[0].ID
+            result = self.data.getStoreList("""
+                                                select * from SurfaceCustomersTB where SurfaceId=?
+                                            
+                                            """,(surfaceID))
+            if len(result)==0:
+                self.data.update_insert("""
+                                        delete CustomersSurfaceTB where ID=?
+                                       
+                                       """,(surfaceID))
+            return True
+        except Exception as e:
+            print("setSurfaceCustomersUpdate hata",str(e))
+            return False
+            
+    def setSurfaceCustomersDelete(self,id):
+        try:
+            surface =  self.data.getStoreList("""
+                                        select SurfaceId from SurfaceCustomersTB where ID=?
+
+                                   """,(id))[0].SurfaceId
+            
+                        
+            
+            self.data.update_insert("""
+                                        delete SurfaceCustomersTB where ID=?
+                                    
+                                    """,(id))
+            
+            
+            result = self.data.getStoreList("""
+                                                select * from SurfaceCustomersTB where SurfaceId=?
+                                            
+                                            """,(surface))
+            if len(result)==0:
+                self.data.update_insert("""
+                                        delete CustomersSurfaceTB where ID=?
+                                       
+                                       """,(surface))
+            
+            
+            
+            return True
+        except Exception as e:
+            print("setSurfaceCustomersDelete hata",str(e))
+            return False
+        
+        
+        
+        
+    def getCustomerSurfaceList(self):
+        try:
+            result = self.data.getList("""
+                                            select 
+
+                                                sc.*,
+                                                cs.Surface
+
+                                            from SurfaceCustomersTB sc
+                                            inner join CustomersSurfaceTB cs on sc.SurfaceId = cs.ID
+                                       
+                                       """)
+            liste = list()
+            for item in result:
+                model = CustomersSurfaceListModel()
+                model.id = item.ID
+                model.surface = item.Surface
+                model.firstName = item.FirstName
+                model.lastName = item.LastName
+                model.adress = item.Adress
+                model.city = item.City
+                model.email = item.Email
+                model.phone = item.Phone
+                model.surfaceId = item.SurfaceId
+                liste.append(model)
+            schema = CustomersSurfaceListSchema(many=True)
+            return schema.dump(liste)
+        except Exception as e:
+            print("getCustomerSurfaceList hata",str(e))
+            return False
+    
+    def getSurfaceList(self):
+        try:
+            result = self.data.getList("""
+                                            select * from CustomersSurfaceTB
+                                       
+                                       
+                                       """)
+            liste = list()
+            for item in result:
+                model = CustomersSurfaceListModel()
+                model.id = item.ID
+                model.surface = item.Surface
+                liste.append(model)
+            schema = CustomersSurfaceListSchema(many=True)
+            return schema.dump(liste)
+        except Exception as e:
+            print('getSurface hata',str(e))
+            return False
     
     
+    def __setCountryId(self,surface):
+        try:
+            surface = surface.capitalize()
+            result = self.data.getStoreList("""
+                                    select * from CustomersSurfaceTB where Surface =?
+                                   
+                                   """,(surface))
+            if(len(result)>0):
+                return result[0].ID
+            else:
+                self.data.update_insert("""
+                                            insert into CustomersSurfaceTB(Surface) VALUES(?)
+                                        
+                                        """,(surface))
+                
+                result = self.data.getStoreList("""
+                                        select * from CustomersSurfaceTB where Surface =?
+                                    
+                                    """,(surface))
+                
+                return result[0].ID
+            
+        except Exception as e:
+            print('__setCountryId hata ',str(e))
+
+
 class MusteriSiparisIslem:
     def __init__(self):
 

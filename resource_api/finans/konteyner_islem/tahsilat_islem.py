@@ -215,8 +215,46 @@ class TahsilatIslem:
         if result.Marketing == 'Mekmar' : 
                MailService(islem_aciklamasi,"info@mekmar.com",mail_konu)
 
+    def setOdemeDegisim(self,data):
+        print(data)
+        newSipNo = data['siparisno']['siparisNo']
+        newtutar = data['tutar']
+        degisenOdemeId = data['odemeId']
+        newAciklama = data['aciklama']
+        degisenOdeme = self.data.getStoreList("""
+                                                select * from OdemelerTB where ID=?
+                                              
+                                              """,(degisenOdemeId))
+        for item in degisenOdeme:
+            item.Tutar = float(item.Tutar) - float(newtutar)
+            if item.Tutar < 0 or item.Tutar==0:
+                self.__updateOdemeSipNo(item.ID,newSipNo)
+            else:
+                self.__updateOdeme(item.ID,item.Tutar)
+                self.__insertOdemeNew(item,newSipNo,newtutar,newAciklama)
+            
+    def __updateOdeme(self,id,tutar):
+        self.data.update_insert("""
 
+                                    update OdemelerTB SET Tutar=? WHERE ID=?
+                                
+                                """,(tutar,id))
+    def __insertOdemeNew(self,item,newSipNo,newtutar,newAciklama):
+        self.data.update_insert("""
+                                    insert into 
+                                    OdemelerTB(Tarih,MusteriID,SiparisNo,FinansOdemeTurID,Aciklama,Tutar,Masraf,KullaniciID,Kur) 
+                                    VALUES(?,?,?,?,?,?,?,?,?)
+                                
+                                """,(item.Tarih,item.MusteriID,newSipNo,item.FinansOdemeTurID,newAciklama,newtutar,0,item.KullaniciID,item.Kur))
+        
+    def __updateOdemeSipNo(self,id,siparisno):
+        self.data.update_insert("""
 
+                                    update OdemelerTB SET SiparisNo=? WHERE ID=?
+                                
+                                """,(siparisno,id))
+            
+        
 
 
 

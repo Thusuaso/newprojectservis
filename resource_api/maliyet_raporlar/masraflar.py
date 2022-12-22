@@ -117,6 +117,12 @@ class Masraflar:
         model.ilaclama_evrak,model.ilaclama = self.__getIlaclama(siparis_no)
         model.liman_evrak,model.liman= self.__getLiman(siparis_no)
         model.navlun_evrak = self.__getNavlun(siparis_no)
+        model.lashing_evrak,model.lashing = self.__getLashing(siparis_no)
+        model.booking_evrak,model.booking = self.__getBooking(siparis_no)
+        model.spazlet_evrak,model.spazlet = self.__getSpazlet(siparis_no)
+        
+        
+        
         #model.doviz_kur = self.__getDovizBilgi(siparis_no)
        
 
@@ -180,7 +186,58 @@ class Masraflar:
 
                     
         return evrak,tutar
+    def __getLashing(self,siparis_no):
 
+        evrak = ''
+        tutar = 0
+
+        for item in self.dtMasraflar:
+
+            if item.SiparisFaturaTurID == 100 and siparis_no == item.SiparisNo and item.Tutar != None:                
+                tutar += item.Tutar
+                firma_id = self.__getFirmaId(item.FaturaKayitID)
+
+                if firma_id != None:
+                    evrak = f"https://file-service.mekmar.com/file/download/customer/{firma_id}/{item.EvrakAdi}"
+
+                    
+        return evrak,tutar
+
+    def __getBooking(self,siparis_no):
+
+        evrak = ''
+        tutar = 0
+
+        for item in self.dtMasraflar:
+
+            if item.SiparisFaturaTurID == 101 and siparis_no == item.SiparisNo and item.Tutar != None:                
+                tutar += item.Tutar
+                firma_id = self.__getFirmaId(item.FaturaKayitID)
+
+                if firma_id != None:
+                    evrak = f"https://file-service.mekmar.com/file/download/customer/{firma_id}/{item.EvrakAdi}"
+
+                    
+        return evrak,tutar
+    
+    def __getSpazlet(self,siparis_no):
+
+        evrak = ''
+        tutar = 0
+
+        for item in self.dtMasraflar:
+
+            if item.SiparisFaturaTurID == 102 and siparis_no == item.SiparisNo and item.Tutar != None:                
+                tutar += item.Tutar
+                firma_id = self.__getFirmaId(item.FaturaKayitID)
+
+                if firma_id != None:
+                    evrak = f"https://file-service.mekmar.com/file/download/customer/{firma_id}/{item.EvrakAdi}"
+
+                    
+        return evrak,tutar
+    
+    
     def __getLiman(self,siparis_no):
 
         evrak = ''
@@ -229,6 +286,7 @@ class Masraflar:
                     
         return evrak,tutar
 
+    
 
 
      
@@ -341,6 +399,27 @@ class Masraflar_Yil:
                     firma_id = self.__getFirmaId(item.FaturaKayitID)
                     if firma_id != None:
                         model.liman_evrak = f"https://file-service.mekmar.com/file/download/customer/{firma_id}/{item.EvrakAdi}"
+                
+                if item.SiparisFaturaTurID == 100 and item.YuklemeEvrakID == 50:
+                    model.lashing += item.Tutar
+                    firma_id = self.__getFirmaId(item.FaturaKayitID)
+                    if firma_id != None:
+                        model.lashing_evrak = f"https://file-service.mekmar.com/file/download/customer/{firma_id}/{item.EvrakAdi}"
+                
+                if item.SiparisFaturaTurID == 102 and item.YuklemeEvrakID == 50:
+                    model.spazlet += item.Tutar
+                    firma_id = self.__getFirmaId(item.FaturaKayitID)
+                    if firma_id != None:
+                        model.spazlet_evrak = f"https://file-service.mekmar.com/file/download/customer/{firma_id}/{item.EvrakAdi}"
+                
+                
+                if item.SiparisFaturaTurID == 101 and item.YuklemeEvrakID == 50:
+                    model.booking += item.Tutar
+                    firma_id = self.__getFirmaId(item.FaturaKayitID)
+                    if firma_id != None:
+                        model.booking_evrak = f"https://file-service.mekmar.com/file/download/customer/{firma_id}/{item.EvrakAdi}"
+                
+                
                 if item.SiparisFaturaTurID == 73 and item.YuklemeEvrakID == 50:
                     firma_id = self.__getFirmaId(item.FaturaKayitID)
                     if firma_id != None:
@@ -358,6 +437,11 @@ class Masraflar_Yil:
         model.ilaclama_evrak,model.ilaclama = self.__getIlaclama(siparis_no)
         model.liman_evrak,model.liman= self.__getLiman(siparis_no)
         model.navlun_evrak = self.__getNavlun(siparis_no)
+        model.lashing_evrak,model.lashing= self.__getLashing(siparis_no)
+        model.booking_evrak,model.booking= self.__getBooking(siparis_no)
+        model.spazlet_evrak,model.spazlet= self.__getSpazlet(siparis_no)
+        
+        
       
 
         return model
@@ -434,7 +518,6 @@ class Masraflar_Yil:
         for item in self.dtMasraflar:
             
             if item.SiparisFaturaTurID == 13 and item.YuklemeEvrakID == 50 and siparis_no == item.SiparisNo:               
-                print(item)
                 firma_id = self.__getFirmaId(item.FaturaKayitID)
                 if firma_id != None:
                     evrak = f"https://file-service.mekmar.com/file/download/customer/{firma_id}/{item.EvrakAdi}"
@@ -459,7 +542,57 @@ class Masraflar_Yil:
                     
         return evrak,tutar
 
+    def __getLashing(self,siparis_no):
 
+        evrak = ''
+        tutar = 0
+
+        for item in self.dtMasraflar:
+
+            if item.SiparisFaturaTurID == 100 and siparis_no == item.SiparisNo and item.Tutar != None:                
+                tutar += item.Tutar
+                firma_id = self.__getFirmaId(item.FaturaKayitID)
+
+                if firma_id != None:
+                    evrak = f"https://file-service.mekmar.com/file/download/customer/{firma_id}/{item.EvrakAdi}"
+
+                    
+        return evrak,tutar
+
+    def __getBooking(self,siparis_no):
+
+        evrak = ''
+        tutar = 0
+
+        for item in self.dtMasraflar:
+
+            if item.SiparisFaturaTurID == 101 and siparis_no == item.SiparisNo and item.Tutar != None:                
+                tutar += item.Tutar
+                firma_id = self.__getFirmaId(item.FaturaKayitID)
+
+                if firma_id != None:
+                    evrak = f"https://file-service.mekmar.com/file/download/customer/{firma_id}/{item.EvrakAdi}"
+
+                    
+        return evrak,tutar
+    
+    def __getSpazlet(self,siparis_no):
+
+        evrak = ''
+        tutar = 0
+
+        for item in self.dtMasraflar:
+
+            if item.SiparisFaturaTurID == 102 and siparis_no == item.SiparisNo and item.Tutar != None:                
+                tutar += item.Tutar
+                firma_id = self.__getFirmaId(item.FaturaKayitID)
+
+                if firma_id != None:
+                    evrak = f"https://file-service.mekmar.com/file/download/customer/{firma_id}/{item.EvrakAdi}"
+
+                    
+        return evrak,tutar
+    
 
      
 

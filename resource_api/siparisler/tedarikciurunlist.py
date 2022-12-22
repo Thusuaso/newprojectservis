@@ -23,17 +23,24 @@ class TedarikciSiparisUrunListe:
     def getTedarikciSiparisTedarikciAyrintiList(self): #2 ayrı tabloyu birleştirme
 
         siparis_tedarikci_list = self.__getSiparisOzelTedarikciler()
-       
         for item in self.__getSiparisTedarikciler():
-
-            siparis_tedarikci_list.append(item)
+            if(self.__tedarikciKontrol(item.tedarikciadi)):
+                continue
+            else:
+                    
+                siparis_tedarikci_list.append(item)
 
         schema = TedarikciListeSchema(many=True)
        
         return schema.dump(siparis_tedarikci_list)   
    
 
-
+    def __tedarikciKontrol(self,tedarikciAdi):
+        for item in self.__getSiparisOzelTedarikciler():
+            if item.tedarikciadi == tedarikciAdi:
+                return True
+            else:
+                return False
 
     def __getSiparisUrunler(self):
 

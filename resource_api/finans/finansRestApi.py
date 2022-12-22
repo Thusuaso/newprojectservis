@@ -110,17 +110,25 @@ class MusteriAyrintiListApi(Resource):
 
         ayrinti_list = islem.getKonteynerAyrintiList()
         odeme_liste = islem.getOdemeListesi()
+        po_list = islem.getByCustomersPo()
 
         data = {
 
             "ayrinti_list" : ayrinti_list,
-            "odeme_liste" : odeme_liste
+            "odeme_liste" : odeme_liste,
+            "po_list":po_list
         }
 
 
         return jsonify(data)
 
 
+class OdemelerDegisimApi(Resource):
+    def post(self):
+        data = request.get_json()
+        islem = TahsilatIslem()
+        result = islem.setOdemeDegisim(data)
+        
 
 
 class MusteriOdemeSecimList(Resource):

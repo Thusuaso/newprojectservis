@@ -29,3 +29,12 @@ class MusteriAyrintiModel:
     pesinat = 0
     siparis_total = 0
     odenen_tutar = 0
+    
+    
+class ByCustomersPoSchema(Schema):
+    id = fields.Int()
+    siparisNo = fields.String()
+
+class ByCustomersPoModel:
+    id = 0
+    siparisNo = ""

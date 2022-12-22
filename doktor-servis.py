@@ -432,6 +432,8 @@ api.add_resource(VadeOdemeListesiApi,'/finans/listeler/vadeYeniAnaListe',methods
 api.add_resource(OdemelerListesiApi,'/finans/listeler/odemelerAnaListe',methods=['GET'])
 api.add_resource(OdemelerListesiAyrintiApi,'/finans/listeler/odemelerAyrintiListesi/<int:musteriId>',methods=['GET'])
 
+api.add_resource(OdemelerDegisimApi,"/finans/listeler/odemelerDegisim",methods=['POST'])
+
 api.add_resource(FinansTakipListesi,'/anasayfa/finans/takipListesi/<string:kullaniciAdi>',methods=['GET'])
 #yeniFinans
 api.add_resource(YeniFinansAnaListe,'/finans/yeni/listeler/konteynerYeniAnaListe',methods=['GET'])
@@ -466,6 +468,7 @@ api.add_resource(IcSiparisDosyaKaydet,'/islemler/tedarikci/icsiparis/IcSiparisDo
 
 api.add_resource(IcSiparisDosyaSilme,'/listeler/tedarikciDeleteForm/<int:tedarikciId>/<string:siparisNo>',methods=['GET'])
 api.add_resource(IcSiparisFormSilKontrol,'/listeler/tedarikciDeleteFormKontrol/<int:tedarikciId>/<string:siparisNo>',methods=['GET'])
+api.add_resource(IsfControlApi,'/islemler/tedarikci/isfControl/<string:evrakAdi>',methods=['GET'])
 
 
 
@@ -481,6 +484,13 @@ api.add_resource(MusteriKayitIslemApi,'/musteriler/islemler/musteriKayitIslem',m
 api.add_resource(MusteriKayitSilmeApi,'/musteriler/islemler/musteriKayitSilme/<int:id>',methods=['DELETE','GET'])
 api.add_resource(MusteriListesiYazdirmaApi,'/musteriler/dosya_islemleri/excelMusterilerDetayListesi',methods=['GET','POST'])
 api.add_resource(CustomerChangeFollowApi,'/customers/follow/<string:customer>/<string:follow>',methods=['GET'])
+
+api.add_resource(CustomersSurfaceSaveApi,'/listeler/musteriler/musteriSurface',methods=['POST','PUT'])
+api.add_resource(CustomersSurfaceListApi,'/listeler/musteriler/musteriSurfaceList',methods=['GET'])
+api.add_resource(CustomersSurfaceDeleteApi,'/listeler/musteriler/musteriSurface/delete/<int:id>',methods=['DELETE'])
+
+
+
 
 #Teklif Müşterileri
 api.add_resource(TeklifMusterilerApi,"/listeler/teklifMusteriler",methods=['GET'])

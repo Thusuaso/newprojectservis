@@ -21,6 +21,9 @@ class OzelMaliyetListeSchema(Schema):
     ilaclama = fields.Float()
     liman = fields.Float()
     sigorta = fields.Float()
+    lashing = fields.Float()
+    booking = fields.Float()
+    spazlet = fields.Float()
     sigorta_tutar_satis = fields.Float()
     detay_1 = fields.Float()
     detay_2 = fields.Float()
@@ -47,6 +50,9 @@ class OzelMaliyetListeSchema(Schema):
     liman_evrak = fields.String()
     sigorta_evrak = fields.String()
     navlun_evrak = fields.String()
+    lashing_evrak = fields.String()
+    booking_evrak = fields.String()
+    spazlet_evrak = fields.String()
     mekmar_alim_evrak = fields.Nested(TedarikciFaturaSchema(many=True))
     mekmar_alim_evrak_sayisi = fields.Int()
     mekmoz_alim_evrak = fields.Nested(TedarikciFaturaSchema(many=True))
@@ -96,6 +102,9 @@ class OzelMaliyetListeModel:
     ilaclama = 0
     liman = 0
     sigorta = 0
+    lashing = 0
+    booking = 0
+    spazlet = 0
     sigorta_tutar_satis = 0
     Kur = 0
     detay_1 = 0
@@ -122,6 +131,9 @@ class OzelMaliyetListeModel:
     ilaclama_evrak = ""
     liman_evrak = ""
     navlun_evrak = ""
+    lashing_evrak = ""
+    booking_evrak = ""
+    spazlet_evrak = ""
     mekmar_alim_evrak = list()
     mekmar_alim_evrak_sayisi = 0
     mekmoz_alim_evrak = list()

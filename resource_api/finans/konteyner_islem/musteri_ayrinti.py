@@ -1,5 +1,5 @@
 from helpers import SqlConnect,TarihIslemler
-from models.finans import MusteriAyrintiModel,MusteriAyrintiSchema
+from models.finans import *
 from models.finans import MusteriOdemeSchema,MusteriOdemeModel
 from models.finans import MusteriOdemeSecimSchema,MusteriOdemeSecimModel
 import datetime
@@ -19,7 +19,7 @@ class MusteriAyrinti:
             yukleme_list.append(item)
 
         schema = MusteriAyrintiSchema(many=True)
-       
+
         return schema.dump(yukleme_list)
     
     def __yuklenenler(self):
@@ -289,4 +289,21 @@ class MusteriAyrinti:
 
         return schema.dump(liste)
 
-          
+    def getByCustomersPo(self):
+        try:
+            result = self.data.getStoreList("""
+                                   
+                                    select ID,SiparisNo from SiparislerTB where MusteriID = ?
+                                   """,(self.musteri_id))
+            liste = list()
+            for item in result:
+                model = ByCustomersPoModel()
+                model.id = item.ID
+                model.siparisNo = item.SiparisNo
+                liste.append(model)
+            schema = ByCustomersPoSchema(many=True)
+            return schema.dump(liste)
+        
+        except Exception as e:
+            print("getByCustomersPo hata",str(e))
+            return False

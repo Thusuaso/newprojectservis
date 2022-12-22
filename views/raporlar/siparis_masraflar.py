@@ -48,8 +48,18 @@ class SiparisMasraf:
               masraflar.append(model)
         for item in result:
             model = SiparisMasrafModel()
-          
-           
+            if item.SiparisFaturaTurID == 100:
+                model.tur = "Lashing Faturası"
+                model.tutar = item.tut
+                model.aciklama = self.__getFirmaAdi(item.FaturaKayitID)
+            if item.SiparisFaturaTurID == 101:
+                model.tur = "Booking Faturası"
+                model.tutar = item.tut
+                model.aciklama = self.__getFirmaAdi(item.FaturaKayitID)
+            if item.SiparisFaturaTurID == 102:
+                model.tur = "Spazlet Faturası"
+                model.tutar = item.tut
+                model.aciklama = self.__getFirmaAdi(item.FaturaKayitID)
             if item.SiparisFaturaTurID == 73:
                 model.tur = "İlaçlama Faturası"
                 model.tutar = item.tut

@@ -218,14 +218,24 @@ class MaliyetRaporIslem:
             item.doviz_kur = self.odemeler.getOdenenKur(item.siparis_no) 
             item.nakliye = masraf_model.nakliye
             item.ilaclama = masraf_model.ilaclama
+            item.lashing = masraf_model.lashing
+            item.booking = masraf_model.booking
+            item.spazlet = masraf_model.spazlet
+            
+            
             item.navlun_evrak = masraf_model.navlun_evrak
             item.gumruk_evrak = masraf_model.gumruk_evrak
             item.nakliye_evrak = masraf_model.nakliye_evrak
             item.ilaclama_evrak = masraf_model.ilaclama_evrak
             item.liman_evrak = masraf_model.liman_evrak
+            item.lashing_evrak = masraf_model.lashing_evrak
+            item.booking_evrak = masraf_model.booking_evrak
+            item.spazlet_evrak = masraf_model.spazlet_evrak
+            
+            
             item.satis_faturasi = masraf_model.satis_faturasi
             item.masraf_toplam += (
-                item.mekmar_alim + item.mekmoz_alim + item.dis_alim + item.nakliye + item.gumruk +
+                item.mekmar_alim + item.mekmoz_alim + item.dis_alim + item.nakliye + item.gumruk + item.lashing + item.booking + item.spazlet + 
                 item.ilaclama + item.liman + item.navlun + item.pazarlama + item.banka_masrafi 
                  + item.diger_masraflar+item.ozel_iscilik+item.kurye_masrafi + item.sigorta
             )
@@ -470,6 +480,12 @@ class MaliyetRaporIslem_Yil: # hepsi butonna basıldıgında bu alan çalışır
 
             item.gumruk = masraf_model.gumruk
             item.liman = masraf_model.liman
+            item.lashing = masraf_model.lashing
+            item.booking = masraf_model.booking
+            item.spazlet = masraf_model.spazlet
+            
+            
+            
             item.doviz_kur = self.odemeler.getOdenenKur(item.siparis_no) 
             item.nakliye = masraf_model.nakliye
             item.ilaclama = masraf_model.ilaclama
@@ -478,9 +494,16 @@ class MaliyetRaporIslem_Yil: # hepsi butonna basıldıgında bu alan çalışır
             item.nakliye_evrak = masraf_model.nakliye_evrak
             item.ilaclama_evrak = masraf_model.ilaclama_evrak
             item.liman_evrak = masraf_model.liman_evrak
+            item.lashing_evrak = masraf_model.lashing_evrak
+            item.booking_evrak = masraf_model.booking_evrak
+            item.spazlet_evrak = masraf_model.spazlet_evrak
+            
+            
+            
             item.satis_faturasi = masraf_model.satis_faturasi
             item.masraf_toplam += (
-                item.mekmar_alim + item.mekmoz_alim + item.dis_alim + item.nakliye + item.gumruk +
+                item.mekmar_alim + item.mekmoz_alim + item.dis_alim + item.nakliye + item.gumruk + item.lashing + 
+                item.booking +item.spazlet +
                 item.ilaclama + item.liman + item.navlun + item.pazarlama + item.banka_masrafi 
                  + item.diger_masraflar+item.ozel_iscilik+item.kurye_masrafi
             )

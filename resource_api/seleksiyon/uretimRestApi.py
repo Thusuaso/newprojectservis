@@ -166,11 +166,34 @@ class UretimKayitIslemApi(Resource):
 
         if kasa_kontrol == True:
             kayit_durum = islem.kaydet(data,None)
+            
+        uretim = UretimListe()
+        siparis = SeleksiyonListeler()
 
+        uretimlist = uretim.getUretimList()
+        siparislist = siparis.getUretimSiparisListe()
+        siparis_ayrintilist = siparis.getUretimSiparisDetayList()
+        ocaklist = siparis.getOcakList()
+        tedarikcilist = siparis.getTedarikciList()
+        urunbirimlist = siparis.getUrunBirimList()
+        uretimozetlist = siparis.getUretimOzetList()
+
+
+        data2 = {
+
+            "uretimlist" : uretimlist,
+            "siparislist" : siparislist,
+            "siparis_ayrintilist" : siparis_ayrintilist,
+            "ocaklist" : ocaklist,
+            "tedarikcilist" : tedarikcilist,
+            "urunbirimlist" : urunbirimlist,
+            "uretimozetlist" : uretimozetlist
+        }
         data = {
 
             'kayit_durum' : kayit_durum,
-            'kasa_kontrol' : kasa_kontrol
+            'kasa_kontrol' : kasa_kontrol,
+            'data2':data2
         }
 
         return jsonify(data)
@@ -182,8 +205,30 @@ class UretimKayitIslemApi(Resource):
         data = request.get_json()
 
         result = islem.guncelle(data)
+        uretim = UretimListe()
+        siparis = SeleksiyonListeler()
 
-        return jsonify({'status' : result})
+        uretimlist = uretim.getUretimList()
+        siparislist = siparis.getUretimSiparisListe()
+        siparis_ayrintilist = siparis.getUretimSiparisDetayList()
+        ocaklist = siparis.getOcakList()
+        tedarikcilist = siparis.getTedarikciList()
+        urunbirimlist = siparis.getUrunBirimList()
+        uretimozetlist = siparis.getUretimOzetList()
+
+
+        data2 = {
+
+            "uretimlist" : uretimlist,
+            "siparislist" : siparislist,
+            "siparis_ayrintilist" : siparis_ayrintilist,
+            "ocaklist" : ocaklist,
+            "tedarikcilist" : tedarikcilist,
+            "urunbirimlist" : urunbirimlist,
+            "uretimozetlist" : uretimozetlist
+        }
+
+        return jsonify({'status' : result,'data2':data2})
 
 class UretimSilIslemApi(Resource):
 
@@ -192,8 +237,29 @@ class UretimSilIslemApi(Resource):
         islem = Uretim()
 
         result = islem.sil(kasano)
+        uretim = UretimListe()
+        siparis = SeleksiyonListeler()
 
-        return jsonify({'status' : result})
+        uretimlist = uretim.getUretimList()
+        siparislist = siparis.getUretimSiparisListe()
+        siparis_ayrintilist = siparis.getUretimSiparisDetayList()
+        ocaklist = siparis.getOcakList()
+        tedarikcilist = siparis.getTedarikciList()
+        urunbirimlist = siparis.getUrunBirimList()
+        uretimozetlist = siparis.getUretimOzetList()
+
+
+        data2 = {
+
+            "uretimlist" : uretimlist,
+            "siparislist" : siparislist,
+            "siparis_ayrintilist" : siparis_ayrintilist,
+            "ocaklist" : ocaklist,
+            "tedarikcilist" : tedarikcilist,
+            "urunbirimlist" : urunbirimlist,
+            "uretimozetlist" : uretimozetlist
+        }
+        return jsonify({'status' : result,'data2':data2})
     
     
 
@@ -215,12 +281,34 @@ class UretimCokluKayitApi(Resource):
 
             if kayit_durum == True:
                 kasa_list = UretimListe().getUretimKasaList(str_kasalar)
+        uretim = UretimListe()
+        siparis = SeleksiyonListeler()
 
+        uretimlist = uretim.getUretimList()
+        siparislist = siparis.getUretimSiparisListe()
+        siparis_ayrintilist = siparis.getUretimSiparisDetayList()
+        ocaklist = siparis.getOcakList()
+        tedarikcilist = siparis.getTedarikciList()
+        urunbirimlist = siparis.getUrunBirimList()
+        uretimozetlist = siparis.getUretimOzetList()
+
+
+        data2 = {
+
+            "uretimlist" : uretimlist,
+            "siparislist" : siparislist,
+            "siparis_ayrintilist" : siparis_ayrintilist,
+            "ocaklist" : ocaklist,
+            "tedarikcilist" : tedarikcilist,
+            "urunbirimlist" : urunbirimlist,
+            "uretimozetlist" : uretimozetlist
+        }
         data = {
 
             'kasa_kontrol' : kasa_kontrol,
             'kayit_durum' : kayit_durum,
-            'kasa_list' : kasa_list
+            'kasa_list' : kasa_list,
+            'data2':data2
         }
 
         return jsonify(data)

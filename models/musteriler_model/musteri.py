@@ -26,6 +26,7 @@ class MusteriSchema(Schema):
     satisci=fields.String()
     takip = fields.Boolean()
     notlar = fields.String()
+    sonkullanici = fields.Boolean()
 
 class MusteriModel:
     id = None
@@ -50,6 +51,7 @@ class MusteriModel:
     satisci=""
     takip=False
     notlar = ""
+    sonkullanici = False
 
 class MusteriSiparisSchema(Schema):
 

@@ -76,6 +76,31 @@ class MusteriSipAyrintiCardModel(Schema):
     topOrder = ""
     marketing = ""
     
+    
+class CustomersSurfaceListSchema(Schema):
+    id = fields.Int()
+    surface= fields.String()
+    firstName = fields.String()
+    lastName = fields.String()
+    adress = fields.String()
+    city = fields.String()
+    email = fields.String()
+    phone = fields.String()
+    surfaceId = fields.Int()
+    
+class CustomersSurfaceListModel:
+    id = 0
+    surface = ""
+    firstName = ""
+    lastName = ""
+    adress = ""
+    city = ""
+    email = ""
+    phone = ""
+    surfaceId = 0
+    
+    
+
 
 
 

@@ -60,6 +60,12 @@ class IcSiparisDosyaKaydet(Resource):
 
         return jsonify({'Status' : result})
     
+class IsfControlApi(Resource):
+    def get(self,evrakAdi):
+        islem = TedarikciIslem()
+        result = islem.getIsfControl(evrakAdi)
+        return jsonify(result)
+    
     
 class IcSiparisDosyaSilme(Resource):
     def get(self,tedarikciId,siparisNo):

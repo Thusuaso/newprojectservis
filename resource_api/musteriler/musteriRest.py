@@ -138,6 +138,75 @@ class MusteriListesiYazdirmaApi(Resource):
         return send_file(excel_path,as_attachment=True)
 
 
+class CustomersSurfaceSaveApi(Resource):
+    def post(self):
+        data = request.get_json()
+        islem = MusteriIslem()
+        status = islem.setSurfaceCustomers(data)
+        
+        customerList = islem.getCustomerSurfaceList()
+        surfaceList = islem.getSurfaceList()
+        data2={
+            "surfaceList":surfaceList,
+            "customersList":customerList
+        }
+        data={
+            'status':status,
+            
+            'customerList':data2
+        }
+        return jsonify(data)
+    
+    def put(self):
+        data = request.get_json()
+        islem = MusteriIslem()
+        status = islem.setSurfaceCustomersUpdate(data)
+        customerList = islem.getCustomerSurfaceList()
+        surfaceList = islem.getSurfaceList()
+        data2={
+            "surfaceList":surfaceList,
+            "customersList":customerList
+        }
+        data={
+            'status':status,
+            
+            'customerList':data2
+        }
+        return jsonify(data)
+ 
+ 
+
+    
+class CustomersSurfaceDeleteApi(Resource):
+    def delete(self,id):
+        islem = MusteriIslem()
+        status = islem.setSurfaceCustomersDelete(id)
+        
+        customerList = islem.getCustomerSurfaceList()
+        surfaceList = islem.getSurfaceList()
+        data2={
+            "surfaceList":surfaceList,
+            "customersList":customerList
+        }
+        data={
+            'status':status,
+            
+            'customerList':data2
+        }
+        return jsonify(data)
+
+class CustomersSurfaceListApi(Resource):
+    def get(self):
+        islem = MusteriIslem()
+        surfaceList = islem.getSurfaceList()
+        customersList = islem.getCustomerSurfaceList()
+        data={
+            "surfaceList":surfaceList,
+            "customersList":customersList
+        }
+        return jsonify(data)
+
+
 class CustomerChangeFollowApi(Resource):
     def get(self,customer,follow):
         islem = MusteriIslem()

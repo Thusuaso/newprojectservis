@@ -211,6 +211,17 @@ class TedarikciIslem:
         else:
             return False
     
+    def getIsfControl(self,evrakAdi):
+        result = self.data.getStoreList("""
+                                    select * from SiparisFaturaKayitTB where YuklemeEvrakID=3 and EvrakAdi=?
+                               
+                               """,(evrakAdi))
+        if(len(result)>0):
+            return False
+        else:
+            return True
+    
+    
     def __evrakId(self,item):
 
         try:
