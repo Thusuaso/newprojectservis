@@ -216,15 +216,22 @@ class TahsilatIslem:
                MailService(islem_aciklamasi,"info@mekmar.com",mail_konu)
 
     def setOdemeDegisim(self,data):
-        print(data)
         newSipNo = data['siparisno']['siparisNo']
         newtutar = data['tutar']
         degisenOdemeId = data['odemeId']
         newAciklama = data['aciklama']
+        kullanici = data['kullanici']
         degisenOdeme = self.data.getStoreList("""
                                                 select * from OdemelerTB where ID=?
                                               
+
+
+        
                                               """,(degisenOdemeId))
+        
+        
+        self.__sendMail(newSipNo,degisenOdeme[0].SiparisNo,degisenOdeme[0].Tutar,newtutar,kullanici)
+        
         for item in degisenOdeme:
             item.Tutar = float(item.Tutar) - float(newtutar)
             if item.Tutar < 0 or item.Tutar==0:
@@ -232,6 +239,25 @@ class TahsilatIslem:
             else:
                 self.__updateOdeme(item.ID,item.Tutar)
                 self.__insertOdemeNew(item,newSipNo,newtutar,newAciklama)
+            
+            
+            
+    def __sendMail(self,newSipNo,oldSipNo,oldTutar,newTutar,kullanici):
+        try:
+            islem_aciklamasi = "Sipariş tahsilat Değişimi"
+            mail_konu = f""" 
+            {kullanici}, ${oldTutar} tutara sahip {oldSipNo}' lu tahsilattan, ${newTutar} tutarı {newSipNo}' siparis no ya aktarmıştır.
+            """
+
+
+
+            MailService(islem_aciklamasi,"huseyin@mekmarmarble.com",mail_konu)
+            MailService(islem_aciklamasi,"bilgiislem@mekmar.com",mail_konu)
+            
+        
+        except Exception as e:
+            pass
+            
             
     def __updateOdeme(self,id,tutar):
         self.data.update_insert("""

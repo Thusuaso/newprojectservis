@@ -127,7 +127,9 @@ class OdemelerDegisimApi(Resource):
     def post(self):
         data = request.get_json()
         islem = TahsilatIslem()
-        result = islem.setOdemeDegisim(data)
+        status = islem.setOdemeDegisim(data)
+        
+        return {'status':status}
         
 
 
