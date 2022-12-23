@@ -296,7 +296,10 @@ class TeklifIslem:
             yt.Cfr,
             yt.Fob,
             yt.Dtp,
-            yt.Fca
+            yt.Fca,
+            t.FcaFiyat,
+            t.CFiyat,
+            t.DFiyat
             from
             YeniTeklif_UrunKayitTB t,YeniTeklif_KategorilerTB k,YeniTeklif_UrunlerTB u,
             YeniTeklif_Olcu_EnBoyTB e,YeniTeklif_Olcu_KalinlikTB o,YeniTeklif_YuzeyIslemTB y,
@@ -339,8 +342,32 @@ class TeklifIslem:
             model.kalinlikId = item.KalinlikId 
             model.kalinlik = item.Kalinlik 
             model.yuzeyIslemId = item.YuzeyIslemId
-            model.yuzeyIslem = item.IslemAdi 
-            model.fobFiyat = item.FobFiyat 
+            model.yuzeyIslem = item.IslemAdi
+            if item.FobFiyat != None:
+                
+                model.fobFiyat = item.FobFiyat
+            else:
+                model.fobFiyat = 0
+                
+                
+            if item.FcaFiyat != None:
+                
+                model.fcaFiyat = item.FcaFiyat
+            else:
+                model.fcaFiyat = 0
+                
+            if item.CFiyat != None:
+                
+                model.cFiyat = item.CFiyat
+            else:
+                model.cFiyat = 0
+                
+            if item.DFiyat != None:
+                
+                model.dFiyat = item.DFiyat
+            else:
+                model.dFiyat = 0
+            
             model.teklifFiyat = item.TeklifFiyat
             model.birim = item.Birim
 
@@ -742,13 +769,13 @@ class TeklifIslem:
             self.data.update_insert(
                 """
                 insert into YeniTeklif_UrunKayitTB (Tarih,TeklifId,KategoriId,UrunId,EnBoyId,
-                YuzeyIslemId,KalinlikId,FobFiyat,TeklifFiyat,Birim)
+                YuzeyIslemId,KalinlikId,FobFiyat,TeklifFiyat,Birim,FcaFiyat,CFiyat,DFiyat)
                 values
-                (?,?,?,?,?,?,?,?,?,?)
+                (?,?,?,?,?,?,?,?,?,?,?,?,?)
                 """,(
                     tarih,teklifId,item['kategoriId'],item['urunId'],item['enBoyId'],
                     item['yuzeyIslemId'],item['kalinlikId'],item['fobFiyat'],item['teklifFiyat'],
-                    item['birim']
+                    item['birim'],item['fcaFiyat'],item['cFiyat'],item['dFiyat']
                 )
             )
             
@@ -934,7 +961,12 @@ class TeklifIslem:
                 KalinlikId=?,
                 FobFiyat=?,
                 TeklifFiyat=?,
-                Birim=? where Id=?
+                Birim=?,
+                FcaFiyat=?,
+                CFiyat=?,
+                DFiyat=?
+                
+                where Id=?
                  
                 """,(
                     tarih,
@@ -946,6 +978,9 @@ class TeklifIslem:
                     item['fobFiyat'],
                     item['teklifFiyat'],
                     item['birim'],
+                    item['fcaFiyat'],
+                    item['cFiyat'],
+                    item['dFiyat'],
                     item['id']
                 )
             )

@@ -11,7 +11,11 @@ class TeklifUrunKayitSchema(Schema):
     yuzeyIslemId = fields.Int()
     kalinlikId = fields.Int()
     fobFiyat = fields.Float()
+    fcaFiyat = fields.Float()
+    cFiyat = fields.Float()
+    dFiyat = fields.Float()
     teklifFiyat = fields.Float()
+
     birim = fields.String()
     #custom field
     kategoriAdi = fields.String()
@@ -33,6 +37,9 @@ class TeklifUrunKayitModel:
     yuzeyIslemId = None 
     kalinlikId = None 
     fobFiyat = 0
+    fcaFiyat = 0
+    cFiyat = 0
+    dFiyat = 0
     teklifFiyat = 0
     birim = ""
     #custon field
