@@ -304,7 +304,7 @@ class NumuneIslem:
         durum = 2
         try:
           
-            
+            print("__numuneKayit",item)
           
             musteriId = self.__musteriKayit(item)
                 
