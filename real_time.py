@@ -77,7 +77,6 @@ def seleksiyon_coklukayit_event(kasa_list):
 
 @socketio.on('tahsilat_kayitdegisim_event')
 def tahsilat_kayitdegisim_event(siparisno):
-    
     socketio.emit('tahsilat_kayitdegisim_emit',siparisno,broadcast=True)
 
 @socketio.on('musteri_kayitdegisim_event')
