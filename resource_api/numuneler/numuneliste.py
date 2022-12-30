@@ -50,9 +50,11 @@ class NumuneListe:
            
             model.aciklama = item.Aciklama
             if item.temsilci == 'ozlem':
-                model.link = 'https://cdn.mekmarimage.com/personel/250x250/ozlem2.jpeg'
+                model.link = 'https://mekmar-image.fra1.digitaloceanspaces.com/personel/avatar5.png'
             elif item.temsilci == 'semih':
-                pass
+                model.link = 'https://mekmar-image.fra1.digitaloceanspaces.com/personel/avatar1.png'
+            elif item.temsilci == 'hakan':
+                model.link = 'https://mekmar-image.fra1.digitaloceanspaces.com/personel/avatar3.png'
             else:
                 model.link = 'https://cdn.mekmarimage.com/personel/250x250/' + item.imageTag
                 

@@ -85,6 +85,9 @@ class Order:
                             elif model.en == 'SLAB' or model.boy == 'SLAB':
                                 model.kalanMiktar = model.miktar - model.uretimMiktari
                                 model.kalanAdet = 0
+                            elif model.en == 'Free' or model.boy == 'Free' or model.boy == 'FREE':
+                                model.kalanMiktar = model.miktar - model.uretimMiktari
+                                model.kalanAdet = 0
                             elif model.en == 'VAR' or model.boy == 'VAR':
                                 model.kalanMiktar = model.miktar - model.uretimMiktari
                                 model.kalanAdet = 0
@@ -116,12 +119,12 @@ class Order:
                     model.fontColor = 'white'
                     model.kalanMiktar = model.miktar - model.uretimMiktari
                     if model.birim == 'M2':
-                        if model.boy == 'Free':
+                        if model.boy == 'Free' or model.boy =='FREE' or model.en=='FR':
                             model.kalanMiktar = model.miktar
-                            model.kalanAdet = '-'
+                            model.kalanAdet = 0
                         elif model.en == 'Various' or model.boy == 'Various':
                             model.kalanMiktar = model.miktar
-                            model.kalanAdet = '-'
+                            model.kalanAdet = 0
                         elif model.en == 'ANT':
                             model.kalanMiktar = model.miktar
                             model.kalanAdet = float(model.kalanMiktar) / patternKasaMetreKaresi

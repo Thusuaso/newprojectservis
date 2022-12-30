@@ -40,5 +40,17 @@ def siparisler_list_event():
     emit('siparisler_list_emit')    
 
 
+@socketio.on('numunetahsilat_kayitdegisim_event')
+def numunetahsilat_kayitdegisim_event():
+    emit('numunetahsilat_kayitdegisim_emit')
+    
+@socketio.on('teklif_degisim_event')
+def teklif_degisim_event():
+    emit('teklif_degisim_emit')
+    
+@socketio.on('tedarikci_degisim_event')
+def tedarikci_degisim_event():
+    emit('tedarikci_list_emit')
+
 if __name__ == '__main__':
     socketio.run(app,port=5001)

@@ -323,6 +323,13 @@ class UretimDisFirmaKasaNoApi(Resource):
 
 
         return jsonify({'kasano' : kasaNo})
+    
+class ProductCrateControlApi(Resource):
+    def post(self):
+        data = request.get_json()
+        islem = Uretim()
+        status = islem.getProductCrateControl(data)
+        return jsonify({'status':status})
 
 class UretimSeleksiyonFirmaKasaNoApi(Resource):
 

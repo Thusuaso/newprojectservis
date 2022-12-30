@@ -356,5 +356,37 @@ class Uretim:
 
         return schema.dump(model)
         
+    def getProductCrateControl(self,data):
+        try:
+            uretim = self.data.getStoreList("""
+                                                select Miktar from UretimTB where SiparisAciklama=? and UrunKartID=?
+                                            
+            
+                                            """,(data['siparisno'],data['urunkartid']))
+            siparisMiktari = self.data.getStoreList("""
+                                                        select Miktar from SiparisUrunTB where SiparisNo=? and UrunKartID=?
+                                                    
+                                                    """,(data['siparisno'],data['urunkartid']))[0].Miktar
+            
+            
+            
+            uretimMiktari = 0
+            for item in uretim:
+                uretimMiktari += item.Miktar
+                
+                
+            uretimMiktari += float(data['miktar']) * int(data['kasaadet'])
+            
+            if(uretimMiktari > siparisMiktari):
+                return True
+            else:
+                return False
+            
+            
+                
+                
+        except Exception as e:
+            print('getProductCrateControl hata',str(e))
+            return False
         
         
