@@ -144,18 +144,18 @@ class CustomersKayitIslem(Resource):
         item = request.get_json()
         islem = SatisciIslem()
 
-        status,result,result2 = islem.satisciKaydet(item)
+        data = islem.satisciKaydet(item)
 
-        return jsonify({'status' : status,'result':result,'result2':result2})
+        return jsonify(data)
 
     def put(self):
 
         item = request.get_json()
         islem = SatisciIslem()
 
-        status,result,result2 = islem.satisciGuncelle(item)
+        data = islem.satisciGuncelle(item)
 
-        return jsonify({'status' : status,'result':result,'result2':result2})
+        return jsonify(data)
 
 class CustomersKayitSilme(Resource):
 
@@ -163,9 +163,9 @@ class CustomersKayitSilme(Resource):
 
         islem = SatisciIslem()
 
-        status,result,result2 = islem.satisciSilme(id)
+        data = islem.satisciSilme(id)
 
-        return jsonify({'status' : status,'result':result,'result2':result2})            
+        return jsonify(data)            
 
 
 class CustomersHatirlatmaApi(Resource):

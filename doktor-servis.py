@@ -124,6 +124,8 @@ api.add_resource(OdemeTurList,'/listeler/odemeTurList')
 api.add_resource(FaturaKesimTurList,'/listeler/FaturaKesimTurList')
 api.add_resource(UlkeList,'/listeler/ulkeList')
 api.add_resource(MusteriList,'/listeler/musteriList')
+api.add_resource(OcakListApi,'/listeler/ocakList')
+
 
 api.add_resource(UlkeyeGoreMusteriListApi,'/listeler/ulkeyeGoreMusteriList/<int:year>',methods=['GET','POST'])
 api.add_resource(UlkeyeGoreMusteriListAyrintiApi,'/listeler/ulkeyeGoreMusteriListAyrinti/<int:year>/<int:ulkeId>',methods=['GET'])

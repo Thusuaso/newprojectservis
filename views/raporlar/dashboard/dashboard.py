@@ -592,14 +592,7 @@ class DashboardNew:
                     model.gelenSiparisAylikOrtalama = float(i.SatisToplam / self.month)
                     model.gelenSiparisYilSonuTahmini = model.gelenSiparisAylikOrtalama * 12
                     liste.append(model)
-            else:
-                model = GelenSiparisModel()
-                model.gelenSiparisAy = str(self.month - 1) + '/' + '12'
-                model.gelenSiparisFob = i.SatisToplam
-                model.gelenSiparisYil = self.year
-                model.gelenSiparisAylikOrtalama = float(i.SatisToplam / self.month)
-                model.gelenSiparisYilSonuTahmini = model.gelenSiparisAylikOrtalama * 12
-                liste.append(model)
+
             schema = GelenSiparisSchema(many=True)
             return schema.dump(liste)
         except Exception as e:
@@ -666,14 +659,6 @@ class DashboardNew:
                     model.gelenSiparisAylikOrtalama = float(model.gelenSiparisFob / self.month)
                     model.gelenSiparisYilSonuTahmini = model.gelenSiparisAylikOrtalama * 12
                     liste.append(model)
-            else:
-                model = GelenSiparisModel()
-                model.gelenSiparisAy = str(self.month - 1) + '/' + '12'
-                model.gelenSiparisFob = i.SatisToplam + self.__efesYuklenenYillikNavlun()
-                model.gelenSiparisYil = self.year
-                model.gelenSiparisAylikOrtalama = float(model.gelenSiparisFob / self.month)
-                model.gelenSiparisYilSonuTahmini = model.gelenSiparisAylikOrtalama * 12
-                liste.append(model)
             schema = GelenSiparisSchema(many=True)
             return schema.dump(liste)
         except Exception as e:
@@ -734,7 +719,7 @@ class DashboardNew:
                                             inner join MusterilerTB m on m.ID = s.MusteriID
                                             inner join SiparisUrunTB su on su.SiparisNo = s.SiparisNo
 
-                                        where s.SiparisDurumID=3 and (YEAR(s.YuklemeTarihi)=2022)  and m.Marketing='Mekmar'
+                                        where s.SiparisDurumID=3 and (YEAR(s.YuklemeTarihi)=2023)  and m.Marketing='Mekmar'
 
                                         group by
                                             MONTH(s.YuklemeTarihi)
@@ -748,7 +733,7 @@ class DashboardNew:
                                             inner join MusterilerTB m on m.ID = s.MusteriID
                                             inner join SiparisUrunTB su on su.SiparisNo = s.SiparisNo
 
-                                        where s.SiparisDurumID=3 and (YEAR(s.YuklemeTarihi)=2021) and MONTH(s.YuklemeTarihi)<= MONTH(GETDATE()) and m.Marketing='Mekmar'
+                                        where s.SiparisDurumID=3 and (YEAR(s.YuklemeTarihi)=2022) and MONTH(s.YuklemeTarihi)<= MONTH(GETDATE()) and m.Marketing='Mekmar'
 
                                         group by
                                             MONTH(s.YuklemeTarihi)
@@ -765,12 +750,14 @@ class DashboardNew:
                 
             ]
             
-            for item in result:
-                r = int(item.SatisToplam) + self.__getGrafikMekmarBuYilNavlun(item.Ay)
-                data1.append(r)
-            for item2 in result2:
-                l = int(item2.SatisToplam)+ self.__getGrafikMekmarGecenYilNavlun(item.Ay)
-                data2.append(l)
+            if len(result)>0:
+                for item in result:
+                    r = int(item.SatisToplam) + self.__getGrafikMekmarBuYilNavlun(item.Ay)
+                    data1.append(r)
+            if len(result2)>0:
+                for item2 in result2:
+                    l = int(item2.SatisToplam)+ self.__getGrafikMekmarGecenYilNavlun(item.Ay)
+                    data2.append(l)
             dataset.append({
                 'label':'Yüklenen 2022 (DDP)',
                 'backgroundColor': '#2f4860',
@@ -836,11 +823,13 @@ class DashboardNew:
             data2 = [
                 
             ]
-            
-            for item in result:
-                data1.append(int(item.SatisToplam) + self.__getGrafikAllBuYilNavlun(item.Ay))
-            for item2 in result2:
-                data2.append(int(item2.SatisToplam) + self.__getGrafikAllGecenYilNavlun(item.Ay))
+            if len(result)>0:
+                
+                for item in result:
+                    data1.append(int(item.SatisToplam) + self.__getGrafikAllBuYilNavlun(item.Ay))
+            if len(result2)>0:
+                for item2 in result2:
+                    data2.append(int(item2.SatisToplam) + self.__getGrafikAllGecenYilNavlun(item.Ay))
             dataset.append({
                 'label':'Yüklenen 2022',
                 'backgroundColor': '#2f4860',
@@ -948,8 +937,12 @@ class DashboardNew:
             buYilSipTop = 0
         else:
             buYilSipTop = float(buyilsiparis[0].SatisToplam)
-        
-        buYilYukTop = float(buyilyuklenen[0].SatisToplam) + float(buyilyuklenenNavlun[0].NavlunSatis)
+        if len(buyilyuklenen) <= 0:
+            
+            buYilYukTop = 0
+        else:
+            buYilYukTop = float(buyilyuklenen[0].SatisToplam) + float(buyilyuklenenNavlun[0].NavlunSatis)
+            
         gecenYilSipTop = float(gecenyilsiparis[0].SatisToplam)
         gecenYilYukTop = float(gecenyilyuklenen[0].SatisToplam) + float(gecenyilyuklenenNavlun[0].NavlunSatis)
         return buYilSipTop,buYilYukTop,gecenYilSipTop,gecenYilYukTop

@@ -93,12 +93,6 @@ class SatisciIslem:
     def satisciKaydet(self,item):
         
         try:
-            kullaniciid = self.data.getStoreList(
-                """
-                Select ID from KullaniciTB
-                where KullaniciAdi=?
-                """,(item['musteriadi']['temsilci'])
-            )[0].ID
 
             self.data.update_insert(
                 """
@@ -110,23 +104,23 @@ class SatisciIslem:
                 (?,?,?,?,?,?,?,?,?)
                 """,
                 (
-                    item['musteriadi']['musteriadi'],item['aciklama'],item['baslik'],
-                    item['tarih_giris'],0,"",item['hatirlatmaTarihi'],item['hatirlatma_notu'],kullaniciid
+                    item['musteriadi'],item['aciklama'],item['baslik'],
+                    item['tarih_giris'],0,"",item['hatirlatmaTarihi'],item['hatirlatma_notu'],int(item['temsilci'])
                 )
             )
-            temsilci = self.data.getStoreList("""
-                                                select ID from KullaniciTB where KullaniciAdi=?
-                                              
-                                              """,(item['musteriadi']['temsilci']))
             
             islem = MusteriListem()
-            result = islem.getMusteriListesi(temsilci[0][0])
+            result = islem.getMusteriListesi(int(item['temsilci']))
             islem2 = SatisciAyrinti()
-            result2 = islem2.getAyrintiList(item['musteriadi']['musteriadi'])
-            
+            result2 = islem2.getAyrintiList(item['musteriadi'])
+            data={
+                'status':True,
+                'result':result,
+                'result2':result2
+            }
             
            
-            return True,result,result2
+            return data
         except Exception as e:
             print('satisciKaydet Hata : ',str(e))
             return False
@@ -161,9 +155,13 @@ class SatisciIslem:
             result = islem.getMusteriListesi(temsilci[0][0])
             islem2 = SatisciAyrinti()
             result2 = islem2.getAyrintiList(item['musteriadi'])
-      
+            data={
+                'status':True,
+                'result':result,
+                'result2':result2
+            }
 
-            return True,result,result2
+            return data
         except Exception as e:
             print('satisciGuncelle Hata : ',str(e))
             return False
@@ -188,10 +186,14 @@ class SatisciIslem:
             result = islem.getMusteriListesi(temsilci)
             islem2 = SatisciAyrinti()
             result2 = islem2.getAyrintiList(musteriAdi)
-
+            data={
+                'status':True,
+                'result':result,
+                'result2':result2
+            }
             
             
-            return True,result,result2
+            return data
         except Exception as e:
             print('satisci Silme Hata : ',str(e))
             return False
@@ -202,19 +204,20 @@ class SatisciIslem:
 
             """
             select 
-	                Baslik,Hatirlatma_Tarih,Hatirlatma_Notu,Tarih,MusteriAdi
+	                s.Baslik,s.Hatirlatma_Tarih,s.Hatirlatma_Notu,s.Tarih,s.MusteriAdi,
+					(select m.ID from MusterilerTB m where m.FirmaAdi = s.MusteriAdi) as MusteriID
 
 
             from 
-                SatisciAyrintiTB 
+                SatisciAyrintiTB s
                 
             where 
 
-                Temsilci=?	and
-                YEAR(Hatirlatma_Tarih) = YEAR(GETDATE()) and
-                MONTH(Hatirlatma_Tarih) = MONTH(GETDATE()) and
-                DAY(Hatirlatma_Tarih) >= DAY(GETDATE()) and
-				Tarih <= GETDATE()
+                s.Temsilci=?	and
+                YEAR(s.Hatirlatma_Tarih) = YEAR(GETDATE()) and
+                MONTH(s.Hatirlatma_Tarih) = MONTH(GETDATE()) and
+                DAY(s.Hatirlatma_Tarih) >= DAY(GETDATE()) and
+				s.Tarih <= GETDATE()
             """,(kullanici_id)
         )
 
@@ -223,6 +226,7 @@ class SatisciIslem:
         for item in result:
 
             model = MusteriIslemModel()
+            model.id = item.MusteriID
             model.baslik = item.Baslik
             model.hatirlatma_notu = item.Hatirlatma_Notu
             model.hatirlatmaTarihi = tarihIslem.getDate(item.Hatirlatma_Tarih).strftime("%d-%m-%Y")
