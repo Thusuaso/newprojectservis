@@ -719,7 +719,7 @@ class DashboardNew:
                                             inner join MusterilerTB m on m.ID = s.MusteriID
                                             inner join SiparisUrunTB su on su.SiparisNo = s.SiparisNo
 
-                                        where s.SiparisDurumID=3 and (YEAR(s.YuklemeTarihi)=2023)  and m.Marketing='Mekmar'
+                                        where s.SiparisDurumID=3 and YEAR(s.YuklemeTarihi)=YEAR(GETDATE())  and m.Marketing='Mekmar'
 
                                         group by
                                             MONTH(s.YuklemeTarihi)
@@ -733,7 +733,7 @@ class DashboardNew:
                                             inner join MusterilerTB m on m.ID = s.MusteriID
                                             inner join SiparisUrunTB su on su.SiparisNo = s.SiparisNo
 
-                                        where s.SiparisDurumID=3 and (YEAR(s.YuklemeTarihi)=2022) and MONTH(s.YuklemeTarihi)<= MONTH(GETDATE()) and m.Marketing='Mekmar'
+                                        where s.SiparisDurumID=3 and YEAR(s.YuklemeTarihi)=(YEAR(GETDATE()) -1) and MONTH(s.YuklemeTarihi)<= MONTH(GETDATE()) and m.Marketing='Mekmar'
 
                                         group by
                                             MONTH(s.YuklemeTarihi)
@@ -749,24 +749,30 @@ class DashboardNew:
             data2 = [
                 
             ]
-            
+
             if len(result)>0:
                 for item in result:
                     r = int(item.SatisToplam) + self.__getGrafikMekmarBuYilNavlun(item.Ay)
                     data1.append(r)
+            else:
+                r = 0
+                data1.append(r)
             if len(result2)>0:
                 for item2 in result2:
-                    l = int(item2.SatisToplam)+ self.__getGrafikMekmarGecenYilNavlun(item.Ay)
+                    l = int(item2.SatisToplam)+ self.__getGrafikMekmarGecenYilNavlun(item2.Ay)
                     data2.append(l)
+            else:
+                r = 0
+                data1.append(r)
             dataset.append({
-                'label':'Yüklenen 2022 (DDP)',
+                'label':'Yüklenen 2023 (DDP)',
                 'backgroundColor': '#2f4860',
                 'data':data1,
                 'fiil' : False,
                 'borderColor': '#2f4860'
             },)
             dataset.append({
-                'label':'Yüklenen 2021 (DDP)',
+                'label':'Yüklenen 2022 (DDP)',
                 'backgroundColor': '#00bb7e',
                 'data':data2,
                 'fiil' : False,
@@ -793,7 +799,7 @@ class DashboardNew:
 
                                             inner join SiparisUrunTB su on su.SiparisNo = s.SiparisNo
 
-                                        where s.SiparisDurumID=3 and (YEAR(s.YuklemeTarihi)=2022) 
+                                        where s.SiparisDurumID=3 and YEAR(s.YuklemeTarihi)=YEAR(GETDATE())
 
                                         group by
                                             MONTH(s.YuklemeTarihi)
@@ -807,7 +813,7 @@ class DashboardNew:
 
                                             inner join SiparisUrunTB su on su.SiparisNo = s.SiparisNo
 
-                                        where s.SiparisDurumID=3 and (YEAR(s.YuklemeTarihi)=2021) and MONTH(s.YuklemeTarihi)<= MONTH(GETDATE()) 
+                                        where s.SiparisDurumID=3 and YEAR(s.YuklemeTarihi)=(YEAR(GETDATE()) - 1) and MONTH(s.YuklemeTarihi)<= MONTH(GETDATE()) 
 
                                         group by
                                             MONTH(s.YuklemeTarihi)
@@ -827,18 +833,23 @@ class DashboardNew:
                 
                 for item in result:
                     data1.append(int(item.SatisToplam) + self.__getGrafikAllBuYilNavlun(item.Ay))
+            else:
+                data1.append(0)
             if len(result2)>0:
                 for item2 in result2:
-                    data2.append(int(item2.SatisToplam) + self.__getGrafikAllGecenYilNavlun(item.Ay))
+                    data2.append(int(item2.SatisToplam) + self.__getGrafikAllGecenYilNavlun(item2.Ay))
+                    
+            else:
+                data1.append(0)
             dataset.append({
-                'label':'Yüklenen 2022',
+                'label':'Yüklenen 2023',
                 'backgroundColor': '#2f4860',
                 'data':data1,
                 'fiil' : False,
                 'borderColor': '#2f4860'
             },)
             dataset.append({
-                'label':'Yüklenen 2021',
+                'label':'Yüklenen 2022',
                 'backgroundColor': '#00bb7e',
                 'data':data2,
                 'fiil' : False,
@@ -853,7 +864,7 @@ class DashboardNew:
             return basicDatas
                 
         except Exception as e:
-            print('getsiparisGrafikRapor hata',str(e))
+            print('getsiparisGrafikRapor2 hata',str(e))
             return False
 
     def getSiparisGrafikYuklenenvSiparis(self):
@@ -1109,7 +1120,7 @@ class DashboardNew:
                                             inner join SiparisUrunTB su on su.SiparisNo=s.SiparisNo
                                             inner join TedarikciTB t on t.ID = su.TedarikciID
 											inner join MusterilerTB m on m.ID = s.MusteriID
-                                            where YEAR(s.YuklemeTarihi) = 2022 and m.Marketing='Mekmar'
+                                            where YEAR(s.YuklemeTarihi) = YEAR(GETDATE()) and m.Marketing='Mekmar'
                                             group by 
                                                 YEAR(su.TedarikciID),t.FirmaAdi,t.ID
 
@@ -1143,7 +1154,7 @@ class DashboardNew:
                                             inner join SiparisUrunTB su on su.SiparisNo=s.SiparisNo
                                             inner join TedarikciTB t on t.ID = su.TedarikciID
                                             inner join MusterilerTB m on m.ID = s.MusteriID
-                                            where YEAR(s.SiparisTarihi) = 2022 and m.Marketing='Mekmar'
+                                            where YEAR(s.SiparisTarihi) = YEAR(GETDATE()) and m.Marketing='Mekmar'
                                             group by 
                                                 YEAR(su.TedarikciID),t.FirmaAdi,t.ID
 
@@ -1177,7 +1188,7 @@ class DashboardNew:
                                             from SiparislerTB s
                                             inner join SiparisUrunTB su on su.SiparisNo=s.SiparisNo
                                             inner join MusterilerTB m on m.ID = s.MusteriID
-                                            where YEAR(s.SiparisTarihi) = 2022 and m.Marketing='Mekmar'
+                                            where YEAR(s.SiparisTarihi) = YEAR(GETDATE()) and m.Marketing='Mekmar'
                                             group by 
                                             s.MusteriID,m.FirmaAdi,m.ID
 

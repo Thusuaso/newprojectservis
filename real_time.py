@@ -52,5 +52,9 @@ def teklif_degisim_event():
 def tedarikci_degisim_event():
     emit('tedarikci_list_emit')
 
+@socketio.on('bildirimler_update_event')
+def bildirimler_update_event():
+    emit('bildirimler_update_emit')
+
 if __name__ == '__main__':
     socketio.run(app,port=5001)
