@@ -25,9 +25,7 @@ class Konteyner:
 
         liste = list()
         for item in groupList:
-            if item[0] == 'Maya' or item[0] == 'Villo Home - USA':
-                continue
-            else:
+
                 model = self.__getModel(item[0],item[1])
                 model.id = item[1] 
                 model.musteriadi = item[0]
@@ -50,9 +48,7 @@ class Konteyner:
         """
 
         for item in eski_groupList:
-            if item[0] == 'Maya' or item[0] == 'Villo Home - USA':
-                continue
-            else:
+
                 
                 if self.__getMusteriKontrol(item[1],liste) == False:
                 

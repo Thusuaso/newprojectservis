@@ -315,7 +315,7 @@ class Uretim:
 
         dt2KasaNo = self.data.getList(
             """
-            select max(KasaNo)+1 as KasaNo from UretimTB where TedarikciID in (1,123) and YEAR(Tarih) = '2022' 
+            select max(KasaNo)+1 as KasaNo from UretimTB where TedarikciID in (1,123) and YEAR(Tarih) = '2023' 
             """
         )[0].KasaNo
 

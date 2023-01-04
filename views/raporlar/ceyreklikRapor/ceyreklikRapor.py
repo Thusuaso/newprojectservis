@@ -257,10 +257,30 @@ class CeyreklikRaporlar:
         
         
         toplamSatisSayisi = len(self.quartersDataOne) + len(self.quartersDataTwo) + len(self.quartersDataThree) + len(self.quartersDataFour)
-        model.yuzdeOne = (len(self.quartersDataOne) / toplamSatisSayisi) * 100
-        model.yuzdeTwo = (len(self.quartersDataTwo) / toplamSatisSayisi) * 100
-        model.yuzdeThree = (len(self.quartersDataThree) / toplamSatisSayisi) * 100
-        model.yuzdeFour = (len(self.quartersDataFour) / toplamSatisSayisi) * 100
+        if(toplamSatisSayisi != 0):
+            
+            model.yuzdeOne = (len(self.quartersDataOne) / toplamSatisSayisi) * 100
+        else:
+            model.yuzdeOne = 0
+        if(toplamSatisSayisi != 0):
+            
+            model.yuzdeTwo = (len(self.quartersDataTwo) / toplamSatisSayisi) * 100
+        else:
+            model.yuzdeTwo = 0
+        
+        if(toplamSatisSayisi != 0):
+            
+            model.yuzdeThree = (len(self.quartersDataThree) / toplamSatisSayisi) * 100
+        else:
+            model.yuzdeThree = 0
+        
+        if(toplamSatisSayisi != 0):
+            
+            model.yuzdeFour = (len(self.quartersDataFour) / toplamSatisSayisi) * 100
+        else:
+            model.yuzdeFour = 0
+            
+        
         
         
         
