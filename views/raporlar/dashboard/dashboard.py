@@ -1010,7 +1010,7 @@ class DashboardNew:
                                                 SiparislerTB s
                                                 inner join MusterilerTB m on m.ID = s.MusteriID 
                                             where 
-                                                    m.Marketing in ('Mekmar')  and s.SiparisDurumID=3 and YEAR(s.YuklemeTarihi) = YEAR(GETDATE())
+                                                    m.Marketing in ('Mekmar')  and s.SiparisDurumID=3 and YEAR(s.YuklemeTarihi) in (YEAR(GETDATE()),YEAR(GETDATE()) -1)
                                             order by s.YuklemeTarihi desc
                                        """)
             
@@ -1038,23 +1038,27 @@ class DashboardNew:
                         else:
                             continue
                     else:
-                        if item.DDP >10 :
-                            model = SiparislerKonteynirModel()
-                            model.firmaAdi = item.FirmaAdi
-                            model.siparisNo = item.SiparisNo
-                            model.line = item.Line
-                            model.yuklemeTarihi = item.YuklemeTarihi
-                            model.siparisTarihi = item.SiparisTarihi
-                            model.konteynirNo = item.KonteynirNo
-                            if item.Eta != None:
-                                model.etaTarihi = item.Eta
-                            else:
-                                model.etaTarihi = ""
-                            model.navlunFirma = item.NavlunFirma
-                            model.kalan = item.DDP
-                            liste.append(model)
-                        else:
+                        if item.SiparisNo == '22KET01 - 3':
                             continue
+                        else:
+                            
+                            if item.DDP >10 :
+                                model = SiparislerKonteynirModel()
+                                model.firmaAdi = item.FirmaAdi
+                                model.siparisNo = item.SiparisNo
+                                model.line = item.Line
+                                model.yuklemeTarihi = item.YuklemeTarihi
+                                model.siparisTarihi = item.SiparisTarihi
+                                model.konteynirNo = item.KonteynirNo
+                                if item.Eta != None:
+                                    model.etaTarihi = item.Eta
+                                else:
+                                    model.etaTarihi = ""
+                                model.navlunFirma = item.NavlunFirma
+                                model.kalan = item.DDP
+                                liste.append(model)
+                            else:
+                                continue
                 
             schema = SiparislerKonteynirSchema(many=True)
             return schema.dump(liste)
