@@ -78,13 +78,11 @@ class UrunKart:
                                 
                                 
                 """,(urunKartId))
-            islem = UrunKartMenu()
-            urunKartTable = islem.getUrunKartListe()
             info = username + ', ' + 'Ürün Kartı Silme İşlemi Yaptı.'
             DegisiklikMain(username,info)
             islem = AnaSayfaDegisiklik()
             anaSayfaDegisiklik = islem.getAnaSayfaDegisiklik()
-            return True,urunKartTable,anaSayfaDegisiklik
+            return True,anaSayfaDegisiklik
         except Exception as e:
             print('Urun Kart Hata sil : ', str(e))
 

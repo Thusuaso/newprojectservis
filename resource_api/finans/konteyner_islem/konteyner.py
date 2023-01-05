@@ -25,7 +25,6 @@ class Konteyner:
 
         liste = list()
         for item in groupList:
-
                 model = self.__getModel(item[0],item[1])
                 model.id = item[1] 
                 model.musteriadi = item[0]
@@ -276,8 +275,8 @@ class Konteyner:
         masraf = 0
         for item in self.eski_siparis_list:
             if musteriadi == item['musteriadi']:
-                top = float(item['navlunsatis']) + float(item['detaytutar_1']) + float(item['detaytutar_2']) + float(item['detaytutar_3'])  + float(item['urunbedel'])
-                model.devir += item['navlunsatis'] + item['detaytutar_1'] + item['detaytutar_2'] + item['detaytutar_3']  +item['urunbedel']
+                top = float(item['navlunsatis']) + float(item['detaytutar_1']) + float(item['detaytutar_2']) + float(item['detaytutar_3'])  + float(item['urunbedel']) + float(item['sigorta_tutar_satis'])
+                model.devir += item['navlunsatis'] + item['detaytutar_1'] + item['detaytutar_2'] + item['detaytutar_3']  +item['urunbedel'] + float(item['sigorta_tutar_satis'])
                 if item['Odemeler'] == None :
                    item['Odemeler'] = 0
                 if top - item['Odemeler'] > 10 : 

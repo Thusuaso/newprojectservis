@@ -25,9 +25,7 @@ class Konteyner:
 
         liste = list()
         for item in groupList:
-            if item[0] == 'Maya' or item[0] == 'Villo Home - USA':
-                continue
-            else:
+
                 model = self.__getModel(item[0],item[1])
                 model.id = item[1] 
                 model.musteriadi = item[0]
@@ -50,20 +48,16 @@ class Konteyner:
         """
 
         for item in eski_groupList:
-            if item[0] == 'Maya' or item[0] == 'Villo Home - USA':
-                continue
-            else:
-                
-                if self.__getMusteriKontrol(item[1],liste) == False:
-                
-                    model = self.__getModel_Eski(item[0],item[1])
-                
-                    model.id = item[1] 
-                    model.musteriadi = item[0]   
-                    model.temsilci = item[2]  
-                
-                    model.marketing = item[3]          
-                    liste.append(model)
+            if self.__getMusteriKontrol(item[1],liste) == False:
+            
+                model = self.__getModel_Eski(item[0],item[1])
+            
+                model.id = item[1] 
+                model.musteriadi = item[0]   
+                model.temsilci = item[2]  
+            
+                model.marketing = item[3]          
+                liste.append(model)
              
         for item in self.bekleyen_listesi:
             if self.__getMusteriKontrol(item['musteriid'],liste) == False:
@@ -217,10 +211,9 @@ class Konteyner:
         kalan = 0
         masraf = 0
         for item in self.siparis_list:
-            
             if musteriid == item['musteriid']:
-                top = float(item['navlunsatis']) + float(item['detaytutar_1']) + float(item['detaytutar_2']) + float(item['detaytutar_3'])  + float(item['urunbedel'])
-                ciro +=  (float(item['navlunsatis']) + float(item['detaytutar_1']) + float(item['detaytutar_2']) + float(item['detaytutar_3'])  + float(item['urunbedel']))
+                top = float(item['navlunsatis']) + float(item['detaytutar_1']) + float(item['detaytutar_2']) + float(item['detaytutar_3'])  + float(item['urunbedel']) + float(item['sigorta_tutar_satis'])
+                ciro +=  (float(item['navlunsatis']) + float(item['detaytutar_1']) + float(item['detaytutar_2']) + float(item['detaytutar_3'])  + float(item['urunbedel']) + float(item['sigorta_tutar_satis'])) 
                 if item['Odemeler'] == None :
                    item['Odemeler'] = 0
                 if top - item['Odemeler'] > 10 : 
@@ -240,8 +233,8 @@ class Konteyner:
         masraf = 0
         for item in self.eski_siparis_list:
             if musteriadi == item['musteriadi']:
-                top = float(item['navlunsatis']) + float(item['detaytutar_1']) + float(item['detaytutar_2']) + float(item['detaytutar_3'])  + float(item['urunbedel'])
-                model.devir += float(item['navlunsatis']) + float(item['detaytutar_1']) + float(item['detaytutar_2']) + float(item['detaytutar_3'])  + float(item['urunbedel'])
+                top = float(item['navlunsatis']) + float(item['detaytutar_1']) + float(item['detaytutar_2']) + float(item['detaytutar_3'])  + float(item['urunbedel']) + float(item['sigorta_tutar_satis'])
+                model.devir += float(item['navlunsatis']) + float(item['detaytutar_1']) + float(item['detaytutar_2']) + float(item['detaytutar_3'])  + float(item['urunbedel']) + float(item['sigorta_tutar_satis'])
                 if item['Odemeler'] == None :
                    item['Odemeler'] = 0
                 if top - item['Odemeler'] > 10 : 

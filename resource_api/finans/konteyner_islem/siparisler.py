@@ -173,7 +173,6 @@ class Siparisler:
             
             if item.sigorta_tutar_satis != None:
                 data['sigorta_tutar_satis'] = float(item.sigorta_tutar_satis)
-                toplam += float(item.sigorta_tutar_satis)
             
             data['toplam_tutar'] += toplam  
             

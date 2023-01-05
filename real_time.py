@@ -20,8 +20,8 @@ def urunkart_guncelleme_event(data):
     emit('urunkart_guncelleme_emit',data,broadcast=True)
     
 @socketio.on('urunKartiSilmeEvent')
-def urunKartiSilmeEvent(data):
-    emit('urunkart_silme_emit',data,broadcast=True)
+def urunKartiSilmeEvent():
+    emit('urunkart_silme_emit',broadcast=True)
 
 @socketio.on('anaSayfaDegisiklikEvent')
 def anaSayfaDegisiklikEvent(data):

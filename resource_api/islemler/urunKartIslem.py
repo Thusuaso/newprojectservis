@@ -37,9 +37,9 @@ class UrunKartSilModel(Resource):
     def delete(self,urunKartId,username):
         
         urunKart = UrunKart()
-        status,urunKartTable,anaSayfaDegisiklik = urunKart.getUrunKartSil(urunKartId,username)
+        status,anaSayfaDegisiklik = urunKart.getUrunKartSil(urunKartId,username)
 
-        return jsonify({'status' : status,'urunKartTable':urunKartTable,'anaSayfaDegisiklik':anaSayfaDegisiklik})
+        return jsonify({'status' : status,'anaSayfaDegisiklik':anaSayfaDegisiklik})
     
     
 
