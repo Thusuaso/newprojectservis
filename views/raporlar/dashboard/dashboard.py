@@ -294,7 +294,7 @@ class DashboardNew:
                 for i in result:
                     
                     model = GelenSiparisModel()
-                    model.gelenSiparisAy = str(self.month - 1) + '/' + '12'
+                    model.gelenSiparisAy = str(self.month) + '/' + '12'
                     model.gelenSiparisFob = i.SatisToplam
                     model.gelenSiparisYil = self.year
                     model.gelenSiparisAylikOrtalama = (float(i.SatisToplam) + float(self.getDashboardGelenSiparis()[0]['gelenSiparisFob'])) / (self.month)
@@ -302,9 +302,9 @@ class DashboardNew:
                     liste.append(model)
             else:
                 model = GelenSiparisModel()
-                model.gelenSiparisAy = str(self.month - 1) + '/' + '12'
+                model.gelenSiparisAy = str(self.month) + '/' + '12'
                 model.gelenSiparisFob = 0
-                model.gelenSiparisYil = 0
+                model.gelenSiparisYil = self.year
                 model.gelenSiparisAylikOrtalama = 0
                 model.gelenSiparisYilSonuTahmini = 0
                 liste.append(model)
@@ -334,7 +334,7 @@ class DashboardNew:
             if len(result) >0:
                 for i in result:
                     model = GelenSiparisModel()
-                    model.gelenSiparisAy = str(self.month - 1) + '/' + '12'
+                    model.gelenSiparisAy = str(self.month ) + '/' + '12'
                     model.gelenSiparisFob = i.SatisToplam
                     model.gelenSiparisYil = self.year
                     model.gelenSiparisAylikOrtalama = (float(i.SatisToplam) + float(self.getDashboardGelenSiparisAll()[0]['gelenSiparisFob'])) / (self.month)
@@ -342,9 +342,9 @@ class DashboardNew:
                     liste.append(model)
             else:
                 model = GelenSiparisModel()
-                model.gelenSiparisAy = str(self.month - 1) + '/' + '12'
+                model.gelenSiparisAy = str(self.month) + '/' + '12'
                 model.gelenSiparisFob = 0
-                model.gelenSiparisYil = 0
+                model.gelenSiparisYil = self.year
                 model.gelenSiparisAylikOrtalama = 0
                 model.gelenSiparisYilSonuTahmini = 0
                 liste.append(model)
@@ -378,7 +378,7 @@ class DashboardNew:
             if len(result) >0:
                 for i in result:
                     model = GelenSiparisModel()
-                    model.gelenSiparisAy = str(self.month - 1) + '/' + '12'
+                    model.gelenSiparisAy = str(self.month) + '/' + '12'
                     model.gelenSiparisFob = i.SatisToplam + self.__mekmarYuklenenYillikNavlun()
                     model.gelenSiparisYil = self.year
                     model.gelenSiparisAylikOrtalama = (float(model.gelenSiparisFob) + float(self.getDashboardGelenSiparisYuklenen()[0]['gelenSiparisFob'])) / (self.month)
@@ -386,9 +386,9 @@ class DashboardNew:
                     liste.append(model)
             else:
                 model = GelenSiparisModel()
-                model.gelenSiparisAy = str(self.month - 1) + '/' + '12'
+                model.gelenSiparisAy = str(self.month) + '/' + '12'
                 model.gelenSiparisFob = 0
-                model.gelenSiparisYil = 0
+                model.gelenSiparisYil = self.year
                 model.gelenSiparisAylikOrtalama = 0
                 model.gelenSiparisYilSonuTahmini = 0
                 liste.append(model)
@@ -414,7 +414,7 @@ class DashboardNew:
             if len(result) >0:
                 for i in result:
                     model = GelenSiparisModel()
-                    model.gelenSiparisAy = str(self.month - 1) + '/' + '12'
+                    model.gelenSiparisAy = str(self.month) + '/' + '12'
                     model.gelenSiparisFob = i.SatisToplam + self.__allYuklenenYillikNavlun()
                     model.gelenSiparisYil = self.year
                     model.gelenSiparisAylikOrtalama = float(model.gelenSiparisFob / (self.month - 1))
@@ -422,9 +422,9 @@ class DashboardNew:
                     liste.append(model)
             else:
                 model = GelenSiparisModel()
-                model.gelenSiparisAy = str(self.month - 1) + '/' + '12'
+                model.gelenSiparisAy = str(self.month) + '/' + '12'
                 model.gelenSiparisFob = 0
-                model.gelenSiparisYil = 0
+                model.gelenSiparisYil = self.year
                 model.gelenSiparisAylikOrtalama = 0
                 model.gelenSiparisYilSonuTahmini = 0
                 liste.append(model)
@@ -522,7 +522,7 @@ class DashboardNew:
             liste = list()
             for i in result:
                 model = GelenSiparisModel()
-                model.gelenSiparisAy = str(self.month - 1) + '/' + '12'
+                model.gelenSiparisAy = str(self.month) + '/' + '12'
                 model.gelenSiparisFob = i.SatisToplam
                 model.gelenSiparisYil = self.year
                 liste.append(model)
@@ -586,7 +586,7 @@ class DashboardNew:
             if len(result) >0:
                 for i in result:
                     model = GelenSiparisModel()
-                    model.gelenSiparisAy = str(self.month - 1) + '/' + '12'
+                    model.gelenSiparisAy = str(self.month) + '/' + '12'
                     model.gelenSiparisFob = i.SatisToplam
                     model.gelenSiparisYil = self.year
                     model.gelenSiparisAylikOrtalama = float(i.SatisToplam / self.month)
@@ -594,7 +594,7 @@ class DashboardNew:
                     liste.append(model)
             else:
                 model = GelenSiparisModel()
-                model.gelenSiparisAy = str(self.month - 1) + '/' + '12'
+                model.gelenSiparisAy = str(self.month) + '/' + '12'
                 model.gelenSiparisFob = 0
                 model.gelenSiparisYil = self.year
                 model.gelenSiparisAylikOrtalama = 0
@@ -661,7 +661,7 @@ class DashboardNew:
             if len(result) >0:
                 for i in result:
                     model = GelenSiparisModel()
-                    model.gelenSiparisAy = str(self.month - 1) + '/' + '12'
+                    model.gelenSiparisAy = str(self.month) + '/' + '12'
                     model.gelenSiparisFob = i.SatisToplam + self.__efesYuklenenYillikNavlun()
                     model.gelenSiparisYil = self.year
                     model.gelenSiparisAylikOrtalama = float(model.gelenSiparisFob / self.month)
@@ -669,7 +669,7 @@ class DashboardNew:
                     liste.append(model)
             else:
                 model = GelenSiparisModel()
-                model.gelenSiparisAy = str(self.month - 1) + '/' + '12'
+                model.gelenSiparisAy = str(self.month) + '/' + '12'
                 model.gelenSiparisFob = 0
                 model.gelenSiparisYil = self.year
                 model.gelenSiparisAylikOrtalama = 0
