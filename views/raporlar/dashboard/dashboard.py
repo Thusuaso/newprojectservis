@@ -592,6 +592,14 @@ class DashboardNew:
                     model.gelenSiparisAylikOrtalama = float(i.SatisToplam / self.month)
                     model.gelenSiparisYilSonuTahmini = model.gelenSiparisAylikOrtalama * 12
                     liste.append(model)
+            else:
+                model = GelenSiparisModel()
+                model.gelenSiparisAy = str(self.month - 1) + '/' + '12'
+                model.gelenSiparisFob = 0
+                model.gelenSiparisYil = self.year
+                model.gelenSiparisAylikOrtalama = 0
+                model.gelenSiparisYilSonuTahmini = 0
+                liste.append(model)
 
             schema = GelenSiparisSchema(many=True)
             return schema.dump(liste)
@@ -659,6 +667,14 @@ class DashboardNew:
                     model.gelenSiparisAylikOrtalama = float(model.gelenSiparisFob / self.month)
                     model.gelenSiparisYilSonuTahmini = model.gelenSiparisAylikOrtalama * 12
                     liste.append(model)
+            else:
+                model = GelenSiparisModel()
+                model.gelenSiparisAy = str(self.month - 1) + '/' + '12'
+                model.gelenSiparisFob = 0
+                model.gelenSiparisYil = self.year
+                model.gelenSiparisAylikOrtalama = 0
+                model.gelenSiparisYilSonuTahmini = 0
+                liste.append(model)
             schema = GelenSiparisSchema(many=True)
             return schema.dump(liste)
         except Exception as e:
