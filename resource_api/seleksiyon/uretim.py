@@ -1,4 +1,4 @@
-from models.seleksiyon import UretimModel,UretimSchema,UretimFazlaMiModel,UretimFazlaMiSchema
+from models.seleksiyon import *
 from resource_api.seleksiyon.listeler import SeleksiyonListeler
 from helpers import SqlConnect,TarihIslemler
 
@@ -388,5 +388,45 @@ class Uretim:
         except Exception as e:
             print('getProductCrateControl hata',str(e))
             return False
+    
+    def getPoProductList(self,po):
+        try:
+            result = self.data.getStoreList("""
+                                    select 
+
+                                        su.ID,
+                                        su.UrunKartID,
+                                        (select KategoriAdi from KategoriTB k where k.ID = uk.KategoriID) as KategoriAdi,
+                                        (select UrunAdi from UrunlerTB ur where ur.ID = uk.UrunID) as UrunAdi,
+                                        (select YuzeyIslemAdi from YuzeyKenarTB yk where yk.ID = uk.YuzeyID) as YuzeyIslemAdi,
+                                        (select En from OlculerTB o where o.ID = uk.OlcuID) as En,
+                                        (select Boy from OlculerTB o where o.ID = uk.OlcuID) as Boy,
+                                        (select Kenar from OlculerTB o where o.ID = uk.OlcuID) as Kenar
+                                    from SiparisUrunTB su
+                                    inner join UrunKartTB uk on uk.ID = su.UrunKartID
+
+                                    where SiparisNo=?
+                                   """,(po))
+            liste = list()
+            for item in result:
+                model = PoProductListModel()
+                model.id = item.ID
+                model.product_id = item.UrunKartID
+                model.product_category = item.KategoriAdi
+                model.product_name = item.UrunAdi
+                model.product_surface = item.YuzeyIslemAdi
+                model.product_width = item.En
+                model.product_height = item.Boy
+                model.product_edge = item.Kenar
+                model.product_full_name = item.KategoriAdi + '/' + item.UrunAdi + '/' + item.YuzeyIslemAdi + '/' + item.En + 'x' + item.Boy + 'x' + item.Kenar
+                liste.append(model)
+                
+            schema = PoProductListSchema(many=True)
+            return schema.dump(liste)
         
+                
+            
+        except Exception as e:
+            print('getPoProductList hata',str(e))
+            return False
         

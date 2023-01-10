@@ -13,10 +13,12 @@ class faturaKesimTur:
 
         for item in result:
             model = FaturaKesimTurModel()
-            model.id = item.ID
-            model.faturaKesimTurAdi = item.FaturaAdi
-
-            odemeList.append(model)
+            if(item.ID==2):
+                continue
+            else:
+                model.id = item.ID
+                model.faturaKesimTurAdi = item.FaturaAdi
+                odemeList.append(model)
 
         schema = FaturaKesimTurSchema(many=True)
       

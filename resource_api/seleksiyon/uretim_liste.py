@@ -262,12 +262,12 @@ class UretimListe:
         try:
             po = data['po']
             products = data['products']
-            
+            product_id = data['product_id']
             for item in products:
                 self.data.update_insert("""
-                                            update UretimTB SET SiparisAciklama=?, Aciklama=?,UretimTurID=2 where KasaNo=?
+                                            update UretimTB SET SiparisAciklama=?, Aciklama=?,UrunKartID=?,UretimTurID=2 where KasaNo=?
                                         
-                                        """,(po,po,item['kasa_no']))
+                                        """,(po,po,product_id,item['kasa_no']))
             return True
         except Exception as e:
             print('setCrateAll hata',str(e))

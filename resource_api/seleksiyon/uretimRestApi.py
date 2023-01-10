@@ -330,6 +330,11 @@ class ProductCrateControlApi(Resource):
         islem = Uretim()
         status = islem.getProductCrateControl(data)
         return jsonify({'status':status})
+class PoProductList(Resource):
+    def get(self,po):
+        islem = Uretim()
+        productList = islem.getPoProductList(po)
+        return jsonify({'productList':productList})
 
 class UretimSeleksiyonFirmaKasaNoApi(Resource):
 

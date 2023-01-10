@@ -297,7 +297,7 @@ api.add_resource(UretimSeleksiyonFirmaKasaNoApi,'/seleksiyon/islemler/seleksiyon
 api.add_resource(UretimUrunKartKasaKontrolApi,'/seleksiyon/islemler/getUrunKartSeleksiyonKasaKontrol/<int:urunKartId>',methods=['GET'])
 api.add_resource(CreateSetAllApi,'/seleksiyon/setCrateAll',methods=['GET','POST'])
 api.add_resource(ProductCrateControlApi,'/islemler/seleksiyon/productCrateControl',methods=['POST'])
-
+api.add_resource(PoProductList,'/islemler/seleksiyon/seleksiyonProductList/<string:po>',methods=['GET'])
 api.add_resource(UretimSeleksiyonUrunKartApi,'/seleksiyon/islemler/urunKartBilgileri',methods=['GET'])
 
 api.add_resource(UretimSeleksiyonFazlasiMiApi,'/seleksiyon/islemler/uretimFazlasiMi/<string:po>/<int:urunkartid>',methods=['POST','GET'])

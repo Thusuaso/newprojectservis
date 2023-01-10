@@ -239,6 +239,7 @@ class MaliyetRaporIslem:
                 item.ilaclama + item.liman + item.navlun + item.pazarlama + item.banka_masrafi 
                  + item.diger_masraflar+item.ozel_iscilik+item.kurye_masrafi + item.sigorta
             )
+
             if(item.dosya_kapanma_date == '-'):
                 item.kar_zarar = 0
             else:
@@ -263,6 +264,7 @@ class MaliyetRaporIslem:
 
           
             liste.append(item)
+
 
         schema = OzelMaliyetListeSchema(many=True)
 
@@ -378,6 +380,7 @@ class MaliyetRaporIslem_Yil: # hepsi butonna basıldıgında bu alan çalışır
     def getMaliyetListesi(self):
 
         liste = list()
+
         for item in self.siparisler:
          
             urun_model = self.urunler.getUrunModel(item.siparis_no)
@@ -517,8 +520,8 @@ class MaliyetRaporIslem_Yil: # hepsi butonna basıldıgında bu alan çalışır
                     item.kar_zarar_tl_yuzdesi = round(((item.kar_zarar / item.toplam_bedel ) * 100),2)
                 else:
                     item.kar_zarar_tl_yuzdesi = 0
-                
-                
+            
+ 
             if(item.dosya_kapanma_date == '-'):
                 item.kar_zarar_tl = 0
             else:
@@ -536,6 +539,7 @@ class MaliyetRaporIslem_Yil: # hepsi butonna basıldıgında bu alan çalışır
           
             liste.append(item)
 
+        
         schema = OzelMaliyetListeSchema(many=True)
 
         return schema.dump(liste)

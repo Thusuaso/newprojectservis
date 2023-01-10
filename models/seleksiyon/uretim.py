@@ -87,3 +87,25 @@ class UretimFazlaMiSchema(Schema):
 class UretimFazlaMiModel:
     siparismiktari = 0
     uretimtoplami = 0
+    
+class PoProductListSchema(Schema):
+    id = fields.Int()
+    product_id = fields.Int()
+    product_category = fields.String()
+    product_name = fields.String()
+    product_surface = fields.String()
+    product_width = fields.String()
+    product_height = fields.String()
+    product_edge = fields.String()
+    product_full_name = fields.String()
+    
+class PoProductListModel():
+    id = 0
+    product_id = 0
+    product_category = ""
+    product_name = ""
+    product_surface = ""
+    product_width = ""
+    product_height = ""
+    product_edge = ""
+    product_full_name = ""
