@@ -101,8 +101,8 @@ class TahsilatIslem:
                 )
             )
             self.mailGonder(item['siparisno'],'Yeni Tahsilat Girişi',item['tutar'],item['tarih'],item['masraf'],item['kullaniciadi'])
-            info =item['kullaniciadi'] + ', ' + item['siparisno'] + ' ' + ' Tahsilat Girişi Yaptı'
-            DegisiklikMain(item['kullaniciadi'],info)
+            info =item['kullaniciadi'].capitalize() + ', ' + item['siparisno'] + ' $' + str(item['tutar']) +' Tahsilat Girişi Yaptı'
+            DegisiklikMain(item['kullaniciadi'].capitalize(),info)
             islem = AnaSayfaDegisiklik()
             anaSayfaDegisiklikList = islem.getAnaSayfaDegisiklik()
             data = {

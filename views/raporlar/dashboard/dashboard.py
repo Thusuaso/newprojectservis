@@ -140,7 +140,7 @@ class DashboardNew:
                                                 inner join SiparisUrunTB su on su.SiparisNo = s.SiparisNo
                                                 inner join MusterilerTB m on m.ID = s.MusteriId
 
-                                                where YEAR(s.SiparisTarihi)=YEAR(GETDATE()) and m.Marketing='Mekmar' and s.SiparisDurumID=3 and MONTH(s.YuklemeTarihi) = MONTH(GETDATE())
+                                                where  YEAR(s.YuklemeTarihi) = YEAR(GETDATE()) and m.Marketing='Mekmar' and s.SiparisDurumID=3 and MONTH(s.YuklemeTarihi) = MONTH(GETDATE())
 
                                                 group by YEAR(s.SiparisTarihi),MONTH(s.YuklemeTarihi)
                                             
@@ -278,7 +278,6 @@ class DashboardNew:
     ################################################################
     def getDashboardGelenSiparisYillikMekmar(self):
         try:
-            print()
             result = self.data.getList("""
                                     select 
                                             sum(su.SatisToplam) as SatisToplam
