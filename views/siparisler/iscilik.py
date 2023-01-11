@@ -1,6 +1,5 @@
 from models.siparisler_model import IscilikModel,IscilikSchema
-from helpers import SqlConnect,TarihIslemler
-
+from helpers import SqlConnect,TarihIslemler,DegisiklikMain
 
 class Iscilik:
     def __init__(self):
@@ -69,10 +68,11 @@ class Iscilik:
                 data['aciklama'],data['tutar']
             )
         )
+        info = data['username'].capitalize() + ', ' + data['siparisNo'] + ' $' + data['tutar'] + ' ' +  'işçilik girdi.'
+        DegisiklikMain(data['username'].capitalize(),info)
 
     def guncelle(self,data):
 
-        print('Açıklama : ', data['aciklama'])
         self.data.update_insert(
             """
             update SiparisEkstraGiderlerTB set Tarih=?,TedarikciID=?,

@@ -53,7 +53,7 @@ class PesinatIslemListe:
                 model.musteri_adi = item.FirmaAdi 
                 model.musteri_id = item.MusteriID
                 model.siparis_no = item.SiparisNo 
-                model.tutar = kalan_tutar
+                model.tutar = round(kalan_tutar,2)
                 model.temsilci_mail = item.Mail
                 model.marketing = item.Marketing
                 
