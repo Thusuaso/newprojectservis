@@ -12,7 +12,6 @@ class DovizListem:
 
     def getDovizKurListe(self,yil,ay,gun):
      
-
         # SSl sertifikasi hatalarini engellemek
         ctx = ssl.create_default_context()
         ctx.check_hostname = False
@@ -46,6 +45,8 @@ class DovizListem:
                     else:
                         continue
             return format(dolar)
+        
+        
 
 
         

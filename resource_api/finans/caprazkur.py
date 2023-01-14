@@ -48,6 +48,7 @@ class DovizListem:
             else:
              continue
         return format(cross_dolar)
+    
 
 
 

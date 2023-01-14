@@ -250,7 +250,10 @@ class Siparisler_Yil:
 			(select k.KullaniciAdi from KullaniciTB k WHERE k.ID = s.Operasyon) as operasyon,
 			(select sum(ozel.Tutar) from SiparisEkstraGiderlerTB ozel  where ozel.SiparisNo=s.SiparisNo) as ozeliscilik,
             (select f.FaturaAdi from FaturaKesilmeTB f where f.ID = s.FaturaKesimTurID) as faturalama,
-			Month(s.YuklemeTarihi) as YuklemeMonth
+			Month(s.YuklemeTarihi) as YuklemeMonth,
+            YEAR(s.YuklemeTarihi) as YuklemeYil,
+			MONTH(s.YuklemeTarihi) as YuklemeAy,
+            DAY(s.YuklemeTarihi) as YuklemeGun
             from
             SiparislerTB s,MusterilerTB m,YeniTeklif_UlkeTB u,SiparisTeslimTurTB t
             where
@@ -348,7 +351,10 @@ class Siparisler_Yil:
                 model.detay_3 = detay_alis_3
 
               
-
+            model.yukleme_year = item.YuklemeYil
+            model.yukleme_month = item.YuklemeAy
+            model.yukleme_day = item.YuklemeGun
+            
             model.navlun = navlun_alis
             model.diger_masraflar = detay_alis_1 + detay_alis_2 + detay_alis_3  + detay_tutar_4 + model.sigorta
             model.ulke_adi = item.UlkeAdi
@@ -361,6 +367,7 @@ class Siparisler_Yil:
             if self.__getAlisControl(item.SiparisNo):
                 model.alisFiyatiKontrol = "#F1948A"
             self.siparis_listesi.append(model)
+            
             
     def __getAlisControl(self,siparisNo):
         if len(self.alisFiyatiKontrolSql)>0:

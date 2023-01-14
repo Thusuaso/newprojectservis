@@ -4,7 +4,7 @@ from resource_api.maliyet_raporlar.odemeler import Odemeler
 from resource_api.maliyet_raporlar.masraflar import Masraflar,Masraflar_Yil
 from models.ozel_maliyet import OzelMaliyetListeSchema,OzelMaliyetListeModel,TedarikciFaturaSchema,TedarikciFaturaModel
 from helpers import SqlConnect
-
+import datetime
 class MaliyetRaporIslem:
 
     def __init__(self,yil,ay):
@@ -216,6 +216,24 @@ class MaliyetRaporIslem:
 
             item.gumruk = masraf_model.gumruk
             item.liman = masraf_model.liman
+            x = datetime.datetime(item.yukleme_year,item.yukleme_month,item.yukleme_day)
+            if item.yukleme_month ==1 and item.yukleme_day ==1:
+                if(x.strftime('%A') == 'Saturday'):
+                    item.yukleme_year = item.yukleme_year - 1
+                    item.yukleme_month = 12
+                elif(x.strftime('%A') == 'Sunday'):
+                    item.yukleme_year = item.yukleme_year - 1
+                    item.yukleme_month = 12
+                    item.yukleme_day = 29
+            else:
+                if(x.strftime('%A') == 'Saturday'):
+                    item.yukleme_month = 12
+                    item.yukleme_day = item.yukleme_day - 1
+                elif(x.strftime('%A') == 'Sunday'):
+                    item.yukleme_month = 12
+                    item.yukleme_day = item.yukleme_day - 2
+
+            
             item.doviz_kur = self.odemeler.getOdenenKur(item.siparis_no,item.odenen_toplam_tutar,item.yukleme_year,item.yukleme_month,item.yukleme_day) 
             item.nakliye = masraf_model.nakliye
             item.ilaclama = masraf_model.ilaclama
@@ -490,10 +508,40 @@ class MaliyetRaporIslem_Yil: # hepsi butonna basıldıgında bu alan çalışır
             item.lashing = masraf_model.lashing
             item.booking = masraf_model.booking
             item.spazlet = masraf_model.spazlet
+
             
+            x = datetime.datetime(item.yukleme_year,item.yukleme_month,item.yukleme_day)
+            if item.yukleme_month ==1 and item.yukleme_day ==1:
+                if(x.strftime('%A') == 'Saturday'):
+                    item.yukleme_year = item.yukleme_year - 1
+                    item.yukleme_month = 12
+                elif(x.strftime('%A') == 'Sunday'):
+                    item.yukleme_year = item.yukleme_year - 1
+                    item.yukleme_month = 12
+                    item.yukleme_day = 29
+                    
+                else:
+                    item.yukleme_day = item.yukleme_day
+                    item.yukleme_year = item.yukleme_year
+                    item.yukleme_month = item.yukleme_month
+            else:
+                if(x.strftime('%A') == 'Saturday'):
+                    item.yukleme_day = item.yukleme_day - 1
+                elif(x.strftime('%A') == 'Sunday'):
+                    item.yukleme_day = item.yukleme_day - 2
+                else:
+                    item.yukleme_day = item.yukleme_day
+                    item.yukleme_year = item.yukleme_year
+                    item.yukleme_month = item.yukleme_month
             
+
+            
+                
+                    
             
             item.doviz_kur = self.odemeler.getOdenenKur(item.siparis_no,item.odenen_toplam_tutar,item.yukleme_year,item.yukleme_month,item.yukleme_day)
+            if item.siparis_no == '22STP03':
+                print(item.doviz_kur)
             item.nakliye = masraf_model.nakliye
             item.ilaclama = masraf_model.ilaclama
             item.navlun_evrak = masraf_model.navlun_evrak
