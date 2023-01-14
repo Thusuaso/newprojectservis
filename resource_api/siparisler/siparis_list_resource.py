@@ -15,7 +15,7 @@ class SiparisHepsiListResource(Resource):
 
         siparis = SiparisListe(siparisDurum)
 
-        #result = siparis.getSiparisList()
+        # result = siparis.getSiparisList()
        
         result2= siparis.getSiparisUrunHepsiList()
         

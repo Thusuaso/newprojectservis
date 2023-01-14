@@ -128,6 +128,9 @@ class MaliyetRaporIslem:
             item.dis_alim_evrak = list() #urun_model.dis_alim_evrak
             item.dis_alim_tedarikci = list()
             item.tedarikci_sayisi_evrak = list()
+            print(item.toplam_bedel)
+            print(item.odenen_toplam_tutar)
+            print(item.siparis_no)
             if item.toplam_bedel <= item.odenen_toplam_tutar : # eğer toplam gelen para sipariş bedelini eşit veya gelen para dah butukse bu dosya kapanmıstır deriz
                 item.dosya_kapanma_date = item.odeme_tarihi # ödeme_tarihi son gelen paranın tarihiydi . eğer yukardaki koşulu sağlarsa bu sipariş en son su tarıhte ödemeyi yaptı ve borcu bitti deriz son tarih ise bizim kapanma tarıhımız olur .
             else :
@@ -401,6 +404,8 @@ class MaliyetRaporIslem_Yil: # hepsi butonna basıldıgında bu alan çalışır
             item.dis_alim_evrak = list() #urun_model.dis_alim_evrak
             item.dis_alim_tedarikci = list()
             item.tedarikci_sayisi_evrak = list()
+            
+                
             if item.toplam_bedel <= item.odenen_toplam_tutar :
                 item.dosya_kapanma_date = item.odeme_tarihi
             else :
@@ -533,7 +538,14 @@ class MaliyetRaporIslem_Yil: # hepsi butonna basıldıgında bu alan çalışır
                 item.navlun_kontrol = False
             
             
-            
+            if item.siparis_no == '22PDG08':
+                
+                print(item.toplam_bedel)
+                print(item.odenen_toplam_tutar)
+                print(item.siparis_no)
+                print(item.kar_zarar)
+                print(item.doviz_kur)
+                print(item.kar_zarar_tl)
 
 
           
