@@ -128,9 +128,7 @@ class MaliyetRaporIslem:
             item.dis_alim_evrak = list() #urun_model.dis_alim_evrak
             item.dis_alim_tedarikci = list()
             item.tedarikci_sayisi_evrak = list()
-            print(item.toplam_bedel)
-            print(item.odenen_toplam_tutar)
-            print(item.siparis_no)
+
             if item.toplam_bedel <= item.odenen_toplam_tutar : # eğer toplam gelen para sipariş bedelini eşit veya gelen para dah butukse bu dosya kapanmıstır deriz
                 item.dosya_kapanma_date = item.odeme_tarihi # ödeme_tarihi son gelen paranın tarihiydi . eğer yukardaki koşulu sağlarsa bu sipariş en son su tarıhte ödemeyi yaptı ve borcu bitti deriz son tarih ise bizim kapanma tarıhımız olur .
             else :
@@ -218,7 +216,7 @@ class MaliyetRaporIslem:
 
             item.gumruk = masraf_model.gumruk
             item.liman = masraf_model.liman
-            item.doviz_kur = self.odemeler.getOdenenKur(item.siparis_no) 
+            item.doviz_kur = self.odemeler.getOdenenKur(item.siparis_no,item.odenen_toplam_tutar,item.yukleme_year,item.yukleme_month,item.yukleme_day) 
             item.nakliye = masraf_model.nakliye
             item.ilaclama = masraf_model.ilaclama
             item.lashing = masraf_model.lashing
@@ -259,7 +257,8 @@ class MaliyetRaporIslem:
             else:
                 
                 if item.doviz_kur !=0 and item.doviz_kur != None:
-                    item.kar_zarar_tl =  item.kar_zarar * item.doviz_kur
+                    
+                    item.kar_zarar_tl =  float(item.kar_zarar) * float(item.doviz_kur)
 
             if len(item.navlun_evrak) > 0 and item.navlun_satis <= 0:
                 item.navlun_kontrol = False
@@ -494,7 +493,7 @@ class MaliyetRaporIslem_Yil: # hepsi butonna basıldıgında bu alan çalışır
             
             
             
-            item.doviz_kur = self.odemeler.getOdenenKur(item.siparis_no) 
+            item.doviz_kur = self.odemeler.getOdenenKur(item.siparis_no,item.odenen_toplam_tutar,item.yukleme_year,item.yukleme_month,item.yukleme_day)
             item.nakliye = masraf_model.nakliye
             item.ilaclama = masraf_model.ilaclama
             item.navlun_evrak = masraf_model.navlun_evrak
@@ -532,20 +531,13 @@ class MaliyetRaporIslem_Yil: # hepsi butonna basıldıgında bu alan çalışır
             else:
                 
                 if item.doviz_kur !=0 and item.doviz_kur != None:
-                    item.kar_zarar_tl =  item.kar_zarar * item.doviz_kur
+                    item.kar_zarar_tl =  float(item.kar_zarar) * float(item.doviz_kur)
 
             if len(item.navlun_evrak) > 0 and item.navlun_satis <= 0:
                 item.navlun_kontrol = False
             
             
-            if item.siparis_no == '22PDG08':
-                
-                print(item.toplam_bedel)
-                print(item.odenen_toplam_tutar)
-                print(item.siparis_no)
-                print(item.kar_zarar)
-                print(item.doviz_kur)
-                print(item.kar_zarar_tl)
+  
 
 
           

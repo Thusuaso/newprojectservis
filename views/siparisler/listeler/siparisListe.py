@@ -135,11 +135,7 @@ class SiparisListe:
                 bugun = date.today()
                 gun,ay,yil =  tarih.split('-')
                 siparisTarihi =  date(int(yil),int(ay),int(gun) )
-                if(item.evrak_adi != None):
-                    evrak_adi = item.evrak_adi
-                    evrak_adi = evrak_adi.split('.')[0]
-                else:
-                    evrak_adi = ""
+               
                 link =  f"https://file-service.mekmar.com/file/download/2/{item.SiparisNo}"
                 
                 sonuc =  bugun - siparisTarihi
@@ -266,11 +262,7 @@ class SiparisListe:
             bugun = date.today()
             gun,ay,yil =  tarih.split('-')
             siparisTarihi =  date(int(yil),int(ay),int(gun) )
-            if(item.evrak_adi != None):
-                evrak_adi = item.evrak_adi
-                evrak_adi = evrak_adi.split('.')[0]
-            else:
-                evrak_adi = None
+
             link =  f"https://file-service.mekmar.com/file/download/2/${item.SiparisNo}"   
             sonuc =  bugun - siparisTarihi
             sure = sonuc.days

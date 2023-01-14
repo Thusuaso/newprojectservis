@@ -1,6 +1,6 @@
 from helpers import SqlConnect,TarihIslemler
 from models.ozel_maliyet import OzelMaliyetListeModel
-
+from resource_api.finans.guncel_kur import DovizListem
 
 class Odemeler:
 
@@ -107,19 +107,24 @@ class Odemeler:
 
         return toplam_odeme      
 
-    def getOdenenKur(self,siparisno):
+    def getOdenenKur(self,siparisno,odenen,year,month,day):
 
         doviz_kur = 0
        
-        
-        for item in self.odeme_listesi:            
-          
-            if siparisno == item.siparis_no:
-                doviz_kur = item.doviz_kur
-           
-                    
+        if odenen > 0:
+             
+            for item in self.odeme_listesi:            
+            
+                if siparisno == item.siparis_no:
+                    doviz_kur = item.doviz_kur
+            
+                        
 
-     
-        return (doviz_kur)        
+        
+            return (doviz_kur)
+        else:
+            doviz = DovizListem()
+            dovizKur = doviz.getDovizKurListe(str(year),str(month),str(day))
+            return dovizKur
 
 

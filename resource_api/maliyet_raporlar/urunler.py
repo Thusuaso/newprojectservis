@@ -87,6 +87,7 @@ class Urunler:
                 #model.mekmoz_alim_evrak = item.mekmoz_alim_evrak
                 #model.dis_alim_evrak = item.dis_alim_evrak
                 model.dis_alim_fatura_sayisi = item.dis_alim_fatura_sayisi
+                
 
                 
 

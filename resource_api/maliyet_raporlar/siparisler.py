@@ -69,7 +69,8 @@ class Siparisler:
 
 			(select sum(ozel.Tutar) from SiparisEkstraGiderlerTB ozel  where ozel.SiparisNo=s.SiparisNo) as ozeliscilik,
             YEAR(s.YuklemeTarihi) as YuklemeYil,
-			MONTH(s.YuklemeTarihi) as YuklemeAy
+			MONTH(s.YuklemeTarihi) as YuklemeAy,
+            DAY(s.YuklemeTarihi) as YuklemeGun
             from
             SiparislerTB s,MusterilerTB m,YeniTeklif_UlkeTB u,SiparisTeslimTurTB t
             where
@@ -171,6 +172,7 @@ class Siparisler:
                 model.pazarlama = item.Komisyon
             model.yukleme_year = item.YuklemeYil
             model.yukleme_month = item.YuklemeAy
+            model.yukleme_day = item.YuklemeGun
             if self.__getAlisControl(item.SiparisNo):
                 model.alisFiyatiKontrol = "#F1948A"
             self.siparis_listesi.append(model)
