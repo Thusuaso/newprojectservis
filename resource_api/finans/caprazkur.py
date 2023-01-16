@@ -44,6 +44,7 @@ class DovizListem:
          for child in currency:
             if (child.tag == 'CrossRateOther' and currency.get("Kod") == "EUR"):
                 cross_dolar = float(child.text)
+                print(cross_dolar)
         
             else:
              continue
