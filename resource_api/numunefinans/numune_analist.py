@@ -84,10 +84,19 @@ class NumuneFinansAnaListe:
         result = self.data.getStoreList(
 
             """
-                SELECT sum(Tutar) as bedel ,
-                sum(TL_Tutar) as bedel_TL,
-                sum(Euro_Tutar) as bedel_Euro, Banka 
-                FROM NumuneOdemelerTB where YEAR(Tarih)=? group by Banka
+                select 
+
+                    sum(nod.Tutar) as bedel,
+                    nod.Banka,
+                    sum(nod.Euro_Tutar) as bedel_Euro,
+                    sum(nod.TL_Tutar) as bedel_TL
+
+
+                from NumunelerTB n
+                inner join NumuneOdemelerTB nod on nod.NumuneNo = n.NumuneNo
+
+                where YEAR(n.NumuneTarihi) = ?
+                group by nod.Banka
 
             """,(yil)
         )

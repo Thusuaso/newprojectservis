@@ -95,7 +95,7 @@ class TahsilatIslem:
                     item['tarih'],item['musteri_id'],item['siparisno'],item['tutar'],kullaniciid,item['banka']
                 )
             )
-            #self.mailGonder(item['siparisno'],'Yeni Numune Tahsilat Girişi',item['tutar'],item['tarih'],item['kullaniciadi'])
+            self.mailGonder(item['siparisno'],'Yeni Numune Tahsilat Girişi',item['tutar'],item['tarih'],item['kullaniciadi'])
             item['kullaniciadi'] = item['kullaniciadi'].capitalize()
             info = item['kullaniciadi'] + ',' + item['siparisno'] + ' Numunesi Için Tahsilat Girdi.'
             DegisiklikMain(item['kullaniciadi'],info)
@@ -105,7 +105,6 @@ class TahsilatIslem:
             return False
 
     def tahsilatGuncelle(self,item):
-        
         try:
             kullaniciid = self.data.getStoreList(
                 """
@@ -118,14 +117,14 @@ class TahsilatIslem:
 
                 """
                 update NumuneOdemelerTB set Tarih=?,Tutar=?,
-                 Kullanici =?,Banka=?
+                Kullanici =?,Banka=?
                 where ID=?
                 """,(
                     item['tarih'],item['tutar']
-                   ,kullaniciid,item['banka'],item['id']
+                ,kullaniciid,item['banka'],item['id']
                 )
             )
-
+ 
          
             ##self.mailGonder(item['siparisno'],'Numune Tahsilat Değiştirme',item['tutar'],item['tarih'],item['kullaniciadi'])
             item['kullaniciadi'] = item['kullaniciadi'].capitalize()
