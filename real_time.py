@@ -56,5 +56,10 @@ def tedarikci_degisim_event():
 def bildirimler_update_event():
     emit('bildirimler_update_emit')
 
+@socketio.on('stock_list_event')
+def stock_list_event():
+    emit('stock_list_emit')
+
+
 if __name__ == '__main__':
     socketio.run(app,port=5001)

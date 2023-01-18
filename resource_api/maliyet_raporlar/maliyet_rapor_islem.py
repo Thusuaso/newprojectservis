@@ -281,7 +281,11 @@ class MaliyetRaporIslem:
             if len(item.navlun_evrak) > 0 and item.navlun_satis <= 0:
                 item.navlun_kontrol = False
 
-
+            if item.toplam_bedel == 0 and item.odenen_toplam_tutar ==0:
+                item.dosya_kapanma_date = self.__getLoadDate(item.siparis_no)
+                
+            if item.siparis_no == '22KET01 - 3':
+                item.dosya_kapanma_date = self.__getLoadDate(item.siparis_no)
           
             liste.append(item)
 
@@ -289,6 +293,11 @@ class MaliyetRaporIslem:
         schema = OzelMaliyetListeSchema(many=True)
 
         return schema.dump(liste)
+    
+    def __getLoadDate(self,siparisNo):
+        for item in  self.siparisler:
+            if(item.siparis_no == siparisNo):
+                return item.yukleme_tarihi
  
 
 class MaliyetRaporIslem_Yil: # hepsi butonna basıldıgında bu alan çalışır . 
@@ -540,8 +549,7 @@ class MaliyetRaporIslem_Yil: # hepsi butonna basıldıgında bu alan çalışır
                     
             
             item.doviz_kur = self.odemeler.getOdenenKur(item.siparis_no,item.odenen_toplam_tutar,item.yukleme_year,item.yukleme_month,item.yukleme_day)
-            if item.siparis_no == '22STP03':
-                print(item.doviz_kur)
+            
             item.nakliye = masraf_model.nakliye
             item.ilaclama = masraf_model.ilaclama
             item.navlun_evrak = masraf_model.navlun_evrak
@@ -584,10 +592,14 @@ class MaliyetRaporIslem_Yil: # hepsi butonna basıldıgında bu alan çalışır
             if len(item.navlun_evrak) > 0 and item.navlun_satis <= 0:
                 item.navlun_kontrol = False
             
+
+
             
-  
+            if item.toplam_bedel == 0 and item.odenen_toplam_tutar ==0:
+                item.dosya_kapanma_date = self.__getLoadDate(item.siparis_no)
 
-
+            if item.siparis_no == '22KET01 - 3':
+                item.dosya_kapanma_date = self.__getLoadDate(item.siparis_no)
           
             liste.append(item)
 
@@ -596,6 +608,12 @@ class MaliyetRaporIslem_Yil: # hepsi butonna basıldıgında bu alan çalışır
 
         return schema.dump(liste)
 
+    
+    def __getLoadDate(self,siparisNo):
+        for item in  self.siparisler:
+            if(item.siparis_no == siparisNo):
+                return item.yukleme_tarihi
+            
 
 
 

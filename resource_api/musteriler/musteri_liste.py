@@ -388,7 +388,8 @@ class TeklifMusteriler:
                                             select 
 
                                                 *,
-                                                (select yu.UlkeAdi from YeniTeklif_UlkeTB yu where yu.Id = ym.UlkeId) as UlkeAdi
+                                                (select yu.UlkeAdi from YeniTeklif_UlkeTB yu where yu.Id = ym.UlkeId) as UlkeAdi,
+												(select k.KullaniciAdi from KullaniciTB k where k.ID = ym.Kullanici) as KullaniciAdi 
 
                                             from YeniTeklif_MusterilerTB ym
                                        """)
@@ -404,6 +405,7 @@ class TeklifMusteriler:
                 model.countryName = item.UlkeAdi
                 model.user = item.Kullanici
                 model.adress = item.Adress
+                model.username = item.KullaniciAdi
                 liste.append(model)
                 
             schema = TeklifMusterilerSchema(many=True)

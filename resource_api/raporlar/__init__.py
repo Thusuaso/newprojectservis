@@ -20,3 +20,5 @@ from resource_api.raporlar.bankaVeEvrakMasraflar import *
 from resource_api.raporlar.temsilciSatislari.temsilciSatislari import *
 from resource_api.raporlar.dashboard.dashboard import *
 from resource_api.raporlar.ceyreklik_rapor import *
+from resource_api.raporlar.stock_price import *
+

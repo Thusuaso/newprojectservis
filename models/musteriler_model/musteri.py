@@ -88,6 +88,7 @@ class TeklifMusterilerSchema(Schema):
     user = fields.Int()
     adress = fields.String()
     countryName = fields.String()
+    username = fields.String()
     
 class TeklifMusterilerModel:
     id = 0
@@ -99,6 +100,7 @@ class TeklifMusterilerModel:
     user = 0
     adress = ""
     countryName=""
+    username = ""
     
 class FuarMusterilerSchema(Schema):
     id = fields.Int()

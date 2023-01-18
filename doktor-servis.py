@@ -547,6 +547,7 @@ api.add_resource(StokRaporAnaListeFilterApi,'/raporlar/listeler/stokRaporuAnaLis
 api.add_resource(AnaSayfaDegisiklikListApi,'/raporlar/anaSayfa/anaSayfaDegisiklikList',methods=['GET'])
 api.add_resource(AnaSayfaDegisiklikListApiAll,'/raporlar/anaSayfa/anaSayfaDegisiklikListAll',methods=['GET'])
 
+api.add_resource(StockPriceAddApi,'/raporlar/listeler/setAddPrice',methods=['POST'])
 
 api.add_resource(TahminiDegisiklikApi,'/raporlar/anaSayfa/tahminiDegisiklik',methods=['GET'])
 

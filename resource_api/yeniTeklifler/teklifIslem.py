@@ -582,6 +582,8 @@ class TeklifIslem:
             musteriId = item['musteriId']
             if musteriId == None:
                 musteriId = self.__musteriKayit(item['musteriAdi'],item['ulkeId'],item,kullaniciId)
+            else:
+                musteriId = self.__musteriGuncelle(musteriId,item)
              
             proformaTarih = None
             if len(item['hatirlatmaTarihi']) > 0:
@@ -1228,6 +1230,10 @@ class TeklifIslem:
             model.id = item.Id 
             model.musteriAdi = item.MusteriAdi 
             model.ulkeId = item.UlkeId
+            model.company = item.Company
+            model.email = item.Mail
+            model.phone = item.Phone
+            model.adress = item.Adress
 
             liste.append(model)
 
@@ -1289,5 +1295,16 @@ class TeklifIslem:
             print("__musteriKayit Hata : ",str(e))
             return False
 
+    def __musteriGuncelle(self,musteriId,item):
+        try:
+            self.data.update_insert("""
+
+                                        update YeniTeklif_MusterilerTB SET Company=?,Mail=?,Phone=?,Adress=? where Id=?
+                                    """,(item['company'],item['email'],item['phone'],item['adress'],musteriId))
+            return musteriId
+            
+        except Exception as e:
+            print('__musteriGuncelle hata',str(e))
+            return False
     
     

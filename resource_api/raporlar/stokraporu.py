@@ -713,8 +713,8 @@ class StokRapor:
                 olc.Boy,
                 olc.Kenar,
                 yz.YuzeyIslemAdi,
-                ur.UrunKartID
-                
+                ur.UrunKartID,
+                (select ukt.Price from UrunKartTB ukt where ukt.ID = ur.UrunKartID) as Price
                 
 
 
@@ -738,7 +738,7 @@ class StokRapor:
         for item in resultStockList:
 
             model = StokAnaListeModel()
-
+            model.urunKartId = item.UrunKartID
             model.ebat = item.En +'x'+ item.Boy +'x'+ item.Kenar
             model.kasaSayisi = item.KasaSayisi
             model.yuzeyIslem = item.YuzeyIslemAdi
@@ -746,6 +746,7 @@ class StokRapor:
             model.en = item.En
             model.boy = item.Boy
             model.kenar = item.Kenar
+            model.price = item.Price
             model.miktar = self.getStokAnaListMiktarKontrol(item.UrunKartID,self.resultMiktarList)
             
             liste.append(model)

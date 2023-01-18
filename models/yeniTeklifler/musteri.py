@@ -8,9 +8,17 @@ class MusteriSchema(Schema):
     ulkeId = fields.Int()
     ulke = fields.Nested(UlkeSchema())
     teklifSayisi = fields.Int()
+    company = fields.String()
+    email = fields.String()
+    phone = fields.String()
+    adress = fields.String()
 class MusteriModel:
     id = None 
     musteriAdi = ""
     ulkeId = None 
     ulke = UlkeModel()
     teklifSayisi = 0
+    company = ""
+    email = ""
+    phone = ""
+    adress = ""

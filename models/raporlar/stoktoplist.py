@@ -54,6 +54,7 @@ class StokAnaListeSchema(Schema):
     miktar = fields.Float()
     urunKartId = fields.Int()
     ocak = fields.String()
+    price = fields.Float()
 
 class StokAnaListeModel:
     ebat = ""
@@ -67,3 +68,4 @@ class StokAnaListeModel:
     miktar = 0
     urunKartId = 0
     ocak = ""
+    price = 0
