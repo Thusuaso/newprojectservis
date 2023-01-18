@@ -298,12 +298,12 @@ class NumuneIslem:
         y_tarihi = item['yukleme_tarihi']
         
         if item['Euro_Alis'] >0:
-            item['kuryeAlis'] = float(item['Euro_Alis']) * float(self.__getCrossRange(y_tarihi))
-            item['TL_Alis'] = float(item['kuryeAlis']) * float(self.__getNormalRange(y_tarihi))
+            item['kuryeAlis'] = float(item['Euro_Alis']) * float(self.__getCrossRange(g_tarihi))
+            item['TL_Alis'] = float(item['kuryeAlis']) * float(self.__getNormalRange(g_tarihi))
                 
         if item['kuryeSatis'] >0:
-            item['Euro_Satis'] = float(item['kuryeSatis']) / float(self.__getCrossRange(y_tarihi))
-            item['TL_Satis'] = float(item['kuryeSatis']) * float(self.__getNormalRange(y_tarihi))
+            item['Euro_Satis'] = float(item['kuryeSatis']) / float(self.__getCrossRange(g_tarihi))
+            item['TL_Satis'] = float(item['kuryeSatis']) * float(self.__getNormalRange(g_tarihi))
             
         forMat = '%d-%m-%Y'
         g_tarihi = datetime.datetime.strptime(g_tarihi, forMat)
@@ -377,12 +377,12 @@ class NumuneIslem:
         g_tarihi = item['giristarih']
         y_tarihi = item['yukleme_tarihi']
         if item['Euro_Alis'] >0:
-            item['kuryeAlis'] = float(item['Euro_Alis']) * float(self.__getCrossRange(y_tarihi))
-            item['TL_Alis'] = float(item['kuryeAlis']) * float(self.__getNormalRange(y_tarihi))
+            item['kuryeAlis'] = float(item['Euro_Alis']) * float(self.__getCrossRange(g_tarihi))
+            item['TL_Alis'] = float(item['kuryeAlis']) * float(self.__getNormalRange(g_tarihi))
                 
         if item['kuryeSatis'] >0:
-            item['Euro_Satis'] = float(item['kuryeSatis']) / float(self.__getCrossRange(y_tarihi))
-            item['TL_Satis'] = float(item['kuryeSatis']) * float(self.__getNormalRange(y_tarihi))
+            item['Euro_Satis'] = float(item['kuryeSatis']) / float(self.__getCrossRange(g_tarihi))
+            item['TL_Satis'] = float(item['kuryeSatis']) * float(self.__getNormalRange(g_tarihi))
             
             
 
