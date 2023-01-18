@@ -13,6 +13,7 @@ class DovizListem:
     def getDovizKurListe(self,yil,ay,gun):
         is_day = datetime.datetime(yil,ay,gun)
         is_day = is_day.strftime("%a")
+        
         if is_day == 'Sat':
             gun = gun - 1
         elif is_day == 'Sun':

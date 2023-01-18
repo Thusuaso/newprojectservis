@@ -6,6 +6,8 @@ from flask_restful import Resource
 from flask import jsonify,request
 import datetime
 from views.raporlar import AnaSayfaDegisiklik
+from resource_api.finans.caprazkur import DovizListem
+from resource_api.finans.guncel_kur import DovizListem as GuncelKurList
 
 
 
@@ -294,6 +296,15 @@ class NumuneIslem:
 
         g_tarihi = item['giristarih']
         y_tarihi = item['yukleme_tarihi']
+        
+        if item['Euro_Alis'] >0:
+            item['kuryeAlis'] = float(item['Euro_Alis']) * float(self.__getCrossRange(y_tarihi))
+            item['TL_Alis'] = float(item['kuryeAlis']) * float(self.__getNormalRange(y_tarihi))
+                
+        if item['kuryeSatis'] >0:
+            item['Euro_Satis'] = float(item['kuryeSatis']) / float(self.__getCrossRange(y_tarihi))
+            item['TL_Satis'] = float(item['kuryeSatis']) * float(self.__getNormalRange(y_tarihi))
+            
         forMat = '%d-%m-%Y'
         g_tarihi = datetime.datetime.strptime(g_tarihi, forMat)
         y_tarihi = datetime.datetime.strptime(y_tarihi, forMat)
@@ -304,11 +315,11 @@ class NumuneIslem:
         durum = 2
         try:
           
-            print("__numuneKayit",item)
           
             musteriId = self.__musteriKayit(item)
                 
-                 
+            
+            
             self.data.update_insert(
                 """
                 insert into NumunelerTB (
@@ -365,6 +376,17 @@ class NumuneIslem:
       
         g_tarihi = item['giristarih']
         y_tarihi = item['yukleme_tarihi']
+        if item['Euro_Alis'] >0:
+            item['kuryeAlis'] = float(item['Euro_Alis']) * float(self.__getCrossRange(y_tarihi))
+            item['TL_Alis'] = float(item['kuryeAlis']) * float(self.__getNormalRange(y_tarihi))
+                
+        if item['kuryeSatis'] >0:
+            item['Euro_Satis'] = float(item['kuryeSatis']) / float(self.__getCrossRange(y_tarihi))
+            item['TL_Satis'] = float(item['kuryeSatis']) * float(self.__getNormalRange(y_tarihi))
+            
+            
+
+        
         forMat = '%d-%m-%Y'
         g_tarihi = datetime.datetime.strptime(g_tarihi, forMat)
         y_tarihi = datetime.datetime.strptime(y_tarihi, forMat)
@@ -619,8 +641,23 @@ class NumuneIslem:
 
         return schema.dump(liste)
 
+    def __getCrossRange(self,g_tarihi):
+        year = int(g_tarihi.split("-")[2])
+        month = int(g_tarihi.split("-")[1])
+        day = int(g_tarihi.split("-")[0])
+        
+        islem = DovizListem()
+        crossRange = islem.getDovizKurListe(year,month,day)
+        return crossRange
     
-
+    def __getNormalRange(self,g_tarihi):
+        year = g_tarihi.split("-")[2]
+        month = g_tarihi.split("-")[1]
+        day = g_tarihi.split("-")[0]
+        
+        islem = GuncelKurList()
+        crossRange = islem.getDovizKurListe(str(year),str(month),str(day))
+        return crossRange
   
 
    
