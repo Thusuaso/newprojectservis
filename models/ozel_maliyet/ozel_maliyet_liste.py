@@ -84,6 +84,8 @@ class OzelMaliyetListeSchema(Schema):
     yukleme_month = fields.Int()
     alisFiyatiKontrol = fields.String()
     yukleme_day = fields.String()
+    isciliktedarikcimekmer = fields.Boolean()
+    isciliktedarikcimekmoz = fields.Boolean()
     
 class OzelMaliyetListeModel:
 
@@ -166,3 +168,5 @@ class OzelMaliyetListeModel:
     yukleme_year = 0
     yukleme_month = 0
     yukleme_day = 0
+    isciliktedarikcimekmer = False
+    isciliktedarikcimekmoz = False

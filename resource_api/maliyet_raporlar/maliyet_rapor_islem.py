@@ -289,7 +289,13 @@ class MaliyetRaporIslem:
                 
             if item.siparis_no == '22KET01 - 3':
                 item.dosya_kapanma_date = self.__getLoadDate(item.siparis_no)
-          
+
+            
+            if item.isciliktedarikcimekmer == True and item.isciliktedarikcimekmoz:
+                item.dis_alim_evrak = list() #urun_model.dis_alim_evrak
+                item.dis_alim_tedarikci = list()
+            
+            
             liste.append(item)
 
 
@@ -609,7 +615,11 @@ class MaliyetRaporIslem_Yil: # hepsi butonna basıldıgında bu alan çalışır
 
             if item.siparis_no == '22KET01 - 3':
                 item.dosya_kapanma_date = self.__getLoadDate(item.siparis_no)
-          
+                
+            if item.isciliktedarikcimekmer == True and item.isciliktedarikcimekmoz:
+                item.dis_alim_evrak = list() #urun_model.dis_alim_evrak
+                item.dis_alim_tedarikci = list()
+                
             liste.append(item)
 
         

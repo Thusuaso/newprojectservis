@@ -68,6 +68,8 @@ class Siparisler:
 
 
 			(select sum(ozel.Tutar) from SiparisEkstraGiderlerTB ozel  where ozel.SiparisNo=s.SiparisNo) as ozeliscilik,
+   			(select TOP 1 TedarikciID from SiparisEkstraGiderlerTB ozel  where ozel.SiparisNo=s.SiparisNo and ozel.TedarikciID=1) as isciliktedarikcimekmer,
+			(select TOP 1 TedarikciID from SiparisEkstraGiderlerTB ozel  where ozel.SiparisNo=s.SiparisNo and ozel.TedarikciID=123) as isciliktedarikcimekmoz,
             YEAR(s.YuklemeTarihi) as YuklemeYil,
 			MONTH(s.YuklemeTarihi) as YuklemeAy,
             DAY(s.YuklemeTarihi) as YuklemeGun
@@ -175,6 +177,13 @@ class Siparisler:
             model.yukleme_day = item.YuklemeGun
             if self.__getAlisControl(item.SiparisNo):
                 model.alisFiyatiKontrol = "#F1948A"
+                
+            if item.isciliktedarikcimekmer != None:
+                model.isciliktedarikcimekmer = item.isciliktedarikcimekmer
+            
+            if item.isciliktedarikcimekmoz != None:
+                model.isciliktedarikcimekmoz = item.isciliktedarikcimekmoz
+        
             self.siparis_listesi.append(model)
 
     
@@ -249,6 +258,8 @@ class Siparisler_Yil:
             (select k.KullaniciAdi from KullaniciTB k WHERE k.ID = s.SiparisSahibi) as siparisci,
 			(select k.KullaniciAdi from KullaniciTB k WHERE k.ID = s.Operasyon) as operasyon,
 			(select sum(ozel.Tutar) from SiparisEkstraGiderlerTB ozel  where ozel.SiparisNo=s.SiparisNo) as ozeliscilik,
+            (select TOP 1 TedarikciID from SiparisEkstraGiderlerTB ozel  where ozel.SiparisNo=s.SiparisNo and ozel.TedarikciID=1) as isciliktedarikcimekmer,
+			(select TOP 1 TedarikciID from SiparisEkstraGiderlerTB ozel  where ozel.SiparisNo=s.SiparisNo and ozel.TedarikciID=123) as isciliktedarikcimekmoz,
             (select f.FaturaAdi from FaturaKesilmeTB f where f.ID = s.FaturaKesimTurID) as faturalama,
 			Month(s.YuklemeTarihi) as YuklemeMonth,
             YEAR(s.YuklemeTarihi) as YuklemeYil,
@@ -366,6 +377,12 @@ class Siparisler_Yil:
             model.yukleme_month = item.YuklemeMonth
             if self.__getAlisControl(item.SiparisNo):
                 model.alisFiyatiKontrol = "#F1948A"
+            if item.isciliktedarikcimekmer != None:
+                model.isciliktedarikcimekmer = item.isciliktedarikcimekmer
+            
+            if item.isciliktedarikcimekmoz != None:
+                model.isciliktedarikcimekmoz = item.isciliktedarikcimekmoz
+                
             self.siparis_listesi.append(model)
             
             
