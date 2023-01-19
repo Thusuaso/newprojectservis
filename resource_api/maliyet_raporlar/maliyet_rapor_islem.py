@@ -294,7 +294,12 @@ class MaliyetRaporIslem:
             if item.isciliktedarikcimekmer == True and item.isciliktedarikcimekmoz:
                 item.dis_alim_evrak = list() #urun_model.dis_alim_evrak
                 item.dis_alim_tedarikci = list()
-            
+            if item.mekus_id   == True:
+                item.dis_alim_evrak = list() #urun_model.dis_alim_evrak
+                item.dis_alim_tedarikci = list()
+                item.dis_alim_tedarikci_sayisi = 0
+                item.tedarikci_sayisi = 0
+                item.dis_alim_fatura_sayisi = 0
             
             liste.append(item)
 
@@ -619,7 +624,12 @@ class MaliyetRaporIslem_Yil: # hepsi butonna basıldıgında bu alan çalışır
             if item.isciliktedarikcimekmer == True and item.isciliktedarikcimekmoz:
                 item.dis_alim_evrak = list() #urun_model.dis_alim_evrak
                 item.dis_alim_tedarikci = list()
-                
+            if item.mekus_id   == True:
+                item.dis_alim_evrak = list() #urun_model.dis_alim_evrak
+                item.dis_alim_tedarikci = list()
+                item.dis_alim_tedarikci_sayisi = 0
+                item.tedarikci_sayisi = 0
+                item.dis_alim_fatura_sayisi = 0
             liste.append(item)
 
         

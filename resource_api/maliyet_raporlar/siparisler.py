@@ -133,7 +133,8 @@ class Siparisler:
                 detay_tutar_4 = item.DetayTutar_4
 
             if item.depo_yukleme != None:
-                 model.mekus_id  = item.depo_yukleme    
+                 model.mekus_id  = item.depo_yukleme  
+                   
             if item.sigorta_tutar_satis != None:
                 model.sigorta_tutar_satis = item.sigorta_tutar_satis
                 
