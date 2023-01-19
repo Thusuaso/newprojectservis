@@ -241,8 +241,11 @@ class MaliyetRaporIslem:
             item.booking = masraf_model.booking
             item.spazlet = masraf_model.spazlet
             
-            
-            item.navlun_evrak = masraf_model.navlun_evrak
+            if item.mekus_id == False:
+                
+                item.navlun_evrak = masraf_model.navlun_evrak
+            else:
+                item.navlun_evrak = []
             item.gumruk_evrak = masraf_model.gumruk_evrak
             item.nakliye_evrak = masraf_model.nakliye_evrak
             item.ilaclama_evrak = masraf_model.ilaclama_evrak
@@ -552,7 +555,13 @@ class MaliyetRaporIslem_Yil: # hepsi butonna basıldıgında bu alan çalışır
             
             item.nakliye = masraf_model.nakliye
             item.ilaclama = masraf_model.ilaclama
-            item.navlun_evrak = masraf_model.navlun_evrak
+            if item.mekus_id == False:
+                
+                item.navlun_evrak = masraf_model.navlun_evrak
+            else:
+                item.navlun_evrak = []
+            
+            
             item.gumruk_evrak = masraf_model.gumruk_evrak
             item.nakliye_evrak = masraf_model.nakliye_evrak
             item.ilaclama_evrak = masraf_model.ilaclama_evrak
