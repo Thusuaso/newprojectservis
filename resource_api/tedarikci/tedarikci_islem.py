@@ -207,11 +207,12 @@ class TedarikciIslem:
                                         select * from SiparisUrunTedarikciFormTB where TedarikciID=? and SiparisNo=?
                                    """,(tedarikciId,siparisNo))
         if (len(result)>0):
-            return False
-        else:
             return True
+        else:
+            return False
     
     def getIsfControl(self,evrakAdi):
+        print(evrakAdi)
         result = self.data.getStoreList("""
                                     select * from SiparisFaturaKayitTB where YuklemeEvrakID=3 and EvrakAdi=?
                                
