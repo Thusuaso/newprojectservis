@@ -12,9 +12,10 @@ class CeyreklikRaporlar:
 
                                                 from SiparislerTB s
                                                     inner join SiparisUrunTB su on su.SiparisNo = s.SiparisNo
+                                                    inner join MusterilerTB m on m.ID = s.MusteriID
 
                                                 where
-                                                    YEAR(s.YuklemeTarihi) = ? and s.SiparisDurumID=3
+                                                    YEAR(s.YuklemeTarihi) = ? and s.SiparisDurumID=3  and m.Marketing='Mekmar'
                                                 group by MONTH(s.YuklemeTarihi)
                                                 order by MONTH(s.YuklemeTarihi)
                                               
@@ -22,17 +23,18 @@ class CeyreklikRaporlar:
         self.digerler = self.sql.getStoreList("""
                                                 select 
 
-                                                    sum(s.NavlunSatis) as NavlunSatis,
-                                                    sum(s.DetayTutar_1) + sum(s.DetayTutar_2) +sum(s.DetayTutar_3) + sum(s.DetayTutar_4) + sum(s.EvrakGideri) + sum(s.İlaclamaGideri) + sum(s.sigorta_Tutar)  as EkTutarlar ,
-                                                    sum(s.NavlunAlis) as NavlunAlis,
-                                                    sum(s.DetayAlis_1) + sum(s.DetayAlis_2) + sum(s.DetayAlis_3)   + sum(s.Komisyon) as Masraflar,
-                                                    MONTH(s.YuklemeTarihi) as Month
+                                                sum(s.NavlunSatis) as NavlunSatis,
+                                                sum(s.DetayTutar_1) + sum(s.DetayTutar_2) +sum(s.DetayTutar_3) + sum(s.DetayTutar_4) + sum(s.EvrakGideri)  + sum(s.sigorta_Tutar)  as EkTutarlar ,
+                                                sum(s.NavlunAlis) as NavlunAlis,
+                                                sum(s.DetayAlis_1) + sum(s.DetayAlis_2) + sum(s.DetayAlis_3)   + sum(s.Komisyon) as Masraflar,
+                                                MONTH(s.YuklemeTarihi) as Month
 
 
                                                 from SiparislerTB s
+                                                inner join MusterilerTB m on m.ID= s.MusteriID
 
                                                 where
-                                                    YEAR(s.YuklemeTarihi) = ? and s.SiparisDurumID=3
+                                                YEAR(s.YuklemeTarihi) = ? and s.SiparisDurumID=3 and m.Marketing='Mekmar'
                                                 group by MONTH(s.YuklemeTarihi)
                                                 order by MONTH(s.YuklemeTarihi)
                                               
@@ -40,17 +42,18 @@ class CeyreklikRaporlar:
         
         self.satislarStatistic = self.sql.getStoreList("""
                                                             select 
-                                                                MONTH(s.YuklemeTarihi) as Month,
-                                                                sum(su.SatisToplam) as SatisToplami,
-                                                                su.SiparisNo
+                                                        MONTH(s.YuklemeTarihi) as Month,
+                                                        sum(su.SatisToplam) as SatisToplami,
+                                                        su.SiparisNo
 
-                                                            from SiparislerTB s
-                                                                inner join SiparisUrunTB su on su.SiparisNo = s.SiparisNo
+                                                        from SiparislerTB s
+                                                        inner join SiparisUrunTB su on su.SiparisNo = s.SiparisNo
+                                                        inner join MusterilerTB m on m.ID=s.MusteriID
 
-                                                            where
-                                                                YEAR(s.YuklemeTarihi) = ? and s.SiparisDurumID=3
-                                                            group by su.SiparisNo,MONTH(s.YuklemeTarihi)
-                                                            order by MONTH(s.YuklemeTarihi)
+                                                        where
+                                                        YEAR(s.YuklemeTarihi) = ? and s.SiparisDurumID=3 and m.Marketing='Mekmar'
+                                                        group by su.SiparisNo,MONTH(s.YuklemeTarihi)
+                                                        order by MONTH(s.YuklemeTarihi)
                                                        
                                                        
                                                        
@@ -67,9 +70,10 @@ class CeyreklikRaporlar:
 
 
                                                             from SiparislerTB s
+																inner join MusterilerTB m on m.ID=s.MusteriID
 
                                                             where
-                                                                YEAR(s.YuklemeTarihi) = ? and s.SiparisDurumID=3
+                                                                YEAR(s.YuklemeTarihi) = ? and s.SiparisDurumID=3 and m.Marketing='Mekmar'
                                                             order by MONTH(s.YuklemeTarihi)
                                                        
                                                        
