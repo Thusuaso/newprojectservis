@@ -8,5 +8,10 @@ class CeyreklikRaporlarApi(Resource):
         satislar = islem.getCeyreklikYear()
         chart = islem.getChartModel()
         statistics = islem.getStatistics()
-        return jsonify({'satislar':satislar,'chart':chart,'statistics':statistics})
+        
+        siparisler = islem.getCeyreklikYearSiparisler()
+        siparislerChart = islem.getChartModelSiparisler()
+        siparislerStatistics = islem.getStatisticsSiparisler()
+        
+        return jsonify({'satislar':satislar,'chart':chart,'statistics':statistics,'siparisler':siparisler,'siparislerChart':siparislerChart,'siparislerStatistics':siparislerStatistics})
     
