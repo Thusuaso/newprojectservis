@@ -108,7 +108,6 @@ class Odemeler:
         return toplam_odeme      
 
     def getOdenenKur(self,siparisno,odenen,year,month,day):
-
         doviz_kur = 0
        
         if odenen > 0:

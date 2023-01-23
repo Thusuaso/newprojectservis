@@ -227,10 +227,8 @@ class MaliyetRaporIslem:
                     item.yukleme_day = 29
             else:
                 if(x.strftime('%A') == 'Saturday'):
-                    item.yukleme_month = 12
                     item.yukleme_day = item.yukleme_day - 1
                 elif(x.strftime('%A') == 'Sunday'):
-                    item.yukleme_month = 12
                     item.yukleme_day = item.yukleme_day - 2
 
             

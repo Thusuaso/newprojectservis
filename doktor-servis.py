@@ -198,6 +198,9 @@ api.add_resource(NumuneFormModel,'/islemler/numune/numuneModel/<string:numunepo>
 api.add_resource(NumuneFinansAnaListeApi,'/numunefinans/listeler/NumuneFinansAnaListe/<int:yil>',methods=['GET'])
 api.add_resource(NumuneAyrintRestList,'/numunefinans/listeler/numuneAyrintiListesi/<int:musteriid>',methods=['GET'])
 
+api.add_resource(NumuneBankayaGelenAyrinti,"/islemler/numune/bankayagelen/<string:banka>/<int:yil>",methods=['GET'])
+
+
 api.add_resource(NumuneTahsilatIslemList,'/numune/finans/liste/musteriTahsilatListe/<int:musteriid>/<string:siparisno>',methods=['GET'])
 api.add_resource(NumuneTahsilatKayitIslem,'/numune/finans/islemler/tahsilatKayitDegistirme',methods=['GET','POST','PUT'])
 api.add_resource(NumuneTahsilatKayitSilme,'/numune/finans/islemler/tahsilatKayitSilme/<int:id>',methods=['GET','DELETE'])

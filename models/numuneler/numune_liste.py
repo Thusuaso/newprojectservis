@@ -20,6 +20,8 @@ class NumuneListeSchema(Schema):
     aciklama = fields.String()
     odeme_durum = fields.Boolean()
     link=fields.String()
+    gonderi_tipi = fields.String()
+    banka_secimi = fields.String()
 
    
 class NumuneListeModel:
@@ -42,6 +44,8 @@ class NumuneListeModel:
     aciklama = ""
     odeme_durum = False
     link=""
+    gonderi_tipi = ""
+    banka_secimi = ""
 
 
      

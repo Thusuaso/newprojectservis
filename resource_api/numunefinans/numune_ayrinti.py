@@ -37,17 +37,19 @@ class NumuneFinansAyrinti:
 			n.NumuneNo , 
             m.Id,
 			n.YuklemeTarihi,
+			n.NumuneTarihi,
 			sum(n.KuryeAlis) as KuryeAlis,
 			sum(n.KuryeSatis) as KuryeSatis,
             sum(n.TL_Alis) as TL_Alis,
 			  sum(n.TL_Satis) as TL_Satis,
               sum(n.Euro_Alis) as Euro_Alis,
 			  sum(n.Euro_Satis) as Euro_Satis,
-			(select g.GonderiAdi from NumuneGonderiTipi g where g.ID=n.GonderiTipi) as odeme
+			(select g.GonderiAdi from NumuneGonderiTipi g where g.ID=n.GonderiTipi) as odeme,
+			(select b.BankaAdi from NumuneBankaSecim b where b.ID = n.BankaSecim) as banka
 			from NumunelerTB n ,  YeniTeklif_MusterilerTB m 
 			where m.Id = n.MusteriID  and m.Id=?
 			group by n.NumuneNo ,  m.Id ,n.YuklemeTarihi , n.KuryeAlis,n.GonderiTipi,
-			n.KuryeSatis,TL_Alis,TL_Satis,Euro_Alis,Euro_Satis
+			n.KuryeSatis,TL_Alis,TL_Satis,Euro_Alis,Euro_Satis,n.BankaSecim,n.NumuneTarihi
 
 			order by  n.NumuneNo asc
 
@@ -69,7 +71,8 @@ class NumuneFinansAyrinti:
 
             model.Euro_Alis = item.Euro_Alis
             model.Euro_Satis = item.Euro_Satis 
-
+            model.banka = item.banka
+            model.numune_tarihi = tarihIslem.getDate(item.NumuneTarihi).strftime("%d-%m-%Y")
             model.odeme = item.odeme
             if item.YuklemeTarihi != None:
                 model.sevktarihi = tarihIslem.getDate(item.YuklemeTarihi).strftime("%d-%m-%Y")

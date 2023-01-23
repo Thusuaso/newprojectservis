@@ -24,7 +24,11 @@ class NumuneListe:
                     (select kt.Urun from NumuneKategoriTB kt where kt.ID=n.KategoriID) as kategori,
                     
 
-                    (select b.BirimAdi from UrunBirimTB b where b.ID=n.UrunBirimi) as birim
+                    (select b.BirimAdi from UrunBirimTB b where b.ID=n.UrunBirimi) as birim,
+					n.YuklemeTarihi,
+					(select ngt.GonderiAdi from NumuneGonderiTipi ngt where ngt.ID = n.GonderiTipi) as GonderiTipi,
+					(select nbc.BankaAdi from NumuneBankaSecim nbc where nbc.ID = n.BankaSecim) as BankaSecimi
+
                 from  NumunelerTB n , YeniTeklif_MusterilerTB m
                  where n.MusteriID=m.Id and year( n.NumuneTarihi) = ?
                 
@@ -47,7 +51,8 @@ class NumuneListe:
            
             model.miktar = item.Miktar
             model.birim = item.birim
-           
+            model.banka_secimi = item.BankaSecimi
+            model.gonderi_tipi = item.GonderiTipi
             model.aciklama = item.Aciklama
             if item.temsilci == 'ozlem':
                 model.link = 'https://mekmar-image.fra1.digitaloceanspaces.com/personel/avatar5.png'

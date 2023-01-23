@@ -109,7 +109,11 @@ class NumuneTahsilatKayitSilme(Resource):
 
         return jsonify({'status' : result})            
 
-
+class NumuneBankayaGelenAyrinti(Resource):
+    def get(self,banka,yil):
+        islem = NumuneFinansAnaListe()
+        banka_list_ayrinti = islem.getBankayaGelenOdemelerAyrinti(banka,yil)
+        return jsonify(banka_list_ayrinti)
 
 
         

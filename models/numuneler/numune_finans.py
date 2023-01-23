@@ -36,6 +36,8 @@ class NumuneFinansAyrintiSchema(Schema):
     Euro_Alis = fields.Float()
     Euro_Satis = fields.Float()
     odeme = fields.String()
+    banka = fields.String()
+    numune_tarihi = fields.String()
 
 class NumuneFinansAyrintiModel:
     id = None
@@ -50,6 +52,8 @@ class NumuneFinansAyrintiModel:
     Euro_Alis = 0
     Euro_Satis = 0
     odeme = ""
+    banka = ""
+    numune_tarihi = ""
     
 
 class NumuneFinansBankaSchema(Schema):
@@ -74,3 +78,24 @@ class NumuneYilModel:
 
     id = None
     yil = 0
+    
+    
+class NumuneBankayaGelenAyrintiSchema(Schema):
+    id = fields.Int()
+    bedel_dolar = fields.Float()
+    bedel_euro = fields.Float()
+    bedel_tl = fields.Float()
+    banka_adi = fields.String()
+    numune_no = fields.String()
+    musteri_adi = fields.String()
+    numune_tarihi = fields.String()
+    
+class NumuneBankayaGelenAyrintiModel:
+    id = 0
+    bedel_dolar = 0
+    bedel_euro = 0
+    bedel_tl = 0
+    banka_adi = ""
+    numune_no = ""
+    musteri_adi = ""
+    numune_tarihi = ""

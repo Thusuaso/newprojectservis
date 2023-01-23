@@ -186,5 +186,44 @@ class NumuneFinansAnaListe:
         return schema.dump(liste)
  
 
+    def getBankayaGelenOdemelerAyrinti(self,banka,yil):
+        try:
+            result = self.data.getStoreList("""
+                                                select 
+                                                    nod.ID,
+                                                    nod.Tutar as bedel,
+                                                    nod.Banka,
+                                                    nod.Euro_Tutar as bedel_Euro,
+                                                    nod.TL_Tutar as bedel_TL,
+                                                    nod.NumuneNo,
+                                                    (select ym.MusteriAdi from YeniTeklif_MusterilerTB ym where ym.Id = n.MusteriID) as Musteri,
+                                                    n.NumuneTarihi
+
+
+                                                from NumunelerTB n
+                                                inner join NumuneOdemelerTB nod on nod.NumuneNo = n.NumuneNo
+
+                                                where YEAR(n.NumuneTarihi) = ? and nod.Banka=?
+                                            
+                                            """,(yil,banka))
+            
+            liste = list()
+            for item in result:
+                model = NumuneBankayaGelenAyrintiModel()
+                model.id = item.ID
+                model.bedel_dolar = item.bedel
+                model.bedel_euro = item.bedel_Euro
+                model.bedel_tl = item.bedel_TL
+                model.banka_adi = item.Banka
+                model.musteri_adi = item.Musteri
+                model.numune_no = item.NumuneNo
+                model.numune_tarihi = item.NumuneTarihi
+                liste.append(model)
+            schema = NumuneBankayaGelenAyrintiSchema(many=True)
+            return schema.dump(liste)
+        
+        except Exception as e:
+            print('getBankayaGelenOdemelerAyrinti hata',str(e))
+            return False
 
    
