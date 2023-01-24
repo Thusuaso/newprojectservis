@@ -489,12 +489,6 @@ class MayaGelenBedeller:
                 'numune':data2
             }
             return datas
-            
-            
-                    
-        
-            
-        
         except Exception as e:
             print('getMayaGelenBedeller hata',str(e))
             return False

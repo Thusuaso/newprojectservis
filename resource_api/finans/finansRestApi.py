@@ -465,6 +465,24 @@ class MayaNumSipGelenYearApi(Resource):
         islem = MayaGelenBedeller()
         result = islem.getMayaGelenBedellerYear(year)
         return jsonify(result)
+    
+class MayaGelenBedellerCiktiApi(Resource):
+
+    def post(self):
+
+        data_list = request.get_json()
+
+        islem = ExcelCiktiIslem()
+
+        result = islem.maya_gelen_bedeller_cikti(data_list)
+
+        return jsonify({'status' : result})
+
+    def get(self):
+
+        excel_path = 'resource_api/finans/konteyner_islem/dosyalar/maya_gelen_bedeller_cikti.xlsx'
+
+        return send_file(excel_path,as_attachment=True)
 
 
 

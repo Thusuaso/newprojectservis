@@ -206,3 +206,57 @@ class ExcelCiktiIslem:
         except Exception as e:
             print('ExcelCiktiIslem odemelerCikti Hata : ',str(e))
             return False
+
+    def maya_gelen_bedeller_cikti(self,data_list):
+        try:
+            source_path = 'resource_api/finans/konteyner_islem/sablonlar/maya_gelen_bedeller_cikti.xlsx'
+            target_path = 'resource_api/finans/konteyner_islem/dosyalar/maya_gelen_bedeller_cikti.xlsx'
+
+            shutil.copy2(source_path, target_path)
+
+
+            kitap = load_workbook(target_path)
+            sayfa = kitap.get_sheet_by_name('Sayfa1')
+
+            satir = 3
+            satir2 = 3
+            for item in data_list['siparis']:
+
+                sayfa.cell(satir,column=1,value=item['tarih'])               
+                sayfa.cell(satir,column=2,value=item['po'])
+                sayfa.cell(satir,column=3,value=item['tutar'])
+                if(item['masraf'] == None):
+                    sayfa.cell(satir,column=4,value=0)
+                else:
+                    sayfa.cell(satir,column=4,value=item['masraf'])
+                
+
+                satir += 1
+            
+            for item in data_list['numune']:
+
+                sayfa.cell(satir2,column=6,value=item['tarih'])               
+                sayfa.cell(satir2,column=7,value=item['numuneTarihi'])
+                sayfa.cell(satir2,column=8,value=item['numuneYuklemeTarihi'])
+                sayfa.cell(satir2,column=9,value=item['banka'])
+                sayfa.cell(satir2,column=10,value=item['musteriAdi'])
+                sayfa.cell(satir2,column=11,value=item['po'])
+                sayfa.cell(satir2,column=12,value=item['tutar'])
+                if(item['masraf'] == None):
+                    sayfa.cell(satir2,column=13,value=0)
+                else:
+                    sayfa.cell(satir2,column=13,value=item['masraf'])
+                
+                
+                
+
+                satir2 += 1
+
+            kitap.save(target_path)
+            kitap.close()
+
+            return True
+
+        except Exception as e:
+            print('maya_gelen_bedeller_cikti  Hata : ',str(e))
+            return False

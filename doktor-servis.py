@@ -438,7 +438,7 @@ api.add_resource(OdemelerListesiApi,'/finans/listeler/odemelerAnaListe',methods=
 api.add_resource(OdemelerListesiAyrintiApi,'/finans/listeler/odemelerAyrintiListesi/<int:musteriId>',methods=['GET'])
 api.add_resource(MayaNumSipGelenApi,'/finans/listeler/mayaNumuneSiparisOdemeleri/<int:month>/<int:year>',methods=['GET'])
 api.add_resource(MayaNumSipGelenYearApi,'/finans/listeler/mayaNumuneSiparisOdemeleri/<int:year>',methods=['GET'])
-
+api.add_resource(MayaGelenBedellerCiktiApi,'/finans/listeler/mayaNumuneSiparisOdemeleriCikti',methods=['GET','POST'])
 
 api.add_resource(OdemelerDegisimApi,"/finans/listeler/odemelerDegisim",methods=['POST'])
 
