@@ -13,7 +13,7 @@ from resource_api.finans.yeniFinans import YeniMusteriAnaIslem
 from resource_api.finans.vade import VadeAnaliste
 from resource_api.finans.guncel_kur import DovizListem
 from resource_api.finans.konteyner_islem.marketing import Marketing
-
+from resource_api.finans.konteyner_islem.konteyner import *
 
 class KonteynerAnaListe(Resource): 
 
@@ -454,6 +454,17 @@ class ByMarketingMonthLoadMekmerAyrintiApi(Resource):
 
         return icPiyasa      
 
+class MayaNumSipGelenApi(Resource):
+    def get(self,month,year):
+        islem = MayaGelenBedeller()
+        result = islem.getMayaGelenBedeller(month,year)
+        return jsonify(result)
+    
+class MayaNumSipGelenYearApi(Resource):
+    def get(self,year):
+        islem = MayaGelenBedeller()
+        result = islem.getMayaGelenBedellerYear(year)
+        return jsonify(result)
 
 
 

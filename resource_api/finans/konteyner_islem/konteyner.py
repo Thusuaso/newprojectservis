@@ -4,6 +4,8 @@ from resource_api.finans.konteyner_islem.odemeler import Odemeler
 from resource_api.finans.konteyner_islem.finansMailGonder import MailAttempt
 import datetime
 from helpers import SqlConnect
+from helpers.sqlServer import SqlIslem
+from models.finans.maya_gelen_bedeller import *
 class Konteyner:
 
     def __init__(self,yil):
@@ -311,4 +313,190 @@ class Konteyner:
 
         return model
 
+
+class MayaGelenBedeller:
+    def __init__(self):
+        self.data  = SqlConnect().data
+        
+    def getMayaGelenBedeller(self,month,year):
+        try:
+            siparisOdemeleri = self.data.getStoreList("""
+                                                select 
+
+
+                                                    ID,
+                                                    Tarih,
+                                                    SiparisNo,
+                                                    Tutar,
+                                                    Masraf
+
+
+                                                    from 
+
+
+                                                    OdemelerTB 
+
+
+                                                    where MusteriID=1373 and YEAR(Tarih) = ? and MONTH(Tarih) = ?
+                                            """,(year,month))
+            
+            siparisList = list()
+            for item in siparisOdemeleri:
+                model = MayaGelenBedellerModel()
+                model.id = item.ID
+                model.tarih = item.Tarih
+                model.po = item.SiparisNo
+                model.tutar = item.Tutar
+                model.masraf = item.Masraf
+                siparisList.append(model)
+                
+            schema = MayaGelenBedellerSchema(many= True)
+            data1 = schema.dump(siparisList)
+            numuneList = list()
+            numuneOdemeleri = self.data.getStoreList("""
+                                                        select 
+
+
+                                                            nuo.ID,
+                                                            nuo.Tarih,
+                                                            nuo.NumuneNo,
+                                                            nuo.Tutar,
+                                                            nuo.Banka,
+                                                            nuo.Masraf,
+                                                            ytm.MusteriAdi,
+                                                            n.NumuneTarihi,
+                                                            n.YuklemeTarihi
+
+                                                        from NumuneOdemelerTB nuo 
+                                                            inner join YeniTeklif_MusterilerTB ytm on ytm.Id = nuo.MusteriID
+                                                            inner join NumunelerTB n on n.NumuneNo = nuo.NumuneNo
+
+
+                                                        where nuo.Banka in ('Maya Paypal','Maya Bank') 
+                                                        and YEAR(nuo.Tarih) = ?
+                                                        and MONTH(nuo.Tarih) = ?
+                                                     
+                                                     
+                                                     """,(year,month))
+            for item2 in numuneOdemeleri:
+                model = MayaGelenBedellerModel()
+                model.id = item2.ID
+                model.tarih = item2.Tarih
+                model.numuneTarihi = item2.NumuneTarihi
+                model.numuneYuklemeTarihi = item2.YuklemeTarihi
+                model.banka = item2.Banka
+                model.po = item2.NumuneNo
+                model.tutar = item2.Tutar
+                model.masraf = item2.Masraf
+                model.musteriAdi = item2.MusteriAdi
+                numuneList.append(model)
+                
+            schema2 = MayaGelenBedellerSchema(many=True)
+            data2 = schema2.dump(numuneList)
+            
+            datas = {
+                'siparis':data1,
+                'numune':data2
+            }
+            return datas
+            
+            
+                    
+        
+            
+        
+        except Exception as e:
+            print('getMayaGelenBedeller hata',str(e))
+            return False
+    
+    def getMayaGelenBedellerYear(self,year):
+        try:
+            siparisOdemeleri = self.data.getStoreList("""
+                                                select 
+
+
+                                                    ID,
+                                                    Tarih,
+                                                    SiparisNo,
+                                                    Tutar,
+                                                    Masraf
+
+
+                                                    from 
+
+
+                                                    OdemelerTB 
+
+
+                                                    where MusteriID=1373 and YEAR(Tarih) = ?
+                                            """,(year))
+            
+            siparisList = list()
+            for item in siparisOdemeleri:
+                model = MayaGelenBedellerModel()
+                model.id = item.ID
+                model.tarih = item.Tarih
+                model.po = item.SiparisNo
+                model.tutar = item.Tutar
+                model.masraf = item.Masraf
+                siparisList.append(model)
+                
+            schema = MayaGelenBedellerSchema(many= True)
+            data1 = schema.dump(siparisList)
+            numuneList = list()
+            numuneOdemeleri = self.data.getStoreList("""
+                                                        select 
+
+
+                                                            nuo.ID,
+                                                            nuo.Tarih,
+                                                            nuo.NumuneNo,
+                                                            nuo.Tutar,
+                                                            nuo.Banka,
+                                                            nuo.Masraf,
+                                                            ytm.MusteriAdi,
+                                                            n.NumuneTarihi,
+                                                            n.YuklemeTarihi
+
+                                                        from NumuneOdemelerTB nuo 
+                                                            inner join YeniTeklif_MusterilerTB ytm on ytm.Id = nuo.MusteriID
+                                                            inner join NumunelerTB n on n.NumuneNo = nuo.NumuneNo
+
+
+                                                        where nuo.Banka in ('Maya Paypal','Maya Bank') 
+                                                        and YEAR(nuo.Tarih) = ?
+                                                     
+                                                     
+                                                     """,(year))
+            for item2 in numuneOdemeleri:
+                model = MayaGelenBedellerModel()
+                model.id = item2.ID
+                model.tarih = item2.Tarih
+                model.numuneTarihi = item2.NumuneTarihi
+                model.numuneYuklemeTarihi = item2.YuklemeTarihi
+                model.banka = item2.Banka
+                model.po = item2.NumuneNo
+                model.tutar = item2.Tutar
+                model.masraf = item2.Masraf
+                model.musteriAdi = item2.MusteriAdi
+                numuneList.append(model)
+                
+            schema2 = MayaGelenBedellerSchema(many=True)
+            data2 = schema2.dump(numuneList)
+            
+            datas = {
+                'siparis':data1,
+                'numune':data2
+            }
+            return datas
+            
+            
+                    
+        
+            
+        
+        except Exception as e:
+            print('getMayaGelenBedeller hata',str(e))
+            return False
+          
     
