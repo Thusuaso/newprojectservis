@@ -1,6 +1,9 @@
 from models.raporlar import StokSchema,StokModel,StokTopSchema,StokTopModel,StokTopAyrintiModel,StokTopAyrintiSchema,StokEbatModel,StokEbatSchema,StokAnaListeSchema,StokAnaListeModel
 from helpers import SqlConnect
-
+from openpyxl import *
+from openpyxl.styles import Border, Side , Font ,Alignment,PatternFill
+from openpyxl.cell import Cell
+import shutil
 
 
 class StokRapor:
@@ -1088,7 +1091,43 @@ class StokRapor:
 
        return schema.dump(liste)
                
+    def setStockExcellCikti(self,data_list):
+        try:
+            source_path = 'resource_api/raporlar/sablonlar/stock_list_fiyatli.xlsx'
+            target_path = 'resource_api/raporlar/dosyalar/stock_list_fiyatli.xlsx'
 
+            shutil.copy2(source_path, target_path)
+
+
+            kitap = load_workbook(target_path)
+            sayfa = kitap.get_sheet_by_name('Sayfa1')
+
+            satir = 2
+            
+            for item in data_list:
+               
+                sayfa.cell(satir,column=1,value=item['urunAdi'])
+                sayfa.cell(satir,column=2,value=item['yuzeyIslem']) 
+                sayfa.cell(satir,column=3,value=item['en'])  
+                sayfa.cell(satir,column=4,value=item['boy'])             
+                sayfa.cell(satir,column=5,value=item['kenar'])
+                sayfa.cell(satir,column=6,value=item['miktar'])
+                if(item['price'] == None):
+                    sayfa.cell(satir,column=7,value=0)
+                else: 
+                    sayfa.cell(satir,column=7,value=item['price'])
+                
+                
+                satir += 1
+           
+            kitap.save(target_path)
+            kitap.close()
+
+            return True
+
+        except Exception as e:
+            print('setStockExcellCikti Hata : ',str(e))
+            return False 
     
     
     

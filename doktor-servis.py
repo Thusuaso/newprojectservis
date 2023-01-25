@@ -564,6 +564,8 @@ api.add_resource(StokRaporMekmerMekmozAyrintiApi,'/raporlar/listeler/stokRaporuM
 api.add_resource(StokRaporDisAyrintiApi,'/raporlar/listeler/stokRaporuDisAyrinti/<int:urunId>',methods=['GET'])
 api.add_resource(StokRaporDisMekmardaOlanAyrintiApi,'/raporlar/listeler/stokRaporuDisMekmardaOlanAyrinti/<int:urunId>',methods=['GET'])
 
+api.add_resource(StokRaporuFiyatliExcelCiktiApi,'/raporlar/listeler/stokRaporuFiyatli',methods=['GET','POST'])
+
 
 api.add_resource(StockPriceAddApi,'/raporlar/listeler/setAddPrice',methods=['POST'])
 

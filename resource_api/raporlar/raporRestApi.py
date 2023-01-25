@@ -497,6 +497,25 @@ class StokRaporDisMekmardaOlanAyrintiApi(Resource):
         return jsonify(data)
 
 
+class StokRaporuFiyatliExcelCiktiApi(Resource):
+
+    def post(self):
+
+        data_list = request.get_json()
+        
+        islem = StokRapor()
+        
+        result = islem.setStockExcellCikti(data_list)
+
+        return jsonify({'status' : result})
+
+    def get(self):
+
+        excel_path = 'resource_api/raporlar/dosyalar/stock_list_fiyatli.xlsx'
+
+        return send_file(excel_path,as_attachment=True)
+
+
 
 
 class StokAyrintiRaporApi(Resource):
