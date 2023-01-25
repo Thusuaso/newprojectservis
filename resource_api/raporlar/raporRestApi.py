@@ -455,6 +455,46 @@ class StokRaporAnaListeFilterApi(Resource):
         data = islem.getStokFilterList(tedarikci)
        
         return jsonify(data)
+    
+    
+class StokRaporMekmerMekmozApi(Resource):
+    def get(self):
+        islem = StokRapor()
+        data = islem.getStokRaporMekmerMekmoz()
+        return jsonify(data)
+    
+class StokRaporDisApi(Resource):
+    def get(self):
+        islem = StokRapor()
+        data = islem.getStokRaporDis()
+        return jsonify(data)
+    
+    
+class StokRaporDisMekmardaOlanlarApi(Resource):
+    def get(self):
+        islem = StokRapor()
+        data = islem.getStokRaporDisMekmardaOlanlar()
+        return jsonify(data)
+    
+class StokRaporMekmerMekmozAyrintiApi(Resource):
+    def get(self,urunId):
+        islem = StokRapor()
+        data = islem.getStokRaporMekmerMekmozAyrinti(urunId)
+        return jsonify(data)
+    
+class StokRaporDisAyrintiApi(Resource):
+    def get(self,urunId):
+        islem = StokRapor()
+        data = islem.getStokRaporDisAyrinti(urunId)
+        return jsonify(data)
+    
+    
+    
+class StokRaporDisMekmardaOlanAyrintiApi(Resource):
+    def get(self,urunId):
+        islem = StokRapor()
+        data = islem.getStokRaporDisMekmardaOlanAyrinti(urunId)
+        return jsonify(data)
 
 
 

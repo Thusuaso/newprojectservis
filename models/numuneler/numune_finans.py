@@ -89,6 +89,7 @@ class NumuneBankayaGelenAyrintiSchema(Schema):
     numune_no = fields.String()
     musteri_adi = fields.String()
     numune_tarihi = fields.String()
+    bankaya_gelen_tarih = fields.String()
     
 class NumuneBankayaGelenAyrintiModel:
     id = 0
@@ -99,3 +100,4 @@ class NumuneBankayaGelenAyrintiModel:
     numune_no = ""
     musteri_adi = ""
     numune_tarihi = ""
+    bankaya_gelen_tarih = ""

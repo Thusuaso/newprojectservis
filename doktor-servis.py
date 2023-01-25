@@ -553,6 +553,18 @@ api.add_resource(StokRaporAnaListeFilterApi,'/raporlar/listeler/stokRaporuAnaLis
 api.add_resource(AnaSayfaDegisiklikListApi,'/raporlar/anaSayfa/anaSayfaDegisiklikList',methods=['GET'])
 api.add_resource(AnaSayfaDegisiklikListApiAll,'/raporlar/anaSayfa/anaSayfaDegisiklikListAll',methods=['GET'])
 
+
+api.add_resource(StokRaporMekmerMekmozApi,'/raporlar/listeler/stokRaporuMekmerMekmoz',methods=['GET'])
+api.add_resource(StokRaporDisApi,'/raporlar/listeler/stokRaporuDis',methods=['GET'])
+api.add_resource(StokRaporDisMekmardaOlanlarApi,'/raporlar/listeler/stokRaporuDisMekmardaOlanlar',methods=['GET'])
+
+
+
+api.add_resource(StokRaporMekmerMekmozAyrintiApi,'/raporlar/listeler/stokRaporuMekmerMekmozAyrinti/<int:urunId>',methods=['GET'])
+api.add_resource(StokRaporDisAyrintiApi,'/raporlar/listeler/stokRaporuDisAyrinti/<int:urunId>',methods=['GET'])
+api.add_resource(StokRaporDisMekmardaOlanAyrintiApi,'/raporlar/listeler/stokRaporuDisMekmardaOlanAyrinti/<int:urunId>',methods=['GET'])
+
+
 api.add_resource(StockPriceAddApi,'/raporlar/listeler/setAddPrice',methods=['POST'])
 
 api.add_resource(TahminiDegisiklikApi,'/raporlar/anaSayfa/tahminiDegisiklik',methods=['GET'])

@@ -73,6 +73,51 @@ class StokRapor:
                                                         
                                                         
                                                         """)
+        
+        self.resultMiktarOnlyStocksMekmerMekmoz = self.data.getList("""
+                                                            select
+
+                                                            sum(ur.Miktar) as Miktar,
+                                                            ur.UrunKartID as UrunID
+
+                                                        from
+                                                            UretimTB ur
+
+                                                        where
+                                                            ur.UrunDurumID in (1) and ur.Aciklama != 'bulunamadı' and ur.UrunDurumID=1 and ur.TedarikciID in (1,123) and ur.SiparisAciklama = 'Stok'
+                                                        group by 
+                                                            ur.UrunKartID
+                                                        """)
+        self.resultMiktarOnlyStocksDis = self.data.getList("""
+                                                            select
+
+                                                            sum(ur.Miktar) as Miktar,
+                                                            ur.UrunKartID as UrunID
+
+                                                        from
+                                                            UretimTB ur
+
+                                                        where
+                                                            ur.UrunDurumID in (1) and ur.Aciklama != 'bulunamadı' and ur.UrunDurumID=1 and ur.SiparisAciklama = 'Stok' and ur.Disarda = 1 and ur.TedarikciID not in (1,123)
+                                                        group by 
+                                                            ur.UrunKartID
+                                                        """)
+        self.resultMiktarOnlyStocksDisMekmerdeOlan = self.data.getList("""
+                                                            select
+
+                                                            sum(ur.Miktar) as Miktar,
+                                                            ur.UrunKartID as UrunID
+
+                                                        from
+                                                            UretimTB ur
+
+                                                        where
+                                                            ur.UrunDurumID in (1) and ur.Aciklama != 'bulunamadı' and ur.UrunDurumID=1 and ur.SiparisAciklama = 'Stok' and ur.Disarda != 1 and ur.TedarikciID not in (1,123)
+                                                        group by 
+                                                            ur.UrunKartID
+                                                        """)
+    
+    
     def getStokListesiHepsi(self):
 
         result = self.data.getList(
@@ -632,6 +677,419 @@ class StokRapor:
 
         return schema.dump(liste)
     
+    
+    def getStokRaporMekmerMekmoz(self):
+        try:
+            
+            result = self.data.getList("""
+                                            select 
+
+                                            count(urn.UrunAdi) as KasaSayisi,
+                                            urn.UrunAdi,
+                                            olc.En,
+                                            olc.Boy,
+                                            olc.Kenar,
+                                            yz.YuzeyIslemAdi,
+                                            ur.UrunKartID,
+                                            (select ukt.Price from UrunKartTB ukt where ukt.ID = ur.UrunKartID) as Price
+                                            
+
+
+
+                                        from UretimTB ur
+                                            inner join UrunKartTB uk on uk.ID=ur.UrunKartID
+                                            inner join UrunlerTB urn on urn.ID = uk.UrunID
+                                            inner join OlculerTB olc on olc.ID=uk.OlcuID
+                                            inner join YuzeyKenarTB yz on yz.ID= uk.YuzeyID
+                                        where 
+
+                                        ur.Aciklama != 'bulunamadı' and ur.UrunDurumID=1 and ur.TedarikciID in (1,123) and ur.SiparisAciklama ='Stok'
+
+                                        group by ur.UrunKartID,urn.UrunAdi,olc.En,olc.Boy,olc.Kenar,yz.YuzeyIslemAdi
+                                        order by olc.En
+                                       
+                                       
+                                       """)
+            
+            liste = list()
+            for item in result:
+
+                model = StokAnaListeModel()
+                model.urunKartId = item.UrunKartID
+                model.ebat = item.En +'x'+ item.Boy +'x'+ item.Kenar
+                model.kasaSayisi = item.KasaSayisi
+                model.yuzeyIslem = item.YuzeyIslemAdi
+                model.urunAdi = item.UrunAdi
+                model.en = item.En
+                model.boy = item.Boy
+                model.kenar = item.Kenar
+                model.price = item.Price
+                model.miktar = self.getStokAnaListMiktarKontrol(item.UrunKartID,self.resultMiktarOnlyStocksMekmerMekmoz)
+                
+                liste.append(model)
+
+            schema = StokAnaListeSchema(many=True)
+
+            return schema.dump(liste)
+        except Exception as e:
+            print('getStokRaporMekmerMekmoz hata',str(e))
+            return False
+    
+    def getStokRaporDis(self):
+        try:
+            
+            result = self.data.getList("""
+                                            select 
+
+                                            count(urn.UrunAdi) as KasaSayisi,
+                                            urn.UrunAdi,
+                                            olc.En,
+                                            olc.Boy,
+                                            olc.Kenar,
+                                            yz.YuzeyIslemAdi,
+                                            ur.UrunKartID,
+                                            (select ukt.Price from UrunKartTB ukt where ukt.ID = ur.UrunKartID) as Price
+                                            
+
+
+
+                                        from UretimTB ur
+                                            inner join UrunKartTB uk on uk.ID=ur.UrunKartID
+                                            inner join UrunlerTB urn on urn.ID = uk.UrunID
+                                            inner join OlculerTB olc on olc.ID=uk.OlcuID
+                                            inner join YuzeyKenarTB yz on yz.ID= uk.YuzeyID
+                                        where 
+
+                                        ur.Aciklama != 'bulunamadı' and ur.UrunDurumID=1 and ur.TedarikciID not in (1,123) and ur.Disarda= 1 and ur.SiparisAciklama ='Stok'
+
+                                        group by ur.UrunKartID,urn.UrunAdi,olc.En,olc.Boy,olc.Kenar,yz.YuzeyIslemAdi
+                                        order by olc.En
+                                       
+                                       
+                                       """)
+            
+            liste = list()
+            for item in result:
+
+                model = StokAnaListeModel()
+                model.urunKartId = item.UrunKartID
+                model.ebat = item.En +'x'+ item.Boy +'x'+ item.Kenar
+                model.kasaSayisi = item.KasaSayisi
+                model.yuzeyIslem = item.YuzeyIslemAdi
+                model.urunAdi = item.UrunAdi
+                model.en = item.En
+                model.boy = item.Boy
+                model.kenar = item.Kenar
+                model.price = item.Price
+                model.miktar = self.getStokAnaListMiktarKontrol(item.UrunKartID,self.resultMiktarOnlyStocksDis)
+                
+                liste.append(model)
+
+            schema = StokAnaListeSchema(many=True)
+
+            return schema.dump(liste)
+        except Exception as e:
+            print('getStokRaporMekmerMekmoz hata',str(e))
+            return False
+    
+    def getStokRaporDisMekmardaOlanlar(self):
+        try:
+            
+            result = self.data.getList("""
+                                            select 
+
+                                            count(urn.UrunAdi) as KasaSayisi,
+                                            urn.UrunAdi,
+                                            olc.En,
+                                            olc.Boy,
+                                            olc.Kenar,
+                                            yz.YuzeyIslemAdi,
+                                            ur.UrunKartID,
+                                            (select ukt.Price from UrunKartTB ukt where ukt.ID = ur.UrunKartID) as Price
+                                            
+
+
+
+                                        from UretimTB ur
+                                            inner join UrunKartTB uk on uk.ID=ur.UrunKartID
+                                            inner join UrunlerTB urn on urn.ID = uk.UrunID
+                                            inner join OlculerTB olc on olc.ID=uk.OlcuID
+                                            inner join YuzeyKenarTB yz on yz.ID= uk.YuzeyID
+                                        where 
+
+                                        ur.Aciklama != 'bulunamadı' and ur.UrunDurumID=1 and ur.TedarikciID not in (1,123) and ur.Disarda != 1 and ur.SiparisAciklama ='Stok'
+
+                                        group by ur.UrunKartID,urn.UrunAdi,olc.En,olc.Boy,olc.Kenar,yz.YuzeyIslemAdi
+                                        order by olc.En
+                                       
+                                       
+                                       """)
+            
+            liste = list()
+            for item in result:
+
+                model = StokAnaListeModel()
+                model.urunKartId = item.UrunKartID
+                model.ebat = item.En +'x'+ item.Boy +'x'+ item.Kenar
+                model.kasaSayisi = item.KasaSayisi
+                model.yuzeyIslem = item.YuzeyIslemAdi
+                model.urunAdi = item.UrunAdi
+                model.en = item.En
+                model.boy = item.Boy
+                model.kenar = item.Kenar
+                model.price = item.Price
+                model.miktar = self.getStokAnaListMiktarKontrol(item.UrunKartID,self.resultMiktarOnlyStocksDisMekmerdeOlan)
+                
+                liste.append(model)
+
+            schema = StokAnaListeSchema(many=True)
+
+            return schema.dump(liste)
+        except Exception as e:
+            print('getStokRaporMekmerMekmoz hata',str(e))
+            return False
+    
+     
+                   
+    def getStokRaporMekmerMekmozAyrinti(self,urunId):
+       result = self.data.getStoreList(
+            """
+            
+            select 
+                ur.ID as ID,
+                urn.UrunAdi as UrunAdi,
+                olc.En as En,
+                olc.Boy as Boy,
+                olc.Kenar as Kenar,
+                yz.YuzeyIslemAdi as YuzeyIslem,
+                tb.FirmaAdi as TedarikciAdi,
+                ur.KasaNo,
+                ur.Tarih,
+                ur.Adet,
+                ur.Miktar,
+                ur.Aciklama,
+                ur.KutuAdet,
+                ur.SiparisAciklama,
+                urb.BirimAdi,
+                ock.OcakAdi,
+                ktg.KategoriAdi
+
+
+            from UretimTB ur
+                inner join UrunKartTB uk on uk.ID=ur.UrunKartID
+                inner join UrunlerTB urn on urn.ID = uk.UrunID
+                inner join OlculerTB olc on olc.ID=uk.OlcuID
+                inner join YuzeyKenarTB yz on yz.ID= uk.YuzeyID
+                inner join TedarikciTB tb on tb.ID = ur.TedarikciID
+                inner join UrunBirimTB urb on urb.ID = ur.UrunBirimID
+                inner join UrunOcakTB ock on ock.ID = ur.UrunOcakID
+                inner join KategoriTB ktg on ktg.ID = uk.KategoriID
+            where 
+
+            ur.Aciklama != 'bulunamadı' and
+            ur.UrunDurumID=1 and
+			ur.TedarikciID in (1,123) and
+            ur.SiparisAciklama ='Stok' and
+			ur.UrunKartID=?
+            
+
+
+            
+
+            """,(urunId)
+        )
+       liste = list()
+       sira = 1
+       for item in result:
+
+            model = StokTopAyrintiModel()
+            model.id = item.ID
+            model.kategoritop = item.KategoriAdi
+            model.sira = sira
+            sira = sira + 1
+            model.tedarikci_aditop = item.TedarikciAdi
+            model.tarihtop = item.Tarih
+            model.kasanotop = item.KasaNo
+            model.urunaditop = item.UrunAdi
+            model.ocakaditop = item.OcakAdi
+            model.yuzeyislemtop = item.YuzeyIslem
+            model.entop = item.En
+            model.boytop = item.Boy
+            model.kenartop =  item.Kenar
+            model.adettop = item.Adet
+            model.miktartop =  item.Miktar
+            model.birimaditop =  item.BirimAdi
+            
+            model.kutuadettop = item.KutuAdet
+            model.durum = item.SiparisAciklama
+            model.aciklama = item.Aciklama
+
+            liste.append(model)
+
+       schema = StokTopAyrintiSchema(many=True)
+
+       return schema.dump(liste)
+            
+    def getStokRaporDisAyrinti(self,urunId):
+       result = self.data.getStoreList(
+            """
+            
+            select 
+                ur.ID as ID,
+                urn.UrunAdi as UrunAdi,
+                olc.En as En,
+                olc.Boy as Boy,
+                olc.Kenar as Kenar,
+                yz.YuzeyIslemAdi as YuzeyIslem,
+                tb.FirmaAdi as TedarikciAdi,
+                ur.KasaNo,
+                ur.Tarih,
+                ur.Adet,
+                ur.Miktar,
+                ur.Aciklama,
+                ur.KutuAdet,
+                ur.SiparisAciklama,
+                urb.BirimAdi,
+                ock.OcakAdi,
+                ktg.KategoriAdi
+
+
+            from UretimTB ur
+                inner join UrunKartTB uk on uk.ID=ur.UrunKartID
+                inner join UrunlerTB urn on urn.ID = uk.UrunID
+                inner join OlculerTB olc on olc.ID=uk.OlcuID
+                inner join YuzeyKenarTB yz on yz.ID= uk.YuzeyID
+                inner join TedarikciTB tb on tb.ID = ur.TedarikciID
+                inner join UrunBirimTB urb on urb.ID = ur.UrunBirimID
+                inner join UrunOcakTB ock on ock.ID = ur.UrunOcakID
+                inner join KategoriTB ktg on ktg.ID = uk.KategoriID
+            where 
+
+            ur.Aciklama != 'bulunamadı' and
+            ur.UrunDurumID=1 and
+			ur.TedarikciID not in (1,123) and
+            ur.SiparisAciklama ='Stok' and
+			ur.Disarda = 1 and
+			ur.UrunKartID=?
+            
+
+
+            
+
+            """,(urunId)
+        )
+       liste = list()
+       sira = 1
+       for item in result:
+
+            model = StokTopAyrintiModel()
+            model.id = item.ID
+            model.kategoritop = item.KategoriAdi
+            model.sira = sira
+            sira = sira + 1
+            model.tedarikci_aditop = item.TedarikciAdi
+            model.tarihtop = item.Tarih
+            model.kasanotop = item.KasaNo
+            model.urunaditop = item.UrunAdi
+            model.ocakaditop = item.OcakAdi
+            model.yuzeyislemtop = item.YuzeyIslem
+            model.entop = item.En
+            model.boytop = item.Boy
+            model.kenartop =  item.Kenar
+            model.adettop = item.Adet
+            model.miktartop =  item.Miktar
+            model.birimaditop =  item.BirimAdi
+            
+            model.kutuadettop = item.KutuAdet
+            model.durum = item.SiparisAciklama
+            model.aciklama = item.Aciklama
+
+            liste.append(model)
+
+       schema = StokTopAyrintiSchema(many=True)
+
+       return schema.dump(liste)
+    
+    def getStokRaporDisMekmardaOlanAyrinti(self,urunId):
+       result = self.data.getStoreList(
+            """
+            
+            select 
+                ur.ID as ID,
+                urn.UrunAdi as UrunAdi,
+                olc.En as En,
+                olc.Boy as Boy,
+                olc.Kenar as Kenar,
+                yz.YuzeyIslemAdi as YuzeyIslem,
+                tb.FirmaAdi as TedarikciAdi,
+                ur.KasaNo,
+                ur.Tarih,
+                ur.Adet,
+                ur.Miktar,
+                ur.Aciklama,
+                ur.KutuAdet,
+                ur.SiparisAciklama,
+                urb.BirimAdi,
+                ock.OcakAdi,
+                ktg.KategoriAdi
+
+
+            from UretimTB ur
+                inner join UrunKartTB uk on uk.ID=ur.UrunKartID
+                inner join UrunlerTB urn on urn.ID = uk.UrunID
+                inner join OlculerTB olc on olc.ID=uk.OlcuID
+                inner join YuzeyKenarTB yz on yz.ID= uk.YuzeyID
+                inner join TedarikciTB tb on tb.ID = ur.TedarikciID
+                inner join UrunBirimTB urb on urb.ID = ur.UrunBirimID
+                inner join UrunOcakTB ock on ock.ID = ur.UrunOcakID
+                inner join KategoriTB ktg on ktg.ID = uk.KategoriID
+            where 
+
+            ur.Aciklama != 'bulunamadı' and
+            ur.UrunDurumID=1 and
+			ur.TedarikciID not in (1,123) and
+            ur.SiparisAciklama ='Stok' and
+			ur.Disarda != 1 and
+			ur.UrunKartID=?
+            
+
+
+            
+
+            """,(urunId)
+        )
+       liste = list()
+       sira = 1
+       for item in result:
+
+            model = StokTopAyrintiModel()
+            model.id = item.ID
+            model.kategoritop = item.KategoriAdi
+            model.sira = sira
+            sira = sira + 1
+            model.tedarikci_aditop = item.TedarikciAdi
+            model.tarihtop = item.Tarih
+            model.kasanotop = item.KasaNo
+            model.urunaditop = item.UrunAdi
+            model.ocakaditop = item.OcakAdi
+            model.yuzeyislemtop = item.YuzeyIslem
+            model.entop = item.En
+            model.boytop = item.Boy
+            model.kenartop =  item.Kenar
+            model.adettop = item.Adet
+            model.miktartop =  item.Miktar
+            model.birimaditop =  item.BirimAdi
+            
+            model.kutuadettop = item.KutuAdet
+            model.durum = item.SiparisAciklama
+            model.aciklama = item.Aciklama
+
+            liste.append(model)
+
+       schema = StokTopAyrintiSchema(many=True)
+
+       return schema.dump(liste)
+               
 
     
     

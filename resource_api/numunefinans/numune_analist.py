@@ -95,7 +95,7 @@ class NumuneFinansAnaListe:
                 from NumunelerTB n
                 inner join NumuneOdemelerTB nod on nod.NumuneNo = n.NumuneNo
 
-                where YEAR(n.NumuneTarihi) = ?
+                where YEAR(nod.Tarih) = ?
                 group by nod.Banka
 
             """,(yil)
@@ -189,9 +189,10 @@ class NumuneFinansAnaListe:
     def getBankayaGelenOdemelerAyrinti(self,banka,yil):
         try:
             result = self.data.getStoreList("""
-                                                select 
+                                                 select 
                                                     nod.ID,
                                                     nod.Tutar as bedel,
+													nod.Tarih as BankayaGelenTarih,
                                                     nod.Banka,
                                                     nod.Euro_Tutar as bedel_Euro,
                                                     nod.TL_Tutar as bedel_TL,
@@ -203,7 +204,7 @@ class NumuneFinansAnaListe:
                                                 from NumunelerTB n
                                                 inner join NumuneOdemelerTB nod on nod.NumuneNo = n.NumuneNo
 
-                                                where YEAR(n.NumuneTarihi) = ? and nod.Banka=?
+                                                where YEAR(nod.Tarih) = ? and nod.Banka=?
                                             
                                             """,(yil,banka))
             
@@ -218,6 +219,7 @@ class NumuneFinansAnaListe:
                 model.musteri_adi = item.Musteri
                 model.numune_no = item.NumuneNo
                 model.numune_tarihi = item.NumuneTarihi
+                model.bankaya_gelen_tarih = item.BankayaGelenTarih
                 liste.append(model)
             schema = NumuneBankayaGelenAyrintiSchema(many=True)
             return schema.dump(liste)
