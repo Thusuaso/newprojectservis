@@ -98,7 +98,7 @@ class StokRapor:
                                                             UretimTB ur
 
                                                         where
-                                                            ur.UrunDurumID in (1) and ur.Aciklama != 'bulunamadı' and ur.UrunDurumID=1 and ur.SiparisAciklama = 'Stok' and ur.Disarda = 1 and ur.TedarikciID not in (1,123)
+                                                            ur.UrunDurumID in (1) and ur.Aciklama != 'bulunamadı' and ur.UrunDurumID=1 and ur.Disarda = 1 and ur.TedarikciID not in (1,123)
                                                         group by 
                                                             ur.UrunKartID
                                                         """)
@@ -112,7 +112,7 @@ class StokRapor:
                                                             UretimTB ur
 
                                                         where
-                                                            ur.UrunDurumID in (1) and ur.Aciklama != 'bulunamadı' and ur.UrunDurumID=1 and ur.SiparisAciklama = 'Stok' and ur.Disarda != 1 and ur.TedarikciID not in (1,123)
+                                                            ur.UrunDurumID in (1) and ur.Aciklama != 'bulunamadı' and ur.UrunDurumID=1 and ur.Disarda != 1 and ur.TedarikciID not in (1,123)
                                                         group by 
                                                             ur.UrunKartID
                                                         """)
@@ -760,7 +760,7 @@ class StokRapor:
                                             inner join YuzeyKenarTB yz on yz.ID= uk.YuzeyID
                                         where 
 
-                                        ur.Aciklama != 'bulunamadı' and ur.UrunDurumID=1 and ur.TedarikciID not in (1,123) and ur.Disarda= 1 and ur.SiparisAciklama ='Stok'
+                                        ur.Aciklama != 'bulunamadı' and ur.UrunDurumID=1 and ur.TedarikciID not in (1,123) and ur.Disarda= 1
 
                                         group by ur.UrunKartID,urn.UrunAdi,olc.En,olc.Boy,olc.Kenar,yz.YuzeyIslemAdi
                                         order by olc.En
@@ -817,7 +817,7 @@ class StokRapor:
                                             inner join YuzeyKenarTB yz on yz.ID= uk.YuzeyID
                                         where 
 
-                                        ur.Aciklama != 'bulunamadı' and ur.UrunDurumID=1 and ur.TedarikciID not in (1,123) and ur.Disarda != 1 and ur.SiparisAciklama ='Stok'
+                                        ur.Aciklama != 'bulunamadı' and ur.UrunDurumID=1 and ur.TedarikciID not in (1,123) and ur.Disarda != 1
 
                                         group by ur.UrunKartID,urn.UrunAdi,olc.En,olc.Boy,olc.Kenar,yz.YuzeyIslemAdi
                                         order by olc.En
@@ -968,7 +968,6 @@ class StokRapor:
             ur.Aciklama != 'bulunamadı' and
             ur.UrunDurumID=1 and
 			ur.TedarikciID not in (1,123) and
-            ur.SiparisAciklama ='Stok' and
 			ur.Disarda = 1 and
 			ur.UrunKartID=?
             
@@ -1048,7 +1047,6 @@ class StokRapor:
             ur.Aciklama != 'bulunamadı' and
             ur.UrunDurumID=1 and
 			ur.TedarikciID not in (1,123) and
-            ur.SiparisAciklama ='Stok' and
 			ur.Disarda != 1 and
 			ur.UrunKartID=?
             
