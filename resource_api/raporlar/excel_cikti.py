@@ -251,6 +251,10 @@ class ExcelCiktiIslem:
             sayfa.cell(satir,column=4,value= "Kasa" ).font = kalin
             sayfa.cell(satir,column=5,value= "M2" ).fill=PatternFill(fill_type="solid", start_color='FF' + color_string, end_color='FF' + color_string)
             sayfa.cell(satir,column=5,value= "M2" ).font = kalin
+            sayfa.cell(satir,column=6,value= "Fiyat" ).fill=PatternFill(fill_type="solid", start_color='FF' + color_string, end_color='FF' + color_string)
+            sayfa.cell(satir,column=6,value= "Fiyat" ).font = kalin
+            
+            
             satir += 1
             for item1 in data_list:
                 sayfa.cell(satir,column=1,value=item1['ebat'])
@@ -258,6 +262,11 @@ class ExcelCiktiIslem:
                 sayfa.cell(satir,column=3,value=item1['urunAdi'])
                 sayfa.cell(satir,column=4,value=item1['kasaSayisi'])
                 sayfa.cell(satir,column=5,value=item1['miktar'])
+                if(item1['price'] == None):
+                    sayfa.cell(satir,column=6,value=0)
+                else:
+                    sayfa.cell(satir,column=6,value=item1['price'])
+                
                 satir += 1
             
 
