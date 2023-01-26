@@ -108,7 +108,7 @@ class FuarMusterilerSchema(Schema):
     company = fields.String()
     email = fields.String()
     phone = fields.String()
-    country = fields.Int()
+    country = fields.String()
     user = fields.Int()
     adress = fields.String()
     kullanici = fields.Int()
@@ -123,7 +123,7 @@ class FuarMusterilerModel:
     company = ""
     email = ""
     phone = ""
-    country = 0
+    country = ""
     user = 0
     adress = ""
     satisci = ""

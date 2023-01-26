@@ -546,7 +546,13 @@ class FuarMusteriler:
     def getFuarMusterileriList(self):
         try:
             result = self.data.getList("""
-                                        select * from FuarMusterilerTB
+                                        select
+
+*,
+(select yu.UlkeAdi from YeniTeklif_UlkeTB yu where yu.Id = fm.Country) as Ulke
+
+
+from FuarMusterilerTB fm
                                        
             
             
@@ -559,7 +565,7 @@ class FuarMusteriler:
                 model.email = item.Email
                 model.company = item.Company
                 model.phone = item.Phone
-                model.country = item.Country
+                model.country = item.Ulke
                 model.user = item.Kullanici
                 model.adress = item.Adress
                 model.satisci = item.Orderer
@@ -645,7 +651,12 @@ class BgpMusteriler:
     def getBgpMusterileriList(self):
         try:
             result = self.data.getList("""
-                                        select * from BgpProjectMusteriler
+                                        select 
+
+                                        *,
+                                        (select KullaniciAdi from KullaniciTB k where k.ID =bgp.Kullanici) as SatisciAdi
+
+                                        from BgpProjectMusteriler bgp
                                        
             
             
@@ -661,7 +672,7 @@ class BgpMusteriler:
                 model.country = item.Ulke
                 model.user = item.Kullanici
                 model.adress = item.Adress
-                model.satisci = item.Satisci
+                model.satisci = item.SatisciAdi
                 
                 liste.append(model)
             schema = BgpMusterilerSchema(many=True)
