@@ -659,7 +659,8 @@ class BgpProjects():
             result = self.data.getStoreList("""
                                                 select 
 
-                                                        * 
+                                                        *,
+														(select k.KullaniciAdi from KullaniciTB k where k.ID=bgp.Temsilci) as TemsilciAdi
 
 
                                                     from BgpProjectDetailList bgp
@@ -687,6 +688,7 @@ class BgpProjects():
                model.notInterested = item.NotInterested
                model.interested = item.Interested
                model.unvan = item.Unvan
+               model.temsilciAdi = item.TemsilciAdi
                
                liste.append(model)
             schema = BgpProjectsAyrintiSchema(many=True)

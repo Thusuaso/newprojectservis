@@ -41,6 +41,7 @@ class BgpProjectsAyrintiSchema(Schema):
     interested = fields.Boolean()
     unvan = fields.String()
     unvanColor = fields.String()
+    temsilciAdi = fields.String()
 
 class BgpProjectsAyrintiModel:
     id = 0
@@ -60,6 +61,7 @@ class BgpProjectsAyrintiModel:
     interested = False
     unvan = ""
     unvanColor = ""
+    temsilciAdi =""
 
     
 class BgpProjectsUlkeSchema(Schema):

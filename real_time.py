@@ -59,7 +59,9 @@ def bildirimler_update_event():
 @socketio.on('stock_list_event')
 def stock_list_event():
     emit('stock_list_emit')
-
+@socketio.on('mekmar_com_galleria_list_event')
+def mekmar_com_galleria_list_event():
+    emit('mekmar_com_galleria_list_emit')
 
 if __name__ == '__main__':
     socketio.run(app,port=5001)

@@ -39,7 +39,7 @@ from email.mime.text import MIMEText
 from resource_api.raporlar.temsilciSatislari.temsilciSatislari import TemsilciSatislariApi
 from resource_api.efesfinans.efinansRestApi import EfesGelenSiparisvYuklenenler
 from resource_api.teklifler.bgpProject import *
-
+from resource_api.mekmar_com.Galleria import *
 app = Flask(__name__)
 
 api = Api(app)
@@ -696,9 +696,9 @@ api.add_resource(MekmerDisFaturaListApi,'/mekmer/disFaturaIslem/getMekmerDisFatu
 api.add_resource(MekmerDisFaturaKaydetApi,'/mekmer/disFaturaIslem/setMekmerFatura/<int:id>/<string:evrakAdi>',methods=['GET','POST'])
 
 api.add_resource(AyoAlisFiyatiDegistirApi,'/raporlar/ayo/alisFiyatiControlChange',methods=['GET','POST'])
-
-
-
+api.add_resource(GalleriaAddApi,'/panel/mekmarcom/galleria/add',methods=['POST'])
+api.add_resource(GalleriaPhotosApi,'/panel/mekmarcom/galleri/getPhotos/<int:product_id>',methods=['GET'])
+api.add_resource(GalleriaPhotosDeleteApi,'/panel/mekmarcom/galeri/deletePhotos/<int:id>',methods={'GET'})
 
 #excel çıktı işlemler
 
