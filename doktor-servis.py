@@ -588,7 +588,8 @@ api.add_resource(MusteriBazindaAyrintiApi,'/raporlar/siparis/musteriBazindaAyrin
 api.add_resource(UreticiBazindaApi,'/islemler/listeler/ureticiDagilimi/<int:year>',methods=['GET'])
 api.add_resource(UreticiBazindaExcelApi,'/islemler/listeler/ureticiDagilimiExcelList',methods=['GET','POST'])
 api.add_resource(UlkeBazindaSevkiyatApi,'/raporlar/siparis/ulkeBazindaSevkiyat',methods=['GET'])
-api.add_resource(UlkeBazindaSevkiyatAyrintiApi,'/raporlar/siparis/ulkeBazindaSevkiyatAyrinti/<int:ulkeId>',methods=['GET'])
+api.add_resource(UlkeBazindaSevkiyatAyrintiApi,'/raporlar/siparis/ulkeBazindaSevkiyatAyrinti/<int:ulkeId>/<int:year>',methods=['GET'])
+api.add_resource(UlkeBazindaSevkiyaYearsListApi,'/raporlar/siparis/ulkeBazindaSevkiyatYears',methods=['GET'])
 
 
 api.add_resource(UlkeBazindaSevkiyatYearsApi,'/raporlar/siparis/ulkeBazindaSevkiyatYears/<int:year>',methods=['GET'])

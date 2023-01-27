@@ -71,28 +71,40 @@ class UlkeBazindaSevkiyat:
                           
                             select 
 
-                                m.UlkeId,
-                                (select yu.UlkeAdi from YeniTeklif_UlkeTB yu where m.UlkeId=yu.Id) as UlkeAdi,
-                                sum(s.Toplam) as Sevkiyat
+                            sum(su.SatisToplam) as Sevkiyat,
+                            (
+                                select yu.UlkeAdi from YeniTeklif_UlkeTB yu where yu.Id = m.UlkeId
+                            ) as UlkeAdi,
+                            m.UlkeId
 
+                        from MusterilerTB m 
+                        inner join SiparislerTB s on s.MusteriID = m.ID
+                        inner join SiparisUrunTB su on su.SiparisNo = s.SiparisNo
 
+                        where s.SiparisDurumID=3 and YEAR(s.YuklemeTarihi) = ? and m.Marketing='Mekmar'
 
-                            from 
-
-
-                                MusterilerTB m 
-                                inner join SevkiyatTB s on s.MusteriID = m.ID
-                            where
-                                m.Marketing = 'Mekmar' and
-                                YEAR(s.Tarih) = ?
-
-
-
-                            group by m.UlkeId
-                            order by sum(s.Toplam) desc
+                        group by m.UlkeId
+                        order by sum(su.SatisToplam) desc
                           
                           
                           """,(year))
+        self.masraflar = self.data.getStoreList("""
+                                            select 
+
+                                            sum(s.NavlunSatis) + sum(s.DetayTutar_1) + sum(s.DetayTutar_2) + sum(s.DetayTutar_3) + sum(s.DetayTutar_4) as Masraflar ,
+                                            (
+                                                select yu.UlkeAdi from YeniTeklif_UlkeTB yu where yu.Id = m.UlkeId
+                                            ),
+                                            m.UlkeId
+
+                                        from MusterilerTB m 
+                                        inner join SiparislerTB s on s.MusteriID = m.ID
+                                        where s.SiparisDurumID=3 and YEAR(s.YuklemeTarihi) = ? and m.Marketing='Mekmar'
+
+                                        group by m.UlkeId
+                                        order by sum(s.NavlunSatis),sum(s.DetayTutar_1),sum(s.DetayTutar_2),sum(s.DetayTutar_3),sum(s.DetayTutar_4)
+                                           """,(year))
+        
         liste = list()
         for item in result:
 
@@ -100,7 +112,7 @@ class UlkeBazindaSevkiyat:
 
             model.ulkeid = item.UlkeId
             model.ulkeadi = item.UlkeAdi
-            model.toplamsevkiyat = item.Sevkiyat
+            model.toplamsevkiyat = item.Sevkiyat +  self.__getMasraflar(item.UlkeId)
             
             
             liste.append(model)
@@ -110,7 +122,7 @@ class UlkeBazindaSevkiyat:
 
         return schema.dump(liste)
 
-    def getUlkeBazindaSevkiyatAyrinti(self,ulkeId):
+    def getUlkeBazindaSevkiyatAyrinti(self,ulkeId,year):
         try:
             result = self.data.getStoreList("""
                                                 select 
@@ -122,12 +134,12 @@ class UlkeBazindaSevkiyat:
                                                 inner join SiparislerTB s on s.MusteriID = m.ID
                                                 inner join SiparisUrunTB su on su.SiparisNo = s.SiparisNo
 
-                                                where s.SiparisDurumID=3 and YEAR(s.YuklemeTarihi) = YEAR(GETDATE()) and m.UlkeId=?
+                                                where s.SiparisDurumID=3 and YEAR(s.YuklemeTarihi) = ? and m.UlkeId=? and m.Marketing='Mekmar'
                                                 group by s.SiparisNo
                                                 order by sum(su.SatisToplam) desc
                                             
                                             
-                                            """,(ulkeId))
+                                            """,(year,ulkeId))
             self.masraflarAyrinti = self.data.getStoreList("""
                                                 select 
 
@@ -141,10 +153,10 @@ class UlkeBazindaSevkiyat:
 
                                                 from MusterilerTB m 
                                                 inner join SiparislerTB s on s.MusteriID = m.ID
-                                                where s.SiparisDurumID=3 and YEAR(s.YuklemeTarihi) = YEAR(GETDATE()) and m.UlkeId=?
+                                                where s.SiparisDurumID=3 and YEAR(s.YuklemeTarihi) = ? and m.UlkeId=? and m.Marketing='Mekmar'
 
                                                
-                                               """,(ulkeId))
+                                               """,(year,ulkeId))
             liste = list()
             for item in result:
                 model = UlkeBazindaSevkiyatAyrintiModel()
@@ -166,8 +178,33 @@ class UlkeBazindaSevkiyat:
             print("getUlkeBazindaSevkiyatAyrinti hata",str(e))
             return False
     
-    
-    
+    def getUlkeBazindaSevkiyatYearsList(self):
+        try:
+            result = self.data.getList("""
+                                    select 
+
+                                        YEAR(YuklemeTarihi) as Year
+
+
+                                    from SiparislerTB 
+
+
+                                    group by YEAR(YuklemeTarihi)
+                                    order by YEAR(YuklemeTarihi) desc
+                              
+                              """)
+            liste = list()
+            for item in result:
+                if (item.Year != None):
+                    
+                    model = UlkeBazindaSevkiyatYearsModel()
+                    model.year = item.Year
+                    liste.append(model)
+            schema = UlkeBazindaSevkiyatYearsSchema(many=True)
+            return schema.dump(liste)
+                
+        except Exception as e:
+            print('getUlkeBazindaYears hata',str(e))    
     
     def __getMasraflarAyrinti(self,siparisNo):
         for item in self.masraflarAyrinti:
@@ -200,6 +237,13 @@ class UlkeBazindaSevkiyatModel():
     ulkeid = 0
     ulkeadi = ''
     toplamsevkiyat = 0
+    
+    
+class UlkeBazindaSevkiyatYearsSchema(Schema):
+    year = fields.Int()
+    
+class UlkeBazindaSevkiyatYearsModel:
+    year = 0
     
 class UlkeBazindaSevkiyatAyrintiSchema(Schema):
     siparisNo = fields.String()

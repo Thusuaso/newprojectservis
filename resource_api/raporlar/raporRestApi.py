@@ -946,14 +946,20 @@ class UlkeBazindaSevkiyatApi(Resource):
             
         return jsonify(result)
     
+class UlkeBazindaSevkiyaYearsListApi(Resource):
+    def get(self):
+        islem = UlkeBazindaSevkiyat()
+        result = islem.getUlkeBazindaSevkiyatYearsList()
+        return jsonify(result)
+    
 class UlkeBazindaSevkiyatAyrintiApi(Resource):
 
-    def get(self,ulkeId):
+    def get(self,ulkeId,year):
 
         islem = UlkeBazindaSevkiyat()
         
         
-        result = islem.getUlkeBazindaSevkiyatAyrinti(ulkeId)
+        result = islem.getUlkeBazindaSevkiyatAyrinti(ulkeId,year)
             
         return jsonify(result)
     
