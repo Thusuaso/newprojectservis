@@ -12,7 +12,7 @@ class DashboardNew:
         self.grafikMekmarNavlunBuYil = self.data.getList("""
                                                         select 
 
-                                                            sum(s.NavlunSatis) as NavlunSatis,
+                                                            sum(s.NavlunSatis) + sum(s.DetayTutar_1) + sum(s.DetayTutar_2) + sum(s.DetayTutar_3) + sum(s.DetayTutar_4) as NavlunSatis,
                                                             Month(s.YuklemeTarihi) as Ay
 
                                                         from 
@@ -26,7 +26,7 @@ class DashboardNew:
         self.grafikMekmarNavlunGecenYil = self.data.getList("""
                                                                 select 
 
-                                                            sum(s.NavlunSatis) as NavlunSatis,
+                                                            sum(s.NavlunSatis) + sum(s.DetayTutar_1) + sum(s.DetayTutar_2) + sum(s.DetayTutar_3) + sum(s.DetayTutar_4) as NavlunSatis,
                                                             Month(s.YuklemeTarihi) as Ay
 
                                                         from 
@@ -142,7 +142,7 @@ class DashboardNew:
 
                                                 where  YEAR(s.YuklemeTarihi) = YEAR(GETDATE()) and m.Marketing='Mekmar' and s.SiparisDurumID=3 and MONTH(s.YuklemeTarihi) = MONTH(GETDATE())
 
-                                                group by YEAR(s.SiparisTarihi),MONTH(s.YuklemeTarihi)
+                                                group by MONTH(s.YuklemeTarihi)
                                             
                                             
                                             """)
@@ -438,7 +438,7 @@ class DashboardNew:
         result = self.data.getList("""
                                         select 
 
-                                            sum(s.NavlunSatis) as NavlunSatis
+                                            sum(s.NavlunSatis) + sum(s.DetayTutar_1) + sum(s.DetayTutar_2) + sum(s.DetayTutar_3) + sum(s.DetayTutar_4) as NavlunSatis
 
                                         from
                                         SiparislerTB s
