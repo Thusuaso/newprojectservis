@@ -912,7 +912,7 @@ class DashboardNew:
                                         """)
         buyilyuklenenNavlun = self.data.getList("""
                                                     select 
-                                                    sum(s.NavlunSatis) as NavlunSatis
+                                                    sum(s.NavlunSatis) + sum(s.DetayTutar_1) + sum(s.DetayTutar_2) + sum(s.DetayTutar_3) + sum(s.DetayTutar_4)  as NavlunSatis
                                                     from 
                                                     SiparislerTB s
 													inner join MusterilerTB m on m.ID = s.MusteriID
@@ -950,7 +950,7 @@ class DashboardNew:
         
         gecenyilyuklenenNavlun = self.data.getList("""
                                                     select 
-                                                    sum(s.NavlunSatis) as NavlunSatis
+                                                    sum(s.NavlunSatis) + sum(s.DetayTutar_1) + sum(s.DetayTutar_2) + sum(s.DetayTutar_3) + sum(s.DetayTutar_4)  as NavlunSatis
                                                     from 
                                                     SiparislerTB s
                                                     inner join MusterilerTB m on m.ID = s.MusteriID
