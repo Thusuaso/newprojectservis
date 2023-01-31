@@ -1,6 +1,6 @@
 
 from models.raporlar import yukleme
-from models.siparisler_model import SiparisGirisSchema,SiparisGirisModel
+from models.siparisler_model import SiparisGirisSchema,SiparisGirisModel,ContainerAmountSchema,ContainerAmountModel
 from models.siparisler_model.siparisGirisUrun import SiparisGirisUrunModel
 from models import SiparislerModel
 from helpers import SqlConnect,TarihIslemler
@@ -1690,4 +1690,38 @@ class SiparisGiris:
             return True
         except Exception as e:
             print('getchangeOdemeBilgisi hata',str(e))
+            return False
+        
+        
+    def setContainerAdd(self,data):
+        try:
+            self.data.update_insert("""
+                                        update SiparislerTB set KonteynerSayisi=? where SiparisNo=?
+
+                                
+                                
+                                """,(data['amount'],data['siparisNo']))
+            return True
+        except Exception as e:
+            print('setContainerAdd hata',str(e))
+            return False
+        
+    def getContainerAmount(self,sipNo):
+        try:
+            result = self.data.getStoreList("""
+                                    select KonteynerSayisi from SiparislerTB where SiparisNo=?
+                                   
+                                   """,(sipNo))
+            liste = list()
+            for item in result:
+                
+                model = ContainerAmountModel()
+                model.container_amount = item.KonteynerSayisi
+                liste.append(model)
+            
+            schema = ContainerAmountSchema(many = True)
+            return schema.dump(liste)
+            
+        except Exception as e:
+            print('getContainerAmount hata',str(e))
             return False

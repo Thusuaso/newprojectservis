@@ -15,3 +15,10 @@ class SiparisGirisModel:
     siparisUrunler = list()  
     proformaBilgileri = SiparislerModel()
     urunModel = SiparisGirisUrunModel()
+    
+    
+class ContainerAmountSchema(Schema):
+    container_amount = fields.Int()
+    
+class ContainerAmountModel:
+    container_amount = 0

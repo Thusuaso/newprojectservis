@@ -707,5 +707,14 @@ api.add_resource(SiparisCekiListesiApi, '/excel/listeler/siparisCekiListesi', me
 
 api.add_resource(SiparisEtiketListesiApi, '/excel/listeler/siparisEtiketListesi/<string:etiketAdi>', methods=['GET'])       
 
+
+api.add_resource(ContainerAddApi,"/operasyon/containeramount",methods=['POST'])
+api.add_resource(ContainerAmountApi,"/ayo/getOrderContainerAmount/<string:sipNo>",methods=['GET'])
+
+#Mekmar Raporları Alanı
+
+
+
+
 if __name__ == '__main__':
     app.run(port=5000,debug=True) #https://doktor-servis.mekmar.com/raporlar/listeler/uretimRaporuHepsi
