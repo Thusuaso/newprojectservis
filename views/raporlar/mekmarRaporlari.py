@@ -283,7 +283,7 @@ class MekmarRaporlari:
                 model   = TedarikciyeGoreAyrintiModel()
                 model.firma_adi = item.FirmaAdi
                 model.siparis_no = item.SiparisNo
-                model.alis_toplami = item.AlisToplam
+                model.alis_toplami = self.__getNone(item.AlisToplam)
                 liste.append(model)
                 
             schema = TedarikciyeGoreAyrintiSchema(many = True)
