@@ -712,9 +712,15 @@ api.add_resource(ContainerAddApi,"/operasyon/containeramount",methods=['POST'])
 api.add_resource(ContainerAmountApi,"/ayo/getOrderContainerAmount/<string:sipNo>",methods=['GET'])
 
 #Mekmar Raporları Alanı
+api.add_resource(MekmarUlkeRaporuApi,"/raporlar/mekmarraporlari/ulke/<int:year>",methods=['GET'])
+api.add_resource(MekmarUlkeRaporuAyrintiApi,"/raporlar/mekmarraporlari/ulke/ayrinti/<int:ulke_id>/<int:year>",methods=['GET'])
+
+api.add_resource(MekmarMusteriRaporuApi,"/raporlar/mekmarraporlari/musteri/<int:year>",methods=['GET'])
+api.add_resource(MekmarMusteriRaporuAyrintiApi,"/raporlar/mekmarraporlari/musteri/ayrinti/<int:musteri_id>/<int:year>",methods=['GET'])
 
 
+api.add_resource(MekmarTedarikciRaporuApi,"/raporlar/mekmarraporlari/tedarikci/<int:year>",methods=['GET'])
 
-
+api.add_resource(MekmarTedarikciRaporuAyrintiApi,'/raporlar/mekmarraporlari/tedarikci/ayrinti/<int:tedarikci_id>/<int:year>',methods=['GET'])
 if __name__ == '__main__':
     app.run(port=5000,debug=True) #https://doktor-servis.mekmar.com/raporlar/listeler/uretimRaporuHepsi

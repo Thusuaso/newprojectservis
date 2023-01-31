@@ -6,3 +6,4 @@ from views.raporlar.temsilciSatislari import TemsilciSatislari
 from views.raporlar.dashboard.dashboard import DashboardNew
 from views.raporlar.ceyreklikRapor.ceyreklikRapor import CeyreklikRaporlar
 from views.raporlar.stock_price import StockPrice
+from views.raporlar.mekmarRaporlari import *

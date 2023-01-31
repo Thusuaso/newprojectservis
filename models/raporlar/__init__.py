@@ -19,3 +19,4 @@ from models.raporlar.allOrders import *
 from models.raporlar.orderProducts import *
 from models.raporlar.anaSayfaDegisiklik import *
 from models.raporlar.ceyreklik_raporlar import * 
+from models.raporlar.mekmarRaporlari import *
