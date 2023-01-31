@@ -46,9 +46,7 @@ class EvrakFaturaIslem:
 
     def __faturaKayit(self,item):
         
-        try:
-            
-            
+        try:    
             kullaniciid = self.data.getStoreList(
                     """
                     Select ID from KullaniciTB
