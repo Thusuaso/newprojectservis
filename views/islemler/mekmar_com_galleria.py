@@ -6,15 +6,16 @@ class Galleria():
     
     def add(self,data):
         try:
+            print(data)
             sira = 1
             for item in data:
                 
                 self.data.update_insert("""
-                                        insert into MekmarCom_Galleria(Image_Jpg,Product_Id,FileName,Sira) VALUES(?,?,?,?)
+                                        insert into MekmarCom_Galleria(Image_Jpg,Product_Id,FileName,Sira,Project_Id) VALUES(?,?,?,?,?)
 
                                     
                                     
-                                    """,(item['link'],item['productId'],item['fileName'],sira))
+                                    """,(item['link'],item['productId'],item['fileName'],sira,item['projectId']))
                 sira += 1
             
             return True
