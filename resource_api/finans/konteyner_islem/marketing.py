@@ -652,6 +652,7 @@ class Marketing:
             toplamSatisGecenyil = 0
             toplamSatisOncekiyil = 0
             toplamSatisOnDokuzyil = 0
+            toplamSatisOnSekizyil = 0
             toplamSatisTotal = 0
             toplamSatisTotalCfr = 0
             border = Border(left=Side(border_style="thin",color='FF000000'),right=Side(border_style="thin",color='FF000000'),top=Side(border_style="thin",color='FF000000'),bottom=Side(border_style="thin",color='FF000000'))
@@ -681,15 +682,22 @@ class Marketing:
                 else:
                     sayfa.cell(satir,column=7,value=0).border = border
                 
-                if(item['toplam'] != None):
-                    sayfa.cell(satir,column=8,value=item['toplam']).border = border
+                if(item['satisToplamiOnSekizYil'] != None):
+                    sayfa.cell(satir,column=8,value=item['satisToplamiOnSekizYil']).border = border
                 else:
                     sayfa.cell(satir,column=8,value=0).border = border
-                    
+                
+                
+                
                 if(item['toplam'] != None):
-                    sayfa.cell(satir,column=9,value=item['toplamCfr']).border = border
+                    sayfa.cell(satir,column=9,value=item['toplam']).border = border
                 else:
                     sayfa.cell(satir,column=9,value=0).border = border
+                    
+                if(item['toplam'] != None):
+                    sayfa.cell(satir,column=10,value=item['toplamCfr']).border = border
+                else:
+                    sayfa.cell(satir,column=10,value=0).border = border
 
                 if(item['satisToplamiBuYil'] != None):
                     toplamSatisBuyil += item['satisToplamiBuYil']
@@ -699,6 +707,10 @@ class Marketing:
                     toplamSatisOncekiyil += item['satisToplamiOncekiYil']
                 if(item['satisToplamiOnDokuzYil'] != None):
                     toplamSatisOnDokuzyil += item['satisToplamiOnDokuzYil']
+                
+                if(item['satisToplamiOnSekizYil'] != None):
+                    toplamSatisOnSekizyil += item['satisToplamiOnSekizYil']
+                
                 if(item['toplam'] != None):
                     toplamSatisTotal += item['toplam']
                     
@@ -720,10 +732,15 @@ class Marketing:
             a4.border = border
             a5=sayfa.cell(satir,column=7,value=self.__getNoneType(toplamSatisOnDokuzyil)).font = Font(color='f44336',bold=True)
             a5.border = border
-            a6 = sayfa.cell(satir,column=8,value=self.__getNoneType(toplamSatisTotal)).font = Font(color='f44336',bold=True)
+            
+            a6=sayfa.cell(satir,column=8,value=self.__getNoneType(toplamSatisOnSekizyil)).font = Font(color='f44336',bold=True)
             a6.border = border
-            a7=sayfa.cell(satir,column=9,value=self.__getNoneType(toplamSatisTotalCfr)).font = Font(color='f44336',bold=True)
+            
+            
+            a7 = sayfa.cell(satir,column=9,value=self.__getNoneType(toplamSatisTotal)).font = Font(color='f44336',bold=True)
             a7.border = border
+            a8=sayfa.cell(satir,column=10,value=self.__getNoneType(toplamSatisTotalCfr)).font = Font(color='f44336',bold=True)
+            a8.border = border
             
             
             toplamYuklemeFobProduct = 0

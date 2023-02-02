@@ -527,6 +527,9 @@ api.add_resource(BgpMusterilerSilApi,"/listeler/setNewBgpMusterilerSil/<int:id>"
 
 #raporlar
 api.add_resource(YuklemeRaporIslemApi,'/raporlar/listeler/yukleme/<int:yil>/<int:ay>',methods=['GET'])
+api.add_resource(YuklemeRaporIslemYearApi,'/raporlar/listeler/yuklemeYear/<int:year>',methods=['GET'])
+
+
 api.add_resource(YuklemeAtlantaRaporIslemApi,'/raporlar/listeler/atlantayukleme/<int:yil>/<int:ay>',methods=['GET'])
 api.add_resource(YuklemeRaporYilListApi,'/raporlar/listeler/yuklemeYilListesi',methods=['GET'])
 api.add_resource(YuklemeRaporIslemAyListesi,'/raporlar/listeler/yuklemeAyListesi/<int:yil>',methods=['GET'])

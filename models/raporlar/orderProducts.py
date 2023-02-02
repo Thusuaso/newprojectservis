@@ -55,6 +55,7 @@ class MusteriBazindaUretimModel:
     satisToplamiGecenYil =  0
     satisToplamiOncekiYil =  0
     satisToplamiOnDokuzYil=0
+    satisToplamiOnSekizYil = 0
     toplam = 0
     toplamCfr = 0
 
@@ -67,6 +68,7 @@ class MusteriBazindaUretimSchema(Schema):
     satisToplamiGecenYil =  fields.Float()
     satisToplamiOncekiYil =  fields.Float()
     satisToplamiOnDokuzYil = fields.Float()
+    satisToplamiOnSekizYil = fields.Float()
     toplam = fields.Float()
     toplamCfr = fields.Float()
     

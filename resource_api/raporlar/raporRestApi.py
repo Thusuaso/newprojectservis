@@ -1255,6 +1255,14 @@ class YuklemeRaporIslemApi(Resource):
       
         return jsonify(data)
 
+
+class YuklemeRaporIslemYearApi(Resource):
+    def get(self,year):
+        islem = YuklemeListeler()
+        result = islem.getYuklemeRaporuYillik(year)
+        return jsonify(result)
+
+
 class IstatistiklerApi(Resource):
     def get(self):
         

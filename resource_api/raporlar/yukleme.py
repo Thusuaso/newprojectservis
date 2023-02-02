@@ -66,6 +66,65 @@ class YuklemeListeler:
 
         return sorted(schema.dump(liste), key=lambda x:x['dtp'],reverse=True)
 
+    
+    def getYuklemeRaporuYillik(self,yil):
+
+        result = self.data.getStoreList(
+            """
+            select  
+            s.YuklemeTarihi,  
+            s.SiparisNo,  
+            m.FirmaAdi as MusteriAdi,  
+            (select Sum(SatisToplam) from SiparisUrunTB su where su.SiparisNo=s.SiparisNo) as Fob,  
+            (select Sum(SatisToplam) from SiparisUrunTB su where su.SiparisNo=s.SiparisNo)+  
+            dbo.Get_SiparisNavlun(s.SiparisNo) as Dtp,  
+            'Konteyner' as Tur,m.Marketing  
+            from  
+            SiparislerTB s,MusterilerTB m  
+            where Year(YuklemeTarihi)=?
+            and m.ID=s.MusteriID  
+            and m.Marketing not in ('Mekmar Numune','Seleksiyon','Warehouse')  
+            and m.Marketing is not null  
+             
+            union  
+            select  
+            s.Tarih as YuklemeTarihi,  
+            s.CikisNo as SiparisNo,  
+            m.FirmaAdi as MusteriAdi,  
+            Sum(Toplam) as Fob  
+            ,Sum((s.BirimFiyat+7.5)*u.Miktar) as Dtp,  
+            'Depo' as Tur,m.Marketing  
+            from  
+            SevkiyatTB s,MusterilerTB m,UretimTB u  
+            where s.MusteriID=m.ID and u.KasaNo=s.KasaNo  
+            and Year(s.Tarih)=?
+            and m.Mt_No=1  
+            group by  
+            s.Tarih,s.CikisNo,m.FirmaAdi,m.Marketing 
+            
+            """,(yil,yil)
+        ) 
+
+        liste = list()
+
+        for item in result:
+            model = YuklemeAylikModel()
+            model.yukleme_tarihi = item.YuklemeTarihi
+            model.siparis_no = item.SiparisNo
+            model.musteri_adii = item.MusteriAdi
+            model.fob = item.Fob
+            model.dtp = item.Dtp
+            model.tur = item.Tur
+            model.marketing = item.Marketing
+            liste.append(model)
+
+        schema = YuklemeAylikSchema(many=True)
+
+        return sorted(schema.dump(liste), key=lambda x:x['dtp'],reverse=True)
+    
+    
+    
+    
     def getYuklemeRaporAylikMusteriBazinda(self,yil,ay):
 
         result = self.data.getStoreList(

@@ -198,7 +198,11 @@ class MusteriBazindaUretim:
 	(          
      Select Sum(SatisToplam) from SiparislerTB s, SiparisUrunTB u where s.SiparisNo=u.SiparisNo and s.SiparisDurumID=2 and s.MusteriID=m.ID and Year(s.SiparisTarihi)=Year(GetDate()) -3         
           
-    ) as OnDokuzYilUretim 
+    ) as OnDokuzYilUretim ,
+	(          
+     Select Sum(SatisToplam) from SiparislerTB s, SiparisUrunTB u where s.SiparisNo=u.SiparisNo and s.SiparisDurumID=2 and s.MusteriID=m.ID and Year(s.SiparisTarihi)=Year(GetDate()) -4        
+          
+    ) as OnSekizYilUretim 
                        
           
                      
@@ -270,8 +274,9 @@ class MusteriBazindaUretim:
                 model.satisToplamiGecenYil = item.GecenYilUretim
                 model.satisToplamiOncekiYil = item.OncekiYilUretim
                 model.satisToplamiOnDokuzYil = item.OnDokuzYilUretim
-                model.toplam  = self.__getNone(item.BuYilUretim) + self.__getNone(item.GecenYilUretim) + self.__getNone(item.OncekiYilUretim) + self.__getNone(item.OnDokuzYilUretim)
-                model.toplamCfr = self.__getNone(item.BuYilUretim) + self.__getNone(item.GecenYilUretim) + self.__getNone(item.OncekiYilUretim) + self.__getNone(item.OnDokuzYilUretim) + self.__getNavlun(item.MusteriId)
+                model.satisToplamiOnSekizYil = item.OnSekizYilUretim
+                model.toplam  = self.__getNone(item.BuYilUretim) + self.__getNone(item.GecenYilUretim) + self.__getNone(item.OncekiYilUretim) + self.__getNone(item.OnDokuzYilUretim) + self.__getNone(item.OnSekizYilUretim)
+                model.toplamCfr = self.__getNone(item.BuYilUretim) + self.__getNone(item.GecenYilUretim) + self.__getNone(item.OncekiYilUretim) + self.__getNone(item.OnDokuzYilUretim) + self.__getNone(item.OnSekizYilUretim) + self.__getNavlun(item.MusteriId)
                 liste.append(model)
                 
         schema = MusteriBazindaUretimSchema(many=True)
