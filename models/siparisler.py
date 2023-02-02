@@ -31,6 +31,7 @@ class SiparislerSchema(Schema):
     faturaNo = fields.Int()
     siparisFaturaNo = fields.String()
     vade = fields.String()
+    tahmini_eta = fields.String()
     ulke = fields.String()
     komisyon = fields.Float()
     toplamPalet = fields.Int()
@@ -141,6 +142,7 @@ class SiparislerModel:
     faturaNo = None
     siparisFaturaNo = ""
     vade = ""
+    tahmini_eta=""
     ulke = ""
     komisyon = 0
     toplamPalet = None

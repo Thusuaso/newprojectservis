@@ -15,6 +15,7 @@ class MusteriAyrintiSchema(Schema):
     pesinat = fields.Float()
     siparis_total = fields.Float()
     odenen_tutar = fields.Float()
+    tahmini_eta = fields.String()
 
 class MusteriAyrintiModel:
     id = None
@@ -29,6 +30,7 @@ class MusteriAyrintiModel:
     pesinat = 0
     siparis_total = 0
     odenen_tutar = 0
+    tahmini_eta = ""
     
     
 class ByCustomersPoSchema(Schema):

@@ -33,6 +33,7 @@ class MusteriAyrinti:
             s.SiparisNo,
             s.YuklemeTarihi,
             s.Vade,
+            s.TahminiEtaTarihi,
             m.FirmaAdi,
             s.MusteriID,
             s.NavlunSatis,
@@ -72,6 +73,14 @@ class MusteriAyrinti:
                 model.yuklemetarihi = tarihIslem.getDate(item.YuklemeTarihi).strftime("%d-%m-%Y")               
             if item.Vade != None:
                 model.vade = tarihIslem.getDate(item.Vade).strftime("%d-%m-%Y")
+            
+            if item.TahminiEtaTarihi != None:
+                model.tahmini_eta = tarihIslem.getDate(item.TahminiEtaTarihi).strftime("%d-%m-%Y")  
+                
+                
+            
+                
+                
             model.pesinat = item.Pesinat
             navlun = 0 
             tutar_1 = 0
@@ -117,6 +126,7 @@ class MusteriAyrinti:
             s.SiparisNo,
             s.YuklemeTarihi,
             s.Vade,
+            s.TahminiEtaTarihi,
             m.FirmaAdi,
             s.MusteriID,
             s.Pesinat,
@@ -158,7 +168,8 @@ class MusteriAyrinti:
                 model.yuklemetarihi = tarihIslem.getDate(item.YuklemeTarihi).strftime("%d-%m-%Y")
             if item.Vade != None:
                 model.vade = tarihIslem.getDate(item.Vade).strftime("%d-%m-%Y")
-
+            if item.TahminiEtaTarihi != None:
+                model.tahmini_eta = tarihIslem.getDate(item.TahminiEtaTarihi).strftime("%d-%m-%Y")
            
             pesinat = 0
             navlun = 0 
