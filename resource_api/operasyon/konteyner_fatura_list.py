@@ -65,6 +65,20 @@ class KonteynerHepsiListesi:
                 if item.FirmaID != None:
                         model.genel_link = f"https://file-service.mekmar.com/file/download/customer/{item.FirmaID}/{item.EvrakAdi}"
             
+            if item.SiparisFaturaTurID == 100 and item.YuklemeEvrakID == 50:
+                model.tur = "Lashing"
+                if item.FirmaID != None:
+                        model.genel_link = f"https://file-service.mekmar.com/file/download/customer/{item.FirmaID}/{item.EvrakAdi}"
+            
+            if item.SiparisFaturaTurID == 101 and item.YuklemeEvrakID == 50:
+                model.tur = "Booking"
+                if item.FirmaID != None:
+                        model.genel_link = f"https://file-service.mekmar.com/file/download/customer/{item.FirmaID}/{item.EvrakAdi}"
+            if item.SiparisFaturaTurID == 102 and item.YuklemeEvrakID == 50:
+                model.tur = "Spanzet"
+                if item.FirmaID != None:
+                        model.genel_link = f"https://file-service.mekmar.com/file/download/customer/{item.FirmaID}/{item.EvrakAdi}"
+            
             if item.SiparisFaturaTurID == 15:
                 model.tur = "Sigorta"
                 if item.FirmaID != None:
@@ -74,7 +88,8 @@ class KonteynerHepsiListesi:
                 model.tur = "Liman"
                 if item.FirmaID != None:
                         model.genel_link = f"https://file-service.mekmar.com/file/download/customer/{item.FirmaID}/{item.EvrakAdi}"
-          
+
+            
 
             
             liste.append(model)
