@@ -351,7 +351,7 @@ api.add_resource(SevkTakipDetay,'/operasyon/listeler/sevkTakipDetay/<int:id>',me
 api.add_resource(SevkTakipIslem,'/operasyon/islemler/sevkTakipGuncelle',methods=['PUT','GET'])
 #operasyonlar konteyner girişi
 api.add_resource(KonteynerListe,'/operasyon/listeler/KonteynerList',methods=['GET'])
-api.add_resource(KonteynerFormIslem,'/operasyon/form/KonteynerForm/islem/<int:fatura_id>/<int:tur>',methods=['GET'])
+api.add_resource(KonteynerFormIslem,'/operasyon/form/KonteynerForm/islem/<int:fatura_id>/<int:tur>/<string:siparis_no>',methods=['GET'])
 api.add_resource(KonteynerIslemListApi,'/operasyon/listeler/KonteynerFormListeler',methods=['GET'])
 api.add_resource(KonteynerKayitIslem,'/operasyon/islemler/konteynerKayit',methods=['GET','POST','PUT'])
 api.add_resource(KonteynerDosyaKaydet,'/operasyon/islemler/konteyner/konteynerDosyaKaydet',methods=['GET','POST','PUT'])

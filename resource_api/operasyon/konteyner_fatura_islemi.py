@@ -68,9 +68,9 @@ class KonteynerIslemModelListApi(Resource):
 
 class KonteynerFormIslem(Resource):
 
-    def get (self ,fatura_id,tur):
+    def get (self ,fatura_id,tur,siparis_no):
 
         islem = KonteynerFaturalar()
-        result = islem.getFormIslem(fatura_id,tur)
+        result = islem.getFormIslem(fatura_id,tur,siparis_no)
 
         return result   

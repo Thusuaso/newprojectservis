@@ -77,7 +77,7 @@ class KonteynerFaturalar:
 
         return schema.dump(liste)
 
-    def getFormIslem(self,fatura_id,tur):
+    def getFormIslem(self,fatura_id,tur,siparis_no):
          
          result = self.data.getStoreList(
               """
@@ -95,8 +95,8 @@ class KonteynerFaturalar:
                 (select f.FirmaAdi from FirmalarTB f where f.ID=k.FirmaID) as firma_Adi
                 from SiparisFaturaKayitTB f , KonteynerDigerFaturalarKayitTB k 
                 where k.FaturaNo + '.pdf'= f.EvrakAdi
-                and k.ID = f.FaturaKayitID and k.ID=? and f.SiparisFaturaTurID=?
-        """,(fatura_id,tur)
+                and k.ID = f.FaturaKayitID and k.ID=? and f.SiparisFaturaTurID=? and f.SiparisNo=?
+        """,(fatura_id,tur,siparis_no)
          )
          liste = list()
 
