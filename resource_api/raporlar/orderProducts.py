@@ -85,7 +85,7 @@ class Order:
                             elif model.en == 'SLAB' or model.boy == 'SLAB':
                                 model.kalanMiktar = model.miktar - model.uretimMiktari
                                 model.kalanAdet = 0
-                            elif model.en == 'Free' or model.boy == 'Free' or model.boy == 'FREE':
+                            elif model.en == 'Free' or model.boy == 'Free' or model.boy == 'FREE' or model.en=='FR':
                                 model.kalanMiktar = model.miktar - model.uretimMiktari
                                 model.kalanAdet = 0
                             elif model.en == 'VAR' or model.boy == 'VAR':

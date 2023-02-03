@@ -460,14 +460,14 @@ class SiparisGiris:
                     (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
                     """,(
                         siparis['siparisNo'],s_tarihi,siparis['odemeTurId'],siparis['teslimTurId'],siparis['musteriId'],
-                        siparis['pesinat'],siparis['navlunFirma'],siparis['navlunMekmarNot'],siparis['navlunAlis'],siparis['navlunSatis'],
+                        siparis['pesinat'],siparis['navlunFirma'],siparis['navlunMekmarNot'],float(siparis['navlunAlis']),float(siparis['navlunSatis']),
                         siparis['kullaniciId'],siparis['siparisDurumId'],siparis['uretimAciklama'],siparis['sevkiyatAciklama'],
                         siparis['finansAciklama'],siparis['odemeAciklama'],t_yukleme_tarihi,vade,siparis['ulke'],siparis['ulkeId'],siparis['komisyon'],
-                        siparis['detayAciklama_1'],siparis['detayMekmarNot_1'],siparis['detayTutar_1'],siparis['detayAlis_1'],
-                        siparis['detayAciklama_2'],siparis['detayMekmarNot_2'],siparis['detayTutar_2'],siparis['detayAlis_2'],
-                        siparis['detayAciklama_3'],siparis['detayMekmarNot_3'],siparis['detayTutar_3'],siparis['detayTutar_4'],siparis['detayAciklama_4'],siparis['detayAlis_3'],siparis['siparisSahibi'],
+                        siparis['detayAciklama_1'],siparis['detayMekmarNot_1'],float(siparis['detayTutar_1']),float(siparis['detayAlis_1']),
+                        siparis['detayAciklama_2'],siparis['detayMekmarNot_2'],siparis['detayTutar_2'],float(siparis['detayAlis_2']),
+                        siparis['detayAciklama_3'],siparis['detayMekmarNot_3'],float(siparis['detayTutar_3']),float(siparis['detayTutar_4']),siparis['detayAciklama_4'],float(siparis['detayAlis_3']),siparis['siparisSahibi'],
                         siparis['evrakGideri'],siparis['eta'],siparis['konteynerAyrinti'],siparis['konteynerNo'],siparis['teslimYeri'],siparis['faturaKesimTurId'],siparis['liman'],siparis['depo'], 
-                        siparis['sigorta_id'],siparis['sigorta_tutar'],siparis['operasyon'],siparis['finansman'],siparis['iade'],siparis['sigorta_tutar_satis'],siparis['malBedeli'],tahmini_eta
+                        siparis['sigorta_id'],float(siparis['sigorta_tutar']),siparis['operasyon'],siparis['finansman'],siparis['iade'],float(siparis['sigorta_tutar_satis']),siparis['malBedeli'],tahmini_eta
                     )
                 )
                 
@@ -594,13 +594,13 @@ class SiparisGiris:
                 Finansman =?, Iade=?,sigorta_tutar_satis=?, MalBedeli=? , TahminiEtaTarihi=? where SiparisNo=?
                 """,(
                     siparis['odemeTurId'],siparis['teslimTurId'],siparis['pesinat'],siparis['navlunFirma'],siparis['navlunMekmarNot'],
-                    siparis['navlunAlis'],siparis['navlunSatis'],siparis['kullaniciId'],siparis['uretimAciklama'],siparis['sevkiyatAciklama'],siparis['finansAciklama'],
+                    float(siparis['navlunAlis']),float(siparis['navlunSatis']),siparis['kullaniciId'],siparis['uretimAciklama'],siparis['sevkiyatAciklama'],siparis['finansAciklama'],
                     siparis['odemeAciklama'], siparis['TahminiyuklemeTarihi'],siparis['siparisFaturaNo'],vade,siparis['ulke'],siparis['ulkeId'],siparis['komisyon'],
-                    siparis['detayAciklama_1'],siparis['detayMekmarNot_1'],siparis['detayTutar_1'],siparis['detayAlis_1'],
-                    siparis['detayAciklama_2'],siparis['detayMekmarNot_2'],siparis['detayTutar_2'],siparis['detayAlis_2'],
-                    siparis['detayAciklama_3'],siparis['detayMekmarNot_3'],siparis['detayTutar_3'],siparis['detayTutar_4'],siparis['detayAciklama_4'],siparis['detayAlis_3'],
+                    siparis['detayAciklama_1'],siparis['detayMekmarNot_1'],float(siparis['detayTutar_1']),float(siparis['detayAlis_1']),
+                    siparis['detayAciklama_2'],siparis['detayMekmarNot_2'],float(siparis['detayTutar_2']),float(siparis['detayAlis_2']),
+                    siparis['detayAciklama_3'],siparis['detayMekmarNot_3'],float(siparis['detayTutar_3']),float(siparis['detayTutar_4']),siparis['detayAciklama_4'],float(siparis['detayAlis_3']),
                     siparis['siparisSahibi'],evrak_gider,siparis['konteynerAyrinti'],siparis['konteynerNo'], siparis['faturaKesimTurId'],siparis['liman'],siparis['depo'], siparis['sigorta_id'],
-                    siparis['sigorta_tutar'], siparis['operasyon'], siparis['finansman'],siparis['iade'],siparis['sigorta_tutar_satis'],siparis['malBedeli'],tahmini_eta,siparis['siparisNo']
+                    float(siparis['sigorta_tutar']), siparis['operasyon'], siparis['finansman'],siparis['iade'],float(siparis['sigorta_tutar_satis']),siparis['malBedeli'],tahmini_eta,siparis['siparisNo']
                 )
             )
             
