@@ -12,7 +12,7 @@ class MekmarRaporlari:
                                         select 
                                         count(m.UlkeId) as SipSayisi,
                                         yu.UlkeAdi,
-                                        s.KonteynirSayisi,
+                                        s.KonteynerSayisi,
                                         m.UlkeId
 
                                     from MusterilerTB m
@@ -21,7 +21,7 @@ class MekmarRaporlari:
 
                                     where YEAR(s.YuklemeTarihi) = ? and m.Marketing = 'Mekmar'
 
-                                    group by m.UlkeId,yu.UlkeAdi,s.KonteynirSayisi
+                                    group by m.UlkeId,yu.UlkeAdi,s.KonteynerSayisi
                                    """,(year))
             
             liste = list()
@@ -30,7 +30,7 @@ class MekmarRaporlari:
                 model.sip_sayisi = item.SipSayisi
                 model.ulke_adi = item.UlkeAdi
                 model.ulke_id = item.UlkeId
-                model.konteynir_sayisi = item.KonteynirSayisi
+                model.konteynir_sayisi = item.KonteynerSayisi
                 liste.append(model)
             schema = UlkeyeGoreSchema(many=True)
             return schema.dump(liste)
@@ -117,7 +117,7 @@ class MekmarRaporlari:
                                                     m.ID,
                                                     m.FirmaAdi,
                                                     yu.UlkeAdi,
-                                                    s.KonteynirSayisi
+                                                    s.KonteynerSayisi
 
 
                                                 from MusterilerTB m
@@ -126,7 +126,7 @@ class MekmarRaporlari:
 
                                                 where m.Marketing = 'Mekmar' and YEAR(s.YuklemeTarihi) = ?
                                                 group by
-                                                    m.ID,m.FirmaAdi,yu.UlkeAdi,s.KonteynirSayisi
+                                                    m.ID,m.FirmaAdi,yu.UlkeAdi,s.KonteynerSayisi
                                             
                                             
                                             """,(year))
@@ -138,7 +138,7 @@ class MekmarRaporlari:
                 model.firma_adi = item.FirmaAdi
                 model.yuk_mus_sayisi = item.YukMusSayisi
                 model.ulke_adi = item.UlkeAdi
-                model.konteynir_sayisi = item.KonteynirSayisi
+                model.konteynir_sayisi = item.KonteynerSayisi
                 liste.append(model)
             schema = MusteriyeGoreSchema(many = True)
             return schema.dump(liste)
