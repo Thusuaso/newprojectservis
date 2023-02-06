@@ -10,18 +10,17 @@ class MekmarRaporlari:
         try:
             result = self.data.getStoreList("""
                                         select 
-                                        count(m.UlkeId) as SipSayisi,
-                                        yu.UlkeAdi,
-                                        s.KonteynerSayisi,
-                                        m.UlkeId
+										count(m.UlkeId) as SipSayisi,
+										yu.UlkeAdi,
+										sum(s.KonteynirSayisi) as KonteynirSayisi,
+										m.UlkeId
 
                                     from MusterilerTB m
                                     inner join SiparislerTB s on s.MusteriID = m.ID
                                     inner join YeniTeklif_UlkeTB yu on yu.Id = m.UlkeId
 
                                     where YEAR(s.YuklemeTarihi) = ? and m.Marketing = 'Mekmar'
-
-                                    group by m.UlkeId,yu.UlkeAdi,s.KonteynerSayisi
+									group by m.UlkeId,yu.UlkeAdi
                                    """,(year))
             
             liste = list()
@@ -30,7 +29,7 @@ class MekmarRaporlari:
                 model.sip_sayisi = item.SipSayisi
                 model.ulke_adi = item.UlkeAdi
                 model.ulke_id = item.UlkeId
-                model.konteynir_sayisi = item.KonteynerSayisi
+                model.konteynir_sayisi = item.KonteynirSayisi
                 liste.append(model)
             schema = UlkeyeGoreSchema(many=True)
             return schema.dump(liste)
@@ -117,7 +116,7 @@ class MekmarRaporlari:
                                                     m.ID,
                                                     m.FirmaAdi,
                                                     yu.UlkeAdi,
-                                                    s.KonteynerSayisi
+                                                    sum(s.KonteynirSayisi) as KonteynirSayisi
 
 
                                                 from MusterilerTB m
@@ -126,7 +125,7 @@ class MekmarRaporlari:
 
                                                 where m.Marketing = 'Mekmar' and YEAR(s.YuklemeTarihi) = ?
                                                 group by
-                                                    m.ID,m.FirmaAdi,yu.UlkeAdi,s.KonteynerSayisi
+                                                    m.ID,m.FirmaAdi,yu.UlkeAdi
                                             
                                             
                                             """,(year))
@@ -138,7 +137,7 @@ class MekmarRaporlari:
                 model.firma_adi = item.FirmaAdi
                 model.yuk_mus_sayisi = item.YukMusSayisi
                 model.ulke_adi = item.UlkeAdi
-                model.konteynir_sayisi = item.KonteynerSayisi
+                model.konteynir_sayisi = item.KonteynirSayisi
                 liste.append(model)
             schema = MusteriyeGoreSchema(many = True)
             return schema.dump(liste)

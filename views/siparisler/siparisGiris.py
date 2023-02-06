@@ -1704,7 +1704,7 @@ class SiparisGiris:
     def setContainerAdd(self,data):
         try:
             self.data.update_insert("""
-                                        update SiparislerTB set KonteynerSayisi=? where SiparisNo=?
+                                        update SiparislerTB set KonteynirSayisi=? where SiparisNo=?
 
                                 
                                 
@@ -1717,14 +1717,14 @@ class SiparisGiris:
     def getContainerAmount(self,sipNo):
         try:
             result = self.data.getStoreList("""
-                                    select KonteynerSayisi from SiparislerTB where SiparisNo=?
+                                    select KonteynirSayisi from SiparislerTB where SiparisNo=?
                                    
                                    """,(sipNo))
             liste = list()
             for item in result:
                 
                 model = ContainerAmountModel()
-                model.container_amount = item.KonteynerSayisi
+                model.container_amount = item.KonteynirSayisi
                 liste.append(model)
             
             schema = ContainerAmountSchema(many = True)
