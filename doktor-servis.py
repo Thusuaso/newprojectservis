@@ -703,6 +703,7 @@ api.add_resource(AyoAlisFiyatiDegistirApi,'/raporlar/ayo/alisFiyatiControlChange
 api.add_resource(GalleriaAddApi,'/panel/mekmarcom/galleria/add',methods=['POST'])
 api.add_resource(GalleriaPhotosApi,'/panel/mekmarcom/galleri/getPhotos/<int:product_id>',methods=['GET'])
 api.add_resource(GalleriaPhotosDeleteApi,'/panel/mekmarcom/galeri/deletePhotos/<int:id>',methods={'GET'})
+api.add_resource(GalleryVideosAddApi,"/panel/mekmarcom/gallery/videos",methods=['POST'])
 
 #excel çıktı işlemler
 

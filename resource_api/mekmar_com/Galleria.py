@@ -19,3 +19,10 @@ class GalleriaPhotosDeleteApi(Resource):
         islem = Galleria()
         result = islem.deletePhotos(id)
         return jsonify(result)
+    
+class GalleryVideosAddApi(Resource):
+    def post(self):
+        data = request.get_json()
+        islem = Galleria()
+        result = islem.videos_add(data)
+        return jsonify(result)
