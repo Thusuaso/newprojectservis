@@ -11,11 +11,11 @@ class Galleria():
             for item in data:
                 
                 self.data.update_insert("""
-                                        insert into MekmarCom_Galleria(Image_Jpg,Product_Id,FileName,Sira,Project_Id) VALUES(?,?,?,?,?)
+                                        insert into MekmarCom_Galleria(Image_Jpg,Product_Id,FileName,Sira,Project_Id,Videos) VALUES(?,?,?,?,?,?)
 
                                     
                                     
-                                    """,(item['link'],item['productId'],item['fileName'],sira,item['projectId']))
+                                    """,(item['link'],item['productId'],item['fileName'],sira,item['projectId'],0))
                 sira += 1
             
             return True
