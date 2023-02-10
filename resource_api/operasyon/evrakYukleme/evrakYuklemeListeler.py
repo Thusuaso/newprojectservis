@@ -523,3 +523,6 @@ class EvrakListeler:
         schema = TedarikciSchema(many=True)
 
         return schema.dump(liste)
+    
+
+            

@@ -726,5 +726,6 @@ api.add_resource(MekmarMusteriRaporuAyrintiApi,"/raporlar/mekmarraporlari/muster
 api.add_resource(MekmarTedarikciRaporuApi,"/raporlar/mekmarraporlari/tedarikci/<int:year>",methods=['GET'])
 
 api.add_resource(MekmarTedarikciRaporuAyrintiApi,'/raporlar/mekmarraporlari/tedarikci/ayrinti/<int:tedarikci_id>/<int:year>',methods=['GET'])
+
 if __name__ == '__main__':
     app.run(port=5000,debug=True) #https://doktor-servis.mekmar.com/raporlar/listeler/uretimRaporuHepsi

@@ -56,3 +56,4 @@ class EvrakTedarikciListeApi(Resource):
         result = islem.getTedarikciList(siparisNo)
         return result          
   
+  
