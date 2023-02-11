@@ -97,10 +97,10 @@ class SiparisListe:
         sorgu = None
         if self.siparisDurum == 1 or self.siparisDurum == 2:
             sorgu = self.data.getStoreList(
-                "{call PytService_SiparisUrunListesi_t3(?)}",(self.siparisDurum)
+                "{call PytService_SiparisUrunListesi_t4(?)}",(self.siparisDurum)
             )
         if self.siparisDurum == 3:
-            sorgu = self.data.getList("{call PytService_SiparisUrunListesi_Sevk3_Tn3}")
+            sorgu = self.data.getList("{call PytService_SiparisUrunListesi_Sevk3_Tn4}")
        
         siparisResult = self.data.getStoreList(
             """
@@ -309,6 +309,15 @@ class SiparisListe:
             model.tedarikciAdi = item.TedarikciAdi
             model.siparisMiktari = item.SiparisMiktari
             model.birim = item.BirimAdi
+            print(model.birim)
+            if(item.BirimAdi == 'Adet'):
+                model.adet = item.SiparisMiktari
+                model.siparisMiktari = 0
+                
+            else:
+                model.siparisMiktari = item.SiparisMiktari
+                model.adet = 0
+                
             model.sira = sira
             model.temsilci= temsilci
             model.operasyon = operasyon

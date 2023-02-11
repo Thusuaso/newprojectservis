@@ -40,7 +40,7 @@ class SiparisUrunListeSchema(Schema):
     opChange = fields.Boolean()
     ton = fields.Float()
     newAmount = fields.Float()
-
+    adet=fields.Float()
 
 class SiparisListeSchema(Schema):
     id = fields.Int()
@@ -107,3 +107,4 @@ class SiparisUrunListeModel:
     path = '/assets/layout/images/personel/' + logo
     ton = 0
     newAmount:0
+    adet:0
