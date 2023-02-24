@@ -309,10 +309,9 @@ class SiparisListe:
             model.tedarikciAdi = item.TedarikciAdi
             model.siparisMiktari = item.SiparisMiktari
             model.birim = item.BirimAdi
-            print(model.birim)
             if(item.BirimAdi == 'Adet'):
                 model.adet = item.SiparisMiktari
-                model.siparisMiktari = 0
+                model.siparisMiktari = item.SiparisMiktari
                 
             else:
                 model.siparisMiktari = item.SiparisMiktari

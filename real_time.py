@@ -63,5 +63,10 @@ def stock_list_event():
 def mekmar_com_galleria_list_event():
     emit('mekmar_com_galleria_list_emit')
 
+@socketio.on('isf_form_load_event')
+def isf_form_load_event():
+    emit('isf_form_load_emit')
+
+
 if __name__ == '__main__':
     socketio.run(app,port=5001)

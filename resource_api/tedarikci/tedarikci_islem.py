@@ -172,10 +172,13 @@ class TedarikciIslem:
             evrakAdi = self.data.getStoreList("""
                                                 select EvrakAdi,ID from SiparisFaturaKayitTB where SiparisNo=?
                                               """,(siparisNo))
+
             
             for item in evrakAdi:
+                print("evrakAdi item",item)
                 evrakAdi = item.EvrakAdi
-                evrakAdi = evrakAdi.split(' ')[0]
+                evrakAdi = evrakAdi.split('-')[0]
+                print("evrakAdi",evrakAdi)
                 if(tedarikciAdi.strip() == evrakAdi.strip()):
                     self.data.update_insert("""
                                                 delete SiparisFaturaKayitTB where ID=?
