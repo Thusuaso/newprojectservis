@@ -317,6 +317,14 @@ class SiparisListe:
                 model.siparisMiktari = item.SiparisMiktari
                 model.adet = 0
                 
+            if(item.BirimAdi == 'M2'):
+                model.mt2 = item.SiparisMiktari
+                model.siparisMiktari = item.SiparisMiktari
+                
+            else:
+                model.siparisMiktari = item.SiparisMiktari
+                model.mt2 = 0
+                
             model.sira = sira
             model.temsilci= temsilci
             model.operasyon = operasyon

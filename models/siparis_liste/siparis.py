@@ -41,6 +41,7 @@ class SiparisUrunListeSchema(Schema):
     ton = fields.Float()
     newAmount = fields.Float()
     adet=fields.Float()
+    mt2=fields.Float()
 
 class SiparisListeSchema(Schema):
     id = fields.Int()
@@ -108,3 +109,4 @@ class SiparisUrunListeModel:
     ton = 0
     newAmount:0
     adet:0
+    mt2:0
