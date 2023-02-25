@@ -46,7 +46,7 @@ class UretimListe:
             UretimTB u,UrunKartTB uk  
             where  
             u.UrunDurumID=1 and uk.ID=u.UrunKartID  
-            and u.TedarikciID is not null and u.Bulunamadi != 1
+            and u.TedarikciID is not null
             order by u.KasaNo desc  
             """
           
