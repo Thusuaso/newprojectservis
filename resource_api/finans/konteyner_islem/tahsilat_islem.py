@@ -107,7 +107,8 @@ class TahsilatIslem:
             anaSayfaDegisiklikList = islem.getAnaSayfaDegisiklik()
             data = {
                 'status':True,
-                'anaSayfaDegisiklikList':anaSayfaDegisiklikList
+                'anaSayfaDegisiklikList':anaSayfaDegisiklikList,
+                'siparisno':item['siparisno']
             }
             return data
         except Exception as e:
@@ -146,7 +147,8 @@ class TahsilatIslem:
             anaSayfaDegisiklikList = islem.getAnaSayfaDegisiklik()
             data = {
                 'status':True,
-                'anaSayfaDegisiklikList':anaSayfaDegisiklikList
+                'anaSayfaDegisiklikList':anaSayfaDegisiklikList,
+                'siparisno':item['siparisno']
             }
             return data
         except Exception as e:

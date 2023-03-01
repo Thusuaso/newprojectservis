@@ -358,6 +358,7 @@ class Uretim:
         
     def getProductCrateControl(self,data):
         try:
+            print("getProductCrateControl",data)
             uretim = self.data.getStoreList("""
                                                 select Miktar from UretimTB where SiparisAciklama=? and UrunKartID=?
                                             
