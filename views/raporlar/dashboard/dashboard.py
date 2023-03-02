@@ -21,6 +21,8 @@ class DashboardNew:
                                                         where s.SiparisDurumID=3 and YEAR(s.YuklemeTarihi) = YEAR(GETDATE()) and m.Marketing='Mekmar'
                                                         group by 
                                                             MONTH(s.YuklemeTarihi)
+                                                        order by
+                                                            MONTH(s.YuklemeTarihi)
                                                     
                                                     """)
         self.grafikMekmarNavlunGecenYil = self.data.getList("""
@@ -34,6 +36,8 @@ class DashboardNew:
 															inner join MusterilerTB m on m.ID = s.MusteriID
                                                         where s.SiparisDurumID=3 and YEAR(s.YuklemeTarihi) = YEAR(GETDATE()) - 1 and m.Marketing='Mekmar'
                                                         group by 
+                                                            MONTH(s.YuklemeTarihi)
+                                                        order by
                                                             MONTH(s.YuklemeTarihi)
                                                             
                                                             
@@ -738,6 +742,8 @@ class DashboardNew:
 
                                         group by
                                             MONTH(s.YuklemeTarihi)
+                                        order by
+                                            MONTH(s.YuklemeTarihi)
                                        
                                        """)
             result2 = self.data.getList("""
@@ -751,6 +757,8 @@ class DashboardNew:
                                         where s.SiparisDurumID=3 and YEAR(s.YuklemeTarihi)=(YEAR(GETDATE()) -1) and MONTH(s.YuklemeTarihi)<= MONTH(GETDATE()) and m.Marketing='Mekmar'
 
                                         group by
+                                            MONTH(s.YuklemeTarihi)
+                                        order by
                                             MONTH(s.YuklemeTarihi)
                                        
                                        """)
