@@ -1,5 +1,5 @@
 from helpers import SqlConnect,TarihIslemler
-from models.ozel_maliyet import OzelMaliyetListeModel
+from models.ozel_maliyet import OzelMaliyetListeModel,OzelMaliyetListeKarModel
 from resource_api.finans.guncel_kur import DovizListem
 
 class Odemeler:
@@ -126,4 +126,56 @@ class Odemeler:
             dovizKur = doviz.getDovizKurListe(str(year),str(month),str(day))
             return dovizKur
 
+class OdemelerKar:
+    def __init__(self,yil,ay):
+        self.yil = yil
+        self.ay = ay
+        self.odemeler_listesi = list()
+        self.data = SqlConnect().data
+        self.__odemeler_listes_olustur()
+    def __odemeler_listes_olustur(self):
+        odemeler_list = self.data.getStoreList("""
+                                                select 
+                                                    sum(o.Tutar) as GelenBedelUsd,
+                                                    sum(o.Masraf) as BankaMasrafi,
+                                                    sum(o.Tutar * o.Kur) as GelenBedelTR,
+                                                    o.MusteriID,
+                                                    sum(o.Kur) / count(o.MusteriID) as OrtalamaKur
+                                                from
+                                                    OdemelerTB o
+                                                    inner join SiparislerTB s on s.SiparisNo= o.SiparisNo
+                                                    inner join MusterilerTB m on m.ID = s.MusteriID
+                                                where
+                                                    YEAR(s.YuklemeTarihi) = ? and
+                                                    Month(s.YuklemeTarihi) =  ? and
+                                                    m.Marketing = 'Mekmar' and
+                                                    s.SiparisDurumID= 3
+                                                group by
+                                                    o.MusteriID
 
+                                               """,(self.yil,self.ay))
+        for item in odemeler_list:
+            model = OzelMaliyetListeKarModel()
+            model.musteri_id = item.MusteriID
+            model.banka_masrafi = self.__noneControl(item.BankaMasrafi)
+            model.odenen_usd_tutar = self.__noneControl(item.GelenBedelUsd)
+            model.odenen_try_tutar = self.__noneControl(item.GelenBedelTR)
+            model.ortalama_kur = self.__noneControl(item.OrtalamaKur)
+            self.odemeler_listesi.append(model)
+    
+    def getOdemelerModel(self,musteri_id):
+        model = OzelMaliyetListeKarModel()
+        for item in self.odemeler_listesi:
+            if(item.musteri_id == musteri_id):
+                model.musteri_id = item.musteri_id
+                model.banka_masrafi = item.banka_masrafi
+                model.odenen_usd_tutar = item.odenen_usd_tutar
+                model.odenen_try_tutar = item.odenen_try_tutar
+                model.ortalama_kur = item.ortalama_kur
+        return model
+            
+    def __noneControl(self,value):
+        if(value == None):
+            return 0 
+        else:
+            return float(value)

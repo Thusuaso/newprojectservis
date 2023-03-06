@@ -1,5 +1,5 @@
 from helpers import SqlConnect
-from models.ozel_maliyet import OzelMaliyetListeModel,TedarikciFaturaSchema,TedarikciFaturaModel
+from models.ozel_maliyet import OzelMaliyetListeModel,TedarikciFaturaSchema,TedarikciFaturaModel,OzelMaliyetListeKarModel
  
 
 class Urunler:
@@ -283,7 +283,65 @@ class Urunler_Yil:
                 link = f"https://file-service.mekmar.com/file/tedarikci/download/30/{siparis_no}/{item.FaturaNo}.pdf"
 
         return link
+ 
+ 
+class UrunlerKar:
+    def __init__(self,yil,ay):
+        self.yil = yil
+        self.ay = ay
+        self.urunler_list = list()
+        self.data = SqlConnect().data
+        self.__urunListesiOlustur()
+
+    def __urunListesiOlustur(self):
+        urunler_listesi = self.data.getStoreList("""
+                                                    select 
+                                                        s.MusteriID,
+                                                        m.FirmaAdi,
+                                                        sum(su.SatisToplam) as SatisToplami,
+                                                        sum(su.AlisFiyati * su.Miktar) as AlisToplami
+
+                                                    from 
+
+                                                        SiparisUrunTB su
+                                                        inner join SiparislerTB s on s.SiparisNo= su.SiparisNo
+                                                        inner join MusterilerTB m on m.ID = s.MusteriID
+                                                    where 
+                                                        YEAR(s.YuklemeTarihi) = ? and
+                                                        MONTH(s.YuklemeTarihi) = ? and
+                                                        s.SiparisDurumID = 3 and
+                                                        m.Marketing='Mekmar'
+
+                                                    group by
+                                                        s.MusteriID,m.FirmaAdi
+                                                 
+                                                 """,(self.yil,self.ay))
+        
+        for item in urunler_listesi:
+            model =  OzelMaliyetListeKarModel()
+            model.musteri_id = item.MusteriID
+            model.satis_toplami = self.__noneControl(item.SatisToplami)
+            model.alis_toplami = self.__noneControl(item.AlisToplami)
+            model.musteri_adi = item.FirmaAdi
+            
+            self.urunler_list.append(model)
     
+    def getUrunModel(self,musteri_id):
+        model = OzelMaliyetListeKarModel()
+        for item in self.urunler_list:
+            if(item.musteri_id == musteri_id):
+                model.musteri_id = item.musteri_id
+                model.satis_toplami = item.satis_toplami
+                model.alis_toplami = item.alis_toplami
+                model.musteri_adi = item.musteri_adi
+        return model
+    
+    
+    def __noneControl(self,value):
+        if(value == None):
+            return 0
+        else:
+            return float(value)
 
     
     

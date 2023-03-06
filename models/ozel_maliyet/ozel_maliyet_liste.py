@@ -86,7 +86,6 @@ class OzelMaliyetListeSchema(Schema):
     yukleme_day = fields.String()
     isciliktedarikcimekmer = fields.Boolean()
     isciliktedarikcimekmoz = fields.Boolean()
-    
 class OzelMaliyetListeModel:
 
     id = None
@@ -170,3 +169,55 @@ class OzelMaliyetListeModel:
     yukleme_day = 0
     isciliktedarikcimekmer = False
     isciliktedarikcimekmoz = False
+
+
+class OzelMaliyetListeKarSchema(Schema):
+    musteri_id = fields.Int()
+    musteri_adi = fields.String()
+    navlun_satis = fields.Float()
+    detay_1 = fields.Float()
+    detay_2 = fields.Float()
+    detay_3 = fields.Float()
+    sigorta_tutar_satis = fields.Float()
+    mekus_masraf = fields.Float()
+    siparisci =fields.String()
+    operasyon = fields.String()
+    faturatur = fields.String()
+    toplam_bedel = fields.Float()
+    satis_toplami = fields.Float()
+    alis_toplami = fields.Float()
+    banka_masrafi = fields.Float()
+    odenen_usd_tutar = fields.Float()
+    odenen_try_tutar = fields.Float()
+    ortalama_kur = fields.Float()
+    fatura_masraflari = fields.Float()
+    masraf_toplam = fields.Float()
+    kar_zarar = fields.Float()
+    kar_zarar_tl = fields.Float()
+    kar_zarar_orani = fields.Float()
+class OzelMaliyetListeKarModel:
+    musteri_id = 0
+    musteri_adi = ""
+    navlun_satis = 0
+    detay_1 = 0
+    detay_2 = 0
+    detay_3 = 0
+    sigorta_tutar_satis = 0
+    mekus_masraf = 0
+    siparisci =""
+    operasyon = ""
+    faturatur = ""
+    toplam_bedel = 0
+    satis_toplami = 0
+    alis_toplami = 0
+    banka_masrafi = 0
+    odenen_usd_tutar = 0
+    odenen_try_tutar = 0
+    ortalama_kur = 0
+    fatura_masraflari = 0
+    masraf_toplam = 0
+    kar_zarar = 0
+    kar_zarar_tl = 0
+    kar_zarar_orani = 0
+    
+    

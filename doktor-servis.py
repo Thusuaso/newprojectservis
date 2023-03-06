@@ -186,6 +186,9 @@ api.add_resource(IscilikKayitSil,'/siparis/iscilikIslem/kayitSil',methods=['GET'
 api.add_resource(SiparisOpChangeApi,'/siparis/opChangeMailSend',methods=['POST'])
 api.add_resource(SiparisOdemeSekliChangeApi,'/operasyon/fatura/changeOdemeBilgisi/<string:siparisNo>/<int:odemeTur>',methods=['GET'])
 api.add_resource(SiparisOdemeSekliChangeExApi,'/operasyon/fatura/changeOdemeBilgisiEx/<string:siparisNo>/<int:odemeTur>',methods=['GET'])
+api.add_resource(SiparisKayitIslemControlApi,'/siparis/kayitIslemControl/<string:siparis_no>',methods=['GET'])
+
+
 #numuneler
 api.add_resource(NumuneListApi,'/numuneler/numunelist/<int:yil>',methods=['GET']) #Analiste
 api.add_resource(NumuneAyrintiListApi,'/numuneler/numunelist/ayrinti/<string:po>') #Ayrinti Alani
@@ -670,6 +673,10 @@ api.add_resource(UrunlerUretimListMekmerApi,'/raporlar/listeler/urunlerUretimLis
 
 #maliyet
 api.add_resource(MaliyetRaporIslemApi,'/maliyet/listeler/maliyetListesi/<int:yil>/<int:ay>',methods=['GET'])
+api.add_resource(MaliyetRaporIslemKarApi,'/maliyet/listeler/maliyetListesiKar/<int:yil>/<int:ay>',methods=['GET'])
+
+
+
 api.add_resource(MaliyetRaporIslemYilApi,'/maliyet/listeler/maliyetListesi/<int:yil>',methods=['GET'])
 api.add_resource(MaliyetRaporYilListApi,'/maliyet/listeler/maliyetYilListesi',methods=['GET'])
 api.add_resource(MaliyetRaporIslemAyListesi,'/maliyet/listeler/maliyetAyListesi/<int:yil>',methods=['GET'])

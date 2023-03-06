@@ -35,6 +35,12 @@ class SiparisKayitIslem(Resource):
         
         return jsonify(result)
 
+class SiparisKayitIslemControlApi(Resource):
+    def get(self,siparis_no):
+        islem = SiparisGiris()
+        result = islem.siparisDataKayitControl(siparis_no)
+        return result
+        
 
 
 class SiparisBolmeGuncellemeApi(Resource):

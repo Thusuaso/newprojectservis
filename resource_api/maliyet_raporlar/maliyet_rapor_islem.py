@@ -1,8 +1,8 @@
-from resource_api.maliyet_raporlar.siparisler import Siparisler,Siparisler_Yil
-from resource_api.maliyet_raporlar.urunler import Urunler,Urunler_Yil
-from resource_api.maliyet_raporlar.odemeler import Odemeler
-from resource_api.maliyet_raporlar.masraflar import Masraflar,Masraflar_Yil
-from models.ozel_maliyet import OzelMaliyetListeSchema,OzelMaliyetListeModel,TedarikciFaturaSchema,TedarikciFaturaModel
+from resource_api.maliyet_raporlar.siparisler import Siparisler,Siparisler_Yil,SiparislerKar
+from resource_api.maliyet_raporlar.urunler import Urunler,Urunler_Yil,UrunlerKar
+from resource_api.maliyet_raporlar.odemeler import Odemeler,OdemelerKar
+from resource_api.maliyet_raporlar.masraflar import Masraflar,Masraflar_Yil,MasraflarKar
+from models.ozel_maliyet import OzelMaliyetListeSchema,OzelMaliyetListeKarModel,OzelMaliyetListeKarSchema,OzelMaliyetListeModel,TedarikciFaturaSchema,TedarikciFaturaModel
 from helpers import SqlConnect
 import datetime
 class MaliyetRaporIslem:
@@ -647,6 +647,66 @@ class MaliyetRaporIslem_Yil: # hepsi butonna basıldıgında bu alan çalışır
             if(item.siparis_no == siparisNo):
                 return item.yukleme_tarihi
             
+
+class MaliyetRaporIslemKar:
+    def __init__(self,yil,ay):
+
+        self.siparisler = SiparislerKar(yil,ay).siparis_listesi
+        self.urunler = UrunlerKar(yil,ay)
+        self.odemeler = OdemelerKar(yil,ay)
+        self.masraflar = MasraflarKar(yil,ay)
+    def getMaliyetListesiKar(self):
+        liste = []
+        for item in self.siparisler:
+            model = OzelMaliyetListeKarModel()
+            
+            urun_model = self.urunler.getUrunModel(item.musteri_id)
+            masraflar = self.masraflar.getMasraflarModel(item.musteri_id)
+            odemeler = self.odemeler.getOdemelerModel(item.musteri_id)
+            
+                
+                
+            model.musteri_id = item.musteri_id
+            model.musteri_adi = item.musteri_adi
+            item.toplam_bedel += self.__noneControl(urun_model.satis_toplami)
+            total_masraflar = self.__noneControl(urun_model.alis_toplami) + self.__noneControl(masraflar.fatura_masraflari)
+            if(item.musteri_id == 7540):
+                print("masraf_toplam",item.masraf_toplam)
+                print("urun_model.alis_toplami",urun_model.alis_toplami)
+                print("masraflar.fatura_masraflari",masraflar.fatura_masraflari)
+            
+            item.masraf_toplam += self.__noneControl(total_masraflar)
+            
+            item.kar_zarar = self.__noneControl(odemeler.odenen_usd_tutar) - total_masraflar
+            item.kar_zarar_tl = self.__noneControl(odemeler.odenen_try_tutar) - (total_masraflar * self.__noneControl(odemeler.ortalama_kur))
+            model.odenen_usd_tutar = odemeler.odenen_usd_tutar
+            model.odenen_try_tutar = odemeler.odenen_try_tutar
+            model.toplam_bedel = item.toplam_bedel
+            model.masraf_toplam = item.masraf_toplam
+            model.kar_zarar = item.kar_zarar
+            model.kar_zarar_tl = item.kar_zarar_tl
+
+            if(odemeler.odenen_usd_tutar == 0):
+                
+                model.kar_zarar_orani = 0
+            else:
+                model.kar_zarar_orani = round((item.kar_zarar / odemeler.odenen_usd_tutar) * 100,2)
+                
+            
+            
+            liste.append(model)
+        
+        schema = OzelMaliyetListeKarSchema(many=True)
+
+        return schema.dump(liste)
+
+
+    def __noneControl(self,value):
+        if value == None:
+            return 0
+        else:
+            return float(value)
+
 
 
 

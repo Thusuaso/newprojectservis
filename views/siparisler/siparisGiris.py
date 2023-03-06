@@ -429,12 +429,7 @@ class SiparisGiris:
     def __siparisDataKayit(self,siparis):
         
         try:
-            result = self.data.getStoreList("""
-                                            select * from SiparislerTB where SiparisNo=?
-                                       """,(siparis['siparisNo']))
-            if result:
-                return False
-            else:
+            
                 
                 s_tarihi = self.dateConvert(siparis['siparisTarihi'])
                 t_yukleme_tarihi = self.dateConvert(siparis['TahminiyuklemeTarihi'])
@@ -476,6 +471,15 @@ class SiparisGiris:
             print('Sipariş Data Kayıt Hata : ', str(e))
             return False
 
+    def siparisDataKayitControl(self,siparisNo):
+        result = self.data.getStoreList("""
+                                            select * from SiparislerTB where SiparisNo=?
+                                       """,(siparisNo))
+        if len(result) > 0:
+            return False
+        else:
+            return True
+    
     def __siparisUrunDataKayit(self,urunler,siparisNo,marketing,musteriid):
             
             

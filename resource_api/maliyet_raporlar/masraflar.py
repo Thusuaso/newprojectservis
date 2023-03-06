@@ -1,5 +1,5 @@
 from helpers import SqlConnect
-from models.ozel_maliyet import OzelMaliyetListeModel
+from models.ozel_maliyet import OzelMaliyetListeModel,OzelMaliyetListeKarModel
 
 
 class Masraflar:
@@ -49,7 +49,7 @@ class Masraflar:
 
         self.masraf_listesi = list()
 
-        #self.__masrafListesiOlustur()
+        # self.__masrafListesiOlustur()
         doviz = 0
     def __masrafListesiOlustur(self):
 
@@ -312,10 +312,6 @@ class Masraflar:
                 firma_id = item.FirmaID
 
         return firma_id
-
-from helpers import SqlConnect
-from models.ozel_maliyet import OzelMaliyetListeModel
-
 
 class Masraflar_Yil:
 
@@ -618,9 +614,55 @@ class Masraflar_Yil:
 
         return firma_id
 
-    
+class MasraflarKar:
+    def __init__(self,yil,ay):
+        self.yil = yil
+        self.ay = ay
+        self.masraflar_listesi = list()
+        self.data = SqlConnect().data
+        self.__masraflar_listesi_olustur()
+        
+    def __masraflar_listesi_olustur(self):
+        
+        masraflar_list = self.data.getStoreList("""
+                                                    select 
+                                                        s.MusteriID,
+                                                        m.FirmaAdi,
+                                                        sum(sfk.Tutar) as FaturaMasraflari
+                                                    from
+                                                        SiparisFaturaKayitTB sfk
+                                                        inner join SiparislerTB s on s.SiparisNo = sfk.SiparisNo
+                                                        inner join MusterilerTB m on m.ID = s.MusteriID
+                                                    where
+                                                        YEAR(s.YuklemeTarihi) = ? and
+                                                        MONTH(s.YuklemeTarihi) = ? and
+                                                        sfk.YuklemeEvrakID in (70,13,73,50,16)
+                                                    group by
+                                                        s.MusteriID,m.FirmaAdi
+                                                
+                                                """,(self.yil,self.ay))
+        for item in masraflar_list:
+            model = OzelMaliyetListeKarModel()
+            model.musteri_id = item.MusteriID
+            model.musteri_adi = item.FirmaAdi
+            model.fatura_masraflari = self.__noneControl(item.FaturaMasraflari)
+            self.masraflar_listesi.append(model)
 
+    def getMasraflarModel(self,musteri_id):
+        model = OzelMaliyetListeKarModel()
+        for item in self.masraflar_listesi:
+            if(item.musteri_id == musteri_id):
+                model.musteri_id = item.musteri_id
+                model.musteri_adi = item.musteri_adi
+                model.fatura_masraflari = item.fatura_masraflari
+        return model
             
+
+    def __noneControl(self,value):
+        if(value == None):
+            return 0
+        else:
+            return float(value)  
                 
 
 

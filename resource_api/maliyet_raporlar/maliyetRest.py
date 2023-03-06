@@ -1,4 +1,4 @@
-from resource_api.maliyet_raporlar.maliyet_rapor_islem import MaliyetRaporIslem,MaliyetRaporIslem_Yil
+from resource_api.maliyet_raporlar.maliyet_rapor_islem import MaliyetRaporIslem,MaliyetRaporIslem_Yil,MaliyetRaporIslemKar
 from resource_api.maliyet_raporlar.maliyet_zaman import MaliyeZamanIslem
 from resource_api.maliyet_raporlar.excel_cikti import ExcelCiktiIslem
 from resource_api.maliyet_raporlar.maliyet_ayrintim import MaliyetRaporuAyrinti
@@ -13,6 +13,16 @@ class MaliyetRaporIslemApi(Resource):
         islem = MaliyetRaporIslem(yil,ay)
 
         maliyet_listesi = islem.getMaliyetListesi()
+
+        return maliyet_listesi
+    
+class MaliyetRaporIslemKarApi(Resource):
+
+    def get(self,yil,ay):
+
+        islem = MaliyetRaporIslemKar(yil,ay)
+
+        maliyet_listesi = islem.getMaliyetListesiKar()
 
         return maliyet_listesi
 
