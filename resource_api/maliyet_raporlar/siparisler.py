@@ -264,9 +264,18 @@ class SiparislerKar:
             model.mekus_masraf = self.__noneControl(item.DetaySatis4)
             
             model.masraf_toplam = self.__noneControl(item.NavlunAlis) + self.__noneControl(item.DetayAlis1) +self.__noneControl(item.DetayAlis2) +self.__noneControl(item.DetayAlis3) +self.__noneControl(item.Komisyon) +self.__noneControl(item.EvrakGideri) +self.__noneControl(item.SigortaAlis) + model.mekus_masraf + self.__noneControl(item.OzelIscilik) + self.odemeler.getOdemelerModel(item.SiparisNo).banka_masrafi + self.masraflar.getMasraflarModel(item.SiparisNo).fatura_masraflari + self.urunler.getUrunModel(item.SiparisNo).alis_toplami
-            
+            model.navlun_alis = self.__noneControl(item.NavlunAlis)
+            model.detay_alis_1 = self.__noneControl(item.DetayAlis1)
+            model.detay_alis_2 = self.__noneControl(item.DetayAlis2)
+            model.detay_alis_3 = self.__noneControl(item.DetayAlis3)
+            model.komisyon = self.__noneControl(item.Komisyon)
+            model.evrak_gideri = self.__noneControl(item.EvrakGideri)
+            model.banka_masrafi = self.odemeler.getOdemelerModel(item.SiparisNo).banka_masrafi
+            model.iscilik_masrafi = self.__noneControl(item.OzelIscilik)
+            model.fatura_masraflari = self.masraflar.getMasraflarModel(item.SiparisNo).fatura_masraflari
+            model.alis_toplami = self.urunler.getUrunModel(item.SiparisNo).alis_toplami
             model.satis_toplami = self.urunler.getUrunModel(item.SiparisNo).satis_toplami
-             
+            model.sigorta_alis = self.__noneControl(item.SigortaAlis)
             model.toplam_bedel = model.satis_toplami + model.navlun_satis + model.detay_1 + model.detay_2 + model.detay_3 + model.sigorta_tutar_satis
             model.odenen_usd_tutar = self.odemeler.getOdemelerModel(item.SiparisNo).odenen_usd_tutar
             model.odenen_try_tutar = self.odemeler.getOdemelerModel(item.SiparisNo).odenen_try_tutar

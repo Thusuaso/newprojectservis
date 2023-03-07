@@ -171,6 +171,7 @@ class OzelMaliyetListeModel:
     isciliktedarikcimekmoz = False
 
 
+
 class OzelMaliyetListeKarSchema(Schema):
     musteri_id = fields.Int()
     musteri_adi = fields.String()
@@ -179,6 +180,10 @@ class OzelMaliyetListeKarSchema(Schema):
     detay_1 = fields.Float()
     detay_2 = fields.Float()
     detay_3 = fields.Float()
+    navlun_alis = fields.Float()
+    detay_alis_1 = fields.Float()
+    detay_alis_2 = fields.Float()
+    detay_alis_3 = fields.Float()
     sigorta_tutar_satis = fields.Float()
     mekus_masraf = fields.Float()
     toplam_bedel = fields.Float()
@@ -197,6 +202,11 @@ class OzelMaliyetListeKarSchema(Schema):
     yukleme_ay = fields.String()
     yukleme_gun = fields.String()
     masraf_toplam_tl = fields.Float()
+    komisyon = fields.Float()
+    evrak_gideri = fields.Float()
+    iscilik_masrafi = fields.Float()
+    banka_masrafi = fields.Float()
+    sigorta_alis = fields.Float()
 class OzelMaliyetListeKarModel:
     musteri_id = 0
     musteri_adi = ""
@@ -222,5 +232,14 @@ class OzelMaliyetListeKarModel:
     kar_zarar_orani = 0
     yukleme_yil = ""
     yukleme_ay = ""
-    yukleme_gun = ""    
+    yukleme_gun = ""
+    navlun_alis = 0
+    detay_alis_1 = 0
+    detay_alis_2 = 0
+    detay_alis_3 = 0
+    komisyon = 0
+    evrak_gideri = 0
+    iscilik_masrafi = 0
+    banka_masrafi = 0
+    sigorta_alis = 0
     

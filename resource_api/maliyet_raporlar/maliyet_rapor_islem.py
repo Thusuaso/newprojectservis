@@ -694,15 +694,6 @@ class MaliyetRaporIslemKar:
             
         schema = OzelMaliyetListeKarSchema(many=True)
         return schema.dump(liste)
-    
-            
-            
-            
-            
-                
-            
-            
-    
 
     def __getSiparisler(self,musteri_id):
         toplam_bedel = 0
@@ -734,6 +725,50 @@ class MaliyetRaporIslemKar:
             return float(value)
 
 
+class MaliyetRaporIslemKarAyrinti:
+    def __init__(self,yil):
+        self.yil = yil
+        self.siparisler = SiparislerKar(yil).siparis_listesi
+        self.data = SqlConnect().data
+        
+    def getMaliyetListesiKarAyrinti(self):
+        liste = list()
+        for item in self.siparisler:
+            model = OzelMaliyetListeKarModel()
+            model.musteri_id = item.musteri_id
+            model.siparis_no = item.siparis_no
+            model.toplam_bedel = item.toplam_bedel
+            model.masraf_toplam = item.masraf_toplam
+            model.odenen_usd_tutar = item.odenen_usd_tutar
+            model.odenen_try_tutar = item.odenen_try_tutar
+            model.kar_zarar = item.kar_zarar
+            model.kar_zarar_tl = item.kar_zarar_tl
+            model.navlun_satis = item.navlun_satis
+            model.detay_1 = item.detay_1
+            model.detay_2 = item.detay_2
+            model.detay_3 = item.detay_3
+            model.sigorta_tutar_satis = item.sigorta_tutar_satis
+            model.mekus_masraf = item.mekus_masraf
+            model.navlun_alis = item.navlun_alis
+            model.detay_alis_1  = item.detay_alis_1
+            model.detay_alis_2 = item.detay_alis_2
+            model.detay_alis_3 = item.detay_alis_3
+            model.komisyon = item.komisyon
+            model.evrak_gideri = item.evrak_gideri
+            model.banka_masrafi = item.banka_masrafi
+            model.iscilik_masrafi = item.iscilik_masrafi
+            model.fatura_masraflari = item.fatura_masraflari
+            model.alis_toplami = item.alis_toplami
+            model.satis_toplami = item.satis_toplami
+            model.sigorta_alis = item.sigorta_alis
+            if(model.odenen_usd_tutar != 0):
+                model.kar_zarar_orani = round((model.kar_zarar / model.odenen_usd_tutar * 100),2)
+            else:
+                model.kar_zarar_orani = 0
+            liste.append(model)
+        schema = OzelMaliyetListeKarSchema(many=True)
+        return schema.dump(liste)
+    
 
 
 

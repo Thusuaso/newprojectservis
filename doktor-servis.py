@@ -674,7 +674,7 @@ api.add_resource(UrunlerUretimListMekmerApi,'/raporlar/listeler/urunlerUretimLis
 #maliyet
 api.add_resource(MaliyetRaporIslemApi,'/maliyet/listeler/maliyetListesi/<int:yil>/<int:ay>',methods=['GET'])
 api.add_resource(MaliyetRaporIslemKarApi,'/maliyet/listeler/maliyetListesiKar/<int:yil>',methods=['GET'])
-
+api.add_resource(MaliyetRaporIslemKarAyrintiApi,'/maliyet/listeler/maliyetListesiKarAyrinti/<int:yil>',methods=['GET'])
 
 
 api.add_resource(MaliyetRaporIslemYilApi,'/maliyet/listeler/maliyetListesi/<int:yil>',methods=['GET'])
