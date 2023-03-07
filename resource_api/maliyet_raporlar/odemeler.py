@@ -127,47 +127,44 @@ class Odemeler:
             return dovizKur
 
 class OdemelerKar:
-    def __init__(self,yil,ay):
+    def __init__(self,yil):
         self.yil = yil
-        self.ay = ay
         self.odemeler_listesi = list()
         self.data = SqlConnect().data
         self.__odemeler_listes_olustur()
     def __odemeler_listes_olustur(self):
-        odemeler_list = self.data.getStoreList("""
+        odemeler_list = self.data.getList("""
                                                 select 
-                                                    sum(o.Tutar) as GelenBedelUsd,
+                                                    o.SiparisNo,
+													sum(o.Tutar) as GelenBedelUsd,
                                                     sum(o.Masraf) as BankaMasrafi,
                                                     sum(o.Tutar * o.Kur) as GelenBedelTR,
-                                                    o.MusteriID,
-                                                    sum(o.Kur) / count(o.MusteriID) as OrtalamaKur
+													(sum(o.Kur) / count(o.SiparisNo)) as OrtKur
                                                 from
                                                     OdemelerTB o
                                                     inner join SiparislerTB s on s.SiparisNo= o.SiparisNo
                                                     inner join MusterilerTB m on m.ID = s.MusteriID
                                                 where
-                                                    YEAR(s.YuklemeTarihi) = ? and
-                                                    Month(s.YuklemeTarihi) =  ? and
                                                     m.Marketing = 'Mekmar' and
                                                     s.SiparisDurumID= 3
-                                                group by
-                                                    o.MusteriID
+												group by
+													o.SiparisNo
 
-                                               """,(self.yil,self.ay))
+                                               """)
         for item in odemeler_list:
             model = OzelMaliyetListeKarModel()
-            model.musteri_id = item.MusteriID
+            model.siparis_no = item.SiparisNo
             model.banka_masrafi = self.__noneControl(item.BankaMasrafi)
             model.odenen_usd_tutar = self.__noneControl(item.GelenBedelUsd)
             model.odenen_try_tutar = self.__noneControl(item.GelenBedelTR)
-            model.ortalama_kur = self.__noneControl(item.OrtalamaKur)
+            model.ortalama_kur = self.__noneControl(item.OrtKur)
             self.odemeler_listesi.append(model)
     
-    def getOdemelerModel(self,musteri_id):
+    def getOdemelerModel(self,siparis_no):
         model = OzelMaliyetListeKarModel()
         for item in self.odemeler_listesi:
-            if(item.musteri_id == musteri_id):
-                model.musteri_id = item.musteri_id
+            if(item.siparis_no == siparis_no):
+                model.siparis_no = item.siparis_no
                 model.banka_masrafi = item.banka_masrafi
                 model.odenen_usd_tutar = item.odenen_usd_tutar
                 model.odenen_try_tutar = item.odenen_try_tutar

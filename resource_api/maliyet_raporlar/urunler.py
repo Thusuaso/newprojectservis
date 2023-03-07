@@ -286,9 +286,8 @@ class Urunler_Yil:
  
  
 class UrunlerKar:
-    def __init__(self,yil,ay):
+    def __init__(self,yil):
         self.yil = yil
-        self.ay = ay
         self.urunler_list = list()
         self.data = SqlConnect().data
         self.__urunListesiOlustur()
@@ -296,8 +295,7 @@ class UrunlerKar:
     def __urunListesiOlustur(self):
         urunler_listesi = self.data.getStoreList("""
                                                     select 
-                                                        s.MusteriID,
-                                                        m.FirmaAdi,
+														s.SiparisNo,
                                                         sum(su.SatisToplam) as SatisToplami,
                                                         sum(su.AlisFiyati * su.Miktar) as AlisToplami
 
@@ -308,32 +306,29 @@ class UrunlerKar:
                                                         inner join MusterilerTB m on m.ID = s.MusteriID
                                                     where 
                                                         YEAR(s.YuklemeTarihi) = ? and
-                                                        MONTH(s.YuklemeTarihi) = ? and
                                                         s.SiparisDurumID = 3 and
                                                         m.Marketing='Mekmar'
 
                                                     group by
-                                                        s.MusteriID,m.FirmaAdi
+                                                        s.SiparisNo
                                                  
-                                                 """,(self.yil,self.ay))
+                                                 """,(self.yil))
         
         for item in urunler_listesi:
             model =  OzelMaliyetListeKarModel()
-            model.musteri_id = item.MusteriID
+            model.siparis_no = item.SiparisNo
             model.satis_toplami = self.__noneControl(item.SatisToplami)
             model.alis_toplami = self.__noneControl(item.AlisToplami)
-            model.musteri_adi = item.FirmaAdi
             
             self.urunler_list.append(model)
     
-    def getUrunModel(self,musteri_id):
+    def getUrunModel(self,siparis_no):
         model = OzelMaliyetListeKarModel()
         for item in self.urunler_list:
-            if(item.musteri_id == musteri_id):
-                model.musteri_id = item.musteri_id
+            if(item.siparis_no == siparis_no):
+                model.siparis_no = item.siparis_no
                 model.satis_toplami = item.satis_toplami
                 model.alis_toplami = item.alis_toplami
-                model.musteri_adi = item.musteri_adi
         return model
     
     

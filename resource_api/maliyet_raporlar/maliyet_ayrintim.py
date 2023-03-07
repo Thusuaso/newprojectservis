@@ -197,15 +197,15 @@ class MaliyetRaporuAyrinti:
         for item in result:
 
             if item.YuklemeEvrakID == 13:
-                 nakliye += item.Tutar
+                 nakliye += self.__noneType(item.Tutar)
             elif item.YuklemeEvrakID == 70:       
-                 gumruk += item.Tutar
+                 gumruk += self.__noneType(item.Tutar)
             elif item.SiparisFaturaTurID == 73:   
-                  ilaclama += item.Tutar
+                  ilaclama += self.__noneType(item.Tutar)
             elif item.SiparisFaturaTurID == 15:   
-                  sigorta += item.Tutar      
+                  sigorta += self.__noneType(item.Tutar)      
             elif item.SiparisFaturaTurID == 9 and item.YuklemeEvrakID == 50:  
-                  liman += item.Tutar
+                  liman += self.__noneType(item.Tutar)
   
         return nakliye,  gumruk  ,ilaclama ,liman
 
@@ -229,8 +229,8 @@ class MaliyetRaporuAyrinti:
         return ozel_iscilik  
 
     def setAlisFiyatiKontrolDegistir(self,data):
-        print("setAlisFiyatiKontrolDegistir" ,data)
         try:
+            print(data)
             self.data.update_insert("""
                                         update SiparislerTB SET alisFiyatiControl =? WHERE SiparisNo=?
 
@@ -239,3 +239,9 @@ class MaliyetRaporuAyrinti:
         except Exception as e:
             print("setAlisFiyatiKontrolDegistir hata", str(e))
             return False
+        
+    def __noneType(self,value):
+        if(value != None):
+            return value
+        else:
+            return 0

@@ -18,9 +18,9 @@ class MaliyetRaporIslemApi(Resource):
     
 class MaliyetRaporIslemKarApi(Resource):
 
-    def get(self,yil,ay):
+    def get(self,yil):
 
-        islem = MaliyetRaporIslemKar(yil,ay)
+        islem = MaliyetRaporIslemKar(yil)
 
         maliyet_listesi = islem.getMaliyetListesiKar()
 

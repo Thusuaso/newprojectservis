@@ -615,9 +615,8 @@ class Masraflar_Yil:
         return firma_id
 
 class MasraflarKar:
-    def __init__(self,yil,ay):
+    def __init__(self,yil):
         self.yil = yil
-        self.ay = ay
         self.masraflar_listesi = list()
         self.data = SqlConnect().data
         self.__masraflar_listesi_olustur()
@@ -626,8 +625,7 @@ class MasraflarKar:
         
         masraflar_list = self.data.getStoreList("""
                                                     select 
-                                                        s.MusteriID,
-                                                        m.FirmaAdi,
+                                                        s.SiparisNo,
                                                         sum(sfk.Tutar) as FaturaMasraflari
                                                     from
                                                         SiparisFaturaKayitTB sfk
@@ -635,25 +633,26 @@ class MasraflarKar:
                                                         inner join MusterilerTB m on m.ID = s.MusteriID
                                                     where
                                                         YEAR(s.YuklemeTarihi) = ? and
-                                                        MONTH(s.YuklemeTarihi) = ? and
-                                                        sfk.YuklemeEvrakID in (70,13,73,50,16)
-                                                    group by
-                                                        s.MusteriID,m.FirmaAdi
+                                                        sfk.YuklemeEvrakID in (70,13,73,50,16) and
+                                                        sfk.SiparisFaturaTurID != 13 and
+                                                        m.Marketing = 'Mekmar'
+                                                        
+
+													group by 
+														s.SiparisNo
                                                 
-                                                """,(self.yil,self.ay))
+                                                """,(self.yil))
         for item in masraflar_list:
             model = OzelMaliyetListeKarModel()
-            model.musteri_id = item.MusteriID
-            model.musteri_adi = item.FirmaAdi
+            model.siparis_no = item.SiparisNo
             model.fatura_masraflari = self.__noneControl(item.FaturaMasraflari)
             self.masraflar_listesi.append(model)
 
-    def getMasraflarModel(self,musteri_id):
+    def getMasraflarModel(self,siparis_no):
         model = OzelMaliyetListeKarModel()
         for item in self.masraflar_listesi:
-            if(item.musteri_id == musteri_id):
-                model.musteri_id = item.musteri_id
-                model.musteri_adi = item.musteri_adi
+            if(item.siparis_no == siparis_no):
+                model.siparis_no = item.siparis_no
                 model.fatura_masraflari = item.fatura_masraflari
         return model
             

@@ -1,6 +1,9 @@
 from helpers import SqlConnect,TarihIslemler
 from models.ozel_maliyet import OzelMaliyetListeModel,OzelMaliyetListeKarModel
-
+from resource_api.maliyet_raporlar.urunler import UrunlerKar
+from resource_api.maliyet_raporlar.odemeler import OdemelerKar
+from resource_api.maliyet_raporlar.masraflar import MasraflarKar
+from resource_api.finans.guncel_kur import DovizListem
 
 class Siparisler:
 
@@ -72,7 +75,8 @@ class Siparisler:
 			(select TOP 1 TedarikciID from SiparisEkstraGiderlerTB ozel  where ozel.SiparisNo=s.SiparisNo and ozel.TedarikciID=123) as isciliktedarikcimekmoz,
             YEAR(s.YuklemeTarihi) as YuklemeYil,
 			MONTH(s.YuklemeTarihi) as YuklemeAy,
-            DAY(s.YuklemeTarihi) as YuklemeGun
+            DAY(s.YuklemeTarihi) as YuklemeGun,
+            s.alisFiyatiControl
             from
             SiparislerTB s,MusterilerTB m,YeniTeklif_UlkeTB u,SiparisTeslimTurTB t
             where
@@ -177,7 +181,11 @@ class Siparisler:
             model.yukleme_month = item.YuklemeAy
             model.yukleme_day = item.YuklemeGun
             if self.__getAlisControl(item.SiparisNo):
-                model.alisFiyatiKontrol = "#F1948A"
+                if(item.alisFiyatiControl):
+                    model.alisFiyatiKontrol = ""
+                else:
+                    
+                    model.alisFiyatiKontrol = "#F1948A"
                 
             if item.isciliktedarikcimekmer != None:
                 model.isciliktedarikcimekmer = item.isciliktedarikcimekmer
@@ -200,75 +208,89 @@ class Siparisler:
     
 
 class SiparislerKar:
-    def __init__(self,yil,ay):
+    def __init__(self,yil):
         self.data = SqlConnect().data
         self.yil = yil
-        self.ay = ay
 
         self.siparis_listesi = list()
-
+        self.urunler = UrunlerKar(yil)
+        self.odemeler = OdemelerKar(yil)
+        self.masraflar = MasraflarKar(yil)
         self.__siparisOlustur()
         
     def __siparisOlustur(self):
         self.siparis_listesi_kar = self.data.getStoreList("""
                                                             select 
-                                                            s.MusteriID,
-                                                            m.FirmaAdi,
-                                                            sum(s.NavlunSatis) as NavlunSatis,
-                                                            sum(s.DetayTutar_1) as DetaySatis1,
-                                                            sum(s.DetayTutar_2) as DetaySatis2,
-                                                            sum(s.DetayTutar_3) as DetaySatis3,
-                                                            sum(s.DetayTutar_4) as DetaySatis4,
-                                                            sum(s.NavlunAlis) as NavlunAlis,
-                                                            sum(s.DetayAlis_1) as DetayAlis1,
-                                                            sum(s.DetayAlis_2) as DetayAlis2,
-                                                            sum(s.DetayAlis_3) as DetayAlis3,
-                                                            sum(s.Komisyon) as Komisyon,
-                                                            sum(s.EvrakGideri) as EvrakGideri,
-                                                            sum(s.sigorta_tutar_satis) as SigortaSatis,
-                                                            sum(s.sigorta_Tutar) as SigortaAlis,
-                                                            (select k.KullaniciAdi from KullaniciTB k WHERE k.ID = s.SiparisSahibi) as Siparisci,
-                                                            (select k.KullaniciAdi from KullaniciTB k WHERE k.ID = s.Operasyon) as Operasyon,
-                                                            (select f.FaturaAdi from FaturaKesilmeTB f where f.ID = s.FaturaKesimTurID) as Faturalama,
-
-                                                            (select sum(ozel.Tutar) from SiparisEkstraGiderlerTB ozel  where ozel.SiparisNo=s.SiparisNo) as OzelIscilik,
-                                                            (select TOP 1 TedarikciID from SiparisEkstraGiderlerTB ozel  where ozel.SiparisNo=s.SiparisNo and ozel.TedarikciID=1) as İscilikTedarikciMekmer,
-                                                            (select TOP 1 TedarikciID from SiparisEkstraGiderlerTB ozel  where ozel.SiparisNo=s.SiparisNo and ozel.TedarikciID=123) as İscilikTedarikciMekmoz,
-                                                            YEAR(s.YuklemeTarihi) as YuklemeYil,
-                                                            MONTH(s.YuklemeTarihi) as YuklemeAy,
-                                                            DAY(s.YuklemeTarihi) as YuklemeGun
-
-
+															s.MusteriID,
+															s.SiparisNo,
+                                                            s.NavlunSatis as NavlunSatis,
+                                                            s.DetayTutar_1 as DetaySatis1,
+                                                            s.DetayTutar_2 as DetaySatis2,
+                                                            s.DetayTutar_3 as DetaySatis3,
+                                                            s.DetayTutar_4 as DetaySatis4,
+                                                            s.NavlunAlis as NavlunAlis,
+															s.DetayAlis_1 as DetayAlis1,
+                                                            s.DetayAlis_2 as DetayAlis2,
+                                                            s.DetayAlis_3 as DetayAlis3,
+                                                            s.Komisyon as Komisyon,
+                                                            s.EvrakGideri as EvrakGideri,
+                                                            s.sigorta_tutar_satis as SigortaSatis,
+                                                            s.sigorta_Tutar as SigortaAlis,
+															(select sum(se.Tutar) from SiparisEkstraGiderlerTB se where se.SiparisNo = s.SiparisNo) as OzelIscilik,
+                                                            YEAR(s.YuklemeTarihi) as Yil,
+															MONTH(s.YuklemeTarihi) as Ay,
+															DAY(s.YuklemeTarihi) as Gun
                                                         from SiparislerTB s
                                                             inner join MusterilerTB m on m.ID = s.MusteriID
 
                                                         where 
                                                             YEAR(s.YuklemeTarihi) = ? and 
-                                                            MONTH(s.YuklemeTarihi) = ? and 
                                                             m.Marketing='Mekmar' and 
                                                             s.SiparisDurumID=3
-                                                        group by
-                                                            s.MusteriID,m.FirmaAdi,s.SiparisSahibi,s.Operasyon,s.FaturaKesimTurID,s.SiparisNo,s.YuklemeTarihi
 
                                                           
                                                           
-                                                          """,(self.yil,self.ay))
+                                                          """,(self.yil))
 
         for item in self.siparis_listesi_kar:
             model = OzelMaliyetListeKarModel()
-            model.musteri_adi = item.FirmaAdi
             model.musteri_id = item.MusteriID
+            model.siparis_no = item.SiparisNo
             model.navlun_satis = self.__noneControl(item.NavlunSatis)
             model.detay_1 = self.__noneControl(item.DetaySatis1)
             model.detay_2 = self.__noneControl(item.DetaySatis2)
             model.detay_3 = self.__noneControl(item.DetaySatis3)
             model.sigorta_tutar_satis = self.__noneControl(item.SigortaSatis)
             model.mekus_masraf = self.__noneControl(item.DetaySatis4)
-            model.masraf_toplam = self.__noneControl(item.NavlunAlis) + self.__noneControl(item.DetayAlis1) +self.__noneControl(item.DetayAlis2) +self.__noneControl(item.DetayAlis3) +self.__noneControl(item.Komisyon) +self.__noneControl(item.EvrakGideri) +self.__noneControl(item.SigortaAlis) +self.__noneControl(item.OzelIscilik) + model.mekus_masraf
-            model.siparisci = item.Siparisci
-            model.operasyon = item.Operasyon
-            model.faturatur = item.Faturalama
-            model.toplam_bedel = model.navlun_satis + model.detay_1 + model.detay_2 + model.detay_3 + model.sigorta_tutar_satis
+            
+            model.masraf_toplam = self.__noneControl(item.NavlunAlis) + self.__noneControl(item.DetayAlis1) +self.__noneControl(item.DetayAlis2) +self.__noneControl(item.DetayAlis3) +self.__noneControl(item.Komisyon) +self.__noneControl(item.EvrakGideri) +self.__noneControl(item.SigortaAlis) + model.mekus_masraf + self.__noneControl(item.OzelIscilik) + self.odemeler.getOdemelerModel(item.SiparisNo).banka_masrafi + self.masraflar.getMasraflarModel(item.SiparisNo).fatura_masraflari + self.urunler.getUrunModel(item.SiparisNo).alis_toplami
+            
+            model.satis_toplami = self.urunler.getUrunModel(item.SiparisNo).satis_toplami
+             
+            model.toplam_bedel = model.satis_toplami + model.navlun_satis + model.detay_1 + model.detay_2 + model.detay_3 + model.sigorta_tutar_satis
+            model.odenen_usd_tutar = self.odemeler.getOdemelerModel(item.SiparisNo).odenen_usd_tutar
+            model.odenen_try_tutar = self.odemeler.getOdemelerModel(item.SiparisNo).odenen_try_tutar
+            model.ortalama_kur = self.odemeler.getOdemelerModel(item.SiparisNo).ortalama_kur
+            model.kar_zarar = model.odenen_usd_tutar - model.masraf_toplam
+            if(model.odenen_usd_tutar != 0):
+                model.kar_zarar_orani = round(model.kar_zarar / model.odenen_usd_tutar * 100,2)
+            else:
+                model.kar_zarar_orani = 0
+                
+            if(model.ortalama_kur != 0):
+                model.kar_zarar_tl = model.odenen_try_tutar - (model.masraf_toplam * model.ortalama_kur)
+            else:
+                doviz = DovizListem()
+                dovizKur = doviz.getDovizKurListe(str(item.Yil),str(item.Ay),str(item.Gun))
+                model.kar_zarar_tl = model.odenen_try_tutar - (model.masraf_toplam * float(dovizKur))
+                
+            
+            
+            
+            
+            
+            
+            
             self.siparis_listesi.append(model)
     
     def __noneControl(self,value):
@@ -350,7 +372,8 @@ class Siparisler_Yil:
 			Month(s.YuklemeTarihi) as YuklemeMonth,
             YEAR(s.YuklemeTarihi) as YuklemeYil,
 			MONTH(s.YuklemeTarihi) as YuklemeAy,
-            DAY(s.YuklemeTarihi) as YuklemeGun
+            DAY(s.YuklemeTarihi) as YuklemeGun,
+            s.alisFiyatiControl
             from
             SiparislerTB s,MusterilerTB m,YeniTeklif_UlkeTB u,SiparisTeslimTurTB t
             where
@@ -462,7 +485,12 @@ class Siparisler_Yil:
                 model.pazarlama = item.Komisyon
             model.yukleme_month = item.YuklemeMonth
             if self.__getAlisControl(item.SiparisNo):
-                model.alisFiyatiKontrol = "#F1948A"
+                if(item.alisFiyatiControl):
+                    
+                    model.alisFiyatiKontrol = ""
+                else:
+                    model.alisFiyatiKontrol = "#F1948A"
+                    
             if item.isciliktedarikcimekmer != None:
                 model.isciliktedarikcimekmer = item.isciliktedarikcimekmer
             
