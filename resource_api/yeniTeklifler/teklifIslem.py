@@ -146,6 +146,9 @@ class TeklifMusterilerResourceApi(Resource):
         customers = teklif.getMusteriList()
         return jsonify(customers)
 
+
+
+
 class TeklifFormModel(Resource):
     
     def get(self,teklifId):

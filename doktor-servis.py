@@ -237,6 +237,8 @@ api.add_resource(TeklifSonGorulmeKaydet,'/islemler/teklif/teklifSonGorulmeKaydet
 api.add_resource(HatirlatmaDurumGuncellemesi,'/islemler/teklif/hatirlatilmaDurum',methods=['GET','POST','PUT'])
 api.add_resource(TeklifMusterilerResourceApi,'/islemler/teklif/teklifMusteriler',methods=['GET'])
 
+
+
 api.add_resource(TeklifNumuneKaydet,'/islemler/teklif/teklifNumuneKaydet',methods=['GET','POST','PUT'])
 api.add_resource(TeklifDosyaSil,'/islemler/teklif/teklifDosyaSil',methods=['GET','PUT'])
 api.add_resource(TeklifListeGrafikApi,'/raporlar/teklif/teklifListe/grafikHepsi',methods=['GET'])
@@ -379,7 +381,7 @@ api.add_resource(NakliyeFaturaChange,'/operasyon/form/NakliyeFaturaChange',metho
 #operasyonlar tedarikçi ft . girişi 
 api.add_resource(TedarikciEvrakKaydet,'/operasyon/islemler/tedarikci/tedarikciKayit',methods=['GET','POST','PUT']) 
 api.add_resource(TedarikciDosyaKaydet,'/operasyon/islemler/tedarikci/tedarikciDosyaKaydet',methods=['GET','POST','PUT'])
-
+api.add_resource(TedarikciEvrakKontrolApi,'/operasyon/islemler/tedarikci/tedarikciKontrol/<string:tedarikci>/<string:siparis_no>')
 #operasyonlar denizcilik ft . girişi 
 api.add_resource(DenizcilikEvrakKaydet,'/operasyon/islemler/denizcilik/denizcilikKayit',methods=['GET','POST','PUT']) 
 api.add_resource(DenizcilikDosyaKaydet,'/operasyon/islemler/denizcilik/denizcilikDosyaKaydet',methods=['GET','POST','PUT'])
@@ -408,7 +410,7 @@ api.add_resource(EvrakSilmeIslemApi,'/operasyon/fatura/deleteFaturaEvrak/<int:id
 
 
 #kontrol işlemleri
-api.add_resource(MusteriEtaMailIslem,'/kontroller/musteriEtaTakipIslem',methods=['GET'])
+api.add_resource(MusteriEtaMailIslem,'/kontroller/musterietatakipislem',methods=['GET'])
 api.add_resource(FinansVadeMailIslem,'/kontroller/finansVadeTakipIslem',methods=['GET'])
 api.add_resource(UretimTakipIslem,'/kontroller/UretimTakipIslem/',methods=['GET'])
 api.add_resource(TedarikciTakipIslem,'/kontroller/TedarikciTakipIslem/',methods=['GET'])
@@ -497,9 +499,9 @@ api.add_resource(MusteriListesiYazdirmaApi,'/musteriler/dosya_islemleri/excelMus
 api.add_resource(CustomerChangeFollowApi,'/customers/follow/<string:customer>/<string:follow>',methods=['GET'])
 
 api.add_resource(CustomersSurfaceSaveApi,'/listeler/musteriler/musteriSurface',methods=['POST','PUT'])
-api.add_resource(CustomersSurfaceListApi,'/listeler/musteriler/musteriSurfaceList',methods=['GET'])
-api.add_resource(CustomersSurfaceDeleteApi,'/listeler/musteriler/musteriSurface/delete/<int:id>',methods=['DELETE'])
-
+api.add_resource(CustomersSurfaceListApi,'/listeler/musteriler/musteriSurfaceList/<int:user_id>',methods=['GET'])
+api.add_resource(CustomersSurfaceDeleteApi,'/listeler/musteriler/musteriSurface/delete/<int:id>/<int:user_id>',methods=['DELETE'])
+api.add_resource(CustomersTeklifMusteriListesiApi,'/listeler/musteriler/teklifMusteriListesi',methods=['GET'])
 
 
 

@@ -686,6 +686,7 @@ class MaliyetRaporIslemKar:
             model.odenen_try_tutar = odenen_try_tutar
             model.kar_zarar =kar_zarar
             model.kar_zarar_tl = kar_zarar_tl
+            model.kalan_bedel = model.toplam_bedel - model.odenen_usd_tutar
             if(odenen_usd_tutar != 0):
                 model.kar_zarar_orani = round((kar_zarar / odenen_usd_tutar * 100),2)
             else:
@@ -761,6 +762,8 @@ class MaliyetRaporIslemKarAyrinti:
             model.alis_toplami = item.alis_toplami
             model.satis_toplami = item.satis_toplami
             model.sigorta_alis = item.sigorta_alis
+            model.yukleme_tarihi = item.yukleme_tarihi
+            model.kalan_bedel = model.toplam_bedel - model.odenen_usd_tutar
             if(model.odenen_usd_tutar != 0):
                 model.kar_zarar_orani = round((model.kar_zarar / model.odenen_usd_tutar * 100),2)
             else:

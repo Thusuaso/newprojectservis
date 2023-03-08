@@ -281,6 +281,7 @@ class SiparislerKar:
             model.odenen_try_tutar = self.odemeler.getOdemelerModel(item.SiparisNo).odenen_try_tutar
             model.ortalama_kur = self.odemeler.getOdemelerModel(item.SiparisNo).ortalama_kur
             model.kar_zarar = model.odenen_usd_tutar - model.masraf_toplam
+            model.yukleme_tarihi = str(item.Yil) + '/' + str(item.Ay) + '/' + str(item.Gun)
             if(model.odenen_usd_tutar != 0):
                 model.kar_zarar_orani = round(model.kar_zarar / model.odenen_usd_tutar * 100,2)
             else:

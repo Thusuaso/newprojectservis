@@ -207,6 +207,8 @@ class OzelMaliyetListeKarSchema(Schema):
     iscilik_masrafi = fields.Float()
     banka_masrafi = fields.Float()
     sigorta_alis = fields.Float()
+    kalan_bedel = fields.Float()
+    yukleme_tarihi = fields.String()
 class OzelMaliyetListeKarModel:
     musteri_id = 0
     musteri_adi = ""
@@ -242,4 +244,6 @@ class OzelMaliyetListeKarModel:
     iscilik_masrafi = 0
     banka_masrafi = 0
     sigorta_alis = 0
+    kalan_bedel = 0
+    yukleme_tarihi = 0
     

@@ -143,9 +143,8 @@ class CustomersSurfaceSaveApi(Resource):
         data = request.get_json()
         islem = MusteriIslem()
         status = islem.setSurfaceCustomers(data)
-        
-        customerList = islem.getCustomerSurfaceList()
-        surfaceList = islem.getSurfaceList()
+        customerList = islem.getCustomerSurfaceList(data['user_id'])
+        surfaceList = islem.getSurfaceList(data['user_id'])
         data2={
             "surfaceList":surfaceList,
             "customersList":customerList
@@ -161,8 +160,8 @@ class CustomersSurfaceSaveApi(Resource):
         data = request.get_json()
         islem = MusteriIslem()
         status = islem.setSurfaceCustomersUpdate(data)
-        customerList = islem.getCustomerSurfaceList()
-        surfaceList = islem.getSurfaceList()
+        customerList = islem.getCustomerSurfaceList(data['user_id'])
+        surfaceList = islem.getSurfaceList(data['user_id'])
         data2={
             "surfaceList":surfaceList,
             "customersList":customerList
@@ -178,12 +177,11 @@ class CustomersSurfaceSaveApi(Resource):
 
     
 class CustomersSurfaceDeleteApi(Resource):
-    def delete(self,id):
+    def delete(self,id,user_id):
         islem = MusteriIslem()
         status = islem.setSurfaceCustomersDelete(id)
-        
-        customerList = islem.getCustomerSurfaceList()
-        surfaceList = islem.getSurfaceList()
+        customerList = islem.getCustomerSurfaceList(user_id)
+        surfaceList = islem.getSurfaceList(user_id)
         data2={
             "surfaceList":surfaceList,
             "customersList":customerList
@@ -194,12 +192,19 @@ class CustomersSurfaceDeleteApi(Resource):
             'customerList':data2
         }
         return jsonify(data)
-
-class CustomersSurfaceListApi(Resource):
+    
+    
+class CustomersTeklifMusteriListesiApi(Resource):
     def get(self):
         islem = MusteriIslem()
-        surfaceList = islem.getSurfaceList()
-        customersList = islem.getCustomerSurfaceList()
+        datas = islem.getTekliflerMusteriListesi()
+        return jsonify(datas)
+
+class CustomersSurfaceListApi(Resource):
+    def get(self,user_id):
+        islem = MusteriIslem()
+        surfaceList = islem.getSurfaceList(user_id)
+        customersList = islem.getCustomerSurfaceList(user_id)
         data={
             "surfaceList":surfaceList,
             "customersList":customersList

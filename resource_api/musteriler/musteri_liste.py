@@ -116,11 +116,11 @@ class MusteriIslem:
 
     def setSurfaceCustomers(self,data):
         try:
-            surface_id = self.__setCountryId(data['surface'])
+            surface_id = self.__setCountryId(data['surface'],data['user_id'])
             self.data.update_insert("""
-                                        insert into SurfaceCustomersTB(FirstName,LastName,Adress,City,Email,Phone,SurfaceId) VALUES(?,?,?,?,?,?,?)
+                                        insert into SurfaceCustomersTB(FirstName,Adress,City,Email,Phone,SurfaceId,UserId) VALUES(?,?,?,?,?,?,?)
                                     
-                                    """,(data['name'],data['surname'],data['adress'],data['city'],data['email'],data['phone'],surface_id))
+                                    """,(data['name'],data['adress'],data['city'],data['email'],data['phone'],surface_id,data['user_id']))
             return True
         except Exception as e:
             print("setSurfaceCustomers hata",str(e))
@@ -128,12 +128,11 @@ class MusteriIslem:
 
     def setSurfaceCustomersUpdate(self,data):
         try:
-            surface_id = self.__setCountryId(data['surface'])
+            surface_id = self.__setCountryId(data['surface'],data['user_id'])
             self.data.update_insert("""
-                                        update SurfaceCustomersTB SET FirstName=?,LastName=?,Adress=?,City=?,Email=?,Phone=?,SurfaceId=? Where ID=?
+                                        update SurfaceCustomersTB SET FirstName=?,Adress=?,City=?,Email=?,Phone=?,SurfaceId=? Where ID=?
                                     
-                                    """,(data['name'],data['surname'],data['adress'],data['city'],data['email'],data['phone'],surface_id,data['id']))
-            
+                                    """,(data['name'],data['adress'],data['city'],data['email'],data['phone'],surface_id,data['id']))
             
             
             surfaceID = self.data.getStoreList("""
@@ -189,9 +188,9 @@ class MusteriIslem:
         
         
         
-    def getCustomerSurfaceList(self):
+    def getCustomerSurfaceList(self,user_id):
         try:
-            result = self.data.getList("""
+            result = self.data.getStoreList("""
                                             select 
 
                                                 sc.*,
@@ -199,20 +198,22 @@ class MusteriIslem:
 
                                             from SurfaceCustomersTB sc
                                             inner join CustomersSurfaceTB cs on sc.SurfaceId = cs.ID
+											where sc.UserId=?
                                        
-                                       """)
+                                       """,(user_id))
             liste = list()
             for item in result:
                 model = CustomersSurfaceListModel()
                 model.id = item.ID
                 model.surface = item.Surface
                 model.firstName = item.FirstName
-                model.lastName = item.LastName
                 model.adress = item.Adress
                 model.city = item.City
                 model.email = item.Email
                 model.phone = item.Phone
                 model.surfaceId = item.SurfaceId
+                model.user_id = item.UserId
+                
                 liste.append(model)
             schema = CustomersSurfaceListSchema(many=True)
             return schema.dump(liste)
@@ -220,13 +221,13 @@ class MusteriIslem:
             print("getCustomerSurfaceList hata",str(e))
             return False
     
-    def getSurfaceList(self):
+    def getSurfaceList(self,user_id):
         try:
-            result = self.data.getList("""
-                                            select * from CustomersSurfaceTB
+            result = self.data.getStoreList("""
+                                            select * from CustomersSurfaceTB where UserId=?
                                        
                                        
-                                       """)
+                                       """,(user_id))
             liste = list()
             for item in result:
                 model = CustomersSurfaceListModel()
@@ -240,7 +241,46 @@ class MusteriIslem:
             return False
     
     
-    def __setCountryId(self,surface):
+    def getTekliflerMusteriListesi(self):
+        try:
+            result = self.data.getList("""
+                                    select 
+
+                                    ym.*,
+                                    (select yu.UlkeAdi from YeniTeklif_UlkeTB yu where yu.Id = ym.UlkeId) as UlkeAdi
+
+                                from YeniTeklif_MusterilerTB ym
+                              """)
+            liste = list()
+            for item in result:
+                model = CustomersSurfaceListModel()
+                model.id = item.Id
+                musteri_adi = item.MusteriAdi
+                musteri = musteri_adi.split('-')
+                if(len(musteri)>0):
+                    model.firstName = musteri[0].strip()
+                else:
+                    model.firstName = item.MusteriAdi.strip()
+
+                
+                model.adress = self.__noneControl(item.Adress)
+                model.city = self.__noneControl(item.UlkeAdi)
+                model.email = self.__noneControl(item.Mail)
+                model.phone = self.__noneControl(item.Phone)
+                liste.append(model)
+            schema = CustomersSurfaceListSchema(many=True)
+            return schema.dump(liste)
+        except Exception as e:
+            print('getTekliflerMusteriListesi hata',str(e))
+            return False
+
+    def __noneControl(self,value):
+        if(value is not None):
+            return value
+        else:
+            return ""
+    
+    def __setCountryId(self,surface,user_id):
         try:
             surface = surface.capitalize()
             result = self.data.getStoreList("""
@@ -251,9 +291,9 @@ class MusteriIslem:
                 return result[0].ID
             else:
                 self.data.update_insert("""
-                                            insert into CustomersSurfaceTB(Surface) VALUES(?)
+                                            insert into CustomersSurfaceTB(Surface,UserId) VALUES(?,?)
                                         
-                                        """,(surface))
+                                        """,(surface,user_id))
                 
                 result = self.data.getStoreList("""
                                         select * from CustomersSurfaceTB where Surface =?
@@ -264,7 +304,7 @@ class MusteriIslem:
             
         except Exception as e:
             print('__setCountryId hata ',str(e))
-
+            return False
 
 class MusteriSiparisIslem:
     def __init__(self):

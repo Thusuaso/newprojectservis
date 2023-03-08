@@ -87,6 +87,7 @@ class CustomersSurfaceListSchema(Schema):
     email = fields.String()
     phone = fields.String()
     surfaceId = fields.Int()
+    user_id = fields.Int()
     
 class CustomersSurfaceListModel:
     id = 0
@@ -98,6 +99,7 @@ class CustomersSurfaceListModel:
     email = ""
     phone = ""
     surfaceId = 0
+    user_id = 0
     
     
 

@@ -70,7 +70,6 @@ class TedarikciIslem:
                     """,(item['kullaniciAdi'])
                 )[0].ID
            
-            print("TedarikciDosyaKaydet",item)
             evrak_id = self.__evrakIdKontrol(item)
             self.data.update_insert(
                 """
@@ -105,6 +104,25 @@ class TedarikciIslem:
            
            return kontrol
      
+    def getTedarikciEvrakKontrol(self,tedarikci,siparis_no):
+        try:
+            tedarikci = tedarikci + '.pdf'
+            result = self.data.getStoreList("""
+                                                select 
+
+                                                    count(SiparisNo) as TedarikciEvrakSayisi
+
+                                                from YeniTedarikciFaturaTB
+                                                where SiparisNo=? and EvrakAdi= ?
+                                            """,(siparis_no,tedarikci))
+            if result[0].TedarikciEvrakSayisi != 0:
+                return True
+            else:
+                return False
+        except Exception as e:
+            print('getTedarikciEvrakKontrol hata',str(e))
+            return False
+    
 
 class TedarikciEvrakKaydet(Resource): 
     
@@ -127,3 +145,10 @@ class TedarikciDosyaKaydet(Resource):
         result = islem.TedarikciDosyaKaydet(tedarikci)
 
         return jsonify({'Status' : result})
+    
+class TedarikciEvrakKontrolApi(Resource):
+    def get(self,tedarikci,siparis_no):
+        islem = TedarikciIslem()
+        result = islem.getTedarikciEvrakKontrol(tedarikci,siparis_no)
+        return result
+        
