@@ -1,4 +1,4 @@
-from helpers import SqlConnect,DegisiklikMain
+from helpers import SqlConnect,DegisiklikMain,MailService
 from models.operasyon.nakliyelistesi import *
 import datetime
 
@@ -98,12 +98,61 @@ class NakliyeIslem:
                
                 self.__urunId(key)
                 self.__evrakId(key)
+                now = datetime.datetime.now()
+                self.masraflarSendMail(key,key['siparisno'],now)
         info = "Huseyin Nakliye Faturası Girişi Yaptı"
         DegisiklikMain('Huseyin',info)
              
         print('nakliyeKaydet  Hata : ')
         return True
-     
+    def masraflarSendMail(self,item,siparisNo,nowDate):
+        body = """
+        <table >
+       
+            <tr style ="background-color: #f2f2f2;">
+                <th style ="color: white;background-color: #4CAF50;text-align: left;  padding-bottom: 12px; padding-top: 12px; padding-top: 12px;padding: 8px; font-family: Arial, Helvetica, sans-serif; border-collapse: collapse;width: 100px;">
+                Sipariş No
+                </th>
+                <th style ="color: white;background-color: #4CAF50;text-align: left;  padding-bottom: 12px; padding-top: 12px; padding-top: 12px;padding: 8px; font-family: Arial, Helvetica, sans-serif; border-collapse: collapse;width: 100px;">
+                Fatura No
+                </th>
+                <th  style ="color: white;background-color: #4CAF50;text-align: left;  padding-bottom: 12px; padding-top: 12px; padding-top: 12px;padding: 8px; font-family: Arial, Helvetica, sans-serif; border-collapse: collapse;width: 100px;">
+                Tutar ($)
+                </th>
+                 <th  style ="color: white;background-color: #4CAF50;text-align: left;  padding-bottom: 12px; padding-top: 12px; padding-top: 12px;padding: 8px; font-family: Arial, Helvetica, sans-serif; border-collapse: collapse;width: 150px;">
+                Kur
+                </th>
+            </tr>
+        """
+            
+        body += f"""
+    
+        <tr style ="background-color: #ddd;">
+            <td style ="border: 1px solid #ddd; padding: 8px;  font-family: Arial, Helvetica, sans-serif;border-collapse: collapse; width: 100px;">
+            {siparisNo}
+            </td>
+            <td style ="border: 1px solid #ddd; padding: 8px;  font-family: Arial, Helvetica, sans-serif;border-collapse: collapse; width: 100px;">
+            {item['faturaNo']}
+            </td>
+            <td style ="border: 1px solid #ddd; padding: 8px;  font-family: Arial, Helvetica, sans-serif;border-collapse: collapse; width: 100px;">
+            {item['Tutar_dolar']}
+            </td>
+            <td style ="border: 1px solid #ddd; padding: 8px;  font-family: Arial, Helvetica, sans-serif;border-collapse: collapse; width: 100px;">
+            {item['kur']} 
+            </td>
+            
+        </tr>
+    
+    
+        """
+            
+        body = body + "</table>"
+        
+        
+        MailService(siparisNo + " Sipariş No " + str(nowDate) + ' Tarihinde Nakliye Fatura Girişi', "bilgiislem@mekmar.com",body)
+        MailService(siparisNo + " Sipariş No " + str(nowDate) + ' Tarihinde Nakliye Fatura Girişi', "info@mekmar.com",body)
+        
+    
     def __evrakIdKontrol(self,item):
 
            kontrol = self.data.getStoreList("Select count(*) as durum from YeniNakliyeFaturalarıTB where SiparisNo=?   ",item['siparisno'])[0].durum 

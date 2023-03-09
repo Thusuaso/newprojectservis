@@ -13,7 +13,8 @@ class SiparisKayitIslem(Resource):
         siparisGiris = SiparisGiris()
         siparis = data['siparis']
         urunler = data['siparisUrunler']
-        result = siparisGiris.siparisKaydet(urunler,siparis)
+        
+        result = siparisGiris.siparisKaydet(urunler,siparis,)
 
         return jsonify(result)
 
@@ -27,13 +28,21 @@ class SiparisKayitIslem(Resource):
         urunlerYeni = data['urunlerYeni']
         urunlerDegisenler = data['urunlerDegisenler']
         urunlerSilinenler = data['urunlerSilinenler']
-      
-        result = siparisGiris.siparisGuncelle(siparis,urunlerYeni,urunlerDegisenler,urunlerSilinenler)
+        degisenMasraflar = data['degisimMasraflar']
+        result = siparisGiris.siparisGuncelle(siparis,urunlerYeni,urunlerDegisenler,urunlerSilinenler,degisenMasraflar)
       
       
         
         
         return jsonify(result)
+
+class SiparisDegisimMailGonderApi(Resource):
+    def post(self):
+        datas = request.get_json()
+        islem = SiparisGiris()
+        print(datas)
+        
+
 
 class SiparisKayitIslemControlApi(Resource):
     def get(self,siparis_no):

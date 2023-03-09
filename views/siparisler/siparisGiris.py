@@ -21,6 +21,28 @@ class SiparisGiris:
             where s.TedarikciID=t.ID
             """
         )
+        self.firstOrdersList = self.data.getList("""
+                                                    select 
+                                                    s.SiparisNo,
+                                                    s.NavlunSatis,
+                                                    s.NavlunAlis,
+                                                    s.DetayTutar_1,
+                                                    s.DetayTutar_2,
+                                                    s.DetayTutar_3,
+                                                    s.DetayTutar_4 as Mekus,
+                                                    s.DetayAlis_1,
+                                                    s.DetayAlis_2,
+                                                    s.DetayAlis_3,
+                                                    s.Komisyon,
+                                                    s.EvrakGideri,
+                                                    s.sigorta_tutar_satis as SigortaSatis,
+                                                    s.sigorta_Tutar as SigortaTutar
+
+
+
+                                                from SiparislerTB s
+                                                 
+                                                 """)
 
     def getSiparisModel(self):
         model = SiparisGirisModel()
@@ -285,9 +307,18 @@ class SiparisGiris:
             return 'Ton'
         elif id == 5:
             return 'Sqft'
-    def siparisGuncelle(self,siparis,urunlerYeni,urunlerDegisenler,urunlerSilinenler):
+    def siparisGuncelle(self,siparis,urunlerYeni,urunlerDegisenler,urunlerSilinenler,degisenMasraflar):
         
         try:
+            mailListesi = []
+            for item in degisenMasraflar:
+                if(item['isChange'] == 1):
+                    mailListesi.append(self.__maliyetDegisimSendMail(item,siparis['siparisNo']))
+            now = datetime.datetime.now()
+        
+            self.masraflarSendMail(mailListesi,siparis['siparisNo'],now)
+            
+            
             if(siparis['siparisDurumId']==1 and (siparis['odemeTurId']==1 or siparis['odemeTurId'] ==2) ):
                 MailService(siparis['siparisNo'] + " nolu Sipariş Tahsil Edilmeli", "huseyin@mekmarmarble.com", siparis['siparisNo'] + ' nolu yeni sipariş bekleyende, tahsilatını gerçekleştirip üretime alınız!') 
 
@@ -418,6 +449,129 @@ class SiparisGiris:
         except Exception as e:
             print('siparisGuncelle Hata 2 : ',str(e))
             return False
+    
+    def __maliyetDegisimSendMail(self,yeniItem,siparisno):
+        
+        for item in self.firstOrdersList:
+            if item.SiparisNo == siparisno:
+                if(yeniItem['label'] == 'Navlun Satış'):
+                    eskiDeger = self.__noneControl(item.NavlunSatis)
+                    yeniDeger = self.__noneControl(yeniItem['navlun_satis_tutar'])
+                    degisenAdi = yeniItem['label']
+                    return {'eskiDeger':eskiDeger,'yeniDeger':yeniDeger,'degisenAdi':degisenAdi}
+                elif (yeniItem['label'] == 'Navlun Alış'):
+                    eskiDeger = self.__noneControl(item.NavlunAlis)
+                    yeniDeger = self.__noneControl(yeniItem['navlun_alis_tutar'])
+                    degisenAdi = yeniItem['label']
+                    return {'eskiDeger':eskiDeger,'yeniDeger':yeniDeger,'degisenAdi':degisenAdi}
+                elif (yeniItem['label'] == 'Detay Satış 1'):
+                    eskiDeger = self.__noneControl(item.DetayTutar_1)
+                    yeniDeger = self.__noneControl(yeniItem['detay_tutar1_tutar'])
+                    degisenAdi = yeniItem['label']
+                    return {'eskiDeger':eskiDeger,'yeniDeger':yeniDeger,'degisenAdi':degisenAdi}
+                elif (yeniItem['label'] == 'Detay Satış 2'):
+                    eskiDeger = self.__noneControl(item.DetayTutar_2)
+                    yeniDeger = self.__noneControl(yeniItem['detay_tutar2_tutar'])
+                    degisenAdi = yeniItem['label']
+                    return {'eskiDeger':eskiDeger,'yeniDeger':yeniDeger,'degisenAdi':degisenAdi}
+                elif (yeniItem['label'] == 'Detay Satış 3'):
+                    eskiDeger = self.__noneControl(item.DetayTutar_3)
+                    yeniDeger = self.__noneControl(yeniItem['detay_tutar3_tutar'])
+                    degisenAdi = yeniItem['label']
+                    return {'eskiDeger':eskiDeger,'yeniDeger':yeniDeger,'degisenAdi':degisenAdi}
+                elif (yeniItem['label'] == 'Mekus Masrafı'):
+                    eskiDeger = self.__noneControl(item.Mekus)
+                    yeniDeger = self.__noneControl(yeniItem['mekus_masrafi_tutar'])
+                    degisenAdi = yeniItem['label']
+                    return {'eskiDeger':eskiDeger,'yeniDeger':yeniDeger,'degisenAdi':degisenAdi}
+                elif (yeniItem['label'] == 'Detay Alış 1'):
+                    eskiDeger = self.__noneControl(item.DetayAlis_1)
+                    yeniDeger = self.__noneControl(yeniItem['detay_alis1_tutar'])
+                    degisenAdi = yeniItem['label']
+                    return {'eskiDeger':eskiDeger,'yeniDeger':yeniDeger,'degisenAdi':degisenAdi}
+                elif (yeniItem['label'] == 'Detay Alış 2'):
+                    eskiDeger = self.__noneControl(item.DetayAlis_2)
+                    yeniDeger = self.__noneControl(yeniItem['detay_alis2_tutar'])
+                    degisenAdi = yeniItem['label']
+                    return {'eskiDeger':eskiDeger,'yeniDeger':yeniDeger,'degisenAdi':degisenAdi}
+                elif (yeniItem['label'] == 'Detay Alış 3'):
+                    eskiDeger = self.__noneControl(item.DetayAlis_3)
+                    yeniDeger = self.__noneControl(yeniItem['detay_alis3_tutar'])
+                    degisenAdi = yeniItem['label']
+                    return {'eskiDeger':eskiDeger,'yeniDeger':yeniDeger,'degisenAdi':degisenAdi}
+                elif (yeniItem['label'] == 'Komisyon'):
+                    eskiDeger = self.__noneControl(item.Komisyon)
+                    yeniDeger = self.__noneControl(yeniItem['komisyon_tutar'])
+                    degisenAdi = yeniItem['label']
+                    return {'eskiDeger':eskiDeger,'yeniDeger':yeniDeger,'degisenAdi':degisenAdi}
+                elif (yeniItem['label'] == 'Evrak Gideri'):
+                    eskiDeger = self.__noneControl(item.EvrakGideri)
+                    yeniDeger = self.__noneControl(yeniItem['evrak_gideritutar'])
+                    degisenAdi = yeniItem['label']
+                    return {'eskiDeger':eskiDeger,'yeniDeger':yeniDeger,'degisenAdi':degisenAdi}
+                elif (yeniItem['label'] == 'Sigorta Satış'):
+                    eskiDeger = self.__noneControl(item.SigortaSatis)
+                    yeniDeger = self.__noneControl(yeniItem['sigorta_satis_tutar'])
+                    degisenAdi = yeniItem['label']
+                    return {'eskiDeger':eskiDeger,'yeniDeger':yeniDeger,'degisenAdi':degisenAdi}
+                elif (yeniItem['label'] == 'Sigorta Alış'):
+                    eskiDeger = self.__noneControl(item.SigortaTutar)
+                    yeniDeger = self.__noneControl(yeniItem['sigorta_alis_tutar'])
+                    degisenAdi = yeniItem['label']
+                    return {'eskiDeger':eskiDeger,'yeniDeger':yeniDeger,'degisenAdi':degisenAdi}
+            else:
+                continue         
+    
+    def masraflarSendMail(self,masraflarListesi,siparisNo,nowDate):
+        body = """
+        <table >
+       
+            <tr style ="background-color: #f2f2f2;">
+                <th style ="color: white;background-color: #4CAF50;text-align: left;  padding-bottom: 12px; padding-top: 12px; padding-top: 12px;padding: 8px; font-family: Arial, Helvetica, sans-serif; border-collapse: collapse;width: 100px;">
+                Değişen Bilgisi
+                </th>
+                <th  style ="color: white;background-color: #4CAF50;text-align: left;  padding-bottom: 12px; padding-top: 12px; padding-top: 12px;padding: 8px; font-family: Arial, Helvetica, sans-serif; border-collapse: collapse;width: 100px;">
+                Eski Değer
+                </th>
+                 <th  style ="color: white;background-color: #4CAF50;text-align: left;  padding-bottom: 12px; padding-top: 12px; padding-top: 12px;padding: 8px; font-family: Arial, Helvetica, sans-serif; border-collapse: collapse;width: 150px;">
+                Yeni Değer 
+                </th>
+            </tr>
+        """
+        for item in masraflarListesi:
+            
+                body += f"""
+            
+                <tr style ="background-color: #ddd;">
+                    <td style ="border: 1px solid #ddd; padding: 8px;  font-family: Arial, Helvetica, sans-serif;border-collapse: collapse; width: 100px;">
+                    {item['degisenAdi']}
+                    </td>
+                    <td style ="border: 1px solid #ddd; padding: 8px;  font-family: Arial, Helvetica, sans-serif;border-collapse: collapse; width: 100px;">
+                    {item['eskiDeger']}
+                    </td>
+                    <td style ="border: 1px solid #ddd; padding: 8px;  font-family: Arial, Helvetica, sans-serif;border-collapse: collapse; width: 100px;">
+                    {item['yeniDeger']} 
+                    </td>
+                    
+                </tr>
+            
+            
+                """
+            
+        body = body + "</table>"
+        
+        
+        MailService(siparisNo + " Sipariş No " + str(nowDate) + ' Tarihinde Değişenler', "bilgiislem@mekmar.com",body)
+        MailService(siparisNo + " Sipariş No " + str(nowDate) + ' Tarihinde Değişenler', "info@mekmar.com",body)
+        
+    
+    def __noneControl(self,value):
+        if(value != None):
+            return float(value)
+        else:
+            return 0
+    
+    
     def dateConvert(self,date_v):
         if (date_v) : 
             forMat = '%d-%m-%Y'

@@ -187,6 +187,7 @@ api.add_resource(SiparisOpChangeApi,'/siparis/opChangeMailSend',methods=['POST']
 api.add_resource(SiparisOdemeSekliChangeApi,'/operasyon/fatura/changeOdemeBilgisi/<string:siparisNo>/<int:odemeTur>',methods=['GET'])
 api.add_resource(SiparisOdemeSekliChangeExApi,'/operasyon/fatura/changeOdemeBilgisiEx/<string:siparisNo>/<int:odemeTur>',methods=['GET'])
 api.add_resource(SiparisKayitIslemControlApi,'/siparis/kayitIslemControl/<string:siparis_no>',methods=['GET'])
+api.add_resource(SiparisDegisimMailGonderApi,'/siparis/masraflar/change/sendmail',methods=['POST'])
 
 
 #numuneler

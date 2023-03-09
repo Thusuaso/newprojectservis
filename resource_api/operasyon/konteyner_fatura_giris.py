@@ -1,4 +1,4 @@
-from helpers import SqlConnect,DegisiklikMain
+from helpers import SqlConnect,DegisiklikMain,MailService
 from models.operasyon.konteyner_listesi import *
 from resource_api.finans.guncel_kur import DovizListem
 import datetime
@@ -131,6 +131,10 @@ class KonteynerFaturalar:
             )
            
             self.__urunId(item)
+            
+            now = datetime.datetime.now()
+            
+            self.masraflarSendMail(item,item['siparisno'],now)
             info = 'Huseyin Konteyner Fatura Girişi Yaptı.'
             DegisiklikMain('Huseyin',info)
             return True
@@ -138,7 +142,60 @@ class KonteynerFaturalar:
             print('konteynerKaydet  Hata : ',str(e))
         return False
 
-
+    def masraflarSendMail(self,item,siparisNo,nowDate):
+        body = """
+        <table >
+       
+            <tr style ="background-color: #f2f2f2;">
+                <th style ="color: white;background-color: #4CAF50;text-align: left;  padding-bottom: 12px; padding-top: 12px; padding-top: 12px;padding: 8px; font-family: Arial, Helvetica, sans-serif; border-collapse: collapse;width: 100px;">
+                Sipariş No
+                </th>
+                <th style ="color: white;background-color: #4CAF50;text-align: left;  padding-bottom: 12px; padding-top: 12px; padding-top: 12px;padding: 8px; font-family: Arial, Helvetica, sans-serif; border-collapse: collapse;width: 100px;">
+                Fatura Detayı
+                </th>
+                <th style ="color: white;background-color: #4CAF50;text-align: left;  padding-bottom: 12px; padding-top: 12px; padding-top: 12px;padding: 8px; font-family: Arial, Helvetica, sans-serif; border-collapse: collapse;width: 100px;">
+                Fatura No
+                </th>
+                <th  style ="color: white;background-color: #4CAF50;text-align: left;  padding-bottom: 12px; padding-top: 12px; padding-top: 12px;padding: 8px; font-family: Arial, Helvetica, sans-serif; border-collapse: collapse;width: 100px;">
+                Tutar ($)
+                </th>
+                 <th  style ="color: white;background-color: #4CAF50;text-align: left;  padding-bottom: 12px; padding-top: 12px; padding-top: 12px;padding: 8px; font-family: Arial, Helvetica, sans-serif; border-collapse: collapse;width: 150px;">
+                Kur
+                </th>
+            </tr>
+        """
+            
+        body += f"""
+    
+        <tr style ="background-color: #ddd;">
+            <td style ="border: 1px solid #ddd; padding: 8px;  font-family: Arial, Helvetica, sans-serif;border-collapse: collapse; width: 100px;">
+            {siparisNo}
+            </td>
+            <td style ="border: 1px solid #ddd; padding: 8px;  font-family: Arial, Helvetica, sans-serif;border-collapse: collapse; width: 100px;">
+            {item['fatura_tur_list']['name']}
+            </td>
+            <td style ="border: 1px solid #ddd; padding: 8px;  font-family: Arial, Helvetica, sans-serif;border-collapse: collapse; width: 100px;">
+            {item['faturaNo']}
+            </td>
+            <td style ="border: 1px solid #ddd; padding: 8px;  font-family: Arial, Helvetica, sans-serif;border-collapse: collapse; width: 100px;">
+            {item['Tutar_dolar']}
+            </td>
+            <td style ="border: 1px solid #ddd; padding: 8px;  font-family: Arial, Helvetica, sans-serif;border-collapse: collapse; width: 100px;">
+            {item['kur']} 
+            </td>
+            
+        </tr>
+    
+    
+        """
+            
+        body = body + "</table>"
+        
+        
+        MailService(siparisNo + " Sipariş No " + str(nowDate) + ' Tarihinde Konteynır Fatura Girişi', "bilgiislem@mekmar.com",body)
+        MailService(siparisNo + " Sipariş No " + str(nowDate) + ' Tarihinde Konteynır Fatura Girişi', "info@mekmar.com",body)
+        
+        
     def __urunId(self,item):
         
         kontrol = self.data.getStoreList("select count(*) as durum from KonteynerDigerFaturalarKayitTB where FaturaNo=?",item['faturaNo'])[0].durum
