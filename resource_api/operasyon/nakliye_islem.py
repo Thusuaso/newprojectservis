@@ -98,14 +98,19 @@ class NakliyeIslem:
                
                 self.__urunId(key)
                 self.__evrakId(key)
-                now = datetime.datetime.now()
-                self.masraflarSendMail(key,key['siparisno'],now)
+                result = self.data.getStoreList("""
+                                        select FaturaKesimTurID,YuklemeTarihi from SiparislerTB where SiparisNo=?
+                                   
+                                   """,(item['siparisno']))
+                if(result[0][0]==1):
+                    now = datetime.datetime.now()
+                    self.masraflarSendMail(key,key['siparisno'],now,result[0][1])
         info = "Huseyin Nakliye Faturası Girişi Yaptı"
         DegisiklikMain('Huseyin',info)
              
         print('nakliyeKaydet  Hata : ')
         return True
-    def masraflarSendMail(self,item,siparisNo,nowDate):
+    def masraflarSendMail(self,item,siparisNo,nowDate,y_tarihi):
         body = """
         <table >
        
@@ -149,8 +154,9 @@ class NakliyeIslem:
         body = body + "</table>"
         
         
-        MailService(siparisNo + " Sipariş No " + str(nowDate) + ' Tarihinde Nakliye Fatura Girişi', "bilgiislem@mekmar.com",body)
-        MailService(siparisNo + " Sipariş No " + str(nowDate) + ' Tarihinde Nakliye Fatura Girişi', "info@mekmar.com",body)
+        MailService(str(y_tarihi) + ' Yükleme Tarihli ' + siparisNo + ' ' +  str(nowDate) + ' Tarihinde Nakliye Fatura Girişi', "bilgiislem@mekmar.com",body)
+        MailService(str(y_tarihi) + ' Yükleme Tarihli ' + siparisNo +' ' + str(nowDate) + ' Tarihinde Nakliye Fatura Girişi', "info@mekmar.com",body)
+
         
     
     def __evrakIdKontrol(self,item):

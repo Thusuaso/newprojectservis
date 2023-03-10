@@ -310,13 +310,15 @@ class SiparisGiris:
     def siparisGuncelle(self,siparis,urunlerYeni,urunlerDegisenler,urunlerSilinenler,degisenMasraflar):
         
         try:
-            mailListesi = []
-            for item in degisenMasraflar:
-                if(item['isChange'] == 1):
-                    mailListesi.append(self.__maliyetDegisimSendMail(item,siparis['siparisNo']))
-            now = datetime.datetime.now()
-        
-            self.masraflarSendMail(mailListesi,siparis['siparisNo'],now)
+            if(siparis['faturaKesimTurId'] == 1 or siparis['faturaKesimTurId'] == 2):
+                
+                mailListesi = []
+                for item in degisenMasraflar:
+                    if(item['isChange'] == 1):
+                        mailListesi.append(self.__maliyetDegisimSendMail(item,siparis['siparisNo']))
+                now = datetime.datetime.now()
+                if(len(mailListesi) >0):
+                    self.masraflarSendMail(mailListesi,siparis['siparisNo'],siparis['yuklemeTarihi'],now,siparis['kayit_kisi'])
             
             
             if(siparis['siparisDurumId']==1 and (siparis['odemeTurId']==1 or siparis['odemeTurId'] ==2) ):
@@ -522,7 +524,7 @@ class SiparisGiris:
             else:
                 continue         
     
-    def masraflarSendMail(self,masraflarListesi,siparisNo,nowDate):
+    def masraflarSendMail(self,masraflarListesi,siparisNo,yuklemeTarihi,nowDate,kayit_kisi):
         body = """
         <table >
        
@@ -561,8 +563,8 @@ class SiparisGiris:
         body = body + "</table>"
         
         
-        MailService(siparisNo + " Sipariş No " + str(nowDate) + ' Tarihinde Değişenler', "bilgiislem@mekmar.com",body)
-        MailService(siparisNo + " Sipariş No " + str(nowDate) + ' Tarihinde Değişenler', "info@mekmar.com",body)
+        MailService(yuklemeTarihi + ' Yükleme Tarihli ' + siparisNo + ' ' + str(nowDate) + ' Tarihinde ' + kayit_kisi + ' Tarafından Değiştirildi ', "bilgiislem@mekmar.com",body)
+        MailService(yuklemeTarihi + ' Yükleme Tarihli ' + siparisNo + ' ' + str(nowDate) + ' Tarihinde ' + kayit_kisi + ' Tarafından Değiştirildi ', "info@mekmar.com",body)
         
     
     def __noneControl(self,value):

@@ -131,10 +131,17 @@ class KonteynerFaturalar:
             )
            
             self.__urunId(item)
+            result = self.data.getStoreList("""
+                                        select FaturaKesimTurID,YuklemeTarihi from SiparislerTB where SiparisNo=?
+                                   
+                                   """,(item['siparisno']))
+            if(result[0][0]==1):
+                
             
-            now = datetime.datetime.now()
+                now = datetime.datetime.now()
+                self.masraflarSendMail(item,item['siparisno'],now,result[0][1])
             
-            self.masraflarSendMail(item,item['siparisno'],now)
+            
             info = 'Huseyin Konteyner Fatura Girişi Yaptı.'
             DegisiklikMain('Huseyin',info)
             return True
@@ -142,7 +149,7 @@ class KonteynerFaturalar:
             print('konteynerKaydet  Hata : ',str(e))
         return False
 
-    def masraflarSendMail(self,item,siparisNo,nowDate):
+    def masraflarSendMail(self,item,siparisNo,nowDate,y_tarihi):
         body = """
         <table >
        
@@ -192,8 +199,9 @@ class KonteynerFaturalar:
         body = body + "</table>"
         
         
-        MailService(siparisNo + " Sipariş No " + str(nowDate) + ' Tarihinde Konteynır Fatura Girişi', "bilgiislem@mekmar.com",body)
-        MailService(siparisNo + " Sipariş No " + str(nowDate) + ' Tarihinde Konteynır Fatura Girişi', "info@mekmar.com",body)
+        MailService(str(y_tarihi) + ' Yükleme Tarihli ' + siparisNo +  ' ' + str(nowDate) + ' Tarihinde Konteynır Fatura Girişi', "bilgiislem@mekmar.com",body)
+        MailService(str(y_tarihi) + ' Yükleme Tarihli ' + siparisNo +  ' ' + str(nowDate) + ' Tarihinde Konteynır Fatura Girişi', "info@mekmar.com",body)
+
         
         
     def __urunId(self,item):

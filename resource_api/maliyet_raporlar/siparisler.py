@@ -292,7 +292,7 @@ class SiparislerKar:
             else:
                 doviz = DovizListem()
                 dovizKur = doviz.getDovizKurListe(str(item.Yil),str(item.Ay),str(item.Gun))
-                model.kar_zarar_tl = model.odenen_try_tutar - (model.masraf_toplam * float(dovizKur))
+                model.kar_zarar_tl = self.__noneControl(model.odenen_try_tutar) - (self.__noneControl(model.masraf_toplam) * float(dovizKur))
                 
             
             
