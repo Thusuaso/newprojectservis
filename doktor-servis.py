@@ -188,8 +188,8 @@ api.add_resource(SiparisOdemeSekliChangeApi,'/operasyon/fatura/changeOdemeBilgis
 api.add_resource(SiparisOdemeSekliChangeExApi,'/operasyon/fatura/changeOdemeBilgisiEx/<string:siparisNo>/<int:odemeTur>',methods=['GET'])
 api.add_resource(SiparisKayitIslemControlApi,'/siparis/kayitIslemControl/<string:siparis_no>',methods=['GET'])
 api.add_resource(SiparisDegisimMailGonderApi,'/siparis/masraflar/change/sendmail',methods=['POST'])
-
-
+api.add_resource(StokListFilterApi,'/uretim/stokList/filter',methods=['GET'])
+api.add_resource(StokListFilterAyrintiApi,'/uretim/stokList/filter/ayrinti/<int:urunKartId>',methods=['GET'])
 #numuneler
 api.add_resource(NumuneListApi,'/numuneler/numunelist/<int:yil>',methods=['GET']) #Analiste
 api.add_resource(NumuneAyrintiListApi,'/numuneler/numunelist/ayrinti/<string:po>') #Ayrinti Alani

@@ -32,19 +32,43 @@ class StokModel:
     tedarikci_id = 0
 
 
-class StokEbatSchema(Schema): 
-
+class StokRaporuFilterSchema(Schema):
+    sira = fields.Int()
+    kasa_no = fields.Int()
+    tarih = fields.String()
+    kategori_adi = fields.String()
+    urun_adi = fields.String()
+    yuzey_islem = fields.String()
+    olcu = fields.String()
+    firma_adi = fields.String()
+    ocak_adi = fields.String()
+    urun_durum = fields.String()
+    siparis_aciklama = fields.String()
+    aciklama = fields.String()
+    miktar = fields.Float()
+    birim_adi = fields.String()
+    kutu_adet = fields.Int()
+    kutu_ici_adet = fields.Int()
+    adet = fields.Int()
     
- 
-    ebat = fields.String()
-   
-   
-
-
-class StokEbatModel:
-
-  
-    ebat =  ""
+class StokRaporuFilterModel(Schema):
+    sira = 0
+    kasa_no = 0
+    tarih = ""
+    kategori_adi = ""
+    urun_adi = ""
+    yuzey_islem = ""
+    olcu = ""
+    firma_adi = ""
+    ocak_adi = ""
+    urun_durum = ""
+    siparis_aciklama = ""
+    aciklama = ""
+    miktar = 0
+    birim_adi = ""
+    kutu_adet = 0
+    kutu_ici_adet = 0
+    adet = 0
     
        
    
