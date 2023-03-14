@@ -556,8 +556,6 @@ api.add_resource(StokRaporOlculeriApi,'/raporlar/listeler/stokRaporuOlculeri',me
 api.add_resource(StokRaporAnaListeApi,'/raporlar/listeler/stokRaporuAnaListe',methods=['GET'])
 api.add_resource(StokRaporOnylMekmerApi,'/raporlar/listeler/stokRaporuOnlyMekmer',methods=['GET'])
 api.add_resource(StokRaporAnaListeFilterApi,'/raporlar/listeler/stokRaporuAnaListeFilter/<int:tedarikci>',methods=['GET'])
-api.add_resource(AnaSayfaDegisiklikListApi,'/raporlar/anaSayfa/anaSayfaDegisiklikList',methods=['GET'])
-api.add_resource(AnaSayfaDegisiklikListApiAll,'/raporlar/anaSayfa/anaSayfaDegisiklikListAll',methods=['GET'])
 
 
 api.add_resource(StokRaporMekmerMekmozApi,'/raporlar/listeler/stokRaporuMekmerMekmoz',methods=['GET'])
@@ -670,6 +668,9 @@ api.add_resource(UrunlerUretimListAyrintiMekmerApi,'/raporlar/listeler/urunlerUr
 api.add_resource(UrunlerUretimListMekmarApi,'/raporlar/listeler/urunlerUretimListesiMekmar',methods=['GET','POST'])
 api.add_resource(UrunlerUretimListMekmerApi,'/raporlar/listeler/urunlerUretimListesiMekmer',methods=['GET','POST'])
 
+
+#logs
+api.add_resource(LogsMaliyetApi,'/raporlar/mekmar/logs/<int:year>',methods=['GET'])
 
 #maliyet
 api.add_resource(MaliyetRaporIslemApi,'/maliyet/listeler/maliyetListesi/<int:yil>/<int:ay>',methods=['GET'])

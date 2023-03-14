@@ -105,7 +105,7 @@ class SevkiyatKayitIslem(Resource):
 
         islem = SevkiyatKayit()
 
-        status,anaSayfaDegisiklikList = islem.siparisKayitIslemi(data)
+        status = islem.siparisKayitIslemi(data)
 
-        return jsonify({'status' : status,'getAnaSayfaDegisiklik':anaSayfaDegisiklikList})
+        return jsonify({'status' : status})
 

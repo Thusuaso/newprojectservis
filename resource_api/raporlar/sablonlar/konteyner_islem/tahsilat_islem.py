@@ -1,7 +1,6 @@
 from helpers import SqlConnect,TarihIslemler,MailService,DegisiklikMain
 from models.finans import TahsilatModel,TahsilatSchema
 import datetime
-from views.raporlar import AnaSayfaDegisiklik
 
 class TahsilatIslem:
 
@@ -103,11 +102,8 @@ class TahsilatIslem:
             self.mailGonder(item['siparisno'],'Yeni Tahsilat Girişi',item['tutar'],item['tarih'],item['masraf'],item['kullaniciadi'])
             info =item['kullaniciadi'] + ', ' + item['siparisno'] + ' ' + ' Tahsilat Girişi Yaptı'
             DegisiklikMain().setYapilanDegisiklikBilgisi(item['kullaniciadi'],info)
-            islem = AnaSayfaDegisiklik()
-            anaSayfaDegisiklikList = islem.getAnaSayfaDegisiklik()
             data = {
-                'status':True,
-                'anaSayfaDegisiklikList':anaSayfaDegisiklikList
+                'status':True
             }
             return data
         except Exception as e:
@@ -142,11 +138,8 @@ class TahsilatIslem:
             self.mailGonder(item['siparisno'],'Tahsilat Değiştirme',item['tutar'],item['tarih'],item['masraf'],item['kullaniciadi'])
             info =item['kullaniciadi'] + ' ' + item['siparisno'] + ' ' + 'ya Tahsilat Değişikliği Yaptı'
             DegisiklikMain().setYapilanDegisiklikBilgisi(item['kullaniciadi'],info)
-            islem = AnaSayfaDegisiklik()
-            anaSayfaDegisiklikList = islem.getAnaSayfaDegisiklik()
             data = {
-                'status':True,
-                'anaSayfaDegisiklikList':anaSayfaDegisiklikList
+                'status':True
             }
             return data
         except Exception as e:

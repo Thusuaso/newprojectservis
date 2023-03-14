@@ -4,7 +4,6 @@ from models.shared import GenelListModel,GenelListSchema
 from flask_restful import Resource
 from flask import jsonify,request
 import datetime
-from views.raporlar import AnaSayfaDegisiklik
 
 class TeklifSilmeIslem(Resource):
 
@@ -25,9 +24,9 @@ class TeklifKayitIslem(Resource):
         urunler = veri['urunler']
         kullaniciAdi = veri['kullaniciAdi']
 
-        kayitDurum,teklifId,anaSayfaDegisiklikList = teklifIslem.kaydet(teklif,urunler,kullaniciAdi)
+        kayitDurum,teklifId = teklifIslem.kaydet(teklif,urunler,kullaniciAdi)
 
-        return jsonify({'status' : kayitDurum,'teklifId' : teklifId,'anaSayfaDegisiklikList':anaSayfaDegisiklikList})
+        return jsonify({'status' : kayitDurum,'teklifId' : teklifId})
 
 
     def put(self):
@@ -47,9 +46,9 @@ class TeklifKayitIslem(Resource):
         for item in silinenUrunler:
             print('silinen item : ', item)
 
-        result,anaSayfaDegisiklikList = teklifIslem.guncelleme(teklif,eklenenUrunler,guncellenenUrunler,silinenUrunler,kullaniciAdi,guncellenenMusteri,kategoriadd)
+        result = teklifIslem.guncelleme(teklif,eklenenUrunler,guncellenenUrunler,silinenUrunler,kullaniciAdi,guncellenenMusteri,kategoriadd)
 
-        return jsonify({'status' : result,'anaSayfaDegisiklikList':anaSayfaDegisiklikList})
+        return jsonify({'status' : result})
 
 
     def get(self):
@@ -395,10 +394,8 @@ class TeklifIslem:
         kullaniciAdi = kullaniciAdi.capitalize()
         info = kullaniciAdi + ' ' + 'Yeni Teklif Girişi Yaptı'
         DegisiklikMain().setYapilanDegisiklikBilgisi(kullaniciAdi,info)
-        islem = AnaSayfaDegisiklik()
-        anaSayfaDegisiklikList = islem.getAnaSayfaDegisiklik()
 
-        return kayitDurum,teklifId,anaSayfaDegisiklikList
+        return kayitDurum,teklifId
     
     def guncelleme(self,teklif,eklenenUrunler,guncellenenUrunler,silinenUrunler,kullaniciAdi,guncellenenMusteri,kategoriadd):
 
@@ -444,9 +441,7 @@ class TeklifIslem:
         kullaniciAdi = kullaniciAdi.capitalize()
         info = kullaniciAdi + ' ' + 'Teklif Kaydını Güncelledi'
         DegisiklikMain().setYapilanDegisiklikBilgisi(kullaniciAdi,info)
-        islem = AnaSayfaDegisiklik()
-        anaSayfaDegisiklikList = islem.getAnaSayfaDegisiklik()
-        return kayitDurum,anaSayfaDegisiklikList
+        return kayitDurum
     
     def teklifSil(self,teklifid):
 

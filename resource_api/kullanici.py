@@ -4,7 +4,6 @@ from flask_restful import Resource
 import jwt
 import datetime
 from models import KullaniciModel,KullaniciSchema
-from views.raporlar import AnaSayfaDegisiklik
 
 class Kullanici(Resource):
 
@@ -39,10 +38,9 @@ class Kullanici(Resource):
             model.id = user.ID
             schema = KullaniciSchema()
             
-            islem = AnaSayfaDegisiklik()
-            anaSayfaDegisiklikList = islem.getAnaSayfaDegisiklik()
+
            
-            return jsonify({'user' : schema.dump(model),'anaSayfaDegisiklikList':anaSayfaDegisiklikList})
+            return jsonify({'user' : schema.dump(model)})
            
         return jsonify({'token' : None})
 class DataKullanici(Resource):

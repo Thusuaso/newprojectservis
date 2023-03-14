@@ -1,6 +1,5 @@
 from models import *
 from helpers import SqlConnect,TarihIslemler,DegisiklikMain
-from views.raporlar import AnaSayfaDegisiklik
 from views.siparisler.listeler import UrunKartMenu
 class UrunKart:
 
@@ -31,9 +30,7 @@ class UrunKart:
             kart['username'] = kart['username'].capitalize()
             info = kart['username'] + ', ' + 'Yeni Kart Girişi Yaptı'
             DegisiklikMain().setYapilanDegisiklikBilgisi(kart['username'],info)
-            islem = AnaSayfaDegisiklik()
-            anaSayfaDegisiklik = islem.getAnaSayfaDegisiklik()
-            return {'kayitDurum' : True,'data' : self.getUrunKart(yeniId),'anaSayfaDegisiklik':anaSayfaDegisiklik} 
+            return {'kayitDurum' : True,'data' : self.getUrunKart(yeniId)} 
         except Exception as e:
             print('Ürün Kart kaydet hata kod : ', str(e))
             return { 'kayitDurum' : False, 'hataMesaj' : str(e) }
@@ -60,9 +57,6 @@ class UrunKart:
             kart['username'] = kart['username'].capitalize()
             info = kart['username'] + ', ' + 'Ürün Kartı Güncellemesi Yaptı'
             DegisiklikMain().setYapilanDegisiklikBilgisi(kart['username'],info)
-            islem = AnaSayfaDegisiklik()
-            anaSayfaDegisiklik = islem.getAnaSayfaDegisiklik()
-            result['anaSayfaDegisiklik'] = anaSayfaDegisiklik
             return result 
         except Exception as e:
             print("ÜrünKart gümcelle hata kod : ",str(e))
@@ -80,9 +74,7 @@ class UrunKart:
                 """,(urunKartId))
             info = username + ', ' + 'Ürün Kartı Silme İşlemi Yaptı.'
             DegisiklikMain().setYapilanDegisiklikBilgisi(username,info)
-            islem = AnaSayfaDegisiklik()
-            anaSayfaDegisiklik = islem.getAnaSayfaDegisiklik()
-            return True,anaSayfaDegisiklik
+            return True
         except Exception as e:
             print('Urun Kart Hata sil : ', str(e))
 

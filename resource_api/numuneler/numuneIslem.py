@@ -5,7 +5,6 @@ from models.shared import GenelListModel,GenelListSchema
 from flask_restful import Resource
 from flask import jsonify,request
 import datetime
-from views.raporlar import AnaSayfaDegisiklik
 from resource_api.finans.caprazkur import DovizListem
 from resource_api.finans.guncel_kur import DovizListem as GuncelKurList
 
@@ -20,9 +19,9 @@ class NumuneKayitIslem(Resource):
         
         kullaniciAdi = veri['kullaniciAdi']
 
-        kayitDurum,numunepo,anaSayfaDegisiklikList = numuneIslem.kaydet(numune,kullaniciAdi)
+        kayitDurum,numunepo = numuneIslem.kaydet(numune,kullaniciAdi)
 
-        return jsonify({'status' : kayitDurum,'numunepo' : numunepo,'anaSayfaDegisiklikList':anaSayfaDegisiklikList})
+        return jsonify({'status' : kayitDurum,'numunepo' : numunepo})
 
 
     def put(self):
@@ -40,9 +39,9 @@ class NumuneKayitIslem(Resource):
         kategoriadd = data['kategoriadd']
 
 
-        result,anaSayfaDegisiklikList = numuneIslem.guncelleme(numune,kullaniciAdi,guncellenenMusteri,kategoriadd)
+        result = numuneIslem.guncelleme(numune,kullaniciAdi,guncellenenMusteri,kategoriadd)
 
-        return jsonify({'status' : result,'anaSayfaDegisiklikList':anaSayfaDegisiklikList})
+        return jsonify({'status' : result})
 
 
     def get(self):
@@ -256,9 +255,7 @@ class NumuneIslem:
         kullaniciAdi = kullaniciAdi.capitalize()
         info = kullaniciAdi + ',' + numune['numuneNo'] + ' Numunesinin Kaydını Yaptı.'
         DegisiklikMain().setYapilanDegisiklikBilgisi(kullaniciAdi,info)
-        islem = AnaSayfaDegisiklik()
-        anaSayfaDegisiklikList = islem.getAnaSayfaDegisiklik()
-        return kayitDurum,numuneId,anaSayfaDegisiklikList
+        return kayitDurum,numuneId
     
     def guncelleme(self,numune,kullaniciAdi,guncellenenMusteri,kategoriadd):
 
@@ -286,10 +283,8 @@ class NumuneIslem:
         kullaniciAdi = kullaniciAdi.capitalize()
         info = kullaniciAdi + ',' + numune['numuneNo'] + ' Numunesini Güncelledi.'
         DegisiklikMain().setYapilanDegisiklikBilgisi(kullaniciAdi,info)
-        islem = AnaSayfaDegisiklik()
-        anaSayfaDegisiklikList = islem.getAnaSayfaDegisiklik()
         
-        return kayitDurum,anaSayfaDegisiklikList
+        return kayitDurum
     
  
     def __numuneKayit(self,item,kullaniciId,dtMusteriler):

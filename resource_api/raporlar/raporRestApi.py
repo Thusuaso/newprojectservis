@@ -24,7 +24,7 @@ from resource_api.raporlar.MusteriBazindaRaporApiExcell import MusteriBazindaExc
 from resource_api.raporlar.ulkeBazindaSevkiyat import UlkeBazindaSevkiyat
 from resource_api.raporlar.allOrders import AllOrders
 from resource_api.raporlar.orderProducts import Order
-from views.raporlar.anaSayfaDegisiklik import AnaSayfaDegisiklik,UretimUrunler
+from views.raporlar.anaSayfaDegisiklik import UretimUrunler
 from resource_api.raporlar.uretimTedarikciBazinda import UretimTedarikci
 from resource_api.raporlar.nakliyeBazindaRapor import NakliyeBazinda
 from resource_api.raporlar.fobMasraflar import FobMasraflari
@@ -1506,19 +1506,7 @@ class FooterCanvasPDF(Resource):
 
         return send_file(excel_path,as_attachment=True)      
 
-class AnaSayfaDegisiklikListApi(Resource):
-    def get(self):
-        
-        islem = AnaSayfaDegisiklik()
-        result = islem.getAnaSayfaDegisiklik()
-        return jsonify(result)
     
-class AnaSayfaDegisiklikListApiAll(Resource):
-    def get(self):
-        
-        islem = AnaSayfaDegisiklik()
-        result = islem.getAnaSayfaDegisiklikAll()
-        return jsonify(result)
     
     
 class UrunlerUretimListApi(Resource):

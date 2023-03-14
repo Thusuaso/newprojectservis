@@ -23,4 +23,6 @@ from resource_api.raporlar.ceyreklik_rapor import *
 from resource_api.raporlar.stock_price import *
 from resource_api.raporlar.mekmarRaporlari import *
 from resource_api.raporlar.stokListFilter import StokListFilterApi,StokListFilterAyrintiApi
+from resource_api.raporlar.logs import LogsMaliyetApi
+
 

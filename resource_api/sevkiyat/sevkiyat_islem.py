@@ -1,6 +1,5 @@
 from helpers import SqlConnect,DegisiklikMain
 from helpers.mail_service import MailService
-from views.raporlar import AnaSayfaDegisiklik
 
 class SevkiyatKayit:
 
@@ -140,10 +139,8 @@ class SevkiyatKayit:
             item['sevkEden'] = item['sevkEden'].capitalize()
             info = item['sevkEden'] + ', ' + item['siparisno'] + ' Siparişini Sevk Etti'
             DegisiklikMain().setYapilanDegisiklikBilgisi(item['sevkEden'],info)
-            islem = AnaSayfaDegisiklik()
-            anaSayfaDegisiklikList = islem.getAnaSayfaDegisiklik()
             
-            return islem_durum,anaSayfaDegisiklikList
+            return islem_durum
 
                 
 

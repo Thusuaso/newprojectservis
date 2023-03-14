@@ -17,6 +17,6 @@ from models.raporlar.ocak_raporu import *
 from models.raporlar.ocak_listesi_detay import *
 from models.raporlar.allOrders import *
 from models.raporlar.orderProducts import *
-from models.raporlar.anaSayfaDegisiklik import *
 from models.raporlar.ceyreklik_raporlar import * 
 from models.raporlar.mekmarRaporlari import *
+from models.raporlar.logs import *

@@ -1516,45 +1516,6 @@ class DashboardNew:
             print('getTeklifAyrintiAylik hata',str(e))
             return False
     
-    def postAnaSayfaLogsTarihli(self,dates):
-        try:
-            result = self.data.getList(f"""
-                                                select 
-                                                
-                                                    DegisiklikYapan,
-                                                    YapılanDegisiklik,
-                                                    DegisiklikTarihi,
-                                                    YEAR(DegisiklikTarihi) as Year,
-                                                    Month(DegisiklikTarihi) as Month,
-                                                    Day(DegisiklikTarihi) as Day,
-                                                    DATEPART(hour,DegisiklikTarihi) as Hour,
-											        DATEPART(minute,DegisiklikTarihi) as Minute,
-											        DATEPART(second,DegisiklikTarihi) as Second
-                                                
-                                                from 
-                                                AnaSayfaYapılanDegisiklikler 
-                                                where 
-                                                    (Day(DegisiklikTarihi) Between {str(dates['day1'])} and {str(dates['day2'])} ) and 
-                                                    (MONTH(DegisiklikTarihi) Between {str(dates['month1'])} and {str(dates['month2'])}) and 
-                                                    (YEAR(DegisiklikTarihi) Between {str(dates['year1'])} and {str(dates['year2'])})
-                                            
-                                            """)
-            liste = list()
-            for item in result:
-                model = AnaSayfaDegisiklikModel()
-                model.degisiklikYapan = item.DegisiklikYapan
-                model.yapilanDegisiklik = item.YapılanDegisiklik
-                model.degisiklikTarihi = str(item.Year) + '/' + str(item.Month) + '/' + str(item.Day) + ' Saat: ' + str(item.Hour) + ':' + str(item.Minute)  + ':' + str(item.Second)
-                model.year = item.Year
-                model.month = item.Month
-                model.day = item.Day
-                liste.append(model)
-                
-            schema = AnaSayfaDegisiklikSchema(many=True)
-            return schema.dump(liste)
-        except Exception as e:
-            print('postAnaSayfaLogsTarihli hata',str(e))
-
     def getUlkeTeklifler(self,year):
         try:
             result  = self.data.getStoreList("""

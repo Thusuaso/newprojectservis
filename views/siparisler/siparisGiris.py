@@ -7,7 +7,6 @@ from helpers import SqlConnect,TarihIslemler
 from helpers import MailService,DegisiklikMain
 import datetime
 from resource_api.finans.caprazkur import DovizListem
-from views.raporlar import AnaSayfaDegisiklik
 from views.shared.degisiklikTahmin import DegisiklikTahmin
 class SiparisGiris:
     
@@ -270,8 +269,6 @@ class SiparisGiris:
               self.mailGonderInsert(siparis,siparis['siparisNo']) #yeni sipariş için
               info = siparis['kayit_kisi'].capitalize() + ', ' + siparis['siparisNo'] + ' ' +  'Siparişini Girdi.'
               DegisiklikMain().setYapilanDegisiklikBilgisi(siparis['kayit_kisi'],info)
-              islem = AnaSayfaDegisiklik()
-              anaSayfaDegisiklikList = islem.getAnaSayfaDegisiklik()
               degisiklik = siparis['kayit_kisi'].capitalize() + ', ' + siparis['siparisNo'] + ' Siparişini Girdi.'
               degisiklikAlani = 'Siparişler'
               islem2 = DegisiklikTahmin()
@@ -285,8 +282,7 @@ class SiparisGiris:
               watch = str(hour) + ' : ' + str(minute) + ' : '  + str(second)
               islem2.kaydet(degisiklik,degisiklikAlani,marketing,year,month,day,watch)
               data = {
-                  'status':True,
-                  'anaSayfaDegisiklikList':anaSayfaDegisiklikList
+                  'status':True
               }
               return data
           else:
@@ -437,11 +433,8 @@ class SiparisGiris:
                       islem2.kaydet(degisiklik,degisiklikAlani,pazarlama,year,month,day,watch)
             info = siparis['kayit_kisi'].capitalize() + ', ' + siparis['siparisNo'] + ' ' +  'Sipariş Bilgileri Değiştirildi.'
             DegisiklikMain().setYapilanDegisiklikBilgisi(siparis['kayit_kisi'],info)
-            islem = AnaSayfaDegisiklik()
-            anaSayfaDegisiklikList = islem.getAnaSayfaDegisiklik()
             data = {
                 'status':True,
-                'anaSayfaDegisiklikList':anaSayfaDegisiklikList
             }
           
             
