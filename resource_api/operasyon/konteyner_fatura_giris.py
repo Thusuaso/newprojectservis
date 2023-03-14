@@ -131,15 +131,15 @@ class KonteynerFaturalar:
             )
            
             self.__urunId(item)
-            result = self.data.getStoreList("""
-                                        select FaturaKesimTurID,YuklemeTarihi from SiparislerTB where SiparisNo=?
+            # result = self.data.getStoreList("""
+            #                             select FaturaKesimTurID,YuklemeTarihi from SiparislerTB where SiparisNo=?
                                    
-                                   """,(item['siparisno']))
-            if(result[0][0]==1):
+            #                        """,(item['siparisno']))
+            # if(result[0][0]==1):
                 
             
-                now = datetime.datetime.now()
-                self.masraflarSendMail(item,item['siparisno'],now,result[0][1])
+            #     now = datetime.datetime.now()
+            #     self.masraflarSendMail(item,item['siparisno'],now,result[0][1])
             
             
             info = 'Huseyin Konteyner Fatura Girişi Yaptı.'

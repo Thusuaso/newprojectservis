@@ -98,13 +98,13 @@ class NakliyeIslem:
                
                 self.__urunId(key)
                 self.__evrakId(key)
-                result = self.data.getStoreList("""
-                                        select FaturaKesimTurID,YuklemeTarihi from SiparislerTB where SiparisNo=?
+                # result = self.data.getStoreList("""
+                #                         select FaturaKesimTurID,YuklemeTarihi from SiparislerTB where SiparisNo=?
                                    
-                                   """,(item['siparisno']))
-                if(result[0][0]==1):
-                    now = datetime.datetime.now()
-                    self.masraflarSendMail(key,key['siparisno'],now,result[0][1])
+                #                    """,(item['siparisno']))
+                # if(result[0][0]==1):
+                #     now = datetime.datetime.now()
+                #     self.masraflarSendMail(key,key['siparisno'],now,result[0][1])
         info = "Huseyin Nakliye Faturası Girişi Yaptı"
         DegisiklikMain('Huseyin',info)
              

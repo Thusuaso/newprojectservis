@@ -310,15 +310,15 @@ class SiparisGiris:
     def siparisGuncelle(self,siparis,urunlerYeni,urunlerDegisenler,urunlerSilinenler,degisenMasraflar):
         
         try:
-            if(siparis['faturaKesimTurId'] == 1 or siparis['faturaKesimTurId'] == 2):
+            # if(siparis['faturaKesimTurId'] == 1 or siparis['faturaKesimTurId'] == 2):
                 
-                mailListesi = []
-                for item in degisenMasraflar:
-                    if(item['isChange'] == 1):
-                        mailListesi.append(self.__maliyetDegisimSendMail(item,siparis['siparisNo']))
-                now = datetime.datetime.now()
-                if(len(mailListesi) >0):
-                    self.masraflarSendMail(mailListesi,siparis['siparisNo'],siparis['yuklemeTarihi'],now,siparis['kayit_kisi'])
+            #     mailListesi = []
+            #     for item in degisenMasraflar:
+            #         if(item['isChange'] == 1):
+            #             mailListesi.append(self.__maliyetDegisimSendMail(item,siparis['siparisNo']))
+            #     now = datetime.datetime.now()
+            #     if(len(mailListesi) >0):
+            #         self.masraflarSendMail(mailListesi,siparis['siparisNo'],siparis['yuklemeTarihi'],now,siparis['kayit_kisi'])
             
             
             if(siparis['siparisDurumId']==1 and (siparis['odemeTurId']==1 or siparis['odemeTurId'] ==2) ):
