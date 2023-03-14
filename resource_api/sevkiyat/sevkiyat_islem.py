@@ -133,9 +133,9 @@ class SevkiyatKayit:
             body = body + "</table>"
             
             
-            MailService('Sevkiyat Bilgi','bilgiislem@mekmar.com',body)
-            MailService('Sevkiyat Bilgi','info@mekmar.com',body)
-            MailService('Sevkiyat Bilgi','muhsin@mekmer.com',body)
+            # MailService('Sevkiyat Bilgi','bilgiislem@mekmar.com',body)
+            # MailService('Sevkiyat Bilgi','info@mekmar.com',body)
+            # MailService('Sevkiyat Bilgi','muhsin@mekmer.com',body)
             item['sevkEden'] = item['sevkEden'].capitalize()
             info = item['sevkEden'] + ', ' + item['siparisno'] + ' Siparişini Sevk Etti'
             DegisiklikMain().setYapilanDegisiklikBilgisi(item['sevkEden'],info)
