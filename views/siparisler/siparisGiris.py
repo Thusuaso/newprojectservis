@@ -266,7 +266,7 @@ class SiparisGiris:
               if(siparis['siparisDurumId']==1 and (siparis['odemeTurId']==1 or siparis['odemeTurId'] ==2) ):
                 MailService(siparis['siparisNo'] + " nolu Sipariş Tahsil Edilmeli", "huseyin@mekmarmarble.com", siparis['siparisNo'] + ' nolu yeni sipariş bekleyende, tahsilatını gerçekleştirip üretime alınız!') 
 
-              self.mailGonderInsert(siparis,siparis['siparisNo']) #yeni sipariş için
+            #   self.mailGonderInsert(siparis,siparis['siparisNo']) #yeni sipariş için
               info = siparis['kayit_kisi'].capitalize() + ', ' + siparis['siparisNo'] + ' ' +  'Siparişini Girdi.'
               DegisiklikMain().setYapilanDegisiklikBilgisi(siparis['kayit_kisi'],info)
               degisiklik = siparis['kayit_kisi'].capitalize() + ', ' + siparis['siparisNo'] + ' Siparişini Girdi.'
@@ -328,7 +328,7 @@ class SiparisGiris:
             self.__siparisUrunDataKayit(urunlerYeni,siparis['siparisNo'],marketing,siparis['musteriId'])
             if len(urunlerDegisenler) >= 1 : # ürün değiştirme 
               
-              self.mailGonderUpdate(siparis,urunlerDegisenler,siparis['siparisNo'])
+            #   self.mailGonderUpdate(siparis,urunlerDegisenler,siparis['siparisNo'])
               info = siparis['kayit_kisi'].capitalize() + ', ' + siparis['siparisNo'] + ' ' +  'Sipariş Ürün Bilgilerini Güncelledi.'
               DegisiklikMain().setYapilanDegisiklikBilgisi(siparis['kayit_kisi'],info)
               
@@ -341,7 +341,7 @@ class SiparisGiris:
             if len(urunlerYeni) >= 1 : #yeni ürün ekleme
               info = siparis['kayit_kisi'].capitalize() + ', ' + siparis['siparisNo'] + ' ' +  'Yeni Ürün Ekledi.'
               DegisiklikMain().setYapilanDegisiklikBilgisi(siparis['kayit_kisi'],info)
-              self.mailGonderNew(siparis,urunlerYeni,siparis['siparisNo'])
+            #   self.mailGonderNew(siparis,urunlerYeni,siparis['siparisNo'])
               
               if(len(urunlerYeni) == 1):
                 degisiklik = siparis['kayit_kisi'].capitalize() + ', ' + siparis['siparisNo'] + ' siparişine ' + urunlerYeni[0]['uretimAciklama'] + ', ' + str(urunlerYeni[0]['miktar']) +' ' + self.__birim(urunlerYeni[0]['urunBirimId']) + ' $'+str(urunlerYeni[0]['satisFiyati']) +' dan eklemiştir.'
@@ -389,7 +389,7 @@ class SiparisGiris:
             elif len(urunlerSilinenler) >= 1 : # ürün silindi ise
               info = siparis['kayit_kisi'].capitalize() + ', ' + siparis['siparisNo'] + ' ' +  'Bir Ürün Kalemi Silindi.'
               DegisiklikMain().setYapilanDegisiklikBilgisi(siparis['kayit_kisi'],info)
-              self.mailGonderDelete(siparis,urunlerSilinenler,siparis['siparisNo']) 
+            #   self.mailGonderDelete(siparis,urunlerSilinenler,siparis['siparisNo']) 
               if(len(urunlerSilinenler) == 1):
                 degisiklik = siparis['kayit_kisi'].capitalize() + ', ' + siparis['siparisNo'] + ' siparişine ' + urunlerSilinenler[0]['uretimAciklama'] + ', ' + str(urunlerSilinenler[0]['miktar']) +' ' + self.__birim(urunlerSilinenler[0]['urunBirimId']) + ' $'+str(urunlerSilinenler[0]['satisFiyati']) +' dan silinmiştir.'
                 degisiklikAlani = 'Siparişler'
