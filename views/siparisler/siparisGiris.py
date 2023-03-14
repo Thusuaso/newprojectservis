@@ -341,7 +341,7 @@ class SiparisGiris:
             #   self.mailGonderUpdate(siparis,urunlerDegisenler,siparis['siparisNo'])
               info = siparis['kayit_kisi'].capitalize() + ', ' + siparis['siparisNo'] + ' ' +  'Sipariş Ürün Bilgilerini Güncelledi.'
               DegisiklikMain(siparis['kayit_kisi'],info)
-              DegisiklikMain().setMaliyetDegisiklik()
+            #   DegisiklikMain().setMaliyetDegisiklik()
               
             self.__siparisUrunDataGuncelle(urunlerDegisenler)
             self.__siparisUrunDataSil(urunlerSilinenler)
