@@ -1,7 +1,6 @@
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-import sys
 
 
 class MailService:
@@ -15,7 +14,6 @@ class MailService:
         self.mailGonder()
 
     def mailGonder(self):
-
         mail = smtplib.SMTP("mail.mekmar.com",587)
         mail.ehlo()
         mail.starttls()
@@ -32,3 +30,4 @@ class MailService:
         mail.sendmail(mesaj["From"], mesaj["To"], mesaj.as_string())
         print("Mail başarılı bir şekilde gönderildi.")
         mail.close()
+

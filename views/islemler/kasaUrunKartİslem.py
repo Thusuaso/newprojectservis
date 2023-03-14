@@ -16,7 +16,7 @@ class KasaUrunKart:
                                     
                                     """,(urunKartId,kasaNo))
             info = username + ', ' + 'Kasa Ürün Bilgisi Değiştirdi.'
-            DegisiklikMain(username,info)
+            DegisiklikMain().setYapilanDegisiklikBilgisi(username,info)
             islem = UretimRapor()
             result = islem.getUretimListesiHepsi()
             print('KasaUrunKart guncelle başarılı')

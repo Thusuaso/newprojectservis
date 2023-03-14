@@ -54,7 +54,7 @@ class IscilikKayitSil(Resource):
             
             iscilik.sil(giderVeri['id'])
             info = giderVeri['username'].capitalize() + ', ' + giderVeri['siparisNo'] + ' $' + str(giderVeri['tutar']) + ' ' +  'işçilik sildi.'
-            DegisiklikMain(giderVeri['username'].capitalize(),info)
+            DegisiklikMain().setYapilanDegisiklikBilgisi(giderVeri['username'].capitalize(),info)
             return jsonify({'status' : True})
         except Exception as e:
             print('delete : ', str(e))

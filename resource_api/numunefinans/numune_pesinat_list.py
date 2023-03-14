@@ -98,7 +98,7 @@ class TahsilatIslem:
             self.mailGonder(item['siparisno'],'Yeni Numune Tahsilat Girişi',item['tutar'],item['tarih'],item['kullaniciadi'])
             item['kullaniciadi'] = item['kullaniciadi'].capitalize()
             info = item['kullaniciadi'] + ',' + item['siparisno'] + ' Numunesi Için Tahsilat Girdi.'
-            DegisiklikMain(item['kullaniciadi'],info)
+            DegisiklikMain().setYapilanDegisiklikBilgisi(item['kullaniciadi'],info)
             return True
         except Exception as e:
             print('Numune Kaydet Hata : ',str(e))
@@ -129,7 +129,7 @@ class TahsilatIslem:
             ##self.mailGonder(item['siparisno'],'Numune Tahsilat Değiştirme',item['tutar'],item['tarih'],item['kullaniciadi'])
             item['kullaniciadi'] = item['kullaniciadi'].capitalize()
             info = item['kullaniciadi'] + ',' + item['siparisno'] + ' Numunesi Için Tahsilatı Güncelledi.'
-            DegisiklikMain(item['kullaniciadi'],info)
+            DegisiklikMain().setYapilanDegisiklikBilgisi(item['kullaniciadi'],info)
             return True
         except Exception as e:
             print('Numune Güncelleme Hata : ',str(e))

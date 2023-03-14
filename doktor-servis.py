@@ -33,9 +33,6 @@ from resource_api.numuneler import *
 from resource_api.numunefinans import *
 from resource_api.users import *
 from resource_api.finans.odemeler_api import OdemelerListesiApi,OdemelerListesiAyrintiApi
-import smtplib
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
 from resource_api.raporlar.temsilciSatislari.temsilciSatislari import TemsilciSatislariApi
 from resource_api.efesfinans.efinansRestApi import EfesGelenSiparisvYuklenenler
 from resource_api.teklifler.bgpProject import *

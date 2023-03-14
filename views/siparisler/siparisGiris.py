@@ -267,9 +267,9 @@ class SiparisGiris:
               if(siparis['siparisDurumId']==1 and (siparis['odemeTurId']==1 or siparis['odemeTurId'] ==2) ):
                 MailService(siparis['siparisNo'] + " nolu Sipariş Tahsil Edilmeli", "huseyin@mekmarmarble.com", siparis['siparisNo'] + ' nolu yeni sipariş bekleyende, tahsilatını gerçekleştirip üretime alınız!') 
 
-            #   self.mailGonderInsert(siparis,siparis['siparisNo']) #yeni sipariş için
+              self.mailGonderInsert(siparis,siparis['siparisNo']) #yeni sipariş için
               info = siparis['kayit_kisi'].capitalize() + ', ' + siparis['siparisNo'] + ' ' +  'Siparişini Girdi.'
-              DegisiklikMain(siparis['kayit_kisi'],info)
+              DegisiklikMain().setYapilanDegisiklikBilgisi(siparis['kayit_kisi'],info)
               islem = AnaSayfaDegisiklik()
               anaSayfaDegisiklikList = islem.getAnaSayfaDegisiklik()
               degisiklik = siparis['kayit_kisi'].capitalize() + ', ' + siparis['siparisNo'] + ' Siparişini Girdi.'
@@ -310,22 +310,16 @@ class SiparisGiris:
     def siparisGuncelle(self,siparis,urunlerYeni,urunlerDegisenler,urunlerSilinenler,degisenMasraflar):
         
         try:
-            # if(siparis['faturaKesimTurId'] == 1 or siparis['faturaKesimTurId'] == 2):
                 
-            #     mailListesi = []
-            #     for item in degisenMasraflar:
-            #         if(item['isChange'] == 1):
-            #             mailListesi.append(self.__maliyetDegisimSendMail(item,siparis['siparisNo']))
-                
-            #     for item in mailListesi:
-            #         info = 
-            #         DegisiklikMain().setMaliyetDegisiklik()
+            mailListesi = []
+            for item in degisenMasraflar:
+                if(item['isChange'] == 1):
+                    mailListesi.append(self.__maliyetDegisimSendMail(item,siparis['siparisNo']))
+            
+            for item in mailListesi:
+                info = item['degisenAdi'] + ' $' + str(item['eskiDeger']) + ' dan $' + str(item['yeniDeger']) + ' e değişti.'
+                DegisiklikMain().setMaliyetDegisiklik(info,siparis['kayit_kisi'],siparis['siparisNo'],siparis['yuklemeTarihi'])
 
-            #         self.masraflarSendMail(mailListesi,siparis['siparisNo'],siparis['yuklemeTarihi'],now,siparis['kayit_kisi'])
-                    
-            
-            
-            
             if(siparis['siparisDurumId']==1 and (siparis['odemeTurId']==1 or siparis['odemeTurId'] ==2) ):
                 MailService(siparis['siparisNo'] + " nolu Sipariş Tahsil Edilmeli", "huseyin@mekmarmarble.com", siparis['siparisNo'] + ' nolu yeni sipariş bekleyende, tahsilatını gerçekleştirip üretime alınız!') 
 
@@ -338,10 +332,9 @@ class SiparisGiris:
             self.__siparisUrunDataKayit(urunlerYeni,siparis['siparisNo'],marketing,siparis['musteriId'])
             if len(urunlerDegisenler) >= 1 : # ürün değiştirme 
               
-            #   self.mailGonderUpdate(siparis,urunlerDegisenler,siparis['siparisNo'])
+              self.mailGonderUpdate(siparis,urunlerDegisenler,siparis['siparisNo'])
               info = siparis['kayit_kisi'].capitalize() + ', ' + siparis['siparisNo'] + ' ' +  'Sipariş Ürün Bilgilerini Güncelledi.'
-              DegisiklikMain(siparis['kayit_kisi'],info)
-            #   DegisiklikMain().setMaliyetDegisiklik()
+              DegisiklikMain().setYapilanDegisiklikBilgisi(siparis['kayit_kisi'],info)
               
             self.__siparisUrunDataGuncelle(urunlerDegisenler)
             self.__siparisUrunDataSil(urunlerSilinenler)
@@ -351,8 +344,8 @@ class SiparisGiris:
 
             if len(urunlerYeni) >= 1 : #yeni ürün ekleme
               info = siparis['kayit_kisi'].capitalize() + ', ' + siparis['siparisNo'] + ' ' +  'Yeni Ürün Ekledi.'
-              DegisiklikMain(siparis['kayit_kisi'],info)
-            #   self.mailGonderNew(siparis,urunlerYeni,siparis['siparisNo'])
+              DegisiklikMain().setYapilanDegisiklikBilgisi(siparis['kayit_kisi'],info)
+              self.mailGonderNew(siparis,urunlerYeni,siparis['siparisNo'])
               
               if(len(urunlerYeni) == 1):
                 degisiklik = siparis['kayit_kisi'].capitalize() + ', ' + siparis['siparisNo'] + ' siparişine ' + urunlerYeni[0]['uretimAciklama'] + ', ' + str(urunlerYeni[0]['miktar']) +' ' + self.__birim(urunlerYeni[0]['urunBirimId']) + ' $'+str(urunlerYeni[0]['satisFiyati']) +' dan eklemiştir.'
@@ -399,8 +392,8 @@ class SiparisGiris:
             
             elif len(urunlerSilinenler) >= 1 : # ürün silindi ise
               info = siparis['kayit_kisi'].capitalize() + ', ' + siparis['siparisNo'] + ' ' +  'Bir Ürün Kalemi Silindi.'
-              DegisiklikMain(siparis['kayit_kisi'],info)
-            #   self.mailGonderDelete(siparis,urunlerSilinenler,siparis['siparisNo']) 
+              DegisiklikMain().setYapilanDegisiklikBilgisi(siparis['kayit_kisi'],info)
+              self.mailGonderDelete(siparis,urunlerSilinenler,siparis['siparisNo']) 
               if(len(urunlerSilinenler) == 1):
                 degisiklik = siparis['kayit_kisi'].capitalize() + ', ' + siparis['siparisNo'] + ' siparişine ' + urunlerSilinenler[0]['uretimAciklama'] + ', ' + str(urunlerSilinenler[0]['miktar']) +' ' + self.__birim(urunlerSilinenler[0]['urunBirimId']) + ' $'+str(urunlerSilinenler[0]['satisFiyati']) +' dan silinmiştir.'
                 degisiklikAlani = 'Siparişler'
@@ -443,7 +436,7 @@ class SiparisGiris:
                       watch = str(hour) + ' : ' + str(minute) + ' : ' +  str(second)
                       islem2.kaydet(degisiklik,degisiklikAlani,pazarlama,year,month,day,watch)
             info = siparis['kayit_kisi'].capitalize() + ', ' + siparis['siparisNo'] + ' ' +  'Sipariş Bilgileri Değiştirildi.'
-            DegisiklikMain(siparis['kayit_kisi'],info)
+            DegisiklikMain().setYapilanDegisiklikBilgisi(siparis['kayit_kisi'],info)
             islem = AnaSayfaDegisiklik()
             anaSayfaDegisiklikList = islem.getAnaSayfaDegisiklik()
             data = {
@@ -530,48 +523,6 @@ class SiparisGiris:
             else:
                 continue         
     
-    def masraflarSendMail(self,masraflarListesi,siparisNo,yuklemeTarihi,nowDate,kayit_kisi):
-        body = """
-        <table >
-       
-            <tr style ="background-color: #f2f2f2;">
-                <th style ="color: white;background-color: #4CAF50;text-align: left;  padding-bottom: 12px; padding-top: 12px; padding-top: 12px;padding: 8px; font-family: Arial, Helvetica, sans-serif; border-collapse: collapse;width: 100px;">
-                Değişen Bilgisi
-                </th>
-                <th  style ="color: white;background-color: #4CAF50;text-align: left;  padding-bottom: 12px; padding-top: 12px; padding-top: 12px;padding: 8px; font-family: Arial, Helvetica, sans-serif; border-collapse: collapse;width: 100px;">
-                Eski Değer
-                </th>
-                 <th  style ="color: white;background-color: #4CAF50;text-align: left;  padding-bottom: 12px; padding-top: 12px; padding-top: 12px;padding: 8px; font-family: Arial, Helvetica, sans-serif; border-collapse: collapse;width: 150px;">
-                Yeni Değer 
-                </th>
-            </tr>
-        """
-        for item in masraflarListesi:
-            
-                body += f"""
-            
-                <tr style ="background-color: #ddd;">
-                    <td style ="border: 1px solid #ddd; padding: 8px;  font-family: Arial, Helvetica, sans-serif;border-collapse: collapse; width: 100px;">
-                    {item['degisenAdi']}
-                    </td>
-                    <td style ="border: 1px solid #ddd; padding: 8px;  font-family: Arial, Helvetica, sans-serif;border-collapse: collapse; width: 100px;">
-                    {item['eskiDeger']}
-                    </td>
-                    <td style ="border: 1px solid #ddd; padding: 8px;  font-family: Arial, Helvetica, sans-serif;border-collapse: collapse; width: 100px;">
-                    {item['yeniDeger']} 
-                    </td>
-                    
-                </tr>
-            
-            
-                """
-            
-        body = body + "</table>"
-        
-        
-        MailService(yuklemeTarihi + ' Yükleme Tarihli ' + siparisNo + ' ' + str(nowDate) + ' Tarihinde ' + kayit_kisi + ' Tarafından Değiştirildi ', "bilgiislem@mekmar.com",body)
-        MailService(yuklemeTarihi + ' Yükleme Tarihli ' + siparisNo + ' ' + str(nowDate) + ' Tarihinde ' + kayit_kisi + ' Tarafından Değiştirildi ', "info@mekmar.com",body)
-        
     
     def __noneControl(self,value):
         if(value != None):
@@ -1808,7 +1759,7 @@ class SiparisGiris:
        
     def opChange(self,datas):
         info = datas['username'].capitalize() + ', ' + datas['orderNo'] + ' ' + datas['info']  + '  Degiştirdi.'
-        DegisiklikMain(datas['username'],info)
+        DegisiklikMain().setYapilanDegisiklikBilgisi(datas['username'],info)
         self.mailGonderOp(datas['username'],datas['orderNo'],datas['then'],datas['now'],datas['info'])
         
 

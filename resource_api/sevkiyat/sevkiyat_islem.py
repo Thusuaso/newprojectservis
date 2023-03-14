@@ -139,7 +139,7 @@ class SevkiyatKayit:
             MailService('Sevkiyat Bilgi','muhsin@mekmer.com',body)
             item['sevkEden'] = item['sevkEden'].capitalize()
             info = item['sevkEden'] + ', ' + item['siparisno'] + ' Siparişini Sevk Etti'
-            DegisiklikMain(item['sevkEden'],info)
+            DegisiklikMain().setYapilanDegisiklikBilgisi(item['sevkEden'],info)
             islem = AnaSayfaDegisiklik()
             anaSayfaDegisiklikList = islem.getAnaSayfaDegisiklik()
             

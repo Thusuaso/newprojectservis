@@ -131,77 +131,21 @@ class KonteynerFaturalar:
             )
            
             self.__urunId(item)
-            # result = self.data.getStoreList("""
-            #                             select FaturaKesimTurID,YuklemeTarihi from SiparislerTB where SiparisNo=?
-                                   
-            #                        """,(item['siparisno']))
-            # if(result[0][0]==1):
-                
             
-            #     now = datetime.datetime.now()
-            #     self.masraflarSendMail(item,item['siparisno'],now,result[0][1])
+            result = self.data.getStoreList("""
+                                        select FaturaKesimTurID,YuklemeTarihi from SiparislerTB where SiparisNo=?
+                                   
+                                   """,(item['siparisno']))
+            info = item['siparisno'] + ' po ya ' + item['faturaNo'] + ' fatura no ile ' + item['fatura_tur_list']['name'] + ' faturası $ ' + item['Tutar_dolar'] + ' ve $ ' +  item['kur'] + ' kur girilmiştir.'
+            DegisiklikMain().setMaliyetDegisiklik(info,'Huseyin',item['siparisno'],result[0][1])
             
             
             info = 'Huseyin Konteyner Fatura Girişi Yaptı.'
-            DegisiklikMain('Huseyin',info)
+            DegisiklikMain().setYapilanDegisiklikBilgisi('Huseyin',info)
             return True
         except Exception as e:
             print('konteynerKaydet  Hata : ',str(e))
         return False
-
-    def masraflarSendMail(self,item,siparisNo,nowDate,y_tarihi):
-        body = """
-        <table >
-       
-            <tr style ="background-color: #f2f2f2;">
-                <th style ="color: white;background-color: #4CAF50;text-align: left;  padding-bottom: 12px; padding-top: 12px; padding-top: 12px;padding: 8px; font-family: Arial, Helvetica, sans-serif; border-collapse: collapse;width: 100px;">
-                Sipariş No
-                </th>
-                <th style ="color: white;background-color: #4CAF50;text-align: left;  padding-bottom: 12px; padding-top: 12px; padding-top: 12px;padding: 8px; font-family: Arial, Helvetica, sans-serif; border-collapse: collapse;width: 100px;">
-                Fatura Detayı
-                </th>
-                <th style ="color: white;background-color: #4CAF50;text-align: left;  padding-bottom: 12px; padding-top: 12px; padding-top: 12px;padding: 8px; font-family: Arial, Helvetica, sans-serif; border-collapse: collapse;width: 100px;">
-                Fatura No
-                </th>
-                <th  style ="color: white;background-color: #4CAF50;text-align: left;  padding-bottom: 12px; padding-top: 12px; padding-top: 12px;padding: 8px; font-family: Arial, Helvetica, sans-serif; border-collapse: collapse;width: 100px;">
-                Tutar ($)
-                </th>
-                 <th  style ="color: white;background-color: #4CAF50;text-align: left;  padding-bottom: 12px; padding-top: 12px; padding-top: 12px;padding: 8px; font-family: Arial, Helvetica, sans-serif; border-collapse: collapse;width: 150px;">
-                Kur
-                </th>
-            </tr>
-        """
-            
-        body += f"""
-    
-        <tr style ="background-color: #ddd;">
-            <td style ="border: 1px solid #ddd; padding: 8px;  font-family: Arial, Helvetica, sans-serif;border-collapse: collapse; width: 100px;">
-            {siparisNo}
-            </td>
-            <td style ="border: 1px solid #ddd; padding: 8px;  font-family: Arial, Helvetica, sans-serif;border-collapse: collapse; width: 100px;">
-            {item['fatura_tur_list']['name']}
-            </td>
-            <td style ="border: 1px solid #ddd; padding: 8px;  font-family: Arial, Helvetica, sans-serif;border-collapse: collapse; width: 100px;">
-            {item['faturaNo']}
-            </td>
-            <td style ="border: 1px solid #ddd; padding: 8px;  font-family: Arial, Helvetica, sans-serif;border-collapse: collapse; width: 100px;">
-            {item['Tutar_dolar']}
-            </td>
-            <td style ="border: 1px solid #ddd; padding: 8px;  font-family: Arial, Helvetica, sans-serif;border-collapse: collapse; width: 100px;">
-            {item['kur']} 
-            </td>
-            
-        </tr>
-    
-    
-        """
-            
-        body = body + "</table>"
-        
-        
-        MailService(str(y_tarihi) + ' Yükleme Tarihli ' + siparisNo +  ' ' + str(nowDate) + ' Tarihinde Konteynır Fatura Girişi', "bilgiislem@mekmar.com",body)
-        MailService(str(y_tarihi) + ' Yükleme Tarihli ' + siparisNo +  ' ' + str(nowDate) + ' Tarihinde Konteynır Fatura Girişi', "info@mekmar.com",body)
-
         
         
     def __urunId(self,item):
@@ -287,7 +231,7 @@ class KonteynerFaturalar:
                 """,(item['tarih'],item['urunID'],item['fatura_tur_list']['id'],item['siparisno'],item['Tutar_dolar'],1,yukleme_evrak,2,item['tarih'],item['faturaNo']+'.pdf' , kullaniciid)
             )
             info = 'Huseyin Konteyner Fatura Dosyası Girişi Yaptı.'
-            DegisiklikMain('Huseyin',info)
+            DegisiklikMain().setYapilanDegisiklikBilgisi('Huseyin',info)
             return True
         except Exception as e:
             print('KonteynerDosyaKaydet Hata : ',str(e))

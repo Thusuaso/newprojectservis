@@ -102,7 +102,7 @@ class TahsilatIslem:
             )
             self.mailGonder(item['siparisno'],'Yeni Tahsilat Girişi',item['tutar'],item['tarih'],item['masraf'],item['kullaniciadi'])
             info =item['kullaniciadi'] + ', ' + item['siparisno'] + ' ' + ' Tahsilat Girişi Yaptı'
-            DegisiklikMain(item['kullaniciadi'],info)
+            DegisiklikMain().setYapilanDegisiklikBilgisi(item['kullaniciadi'],info)
             islem = AnaSayfaDegisiklik()
             anaSayfaDegisiklikList = islem.getAnaSayfaDegisiklik()
             data = {
@@ -141,7 +141,7 @@ class TahsilatIslem:
 
             self.mailGonder(item['siparisno'],'Tahsilat Değiştirme',item['tutar'],item['tarih'],item['masraf'],item['kullaniciadi'])
             info =item['kullaniciadi'] + ' ' + item['siparisno'] + ' ' + 'ya Tahsilat Değişikliği Yaptı'
-            DegisiklikMain(item['kullaniciadi'],info)
+            DegisiklikMain().setYapilanDegisiklikBilgisi(item['kullaniciadi'],info)
             islem = AnaSayfaDegisiklik()
             anaSayfaDegisiklikList = islem.getAnaSayfaDegisiklik()
             data = {
@@ -170,10 +170,10 @@ class TahsilatIslem:
             self.mailGonder(result.SiparisNo,'Tahsilat Silme İşlemi',result.Tutar,result.Tarih,result.Masraf,result.KullaniciID)
             if result.KullaniciID == 12:
                 info ='Hüseyin' + ' ' + result.SiparisNo + ' ' + 'nın Tahsilatını Sildi.'
-                DegisiklikMain('Hüseyin',info)
+                DegisiklikMain().setYapilanDegisiklikBilgisi('Hüseyin',info)
             elif result.KullaniciID == 10:
                 info ='Gizem' + ' ' + result.SiparisNo + ' ' + 'nın Tahsilatını Sildi.'
-                DegisiklikMain('Gizem',info)
+                DegisiklikMain().setYapilanDegisiklikBilgisi('Gizem',info)
             return True
         except Exception as e:
             print('Tahsilat Silme Hata : ',str(e))

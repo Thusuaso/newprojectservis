@@ -98,15 +98,15 @@ class NakliyeIslem:
                
                 self.__urunId(key)
                 self.__evrakId(key)
-                # result = self.data.getStoreList("""
-                #                         select FaturaKesimTurID,YuklemeTarihi from SiparislerTB where SiparisNo=?
+                result = self.data.getStoreList("""
+                                        select FaturaKesimTurID,YuklemeTarihi from SiparislerTB where SiparisNo=?
                                    
-                #                    """,(item['siparisno']))
-                # if(result[0][0]==1):
-                #     now = datetime.datetime.now()
-                #     self.masraflarSendMail(key,key['siparisno'],now,result[0][1])
+                                   """,(key['siparisno']))
+                info = key['siparisno'] + ' po ya ' + key['faturaNo'] + ' fatura no ile ' + ' Nakliye faturası $ ' + key['Tutar_dolar'] + ' ve $ ' +  key['kur'] + ' kur girilmiştir.'
+                DegisiklikMain().setMaliyetDegisiklik(info,'Huseyin',key['siparisno'],result[0][1])
+            
         info = "Huseyin Nakliye Faturası Girişi Yaptı"
-        DegisiklikMain('Huseyin',info)
+        DegisiklikMain().setYapilanDegisiklikBilgisi('Huseyin',info)
              
         print('nakliyeKaydet  Hata : ')
         return True
@@ -244,7 +244,7 @@ class NakliyeIslem:
                     """,(key['tarih'],urun,11,key['siparisno'],key['Tutar_dolar'],1,13,evrak_id+201,2,key['tarih'],key['faturaNo']+'.pdf',kullaniciid)
                 )
              info = "Huseyin Nakliye Faturası Evrağı Yükledi"
-             DegisiklikMain('Huseyin',info)
+             DegisiklikMain().setYapilanDegisiklikBilgisi('Huseyin',info)
              return True    
 
     def getNakliyeDosyaSil(self,siparisNo,evrakAdi):

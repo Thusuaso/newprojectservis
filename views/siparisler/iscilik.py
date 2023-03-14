@@ -69,7 +69,7 @@ class Iscilik:
             )
         )
         info = data['username'].capitalize() + ', ' + data['siparisNo'] + ' $' + data['tutar'] + ' ' +  'işçilik girdi.'
-        DegisiklikMain(data['username'].capitalize(),info)
+        DegisiklikMain().setYapilanDegisiklikBilgisi(data['username'].capitalize(),info)
 
     def guncelle(self,data):
 

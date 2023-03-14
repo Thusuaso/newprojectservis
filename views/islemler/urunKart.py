@@ -30,7 +30,7 @@ class UrunKart:
             yeniId = self.__getSonDataKayitId()
             kart['username'] = kart['username'].capitalize()
             info = kart['username'] + ', ' + 'Yeni Kart Girişi Yaptı'
-            DegisiklikMain(kart['username'],info)
+            DegisiklikMain().setYapilanDegisiklikBilgisi(kart['username'],info)
             islem = AnaSayfaDegisiklik()
             anaSayfaDegisiklik = islem.getAnaSayfaDegisiklik()
             return {'kayitDurum' : True,'data' : self.getUrunKart(yeniId),'anaSayfaDegisiklik':anaSayfaDegisiklik} 
@@ -59,7 +59,7 @@ class UrunKart:
             result['data'] = self.getUrunKart(kart['id'])
             kart['username'] = kart['username'].capitalize()
             info = kart['username'] + ', ' + 'Ürün Kartı Güncellemesi Yaptı'
-            DegisiklikMain(kart['username'],info)
+            DegisiklikMain().setYapilanDegisiklikBilgisi(kart['username'],info)
             islem = AnaSayfaDegisiklik()
             anaSayfaDegisiklik = islem.getAnaSayfaDegisiklik()
             result['anaSayfaDegisiklik'] = anaSayfaDegisiklik
@@ -79,7 +79,7 @@ class UrunKart:
                                 
                 """,(urunKartId))
             info = username + ', ' + 'Ürün Kartı Silme İşlemi Yaptı.'
-            DegisiklikMain(username,info)
+            DegisiklikMain().setYapilanDegisiklikBilgisi(username,info)
             islem = AnaSayfaDegisiklik()
             anaSayfaDegisiklik = islem.getAnaSayfaDegisiklik()
             return True,anaSayfaDegisiklik

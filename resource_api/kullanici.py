@@ -18,7 +18,7 @@ class Kullanici(Resource):
         result = data.getStoreList('Select count(*) as Durum from KullaniciTB where KullaniciAdi=? and YSifre=?',(username,password))
         username = username.capitalize()
         info = username + ' ' + 'Giriş Yaptı'
-        DegisiklikMain(username,info)
+        DegisiklikMain().setYapilanDegisiklikBilgisi(username,info)
         
         
         secret_key = '1LAM1vvkeAmzxfRaCSbTksDnZNVsE1jrV6'

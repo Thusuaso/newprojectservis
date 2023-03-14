@@ -255,7 +255,7 @@ class NumuneIslem:
             numuneId = self.data.getStoreList("Select Max(Id) as ID from NumunelerTB where KullaniciId=?",(kullaniciId))[0].ID
         kullaniciAdi = kullaniciAdi.capitalize()
         info = kullaniciAdi + ',' + numune['numuneNo'] + ' Numunesinin Kaydını Yaptı.'
-        DegisiklikMain(kullaniciAdi,info)
+        DegisiklikMain().setYapilanDegisiklikBilgisi(kullaniciAdi,info)
         islem = AnaSayfaDegisiklik()
         anaSayfaDegisiklikList = islem.getAnaSayfaDegisiklik()
         return kayitDurum,numuneId,anaSayfaDegisiklikList
@@ -285,7 +285,7 @@ class NumuneIslem:
 
         kullaniciAdi = kullaniciAdi.capitalize()
         info = kullaniciAdi + ',' + numune['numuneNo'] + ' Numunesini Güncelledi.'
-        DegisiklikMain(kullaniciAdi,info)
+        DegisiklikMain().setYapilanDegisiklikBilgisi(kullaniciAdi,info)
         islem = AnaSayfaDegisiklik()
         anaSayfaDegisiklikList = islem.getAnaSayfaDegisiklik()
         

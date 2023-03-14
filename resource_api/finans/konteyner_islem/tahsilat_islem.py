@@ -102,7 +102,7 @@ class TahsilatIslem:
             )
             self.mailGonder(item['siparisno'],'Yeni Tahsilat Girişi',item['tutar'],item['tarih'],item['masraf'],item['kullaniciadi'])
             info =item['kullaniciadi'].capitalize() + ', ' + item['siparisno'] + ' $' + str(item['tutar']) +' Tahsilat Girişi Yaptı'
-            DegisiklikMain(item['kullaniciadi'].capitalize(),info)
+            DegisiklikMain().setYapilanDegisiklikBilgisi(item['kullaniciadi'].capitalize(),info)
             islem = AnaSayfaDegisiklik()
             anaSayfaDegisiklikList = islem.getAnaSayfaDegisiklik()
             data = {
@@ -142,7 +142,7 @@ class TahsilatIslem:
 
             self.mailGonder(item['siparisno'],'Tahsilat Değiştirme',item['tutar'],item['tarih'],item['masraf'],item['kullaniciadi'])
             info =item['kullaniciadi'] + ' ' + item['siparisno'] + ' ' + 'ya Tahsilat Değişikliği Yaptı'
-            DegisiklikMain(item['kullaniciadi'],info)
+            DegisiklikMain().setYapilanDegisiklikBilgisi(item['kullaniciadi'],info)
             islem = AnaSayfaDegisiklik()
             anaSayfaDegisiklikList = islem.getAnaSayfaDegisiklik()
             data = {
@@ -172,10 +172,10 @@ class TahsilatIslem:
             self.mailGonder(result.SiparisNo,'Tahsilat Silme İşlemi',result.Tutar,result.Tarih,result.Masraf,result.KullaniciID)
             if result.KullaniciID == 12:
                 info ='Hüseyin' + ' ' + result.SiparisNo + ' ' + 'nın Tahsilatını Sildi.'
-                DegisiklikMain('Hüseyin',info)
+                DegisiklikMain().setYapilanDegisiklikBilgisi('Hüseyin',info)
             elif result.KullaniciID == 10:
                 info ='Gizem' + ' ' + result.SiparisNo + ' ' + 'nın Tahsilatını Sildi.'
-                DegisiklikMain('Gizem',info)
+                DegisiklikMain().setYapilanDegisiklikBilgisi('Gizem',info)
             return True
         except Exception as e:
             print('Tahsilat Silme Hata : ',str(e))
@@ -232,7 +232,12 @@ class TahsilatIslem:
                                               """,(degisenOdemeId))
         
         
-        self.__sendMail(newSipNo,degisenOdeme[0].SiparisNo,degisenOdeme[0].Tutar,newtutar,kullanici)
+        
+        
+        info = kullanici + ' ' + degisenOdeme[0].SiparisNo + ' daki $ ' +str(degisenOdeme[0].Tutar) + ' tutarından $ ' + str(newtutar) + ' tutarını ' + newSipNo + ' ya aktarmıştır.'
+        yukleme_tarihi = None
+        DegisiklikMain().setMaliyetDegisiklik(info,kullanici,newSipNo,yukleme_tarihi) 
+        
         
         for item in degisenOdeme:
             item.Tutar = float(item.Tutar) - float(newtutar)
@@ -243,22 +248,7 @@ class TahsilatIslem:
                 self.__insertOdemeNew(item,newSipNo,newtutar,newAciklama)
             
             
-            
-    def __sendMail(self,newSipNo,oldSipNo,oldTutar,newTutar,kullanici):
-        try:
-            islem_aciklamasi = "Sipariş tahsilat Değişimi"
-            mail_konu = f""" 
-            {kullanici}, ${oldTutar} tutara sahip {oldSipNo}' lu tahsilattan, ${newTutar} tutarı {newSipNo}' siparis no ya aktarmıştır.
-            """
-
-
-
-            MailService(islem_aciklamasi,"huseyin@mekmarmarble.com",mail_konu)
-            MailService(islem_aciklamasi,"bilgiislem@mekmar.com",mail_konu)
-            
         
-        except Exception as e:
-            pass
             
             
     def __updateOdeme(self,id,tutar):

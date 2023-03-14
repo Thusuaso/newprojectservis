@@ -394,7 +394,7 @@ class TeklifIslem:
                 kayitDurum = self.__teklifUrunKayit(item,teklifId)
         kullaniciAdi = kullaniciAdi.capitalize()
         info = kullaniciAdi + ' ' + 'Yeni Teklif Girişi Yaptı'
-        DegisiklikMain(kullaniciAdi,info)
+        DegisiklikMain().setYapilanDegisiklikBilgisi(kullaniciAdi,info)
         islem = AnaSayfaDegisiklik()
         anaSayfaDegisiklikList = islem.getAnaSayfaDegisiklik()
 
@@ -443,7 +443,7 @@ class TeklifIslem:
                 self.__teklifUrunSil(item['id'])
         kullaniciAdi = kullaniciAdi.capitalize()
         info = kullaniciAdi + ' ' + 'Teklif Kaydını Güncelledi'
-        DegisiklikMain(kullaniciAdi,info)
+        DegisiklikMain().setYapilanDegisiklikBilgisi(kullaniciAdi,info)
         islem = AnaSayfaDegisiklik()
         anaSayfaDegisiklikList = islem.getAnaSayfaDegisiklik()
         return kayitDurum,anaSayfaDegisiklikList
