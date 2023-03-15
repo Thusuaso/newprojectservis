@@ -60,10 +60,10 @@ class FinansVade:
                                         
                                         
                                         """,(1,item.SiparisNo))
-                MailService(subject,item.MailAdres,body)
-                  #  MailService(subject,"mehmet@mekmer.com",body)
-                MailService(subject,"huseyin@mekmarmarble.com",body)
-                MailService(subject,"bilgiislem@mekmar.com",body)
+                # MailService(subject,item.MailAdres,body)
+                #   #  MailService(subject,"mehmet@mekmer.com",body)
+                # MailService(subject,"huseyin@mekmarmarble.com",body)
+                # MailService(subject,"bilgiislem@mekmar.com",body)
 
                 
             elif kalan_sure == 5 and kalanSureBes==None:
@@ -77,10 +77,10 @@ class FinansVade:
                                         
                                         
                                         """,(1,item.SiparisNo))
-                MailService(subject,item.MailAdres,body)
-                  #  MailService(subject,"mehmet@mekmer.com",body)
-                MailService(subject,"huseyin@mekmarmarble.com",body)
-                MailService(subject,"bilgiislem@mekmar.com",body)
+                # MailService(subject,item.MailAdres,body)
+                #   #  MailService(subject,"mehmet@mekmer.com",body)
+                # MailService(subject,"huseyin@mekmarmarble.com",body)
+                # MailService(subject,"bilgiislem@mekmar.com",body)
 
             elif kalan_sure==1 and kalanSureBir==None:
                 body = f"""
@@ -93,10 +93,10 @@ class FinansVade:
                                         
                                         
                                         """,(1,item.SiparisNo))
-                MailService(subject,item.MailAdres,body)
-                  #  MailService(subject,"mehmet@mekmer.com",body)
-                MailService(subject,"huseyin@mekmarmarble.com",body)
-                MailService(subject,"bilgiislem@mekmar.com",body)
+                # MailService(subject,item.MailAdres,body)
+                #   #  MailService(subject,"mehmet@mekmer.com",body)
+                # MailService(subject,"huseyin@mekmarmarble.com",body)
+                # MailService(subject,"bilgiislem@mekmar.com",body)
 
                 
 

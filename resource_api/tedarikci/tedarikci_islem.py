@@ -163,11 +163,11 @@ class TedarikciIslem:
     
     def setIcSiparisFormSil(self,tedarikciId,siparisNo):
         try:
-            
+            print(tedarikciId,siparisNo)
             tedarikciAdi = self.data.getStoreList("""
                                                     select FirmaAdi from TedarikciTB where ID=?
                                                   """,(tedarikciId))
-            tedarikciAdi = tedarikciAdi[0][0].split(" ")[0]
+            tedarikciAdi = tedarikciAdi[0][0]
             
             evrakAdi = self.data.getStoreList("""
                                                 select EvrakAdi,ID from SiparisFaturaKayitTB where SiparisNo=?
@@ -175,11 +175,14 @@ class TedarikciIslem:
 
             
             for item in evrakAdi:
-                print("evrakAdi item",item)
                 evrakAdi = item.EvrakAdi
                 evrakAdi = evrakAdi.split('-')[0]
+                print("tedarikciAdi",tedarikciAdi)
                 print("evrakAdi",evrakAdi)
                 if(tedarikciAdi.strip() == evrakAdi.strip()):
+                    print("tedarikciAdi",tedarikciAdi)
+                    print("evrakAdi",evrakAdi)
+                    
                     self.data.update_insert("""
                                                 delete SiparisFaturaKayitTB where ID=?
                                            """,(item.ID))

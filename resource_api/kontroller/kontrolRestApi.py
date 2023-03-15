@@ -12,7 +12,7 @@ class MusteriEtaMailIslem(Resource):
         islem = MusteriEta()
 
         result = True
-        islem.getEtaControl()
+        # islem.getEtaControl()
         # islem.finansBolmeKontrol()
         # islem.etaKontrol()
 

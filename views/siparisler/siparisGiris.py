@@ -263,10 +263,14 @@ class SiparisGiris:
           
           urunKayitDurum = self.__siparisUrunDataKayit(urunler,siparis['siparisNo'],marketing,siparis['musteriId'])
           if urunKayitDurum == True:
-              if(siparis['siparisDurumId']==1 and (siparis['odemeTurId']==1 or siparis['odemeTurId'] ==2) ):
-                MailService(siparis['siparisNo'] + " nolu Sipariş Tahsil Edilmeli", "huseyin@mekmarmarble.com", siparis['siparisNo'] + ' nolu yeni sipariş bekleyende, tahsilatını gerçekleştirip üretime alınız!') 
+            #   if(siparis['siparisDurumId']==1 and (siparis['odemeTurId']==1 or siparis['odemeTurId'] ==2) ):
+            #     MailService(siparis['siparisNo'] + " nolu Sipariş Tahsil Edilmeli", "huseyin@mekmarmarble.com", siparis['siparisNo'] + ' nolu yeni sipariş bekleyende, tahsilatını gerçekleştirip üretime alınız!') 
 
             #   self.mailGonderInsert(siparis,siparis['siparisNo']) #yeni sipariş için
+              info2 = siparis['kayit_kisi']  + ' ' + siparis['siparisNo'] + ' siparişini girdi.'
+              yukleme_tarihi=""
+              DegisiklikMain().setMaliyetDegisiklik(info2,siparis['kayit_kisi'],siparis['siparisNo'],yukleme_tarihi)
+            
               info = siparis['kayit_kisi'].capitalize() + ', ' + siparis['siparisNo'] + ' ' +  'Siparişini Girdi.'
               DegisiklikMain().setYapilanDegisiklikBilgisi(siparis['kayit_kisi'],info)
               degisiklik = siparis['kayit_kisi'].capitalize() + ', ' + siparis['siparisNo'] + ' Siparişini Girdi.'
@@ -329,8 +333,12 @@ class SiparisGiris:
             if len(urunlerDegisenler) >= 1 : # ürün değiştirme 
               
             #   self.mailGonderUpdate(siparis,urunlerDegisenler,siparis['siparisNo'])
+            
               info = siparis['kayit_kisi'].capitalize() + ', ' + siparis['siparisNo'] + ' ' +  'Sipariş Ürün Bilgilerini Güncelledi.'
               DegisiklikMain().setYapilanDegisiklikBilgisi(siparis['kayit_kisi'],info)
+              yukleme_tarihi=""
+              DegisiklikMain().setMaliyetDegisiklik(info,siparis['kayit_kisi'],siparis['siparisNo'],yukleme_tarihi)
+              
               
             self.__siparisUrunDataGuncelle(urunlerDegisenler)
             self.__siparisUrunDataSil(urunlerSilinenler)
@@ -342,7 +350,10 @@ class SiparisGiris:
               info = siparis['kayit_kisi'].capitalize() + ', ' + siparis['siparisNo'] + ' ' +  'Yeni Ürün Ekledi.'
               DegisiklikMain().setYapilanDegisiklikBilgisi(siparis['kayit_kisi'],info)
             #   self.mailGonderNew(siparis,urunlerYeni,siparis['siparisNo'])
-              
+              info2 = siparis['kayit_kisi']  + ' ' + siparis['siparisNo'] + ' siparişine yeni kalem ekledi.'
+              yukleme_tarihi=""
+              DegisiklikMain().setMaliyetDegisiklik(info2,siparis['kayit_kisi'],siparis['siparisNo'],yukleme_tarihi)
+            
               if(len(urunlerYeni) == 1):
                 degisiklik = siparis['kayit_kisi'].capitalize() + ', ' + siparis['siparisNo'] + ' siparişine ' + urunlerYeni[0]['uretimAciklama'] + ', ' + str(urunlerYeni[0]['miktar']) +' ' + self.__birim(urunlerYeni[0]['urunBirimId']) + ' $'+str(urunlerYeni[0]['satisFiyati']) +' dan eklemiştir.'
                 degisiklikAlani = 'Siparişler'
@@ -389,7 +400,10 @@ class SiparisGiris:
             elif len(urunlerSilinenler) >= 1 : # ürün silindi ise
               info = siparis['kayit_kisi'].capitalize() + ', ' + siparis['siparisNo'] + ' ' +  'Bir Ürün Kalemi Silindi.'
               DegisiklikMain().setYapilanDegisiklikBilgisi(siparis['kayit_kisi'],info)
-            #   self.mailGonderDelete(siparis,urunlerSilinenler,siparis['siparisNo']) 
+            #   self.mailGonderDelete(siparis,urunlerSilinenler,siparis['siparisNo'])
+              info2 = siparis['kayit_kisi']  + ' ' + siparis['siparisNo'] + ' siparişinden bir kalemi sildi.'
+              yukleme_tarihi=""
+              DegisiklikMain().setMaliyetDegisiklik(info2,siparis['kayit_kisi'],siparis['siparisNo'],yukleme_tarihi) 
               if(len(urunlerSilinenler) == 1):
                 degisiklik = siparis['kayit_kisi'].capitalize() + ', ' + siparis['siparisNo'] + ' siparişine ' + urunlerSilinenler[0]['uretimAciklama'] + ', ' + str(urunlerSilinenler[0]['miktar']) +' ' + self.__birim(urunlerSilinenler[0]['urunBirimId']) + ' $'+str(urunlerSilinenler[0]['satisFiyati']) +' dan silinmiştir.'
                 degisiklikAlani = 'Siparişler'
@@ -1250,26 +1264,28 @@ class SiparisGiris:
                     
                     diger +=1    
 
-
             if  (mekmer >=1 ) and siparis['siparisDurumId'] == 2 :
-
+              
               MailService(siparis_no +" Düzenlenen Kalemler ", "muhsin@mekmer.com"," "+ baslik + body) #muhsin
-                
             elif (mekmoz>1) and siparis['siparisDurumId'] == 2:
                 MailService(siparis_no +" Düzenlenen Kalemler ", "muhsin@mekmer.com"," "+ baslik + body) #muhsin
                 
 
 
+
             if  (mekmoz + mekmer >=1) and siparis['siparisDurumId'] ==2 :
                  MailService(siparis_no +" Düzenlenen Kalemler ", "mehmet@mekmer.com",  " "+ baslik + body) #Mehmet
+                 
                  
 
             if  (diger >=1 ) and  siparis['siparisDurumId'] ==2:
                    MailService(siparis_no +" Düzenlenen Kalemler ", "info@mekmar.com",  " " +baslik + body) #gizem
-                    
+                   
+                   
             sahibi , maili = self.__siparisDetayi(siparis_no)     
-            if sahibi != 'Mehmet'  or sahibi != 'Gizem': 
+            if sahibi != 'Mehmet'  or sahibi != 'Gizem' or sahibi != 'İP': 
                   MailService(siparis_no +" Düzenlenen Kalemler ", maili  , " "+ baslik + body) #satıs temsilcisi(self,siparis,siparis_no):
+                  
         elif siparis['siparisDurumId'] == 3:
             if len(degisen)==1:
                 
@@ -1753,7 +1769,7 @@ class SiparisGiris:
     def opChange(self,datas):
         info = datas['username'].capitalize() + ', ' + datas['orderNo'] + ' ' + datas['info']  + '  Degiştirdi.'
         DegisiklikMain().setYapilanDegisiklikBilgisi(datas['username'],info)
-        self.mailGonderOp(datas['username'],datas['orderNo'],datas['then'],datas['now'],datas['info'])
+        # self.mailGonderOp(datas['username'],datas['orderNo'],datas['then'],datas['now'],datas['info'])
         
 
     def __getMailAdress(self,then,now):

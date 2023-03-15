@@ -36,7 +36,7 @@ class FinansPesinatIslem:
 
             MailService('Peşinat Tahsilat Bildirimi ',"huseyin@mekmarmarble.com",mail_konu)
             MailService('Peşinat Tahsilat Bildirimi ',"mehmet@mekmer.com",mail_konu)
-            #MailService('Peşinat Tahsilat Bildirimi ',"inan79@gmail.com",mail_konu)
+            MailService('Peşinat Tahsilat Bildirimi ',"inan79@gmail.com",mail_konu)
             
             return True
 

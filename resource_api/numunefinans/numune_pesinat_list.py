@@ -95,7 +95,7 @@ class TahsilatIslem:
                     item['tarih'],item['musteri_id'],item['siparisno'],item['tutar'],kullaniciid,item['banka']
                 )
             )
-            self.mailGonder(item['siparisno'],'Yeni Numune Tahsilat Girişi',item['tutar'],item['tarih'],item['kullaniciadi'])
+            # self.mailGonder(item['siparisno'],'Yeni Numune Tahsilat Girişi',item['tutar'],item['tarih'],item['kullaniciadi'])
             item['kullaniciadi'] = item['kullaniciadi'].capitalize()
             info = item['kullaniciadi'] + ',' + item['siparisno'] + ' Numunesi Için Tahsilat Girdi.'
             DegisiklikMain().setYapilanDegisiklikBilgisi(item['kullaniciadi'],info)
@@ -126,7 +126,7 @@ class TahsilatIslem:
             )
  
          
-            ##self.mailGonder(item['siparisno'],'Numune Tahsilat Değiştirme',item['tutar'],item['tarih'],item['kullaniciadi'])
+            # self.mailGonder(item['siparisno'],'Numune Tahsilat Değiştirme',item['tutar'],item['tarih'],item['kullaniciadi'])
             item['kullaniciadi'] = item['kullaniciadi'].capitalize()
             info = item['kullaniciadi'] + ',' + item['siparisno'] + ' Numunesi Için Tahsilatı Güncelledi.'
             DegisiklikMain().setYapilanDegisiklikBilgisi(item['kullaniciadi'],info)
@@ -149,10 +149,10 @@ class TahsilatIslem:
                 delete from NumuneOdemelerTB where ID=?
                 """,(id)
             )
-            for item in result:
+            # for item in result:
                 
             
-               self.mailGonder(item.NumuneNo,' Numune Tahsilat Silme İşlemi',item.Tutar , item.Kullanici)
+            #    self.mailGonder(item.NumuneNo,' Numune Tahsilat Silme İşlemi',item.Tutar , item.Kullanici)
             return True
         except Exception as e:
             print('Numune Silme Hata : ',str(e))
@@ -186,7 +186,7 @@ class TahsilatIslem:
         """
 
         MailService(islem_aciklamasi,"huseyin@mekmarmarble.com",mail_konu)
-        MailService(islem_aciklamasi,"mehmet@mekmer.com",mail_konu)
+        # MailService(islem_aciklamasi,"mehmet@mekmer.com",mail_konu)
        
         MailService(islem_aciklamasi,ilgili_mail_adres,mail_konu)
      

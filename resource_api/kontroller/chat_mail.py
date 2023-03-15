@@ -32,7 +32,7 @@ class ChatGiris:
 
            
 
-            MailService( item['po']+ ' - '+ item['gonderen'] +' dan mesajınız var (!)', item['alici'], item['metin']) #mesaj 
+            # MailService( item['po']+ ' - '+ item['gonderen'] +' dan mesajınız var (!)', item['alici'], item['metin']) #mesaj 
            
             
             return True

@@ -46,7 +46,7 @@ def numunetahsilat_kayitdegisim_event():
     
 @socketio.on('teklif_degisim_event')
 def teklif_degisim_event():
-    emit('teklif_degisim_emit')
+    emit('teklif_degisim_emit',broadcast=True)
     
 @socketio.on('tedarikci_degisim_event')
 def tedarikci_degisim_event():
@@ -71,6 +71,8 @@ def isf_form_load_event():
 def send_message_home_event(info):
     print("send_message_home_event",info)
     emit('send_message_home_emit',info,broadcast=True)
+    
+
 
 
 if __name__ == '__main__':

@@ -102,6 +102,8 @@ class TahsilatIslem:
             # self.mailGonder(item['siparisno'],'Yeni Tahsilat Girişi',item['tutar'],item['tarih'],item['masraf'],item['kullaniciadi'])
             info =item['kullaniciadi'].capitalize() + ', ' + item['siparisno'] + ' $' + str(item['tutar']) +' Tahsilat Girişi Yaptı'
             DegisiklikMain().setYapilanDegisiklikBilgisi(item['kullaniciadi'].capitalize(),info)
+            yukleme_tarihi=""
+            DegisiklikMain().setMaliyetDegisiklik(info,item['kullaniciadi'].capitalize(),item['siparisno'],yukleme_tarihi)
 
             data = {
                 'status':True,
@@ -140,6 +142,8 @@ class TahsilatIslem:
             # self.mailGonder(item['siparisno'],'Tahsilat Değiştirme',item['tutar'],item['tarih'],item['masraf'],item['kullaniciadi'])
             info =item['kullaniciadi'] + ' ' + item['siparisno'] + ' ' + 'ya Tahsilat Değişikliği Yaptı'
             DegisiklikMain().setYapilanDegisiklikBilgisi(item['kullaniciadi'],info)
+            yukleme_tarihi=""
+            DegisiklikMain().setMaliyetDegisiklik(info,item['kullaniciadi'].capitalize(),item['siparisno'],yukleme_tarihi)
             data = {
                 'status':True,
                 'siparisno':item['siparisno']
@@ -162,14 +166,23 @@ class TahsilatIslem:
                 delete from OdemelerTB where ID=?
                 """,(id)
             )
-
-            self.mailGonder(result.SiparisNo,'Tahsilat Silme İşlemi',result.Tutar,result.Tarih,result.Masraf,result.KullaniciID)
-            if result.KullaniciID == 12:
-                info ='Hüseyin' + ' ' + result.SiparisNo + ' ' + 'nın Tahsilatını Sildi.'
+            # self.mailGonder(result[0][3],'Tahsilat Silme İşlemi',str(float(result[0][7])),result[0][1],result[0][8],result[0][10])
+            if result[0][10] == 12:
+                info ='Hüseyin' + ' ' + result[0][3] + ' ' + 'nın Tahsilatını Sildi.'
                 DegisiklikMain().setYapilanDegisiklikBilgisi('Hüseyin',info)
-            elif result.KullaniciID == 10:
-                info ='Gizem' + ' ' + result.SiparisNo + ' ' + 'nın Tahsilatını Sildi.'
+                yukleme_tarihi=""
+                DegisiklikMain().setMaliyetDegisiklik(info,'Hüseyin',result[0][3],yukleme_tarihi)
+            elif result[0][10] == 10:
+                info ='Gizem' + ' ' + result[0][3] + ' ' + 'nın Tahsilatını Sildi.'
                 DegisiklikMain().setYapilanDegisiklikBilgisi('Gizem',info)
+                yukleme_tarihi=""
+                DegisiklikMain().setMaliyetDegisiklik(info,'Gizem',result[0][3],yukleme_tarihi)
+            elif result[0][10] == 47:
+                info ='Semih' + ' ' + result[0][3] + ' ' + 'nın Tahsilatını Sildi.'
+                DegisiklikMain().setYapilanDegisiklikBilgisi('Semih',info)
+                yukleme_tarihi=""
+                DegisiklikMain().setMaliyetDegisiklik(info,'Semih',result[0][3],yukleme_tarihi)
+                
             return True
         except Exception as e:
             print('Tahsilat Silme Hata : ',str(e))
@@ -209,7 +222,7 @@ class TahsilatIslem:
        
         MailService(islem_aciklamasi,ilgili_mail_adres,mail_konu)
         if result.Marketing == 'Mekmar' : 
-               MailService(islem_aciklamasi,"info@mekmar.com",mail_konu)
+               MailService(islem_aciklamasi,"bilgiislem@mekmar.com",mail_konu)
 
     def setOdemeDegisim(self,data):
         newSipNo = data['siparisno']['siparisNo']
