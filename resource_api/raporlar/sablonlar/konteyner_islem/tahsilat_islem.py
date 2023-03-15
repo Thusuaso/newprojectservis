@@ -99,7 +99,7 @@ class TahsilatIslem:
                     1,item['aciklama'],item['tutar'],item['masraf'],kullaniciid,item['kur']
                 )
             )
-            # self.mailGonder(item['siparisno'],'Yeni Tahsilat Girişi',item['tutar'],item['tarih'],item['masraf'],item['kullaniciadi'])
+            self.mailGonder(item['siparisno'],'Yeni Tahsilat Girişi',item['tutar'],item['tarih'],item['masraf'],item['kullaniciadi'])
             info =item['kullaniciadi'] + ', ' + item['siparisno'] + ' ' + ' Tahsilat Girişi Yaptı'
             DegisiklikMain().setYapilanDegisiklikBilgisi(item['kullaniciadi'],info)
             data = {
@@ -135,7 +135,7 @@ class TahsilatIslem:
                 )
             )
 
-            # self.mailGonder(item['siparisno'],'Tahsilat Değiştirme',item['tutar'],item['tarih'],item['masraf'],item['kullaniciadi'])
+            self.mailGonder(item['siparisno'],'Tahsilat Değiştirme',item['tutar'],item['tarih'],item['masraf'],item['kullaniciadi'])
             info =item['kullaniciadi'] + ' ' + item['siparisno'] + ' ' + 'ya Tahsilat Değişikliği Yaptı'
             DegisiklikMain().setYapilanDegisiklikBilgisi(item['kullaniciadi'],info)
             data = {
@@ -160,7 +160,7 @@ class TahsilatIslem:
                 """,(id)
             )
 
-            # self.mailGonder(result.SiparisNo,'Tahsilat Silme İşlemi',result.Tutar,result.Tarih,result.Masraf,result.KullaniciID)
+            self.mailGonder(result.SiparisNo,'Tahsilat Silme İşlemi',result.Tutar,result.Tarih,result.Masraf,result.KullaniciID)
             if result.KullaniciID == 12:
                 info ='Hüseyin' + ' ' + result.SiparisNo + ' ' + 'nın Tahsilatını Sildi.'
                 DegisiklikMain().setYapilanDegisiklikBilgisi('Hüseyin',info)

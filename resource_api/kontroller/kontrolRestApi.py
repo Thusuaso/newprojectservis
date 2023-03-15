@@ -12,9 +12,9 @@ class MusteriEtaMailIslem(Resource):
         islem = MusteriEta()
 
         result = True
-        # islem.getEtaControl()
-        # islem.finansBolmeKontrol()
-        # islem.etaKontrol()
+        islem.getEtaControl()
+        islem.finansBolmeKontrol()
+        islem.etaKontrol()
 
 
         return jsonify({'status' : result})

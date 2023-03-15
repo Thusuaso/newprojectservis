@@ -1353,7 +1353,7 @@ class Uretim:
         
          for item in result:
             if item.MailDurum == None and item.YuklemeTarihi == datetime.datetime.now().day:
-                # self.mailGonder(item.NumuneNo,item.MailSahibi,str(item.YuklemeTarihiTam))
+                self.mailGonder(item.NumuneNo,item.MailSahibi,str(item.YuklemeTarihiTam))
                 self.data.update_insert("""
                                             update NumunelerTB SET MailGonderiDurumu=? WHERE NumuneNo=?
                                         

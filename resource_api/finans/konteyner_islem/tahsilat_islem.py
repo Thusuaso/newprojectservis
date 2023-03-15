@@ -99,7 +99,7 @@ class TahsilatIslem:
                     1,item['aciklama'],item['tutar'],item['masraf'],kullaniciid,item['kur']
                 )
             )
-            # self.mailGonder(item['siparisno'],'Yeni Tahsilat Girişi',item['tutar'],item['tarih'],item['masraf'],item['kullaniciadi'])
+            self.mailGonder(item['siparisno'],'Yeni Tahsilat Girişi',item['tutar'],item['tarih'],item['masraf'],item['kullaniciadi'])
             info =item['kullaniciadi'].capitalize() + ', ' + item['siparisno'] + ' $' + str(item['tutar']) +' Tahsilat Girişi Yaptı'
             DegisiklikMain().setYapilanDegisiklikBilgisi(item['kullaniciadi'].capitalize(),info)
             yukleme_tarihi=""
@@ -139,7 +139,7 @@ class TahsilatIslem:
                 )
             )
 
-            # self.mailGonder(item['siparisno'],'Tahsilat Değiştirme',item['tutar'],item['tarih'],item['masraf'],item['kullaniciadi'])
+            self.mailGonder(item['siparisno'],'Tahsilat Değiştirme',item['tutar'],item['tarih'],item['masraf'],item['kullaniciadi'])
             info =item['kullaniciadi'] + ' ' + item['siparisno'] + ' ' + 'ya Tahsilat Değişikliği Yaptı'
             DegisiklikMain().setYapilanDegisiklikBilgisi(item['kullaniciadi'],info)
             yukleme_tarihi=""
@@ -166,7 +166,7 @@ class TahsilatIslem:
                 delete from OdemelerTB where ID=?
                 """,(id)
             )
-            # self.mailGonder(result[0][3],'Tahsilat Silme İşlemi',str(float(result[0][7])),result[0][1],result[0][8],result[0][10])
+            self.mailGonder(result[0][3],'Tahsilat Silme İşlemi',str(float(result[0][7])),result[0][1],result[0][8],result[0][10])
             if result[0][10] == 12:
                 info ='Hüseyin' + ' ' + result[0][3] + ' ' + 'nın Tahsilatını Sildi.'
                 DegisiklikMain().setYapilanDegisiklikBilgisi('Hüseyin',info)

@@ -49,12 +49,12 @@ class FinansPesinatIslem:
             DegisiklikMain().setYapilanDegisiklikBilgisi(_item['kullaniciadi'].capitalize(),info)
             yukleme_tarihi=""
             DegisiklikMain().setMaliyetDegisiklik(info,_item['kullaniciadi'].capitalize(),item['siparis_no'],yukleme_tarihi)
-            # MailService('Peşinat Tahsilat Bildirimi ',"huseyin@mekmarmarble.com",mail_konu)
-            # MailService('Peşinat Tahsilat Bildirimi ',"mehmet@mekmer.com",mail_konu)
+            MailService('Peşinat Tahsilat Bildirimi ',"huseyin@mekmarmarble.com",mail_konu)
+            MailService('Peşinat Tahsilat Bildirimi ',"mehmet@mekmer.com",mail_konu)
           
-            # MailService('Peşinat Tahsilat Bildirimi  ',item['temsilci_mail'],mail_konu)
-            # if item['marketing'] == 'Mekmar' :
-            #     MailService('Peşinat Tahsilat Bildirimi ',"info@mekmar.com",mail_konu)
+            MailService('Peşinat Tahsilat Bildirimi  ',item['temsilci_mail'],mail_konu)
+            if item['marketing'] == 'Mekmar' :
+                MailService('Peşinat Tahsilat Bildirimi ',"info@mekmar.com",mail_konu)
             return True
 
         except Exception as e:
@@ -108,7 +108,7 @@ class FinansPesinatIslem:
             )
             
            
-            # self.mailGonderInsert(siparis_no)
+            self.mailGonderInsert(siparis_no)
             return True 
 
         except Exception as e:

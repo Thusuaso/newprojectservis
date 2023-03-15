@@ -12,7 +12,7 @@ class DashboardNew:
         self.grafikMekmarNavlunBuYil = self.data.getList("""
                                                         select 
 
-                                                            sum(s.NavlunSatis) + sum(s.DetayTutar_1) + sum(s.DetayTutar_2) + sum(s.DetayTutar_3) + sum(s.DetayTutar_4) as NavlunSatis,
+                                                            sum(s.NavlunSatis) + sum(s.DetayTutar_1) + sum(s.DetayTutar_2) + sum(s.DetayTutar_3) as NavlunSatis,
                                                             Month(s.YuklemeTarihi) as Ay
 
                                                         from 
@@ -28,7 +28,7 @@ class DashboardNew:
         self.grafikMekmarNavlunGecenYil = self.data.getList("""
                                                                 select 
 
-                                                            sum(s.NavlunSatis) + sum(s.DetayTutar_1) + sum(s.DetayTutar_2) + sum(s.DetayTutar_3) + sum(s.DetayTutar_4) as NavlunSatis,
+                                                            sum(s.NavlunSatis) + sum(s.DetayTutar_1) + sum(s.DetayTutar_2) + sum(s.DetayTutar_3) as NavlunSatis,
                                                             Month(s.YuklemeTarihi) as Ay
 
                                                         from 
@@ -382,7 +382,8 @@ class DashboardNew:
                 for i in result:
                     model = GelenSiparisModel()
                     model.gelenSiparisAy = str(self.month) + '/' + '12'
-                    model.gelenSiparisFob = i.SatisToplam + self.__mekmarYuklenenYillikNavlun()
+                    navlun,detay1,detay2,detay3 = self.__mekmarYuklenenYillikNavlun()
+                    model.gelenSiparisFob = i.SatisToplam + self.__noneControl(navlun) + self.__noneControl(detay1) + self.__noneControl(detay2) + self.__noneControl(detay3)
                     model.gelenSiparisYil = self.year
                     model.gelenSiparisAylikOrtalama = (float(model.gelenSiparisFob) + float(self.getDashboardGelenSiparisYuklenen()[0]['gelenSiparisFob'])) / (self.month)
                     model.gelenSiparisYilSonuTahmini = model.gelenSiparisAylikOrtalama * 12
@@ -400,6 +401,15 @@ class DashboardNew:
         except Exception as e:
             print("getDashboardYuklenenSiparisYillikMekmar hata",str(e))
             return False
+    
+    
+    def __noneControl(self,value):
+        if(value == None):
+            return 0
+        else:
+            return value
+    
+    
     def getDashboardYuklenenSiparisYillikAll(self):
         try:
             result = self.data.getList("""
@@ -442,7 +452,7 @@ class DashboardNew:
         result = self.data.getList("""
                                         select 
 
-                                            sum(s.NavlunSatis) + sum(s.DetayTutar_1) + sum(s.DetayTutar_2) + sum(s.DetayTutar_3) + sum(s.DetayTutar_4) as NavlunSatis
+                                            sum(s.NavlunSatis) + sum(s.DetayTutar_1) + sum(s.DetayTutar_2) + sum(s.DetayTutar_3) as NavlunSatis
 
                                         from
                                         SiparislerTB s
@@ -476,7 +486,10 @@ class DashboardNew:
         result = self.data.getList("""
                                         select 
 
-                                        sum(s.NavlunSatis) as NavlunSatis
+                                        sum(s.NavlunSatis) as NavlunSatis,
+										sum(s.DetayTutar_1) as Detay1,
+										sum(s.DetayTutar_2) as Detay2,
+										sum(s.DetayTutar_3) as Detay3
 
                                         from
                                         SiparislerTB s
@@ -487,7 +500,7 @@ class DashboardNew:
                                         group by YEAR(s.YuklemeTarihi)
                                    
                                    """)
-        return result[0].NavlunSatis
+        return result[0].NavlunSatis,result[0].Detay1,result[0].Detay2,result[0].Detay3
     
     def __allYuklenenYillikNavlun(self):
         result = self.data.getList("""
@@ -920,7 +933,7 @@ class DashboardNew:
                                         """)
         buyilyuklenenNavlun = self.data.getList("""
                                                     select 
-                                                    sum(s.NavlunSatis) + sum(s.DetayTutar_1) + sum(s.DetayTutar_2) + sum(s.DetayTutar_3) + sum(s.DetayTutar_4)  as NavlunSatis
+                                                    sum(s.NavlunSatis) + sum(s.DetayTutar_1) + sum(s.DetayTutar_2) + sum(s.DetayTutar_3)  as NavlunSatis
                                                     from 
                                                     SiparislerTB s
 													inner join MusterilerTB m on m.ID = s.MusteriID

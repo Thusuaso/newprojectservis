@@ -59,7 +59,7 @@ class SiparisBolme:
             
             
             
-            # self.mailGonderUpdate(self.siparisBilgileri)
+            self.mailGonderUpdate(self.siparisBilgileri)
             print('Sipariş Bölme Yeni Sipariş Girişi Başarılı')
             return True
             

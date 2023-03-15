@@ -20,6 +20,7 @@ class LogsMaliyet:
 
                                             from MaliyetAnaliziDegisikliklerTB
                                             where YEAR(DegisiklikTarihi) = ?
+											order by DegisiklikTarihi desc
                                        
                                        """,(year))
             

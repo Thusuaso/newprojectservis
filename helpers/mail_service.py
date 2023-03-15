@@ -14,9 +14,7 @@ class MailService:
 
     def mailGonder(self):
         try:
-            mail = smtplib.SMTP("mail.mekmar.com",587)
-            mail.ehlo()
-            mail.starttls()
+            mail = smtplib.SMTP_SSL("mail.mekmar.com",465)
             mail.login("gozmek@mekmar.com", "w_FrBO87:3K3nz==")
 
             mesaj = MIMEMultipart()
@@ -26,7 +24,7 @@ class MailService:
             mesaj["To"] = self.to
             body_text = MIMEText(self.body, "html")  #
             mesaj.attach(body_text)
-            
+            print('Mail Başarıyla Gönderildi')
             mail.sendmail(mesaj["From"], mesaj["To"], mesaj.as_string())
             mail.close()
         except:
