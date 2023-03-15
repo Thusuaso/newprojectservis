@@ -47,12 +47,12 @@ class FinansPesinatIslem:
            
             info =_item['kullaniciadi'].capitalize() + ', ' + item['siparis_no'] + ' $' + str(item['tutar']) + ' Peşinat Girişi Yaptı'
             DegisiklikMain().setYapilanDegisiklikBilgisi(_item['kullaniciadi'].capitalize(),info)
-            # MailService('Peşinat Tahsilat Bildirimi ',"huseyin@mekmarmarble.com",mail_konu)
-            # MailService('Peşinat Tahsilat Bildirimi ',"mehmet@mekmer.com",mail_konu)
+            MailService('Peşinat Tahsilat Bildirimi ',"huseyin@mekmarmarble.com",mail_konu)
+            MailService('Peşinat Tahsilat Bildirimi ',"mehmet@mekmer.com",mail_konu)
           
-            # MailService('Peşinat Tahsilat Bildirimi  ',item['temsilci_mail'],mail_konu)
-            # if item['marketing'] == 'Mekmar' :
-            #     MailService('Peşinat Tahsilat Bildirimi ',"info@mekmar.com",mail_konu)
+            MailService('Peşinat Tahsilat Bildirimi  ',item['temsilci_mail'],mail_konu)
+            if item['marketing'] == 'Mekmar' :
+                MailService('Peşinat Tahsilat Bildirimi ',"info@mekmar.com",mail_konu)
             return True
 
         except Exception as e:
@@ -106,7 +106,6 @@ class FinansPesinatIslem:
             )
             
            
-            print("beklyen uretime gecti")
             self.mailGonderInsert(siparis_no)
             return True 
 
