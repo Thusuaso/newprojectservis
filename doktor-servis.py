@@ -37,6 +37,7 @@ from resource_api.raporlar.temsilciSatislari.temsilciSatislari import TemsilciSa
 from resource_api.efesfinans.efinansRestApi import EfesGelenSiparisvYuklenenler
 from resource_api.teklifler.bgpProject import *
 from resource_api.mekmar_com.Galleria import *
+from resource_api.notification import NotificationIslemApi,NotificationListApi
 app = Flask(__name__)
 
 api = Api(app)
@@ -734,6 +735,15 @@ api.add_resource(MekmarMusteriRaporuAyrintiApi,"/raporlar/mekmarraporlari/muster
 api.add_resource(MekmarTedarikciRaporuApi,"/raporlar/mekmarraporlari/tedarikci/<int:year>",methods=['GET'])
 
 api.add_resource(MekmarTedarikciRaporuAyrintiApi,'/raporlar/mekmarraporlari/tedarikci/ayrinti/<int:tedarikci_id>/<int:year>',methods=['GET'])
+
+
+api.add_resource(NotificationIslemApi,'/notification/islemler',methods=['POST','PUT'])
+api.add_resource(NotificationListApi,'/notification/getList/<int:id>',methods=['GET'])
+
+
+
+
+
 
 if __name__ == '__main__':
     app.run(port=5000,debug=True) #https://doktor-servis.mekmar.com/raporlar/listeler/uretimRaporuHepsi

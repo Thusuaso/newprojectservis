@@ -295,7 +295,8 @@ class NumuneIslem:
         if item['Euro_Alis'] >0:
             item['kuryeAlis'] = float(item['Euro_Alis']) * float(self.__getCrossRange(g_tarihi))
             item['TL_Alis'] = float(item['kuryeAlis']) * float(self.__getNormalRange(g_tarihi))
-                
+
+        
         if item['kuryeSatis'] >0:
             item['Euro_Satis'] = float(item['kuryeSatis']) / float(self.__getCrossRange(g_tarihi))
             item['TL_Satis'] = float(item['kuryeSatis']) * float(self.__getNormalRange(g_tarihi))
@@ -342,20 +343,21 @@ class NumuneIslem:
                     BankaSecim,
                     KategoriID,
                     UrunBirimi,
-                    Miktar
+                    Miktar,
+                    Aciklama
                    
                    
                 )
                 values
                    (
-                    ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?
+                    ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?
                     )
                 """,(
                     
                     item['numuneNo'],g_tarihi,  musteriId,  item['temsilci_id'],
                     item['ulke'],  item['adres'], item['takip_No'], item['parite'] , item['kuryeAlis'],item['kuryeSatis'],item['TL_Alis'],item['TL_Satis'],
                     item['Euro_Alis'],item['Euro_Satis'],y_tarihi,item['gonderiId']
-                    ,item['bankaId'],item['kategoriId'],item['urunBirimId'],item['Miktar']
+                    ,item['bankaId'],item['kategoriId'],item['urunBirimId'],item['Miktar'],item['aciklama']
                     
                 )
             )

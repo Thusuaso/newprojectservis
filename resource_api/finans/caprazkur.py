@@ -13,11 +13,17 @@ class DovizListem:
     def getDovizKurListe(self,yil,ay,gun):
         is_day = datetime.datetime(yil,ay,gun)
         is_day = is_day.strftime("%a")
+        now = datetime.datetime.now()
+        nowgun = now.strftime("%d")
+
+        if int(nowgun) == int(gun):
+            gun = int(gun) - 1
+        
+        
         
         if is_day == 'Sat':
             gun = gun - 1
-        elif is_day == 'Sun':
-            gun  = gun - 2
+        
             
         yil = str(yil)
         ay = str(ay)
@@ -26,14 +32,13 @@ class DovizListem:
         ctx = ssl.create_default_context()
         ctx.check_hostname = False
         ctx.verify_mode = ssl.CERT_NONE
-       
         if len(gun) ==1:
             gun = "0"+ gun
         if len(ay) ==1:
-            ay = "0"+ ay     
+            ay = "0"+ ay
+         
        # URL = "https://www.tcmb.gov.tr/kurlar/202111/02112021.xml"
         URL = "https://www.tcmb.gov.tr/kurlar/"+yil+ay+"/"+gun+ay+yil+".xml"
-        
        
         cross_dolar = 0
         # Websitesinden veri cekmek

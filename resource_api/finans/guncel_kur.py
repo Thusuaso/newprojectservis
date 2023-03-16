@@ -19,6 +19,10 @@ class DovizListem:
         nowDay = x.strftime('%d')
         nowMonth = x.strftime('%m')
         xy = datetime.datetime(int(yil),int(ay),int(gun))
+        
+        if(int(gun) == int(nowDay)):
+            gun = int(gun) -1
+        
         if (xy.strftime("%A") == "Saturday"):
             gun = str(int(gun) - 1)
             if len(gun) ==1:
@@ -30,7 +34,7 @@ class DovizListem:
         
         else:
             
-            if len(gun) ==1:
+            if len(str(gun)) ==1:
                 gun = "0" + str(gun)
                 
             if len(ay) ==1:
@@ -44,7 +48,7 @@ class DovizListem:
         
         
         # URL = "https://www.tcmb.gov.tr/kurlar/202111/02112021.xml"
-        URL = "https://www.tcmb.gov.tr/kurlar/"+yil+ay+"/"+gun+ay+yil+".xml"
+        URL = "https://www.tcmb.gov.tr/kurlar/"+str(yil)+str(ay)+"/"+str(gun)+str(ay)+str(yil)+".xml"
 
         dolar = 0
         # Websitesinden veri cekmek

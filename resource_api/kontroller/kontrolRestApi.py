@@ -14,7 +14,7 @@ class MusteriEtaMailIslem(Resource):
         result = True
         islem.getEtaControl()
         islem.finansBolmeKontrol()
-        islem.etaKontrol()
+        # islem.etaKontrol()
 
 
         return jsonify({'status' : result})

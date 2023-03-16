@@ -69,9 +69,12 @@ def isf_form_load_event():
     
 @socketio.on('send_message_home_event')
 def send_message_home_event(info):
-    print("send_message_home_event",info)
     emit('send_message_home_emit',info,broadcast=True)
-    
+
+@socketio.on('get_notification_list_event')
+def get_notification_list_event(datas):
+    print(datas)
+    emit('get_notification_list_emit',datas,broadcast=True)
 
 
 
