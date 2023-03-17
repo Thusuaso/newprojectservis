@@ -12,9 +12,12 @@ class Notification:
                                                             NotificationId,
                                                             Queue,
                                                             Message,
-                                                            Follow
+                                                            Follow,
+                                                            WhoSendId,
+                                                            WhoSendName
 
                                                         from AnlikBildirimGeriDonusTB
+                                                        order by Tarih desc
                                                      
                                                      
                                                      """)
@@ -96,16 +99,39 @@ class Notification:
         liste = list()
         key2 = 0
         for item in self.notificationSubList:
+
             if(item.NotificationId == notification_id):
                 liste.append({
                     'key':str(key) + '-' + str(key2),
                     'data':{
-                        'id':item.ID,
+                        'id':item.NotificationId,
                         'notificationId':item.NotificationId,
                         'tarih':item.Tarih,
-                        'message':item.Message
+                        'message':item.Message,
+                        'who_send_id':item.WhoSendId,
+                        'who_send_name':item.WhoSendName
                     }
                 })
                 
                 key2 += 1
-                
+        return liste
+    
+    def answeredsave(self,data):
+        try:
+            newDate = datetime.now()
+            self.data.update_insert("""
+                                        Insert Into 
+                                        AnlikBildirimGeriDonusTB(
+                                            Tarih,
+                                            NotificationId,
+                                            Message,
+                                            Follow,
+                                            WhoSendId,
+                                            WhoSendName
+                                            ) VALUES(?,?,?,?,?,?)
+
+                                    """,(newDate,data['id'],data['newMessage'],1,data['user_id'],data['user_name']))
+            return True
+        except Exception as e:
+            print('answeredsave hata',str(e))
+            return False

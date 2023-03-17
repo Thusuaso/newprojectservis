@@ -37,7 +37,7 @@ from resource_api.raporlar.temsilciSatislari.temsilciSatislari import TemsilciSa
 from resource_api.efesfinans.efinansRestApi import EfesGelenSiparisvYuklenenler
 from resource_api.teklifler.bgpProject import *
 from resource_api.mekmar_com.Galleria import *
-from resource_api.notification import NotificationIslemApi,NotificationListApi
+from resource_api.notification import NotificationIslemApi,NotificationListApi,NotificationIslemAnsweredApi
 app = Flask(__name__)
 
 api = Api(app)
@@ -739,7 +739,7 @@ api.add_resource(MekmarTedarikciRaporuAyrintiApi,'/raporlar/mekmarraporlari/teda
 
 api.add_resource(NotificationIslemApi,'/notification/islemler',methods=['POST','PUT'])
 api.add_resource(NotificationListApi,'/notification/getList/<int:id>',methods=['GET'])
-
+api.add_resource(NotificationIslemAnsweredApi,'/notification/islemler/ansered',methods=['POST','PUT'])
 
 
 

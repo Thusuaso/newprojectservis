@@ -1,2 +1,2 @@
 from resource_api.kullanici import Kullanici,DataKullanici
-from resource_api.notification import NotificationIslemApi,NotificationListApi
+from resource_api.notification import NotificationIslemApi,NotificationListApi,NotificationIslemAnsweredApi

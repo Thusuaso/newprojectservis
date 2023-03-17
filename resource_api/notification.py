@@ -16,5 +16,12 @@ class NotificationListApi(Resource):
         
         return {'liste':liste}
     
+class NotificationIslemAnsweredApi(Resource):
+    def post(self):
+        data = request.get_json()
+        islem = Notification()
+        status = islem.answeredsave(data)
+        return {'status':status}
+    
 
 
