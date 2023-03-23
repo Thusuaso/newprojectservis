@@ -22,6 +22,20 @@ class NotificationIslemAnsweredApi(Resource):
         islem = Notification()
         status = islem.answeredsave(data)
         return {'status':status}
+class NotificationIslemFollowApi(Resource):
+    def post(self):
+        data = request.get_json()
+        islem = Notification()
+        status = islem.setFollow(data)
+        return {'status':status}
+    
+class NotificationIslemFollowAnsweredApi(Resource):
+    def post(self):
+        data = request.get_json()
+        islem = Notification()
+        status = islem.setFollowAnswered(data)
+        return {'status':status}
+        
     
 
 

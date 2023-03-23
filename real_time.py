@@ -73,10 +73,23 @@ def send_message_home_event(info):
 
 @socketio.on('get_notification_list_event')
 def get_notification_list_event(datas):
-    print(datas)
     emit('get_notification_list_emit',datas,broadcast=True)
 
+@socketio.on('get_notification_list_second_event')
+def get_notification_list_second_event(datas):
+    emit('get_notification_list_second_emit',datas,broadcast = True)
 
+@socketio.on('get_notification_list_answered_third_event')
+def get_notification_list_answered_third_event(datas):
+    emit('get_notification_list_answered_third_emit',datas,broadcast = True)
+
+@socketio.on('get_notification_list_answered_event')
+def get_notification_list_answered_event(datas):
+    emit('get_notification_list_answered_emit',datas,broadcast=True)
+    
+@socketio.on('get_notification_list_follow_event')
+def get_notification_list_follow_event():
+    emit('get_notification_list_follow_emit',broadcast=True)
 
 if __name__ == '__main__':
     socketio.run(app,port=5001)

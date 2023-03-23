@@ -14,7 +14,9 @@ class Notification:
                                                             Message,
                                                             Follow,
                                                             WhoSendId,
-                                                            WhoSendName
+                                                            WhoSendName,
+                                                            ReceiverName,
+                                                            ReceiverId
 
                                                         from AnlikBildirimGeriDonusTB
                                                         order by Tarih desc
@@ -104,17 +106,40 @@ class Notification:
                 liste.append({
                     'key':str(key) + '-' + str(key2),
                     'data':{
+                        'table_id':item.ID,
                         'id':item.NotificationId,
                         'notificationId':item.NotificationId,
                         'tarih':item.Tarih,
+                        'follow':item.Follow,
                         'message':item.Message,
                         'who_send_id':item.WhoSendId,
-                        'who_send_name':item.WhoSendName
+                        'who_send_name':item.WhoSendName,
+                        'receiver_name':item.ReceiverName,
+                        'receiver_id':item.ReceiverId
                     }
                 })
                 
                 key2 += 1
         return liste
+    def setFollow(self,data):
+        try:
+            self.data.update_insert("""
+                                        Update AnlikBildirimTB SET Follow = ? WHERE ID=?
+                                    """,(0,data['id']))
+            return True
+        except Exception as e:
+            print('setFollow hata',str(e))
+            return False
+    def setFollowAnswered(self,data):
+        try:
+            self.data.update_insert("""
+                                        Update AnlikBildirimGeriDonusTB SET Follow = ? WHERE ID=?
+                                    """,(0,data['table_id']))
+            return True
+        except Exception as e:
+            print('setFollow hata',str(e))
+            return False
+    
     
     def answeredsave(self,data):
         try:
@@ -127,10 +152,12 @@ class Notification:
                                             Message,
                                             Follow,
                                             WhoSendId,
-                                            WhoSendName
-                                            ) VALUES(?,?,?,?,?,?)
+                                            WhoSendName,
+                                            ReceiverName,
+                                            ReceiverId
+                                            ) VALUES(?,?,?,?,?,?,?,?)
 
-                                    """,(newDate,data['id'],data['newMessage'],1,data['user_id'],data['user_name']))
+                                    """,(newDate,data['id'],data['newMessage'],1,data['user_id'],data['user_name'],data['receiver_name'],data['receiver_id']))
             return True
         except Exception as e:
             print('answeredsave hata',str(e))

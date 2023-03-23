@@ -484,8 +484,23 @@ class EvrakListeler:
 
             if item.YuklemeEvrakID == 99:
                model.Draft =  f"https://file-service.mekmar.com/file/download/99/{item.SiparisNo}"
-               model.adi = 'Draft'                          
-            
+               model.adi = 'Draft'
+               
+            if item.SiparisFaturaTurID == 101:
+                firma_id,firma  = self.__getFirmaId(item.FaturaKayitID)
+                model.Draft = f"https://file-service.mekmar.com/file/download/customer/{firma_id}/{item.EvrakAdi}"
+                model.adi = firma + ' ' + 'Booking'
+                
+            if item.SiparisFaturaTurID == 102:
+                firma_id,firma  = self.__getFirmaId(item.FaturaKayitID)
+                model.Draft = f"https://file-service.mekmar.com/file/download/customer/{firma_id}/{item.EvrakAdi}"
+                model.adi = firma + ' ' + 'Spanzet'
+                                        
+            if item.SiparisFaturaTurID == 100:
+                firma_id,firma  = self.__getFirmaId(item.FaturaKayitID)
+                model.Draft = f"https://file-service.mekmar.com/file/download/customer/{firma_id}/{item.EvrakAdi}"
+                model.adi = firma + ' ' + 'Lashing'
+                
 
             id = id +1
             model.evrak_id = item.YuklemeEvrakID

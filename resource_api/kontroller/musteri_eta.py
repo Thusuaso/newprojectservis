@@ -472,8 +472,12 @@ class MusteriEta:
             
             
             body += "</table>"
-            MailService(siparisno + "Po'ya Ait Eta Yaklaşan Süre",siparisSahibiMail[0].SiparisSahibi,body)
-            MailService(siparisno + "Po'ya Ait Eta Yaklaşan Süre",operasyonMail[0].SiparisSahibi,body)
+            if( siparisSahibiMail[0].SiparisSahibi == operasyonMail[0].SiparisSahibi):
+                
+                MailService(siparisno + "Po'ya Ait Eta Yaklaşan Süre",siparisSahibiMail[0].SiparisSahibi,body)
+            else:
+                MailService(siparisno + "Po'ya Ait Eta Yaklaşan Süre",siparisSahibiMail[0].SiparisSahibi,body)
+                MailService(siparisno + "Po'ya Ait Eta Yaklaşan Süre",operasyonMail[0].SiparisSahibi,body)
             return True
         except Exception as e:
             print("sendMailEta Hata",str(e))

@@ -62,7 +62,7 @@ class NumuneSchema(Schema):
 
     numuneCloud2 = fields.Boolean()
     numuneCloudDosya2 = fields.String()
-
+    aciklama = fields.String()
 class NumuneModel:
 
     id = None
@@ -118,3 +118,4 @@ class NumuneModel:
 
     numuneCloud2 = 0
     numuneCloudDosya2 = ""
+    aciklama = ""

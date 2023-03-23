@@ -19,9 +19,9 @@ class NumuneKayitIslem(Resource):
         
         kullaniciAdi = veri['kullaniciAdi']
 
-        kayitDurum,numunepo = numuneIslem.kaydet(numune,kullaniciAdi)
+        kayitDurum,numuneId = numuneIslem.kaydet(numune,kullaniciAdi)
 
-        return jsonify({'status' : kayitDurum,'numunepo' : numunepo})
+        return jsonify({'status' : kayitDurum,'id' : numuneId})
 
 
     def put(self):
@@ -225,7 +225,6 @@ class NumuneIslem:
     def numuneDosyaKaydet2(self,numune): ## arka yüz görsel
        
         try:
-            print('numuneDosyaKaydet2',numune)
             self.data.update_insert(
                 """
                 update NumunelerTB set Numune_Cloud2=?,Numune_Cloud_Dosya2=? where ID=?
@@ -251,7 +250,8 @@ class NumuneIslem:
         kayitDurum = self.__numuneKayit(numune,kullaniciId,dtMusteriler)
         numuneId = None
         if kayitDurum == True:
-            numuneId = self.data.getStoreList("Select Max(Id) as ID from NumunelerTB where KullaniciId=?",(kullaniciId))[0].ID
+            numuneId = self.data.getStoreList("Select ID from NumunelerTB where NumuneNo=?",(numune['numuneNo']))[0].ID
+            
         kullaniciAdi = kullaniciAdi.capitalize()
         info = kullaniciAdi + ',' + numune['numuneNo'] + ' Numunesinin Kaydını Yaptı.'
         DegisiklikMain().setYapilanDegisiklikBilgisi(kullaniciAdi,info)
