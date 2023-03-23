@@ -15,16 +15,23 @@ class DovizListem:
         is_day = is_day.strftime("%a")
         now = datetime.datetime.now()
         nowgun = now.strftime("%d")
-
         if int(nowgun) == int(gun):
             gun = int(gun) - 1
+            is_day2 = datetime.datetime(yil,ay,gun)
+            is_day2 = is_day2.strftime("%a")
+            
+            
+            if(is_day2 == 'Sun'):
+                gun = int(gun) - 2
+            else:
+                gun = int(gun)
         
         
         
         if is_day == 'Sat':
             gun = gun - 1
         
-            
+        
         yil = str(yil)
         ay = str(ay)
         gun = str(gun)
@@ -36,7 +43,6 @@ class DovizListem:
             gun = "0"+ gun
         if len(ay) ==1:
             ay = "0"+ ay
-         
        # URL = "https://www.tcmb.gov.tr/kurlar/202111/02112021.xml"
         URL = "https://www.tcmb.gov.tr/kurlar/"+yil+ay+"/"+gun+ay+yil+".xml"
        
