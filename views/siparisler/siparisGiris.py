@@ -263,13 +263,13 @@ class SiparisGiris:
           
           urunKayitDurum = self.__siparisUrunDataKayit(urunler,siparis['siparisNo'],marketing,siparis['musteriId'])
           if urunKayitDurum == True:
-            #   if(siparis['siparisDurumId']==1 and (siparis['odemeTurId']==1 or siparis['odemeTurId'] ==2) ):
-            #     MailService(siparis['siparisNo'] + " nolu Sipariş Tahsil Edilmeli", "huseyin@mekmarmarble.com", siparis['siparisNo'] + ' nolu yeni sipariş bekleyende, tahsilatını gerçekleştirip üretime alınız!') 
+              if(siparis['siparisDurumId']==1 and (siparis['odemeTurId']==1 or siparis['odemeTurId'] ==2) ):
+                MailService(siparis['siparisNo'] + " nolu Sipariş Tahsil Edilmeli", "huseyin@mekmarmarble.com", siparis['siparisNo'] + ' nolu yeni sipariş bekleyende, tahsilatını gerçekleştirip üretime alınız!') 
 
-            #   self.mailGonderInsert(siparis,siparis['siparisNo']) #yeni sipariş için
-              info2 = siparis['kayit_kisi']  + ' ' + siparis['siparisNo'] + ' siparişini girdi.'
-              yukleme_tarihi=""
-              DegisiklikMain().setMaliyetDegisiklik(info2,siparis['kayit_kisi'],siparis['siparisNo'],yukleme_tarihi)
+              self.mailGonderInsert(siparis,siparis['siparisNo']) #yeni sipariş için
+            #   info2 = siparis['kayit_kisi']  + ' ' + siparis['siparisNo'] + ' siparişini girdi.'
+            #   yukleme_tarihi=""
+            #   DegisiklikMain().setMaliyetDegisiklik(info2,siparis['kayit_kisi'],siparis['siparisNo'],yukleme_tarihi)
             
               info = siparis['kayit_kisi'].capitalize() + ', ' + siparis['siparisNo'] + ' ' +  'Siparişini Girdi.'
               DegisiklikMain().setYapilanDegisiklikBilgisi(siparis['kayit_kisi'],info)
@@ -336,8 +336,8 @@ class SiparisGiris:
             
               info = siparis['kayit_kisi'].capitalize() + ', ' + siparis['siparisNo'] + ' ' +  'Sipariş Ürün Bilgilerini Güncelledi.'
               DegisiklikMain().setYapilanDegisiklikBilgisi(siparis['kayit_kisi'],info)
-              yukleme_tarihi=""
-              DegisiklikMain().setMaliyetDegisiklik(info,siparis['kayit_kisi'],siparis['siparisNo'],yukleme_tarihi)
+            #   yukleme_tarihi=""
+            #   DegisiklikMain().setMaliyetDegisiklik(info,siparis['kayit_kisi'],siparis['siparisNo'],yukleme_tarihi)
               
               
             self.__siparisUrunDataGuncelle(urunlerDegisenler)
@@ -350,9 +350,9 @@ class SiparisGiris:
               info = siparis['kayit_kisi'].capitalize() + ', ' + siparis['siparisNo'] + ' ' +  'Yeni Ürün Ekledi.'
               DegisiklikMain().setYapilanDegisiklikBilgisi(siparis['kayit_kisi'],info)
               self.mailGonderNew(siparis,urunlerYeni,siparis['siparisNo'])
-              info2 = siparis['kayit_kisi']  + ' ' + siparis['siparisNo'] + ' siparişine yeni kalem ekledi.'
-              yukleme_tarihi=""
-              DegisiklikMain().setMaliyetDegisiklik(info2,siparis['kayit_kisi'],siparis['siparisNo'],yukleme_tarihi)
+            #   info2 = siparis['kayit_kisi']  + ' ' + siparis['siparisNo'] + ' siparişine yeni kalem ekledi.'
+            #   yukleme_tarihi=""
+            #   DegisiklikMain().setMaliyetDegisiklik(info2,siparis['kayit_kisi'],siparis['siparisNo'],yukleme_tarihi)
             
               if(len(urunlerYeni) == 1):
                 degisiklik = siparis['kayit_kisi'].capitalize() + ', ' + siparis['siparisNo'] + ' siparişine ' + urunlerYeni[0]['uretimAciklama'] + ', ' + str(urunlerYeni[0]['miktar']) +' ' + self.__birim(urunlerYeni[0]['urunBirimId']) + ' $'+str(urunlerYeni[0]['satisFiyati']) +' dan eklemiştir.'
@@ -401,9 +401,9 @@ class SiparisGiris:
               info = siparis['kayit_kisi'].capitalize() + ', ' + siparis['siparisNo'] + ' ' +  'Bir Ürün Kalemi Silindi.'
               DegisiklikMain().setYapilanDegisiklikBilgisi(siparis['kayit_kisi'],info)
               self.mailGonderDelete(siparis,urunlerSilinenler,siparis['siparisNo'])
-              info2 = siparis['kayit_kisi']  + ' ' + siparis['siparisNo'] + ' siparişinden bir kalemi sildi.'
-              yukleme_tarihi=""
-              DegisiklikMain().setMaliyetDegisiklik(info2,siparis['kayit_kisi'],siparis['siparisNo'],yukleme_tarihi) 
+            #   info2 = siparis['kayit_kisi']  + ' ' + siparis['siparisNo'] + ' siparişinden bir kalemi sildi.'
+            #   yukleme_tarihi=""
+            #   DegisiklikMain().setMaliyetDegisiklik(info2,siparis['kayit_kisi'],siparis['siparisNo'],yukleme_tarihi) 
               if(len(urunlerSilinenler) == 1):
                 degisiklik = siparis['kayit_kisi'].capitalize() + ', ' + siparis['siparisNo'] + ' siparişine ' + urunlerSilinenler[0]['uretimAciklama'] + ', ' + str(urunlerSilinenler[0]['miktar']) +' ' + self.__birim(urunlerSilinenler[0]['urunBirimId']) + ' $'+str(urunlerSilinenler[0]['satisFiyati']) +' dan silinmiştir.'
                 degisiklikAlani = 'Siparişler'
@@ -897,7 +897,10 @@ class SiparisGiris:
             
             
                 """
-            
+                info = siparis['kayit_kisi'] + ' '  +  item.UretimAciklama + ' ürününü ' + item.Tedarikci + ' tedarikçi ile ' + str(item.Miktar) + ' ' + item.UrunBirimi + ' olarak girmiştir.'
+                yukleme_tarihi = ""
+                DegisiklikMain().setMaliyetDegisiklik(info,siparis['kayit_kisi'],item.SiparisNo,yukleme_tarihi) 
+
             body = body + "</table>"
             mekmer = 0
             mekmoz = 0
@@ -919,7 +922,6 @@ class SiparisGiris:
                     
                     diger +=1    
 
-            
             
             if  (mekmer >=1 ) and item.SiparisDurumID ==2:
 
@@ -998,7 +1000,9 @@ class SiparisGiris:
             
             
                 """
-            
+                info = siparis['kayit_kisi'] + ' '  +  item['uretimAciklama'] + ' ürününü ' + item['tedarikciAdi'] + ' tedarikçi ile ' + str(item['miktar']) + ' ' + item['urunbirimAdi'] + ' olarak eklemiştir.'
+                yukleme_tarihi = ""
+                DegisiklikMain().setMaliyetDegisiklik(info,siparis['kayit_kisi'],siparis_no,yukleme_tarihi) 
             body = body + "</table>"
             mekmer = 0
             mekmoz = 0
@@ -1020,7 +1024,6 @@ class SiparisGiris:
                     
                     diger +=1    
 
-            
             
             if  (mekmer >=1 ) and siparis['siparisDurumId'] ==2 :
 
@@ -1174,6 +1177,8 @@ class SiparisGiris:
                 
                 
                         """
+                 
+            
             else:
                 for i in range(0,len(degisen)):
                     body += f"""
@@ -1240,6 +1245,10 @@ class SiparisGiris:
             
             
                 """
+                info = siparis['kayit_kisi'] + ' '  +  item['uretimAciklama'] + ' ürününü ' + item['tedarikciAdi'] + ' tedarikçi ile ' + str(item['miktar']) + ' ' + item['urunbirimAdi'] + ' $' + str(item['alisFiyati']) + ' alış fiyatı ve $' + str(item['satisFiyati'])  + ' satış fiyatı olarak değiştirdi.'
+                yukleme_tarihi = ""
+                DegisiklikMain().setMaliyetDegisiklik(info,siparis['kayit_kisi'],siparis_no,yukleme_tarihi)
+                
                 sayac += 1
                 
             
@@ -1250,7 +1259,6 @@ class SiparisGiris:
         
     
        
-        
             for item in degisen:
                
                 if item['tedarikciAdi'] == "Mekmer":
@@ -1384,9 +1392,12 @@ class SiparisGiris:
                             {float(item['satisFiyati'])}
                         </td>
                     </tr>
-            
+
             
                 """
+                info = siparis['kayit_kisi'] + ' '  +  item['uretimAciklama'] + ' ürününü ' + item['tedarikciAdi'] + ' tedarikçi ile ' + str(item['miktar']) + ' ' + item['urunbirimAdi'] + ' $' + str(item['alisFiyati']) + ' alış fiyatı ve $' + str(item['satisFiyati'])  + ' satış fiyatı olarak değiştirdi.'
+                yukleme_tarihi = ""
+                DegisiklikMain().setMaliyetDegisiklik(info,siparis['kayit_kisi'],siparis_no,yukleme_tarihi)
                 sayac += 1
             sahibi , maili = self.__siparisDetayi(siparis_no)
             MailService(siparis_no +" Düzenlenen Kalemler ", maili  , " "+ baslik + body) #satıs temsilcisi(self,siparis,siparis_no):
@@ -1495,7 +1506,9 @@ class SiparisGiris:
             
             
                 """
-            
+                info = siparis['kayit_kisi'] + ' '  +  item['uretimAciklama'] + ' ürününü ' + item['tedarikciAdi'] + ' tedarikçi ile ' + str(item['miktar']) + ' ' + item['urunbirimAdi'] + ' kalemini silindi. '
+                yukleme_tarihi = ""
+                DegisiklikMain().setMaliyetDegisiklik(info,siparis['kayit_kisi'],siparis_no,yukleme_tarihi)
             body = body + "</table>"
             mekmer = 0
             mekmoz = 0
@@ -1517,7 +1530,6 @@ class SiparisGiris:
                     
                     diger +=1    
 
-            
             
             if  (mekmer >=1 ) and siparis['siparisDurumId'] ==2 :
 
