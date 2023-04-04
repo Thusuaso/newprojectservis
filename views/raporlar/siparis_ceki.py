@@ -10,7 +10,7 @@ class SiparisCeki:
     def getCekiList(self,siparisNo):
 
         cekiList = list()
-        result = self.data.getStoreList("{call PytService_Siparis_CekiListesi3(?)}",(siparisNo))
+        result = self.data.getStoreList("{call PytService_Siparis_CekiListesi4(?)}",(siparisNo))
       
         sira = 1
         for item in result:
@@ -31,7 +31,7 @@ class SiparisCeki:
             model.urunAdi = item.UrunAdi 
             model.yuzeyIslem = item.YuzeyIslem
             model.urunKart = item.UrunKartID 
-            
+            model.kasaOlcusu = item.KasaOlcusu
             cekiList.append(model)
 
             sira += 1

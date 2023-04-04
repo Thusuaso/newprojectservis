@@ -26,6 +26,7 @@ class ExcellCiktiIslem:
                 sayfa.cell(satir,column=7,value=item['en'])
                 sayfa.cell(satir,column=8,value=item['boy'])
                 sayfa.cell(satir,column=9,value=item['adet'])
+                
 
                 miktar = 0
                 kutu = int(item['kutuAdet'])
@@ -71,6 +72,8 @@ class ExcellCiktiIslem:
                     
                 sayfa.cell(satir,column=11,value=kg)
                 sayfa.cell(satir,column=12,value=kg+30)
+                sayfa.cell(satir,column=13,value=item['kasaOlcusu'])
+                
                 
                 
                 

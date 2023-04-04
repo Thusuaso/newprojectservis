@@ -232,6 +232,7 @@ class SiparisGiris:
             model.boy = item.Boy 
             model.kenar = item.Kenar 
             model.yuzeyIslem = item.YuzeyIslem
+            model.kasaOlcusu = item.KasaOlcusu
             siparisList.append(model)
 
         return siparisList
@@ -266,7 +267,7 @@ class SiparisGiris:
               if(siparis['siparisDurumId']==1 and (siparis['odemeTurId']==1 or siparis['odemeTurId'] ==2) ):
                 MailService(siparis['siparisNo'] + " nolu Sipariş Tahsil Edilmeli", "huseyin@mekmarmarble.com", siparis['siparisNo'] + ' nolu yeni sipariş bekleyende, tahsilatını gerçekleştirip üretime alınız!') 
 
-              self.mailGonderInsert(siparis,siparis['siparisNo']) #yeni sipariş için
+            #   self.mailGonderInsert(siparis,siparis['siparisNo']) #yeni sipariş için
             #   info2 = siparis['kayit_kisi']  + ' ' + siparis['siparisNo'] + ' siparişini girdi.'
             #   yukleme_tarihi=""
             #   DegisiklikMain().setMaliyetDegisiklik(info2,siparis['kayit_kisi'],siparis['siparisNo'],yukleme_tarihi)
@@ -332,7 +333,7 @@ class SiparisGiris:
             self.__siparisUrunDataKayit(urunlerYeni,siparis['siparisNo'],marketing,siparis['musteriId'])
             if len(urunlerDegisenler) >= 1 : # ürün değiştirme 
               
-              self.mailGonderUpdate(siparis,urunlerDegisenler,siparis['siparisNo'])
+            #   self.mailGonderUpdate(siparis,urunlerDegisenler,siparis['siparisNo'])
             
               info = siparis['kayit_kisi'].capitalize() + ', ' + siparis['siparisNo'] + ' ' +  'Sipariş Ürün Bilgilerini Güncelledi.'
               DegisiklikMain().setYapilanDegisiklikBilgisi(siparis['kayit_kisi'],info)
@@ -349,7 +350,7 @@ class SiparisGiris:
             if len(urunlerYeni) >= 1 : #yeni ürün ekleme
               info = siparis['kayit_kisi'].capitalize() + ', ' + siparis['siparisNo'] + ' ' +  'Yeni Ürün Ekledi.'
               DegisiklikMain().setYapilanDegisiklikBilgisi(siparis['kayit_kisi'],info)
-              self.mailGonderNew(siparis,urunlerYeni,siparis['siparisNo'])
+            #   self.mailGonderNew(siparis,urunlerYeni,siparis['siparisNo'])
             #   info2 = siparis['kayit_kisi']  + ' ' + siparis['siparisNo'] + ' siparişine yeni kalem ekledi.'
             #   yukleme_tarihi=""
             #   DegisiklikMain().setMaliyetDegisiklik(info2,siparis['kayit_kisi'],siparis['siparisNo'],yukleme_tarihi)
@@ -615,18 +616,22 @@ class SiparisGiris:
                     insert into SiparisUrunTB (
                         SiparisNo,TedarikciID,UrunKartID,UrunBirimID,Miktar,OzelMiktar,KasaAdet,
                         SatisFiyati,SatisToplam,UretimAciklama,MusteriAciklama,Notlar,
-                        AlisFiyati,AlisFiyati_TL,SiraNo,Ton,musteriID
+                        AlisFiyati,AlisFiyati_TL,SiraNo,Ton,musteriID,KasaOlcusu
                     )
                     values
-                    (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+                    (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
                     """,(
                         siparisNo,item['tedarikciId'],item['urunKartId'],item['urunBirimId'],
                         item['miktar'],ozelMiktar,item['kasaAdet'],item['satisFiyati'],
                         item['satisToplam'],item['uretimAciklama'],item['musteriAciklama'],item['notlar'],
-                        item['alisFiyati'],item['alisFiyati_Tl'],item['siraNo'],ton,musteriid
+                        item['alisFiyati'],item['alisFiyati_Tl'],item['siraNo'],ton,musteriid,item['kasaOlcusu']
                     )
                 )
-           
+
+                
+                
+                
+                
             print('def __siparisUrunDataKayit')
             return True
 
@@ -774,15 +779,16 @@ class SiparisGiris:
                         update SiparisUrunTB set TedarikciID=?,UrunKartID=?,UrunBirimID=?,Miktar=?,
                         OzelMiktar=?,KasaAdet=?,SatisFiyati=?,SatisToplam=?,UretimAciklama=?,
                         MusteriAciklama=?,Notlar=?,KullaniciID=?,AlisFiyati=?,AlisFiyati_TL=?,
-                        SiraNo=?,Ton=? where ID=?
+                        SiraNo=?,Ton=?,KasaOlcusu=? where ID=?
                         """,(
                             item['tedarikciId'],item['urunKartId'],item['urunBirimId'],item['miktar'],
                             item['ozelMiktar'],item['kasaAdet'],item['satisFiyati'],item['satisToplam'],
                             item['uretimAciklama'],item['musteriAciklama'],item['notlar'],
-                            item['kullaniciId'],item['alisFiyati'],item['alisFiyati_Tl'],item['siraNo'],ton,
+                            item['kullaniciId'],item['alisFiyati'],item['alisFiyati_Tl'],item['siraNo'],ton,item['kasaOlcusu'],
                             item['id']
                         )
                     )
+ 
             
            
             return True

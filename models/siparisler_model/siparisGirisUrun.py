@@ -18,6 +18,7 @@ class SiparisGirisUrunSchema(SiparisUrunSchema):
     newAmountadet = fields.Float()
     newAmountmiktar = fields.Float()
     isChange = fields.Boolean()
+    kasaOlcusu = fields.String()
 
 class SiparisGirisUrunModel(SiparisUrunModel):
     urunAdi = ""
@@ -35,6 +36,7 @@ class SiparisGirisUrunModel(SiparisUrunModel):
     newAmountadet = 0
     newAmountmiktar = 0
     isChange = False
+    kasaOlcusu = ""
     
     
     

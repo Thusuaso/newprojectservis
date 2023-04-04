@@ -97,10 +97,10 @@ class SiparisListe:
         sorgu = None
         if self.siparisDurum == 1 or self.siparisDurum == 2:
             sorgu = self.data.getStoreList(
-                "{call PytService_SiparisUrunListesi_t4(?)}",(self.siparisDurum)
+                "{call PytService_SiparisUrunListesi_t8(?)}",(self.siparisDurum)
             )
         if self.siparisDurum == 3:
-            sorgu = self.data.getList("{call PytService_SiparisUrunListesi_Sevk3_Tn4}")
+            sorgu = self.data.getList("{call PytService_SiparisUrunListesi_Sevk3_Tn5}")
        
         siparisResult = self.data.getStoreList(
             """
@@ -163,11 +163,11 @@ class SiparisListe:
         sorgu = None
         if self.siparisDurum == 1 or self.siparisDurum == 2:
             sorgu = self.data.getStoreList(
-                "{call PytService_SiparisUrunListesi_t3(?)}",(self.siparisDurum)
+                "{call PytService_SiparisUrunListesi_t6(?)}",(self.siparisDurum)
             )
             """PytService_SiparisUrunListesi3"""
         if self.siparisDurum == 3:
-            sorgu = self.data.getList("{call PytService_SiparisUrunListesi_Sevk3_Tn3}")
+            sorgu = self.data.getList("{call PytService_SiparisUrunListesi_Sevk4_Tn3}")
        
         siparisResult = self.data.getStoreList(
             """
@@ -226,7 +226,7 @@ class SiparisListe:
         
         
         sorgu = self.data.getStoreList(
-             "{call PytService_SiparisUrunListesi_SiparisNo2_1(?)}",(siparisNo)
+             "{call PytService_SiparisUrunListesi_SiparisNo2_2(?)}",(siparisNo)
         )
        
          
@@ -334,6 +334,7 @@ class SiparisListe:
             model.faturaDurumRenk = self.__getFaturaDurumRenk(fatura)
             model.marketing = marketing
             model.ton = item.Ton
+            model.kasaOlcusu = item.KasaOlcusu
             if item.KasaAdet != None:
                 model.kasa = int(item.KasaAdet)
             if self.siparisDurum != 3:
