@@ -43,6 +43,7 @@ class SiparisUrunListeSchema(Schema):
     adet=fields.Float()
     mt2=fields.Float()
     kasaOlcusu = fields.String()
+    isf_alis_fiyati_durum=fields.String()
 class SiparisListeSchema(Schema):
     id = fields.Int()
     faturaKesimTur =fields.String()
@@ -111,3 +112,4 @@ class SiparisUrunListeModel:
     adet:0
     mt2:0
     kasaOlcusu=""
+    isf_alis_fiyati_durum=""

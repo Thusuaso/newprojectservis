@@ -166,7 +166,7 @@ class TedarikciIslem:
             tedarikciAdi = self.data.getStoreList("""
                                                     select FirmaAdi from TedarikciTB where ID=?
                                                   """,(tedarikciId))
-            tedarikciAdi = tedarikciAdi[0][0]
+            tedarikciAdi = tedarikciAdi[0].FirmaAdi
             
             evrakAdi = self.data.getStoreList("""
                                                 select EvrakAdi,ID from SiparisFaturaKayitTB where SiparisNo=?
@@ -174,14 +174,27 @@ class TedarikciIslem:
 
             
             for item in evrakAdi:
-                evrakAdi = item.EvrakAdi
-                evrakAdi = evrakAdi.split('-')[0]
-                if(tedarikciAdi.strip() == evrakAdi.strip()):
+                if tedarikciId == 123:
+                    evrakAdi = item.EvrakAdi.split('-')
+                    evrakAdi1 = evrakAdi[0]
+                    evrakAdi2 = evrakAdi[1]
+                    evrak = evrakAdi1 + '-' + evrakAdi2
+                    if(tedarikciAdi.strip() == evrak.strip()):
+                        
+                        self.data.update_insert("""
+                                                    delete SiparisFaturaKayitTB where ID=?
+                                            """,(item.ID))
+                        
+                else:
                     
-                    self.data.update_insert("""
-                                                delete SiparisFaturaKayitTB where ID=?
-                                           """,(item.ID))
-                    
+                    evrakAdi = item.EvrakAdi
+                    evrakAdi = evrakAdi.split('-')[0]
+                    if(tedarikciAdi.strip() == evrakAdi.strip()):
+                        
+                        self.data.update_insert("""
+                                                    delete SiparisFaturaKayitTB where ID=?
+                                            """,(item.ID))
+                        
                     
             
             result = self.data.getStoreList("""
@@ -204,10 +217,20 @@ class TedarikciIslem:
             return False
     
     def IcSiparisFormSilKontrol(self,tedarikciId,siparisNo):
+        
+        tedarikciAdi = self.data.getStoreList("""
+                                                    select FirmaAdi from TedarikciTB where ID=?
+
+                                              """,tedarikciId)[0].FirmaAdi
+        evrakAdi = str(tedarikciAdi) + '-' + str(siparisNo) + '.pdf'
         result = self.data.getStoreList("""
                                         select * from SiparisUrunTedarikciFormTB where TedarikciID=? and SiparisNo=?
                                    """,(tedarikciId,siparisNo))
-        if (len(result)>0):
+        result2 = self.data.getStoreList("""
+                                            select * from SiparisFaturaKayitTB where SiparisNo=? and EvrakAdi =?
+                                         """,(siparisNo,evrakAdi))
+        
+        if (len(result)>0 or len(result2)>0):
             return True
         else:
             return False
@@ -218,14 +241,19 @@ class TedarikciIslem:
                                     delete SiparisFaturaKayitTB where YuklemeEvrakID=3 and EvrakAdi=?
                                 
                                 """,(evrakAdi))
-        evrakAdiS = evrakAdi.split('-')
-        tedarikciAdi = evrakAdiS[0]
-        siparisNo = evrakAdiS[1].split('.')[0]
+        if(len(evrakAdi.split('-'))>2):
+            evrakAdiS = evrakAdi.split('-')
+            tedarikciAdi = evrakAdiS[0] + '-' + evrakAdiS[1]
+            siparisNo = evrakAdiS[2].split('.')[0]
+            
+        else:
+            evrakAdiS = evrakAdi.split('-')
+            tedarikciAdi = evrakAdiS[0]
+            siparisNo = evrakAdiS[1].split('.')[0]
         tedarikciId = self.data.getStoreList("""
                                     select ID from TedarikciTB where FirmaAdi=?
                                 
                                 """,(tedarikciAdi))[0].ID
-        print(tedarikciId,siparisNo)
         self.data.update_insert("""
                                     delete SiparisUrunTedarikciFormTB where TedarikciID =? and SiparisNo=?
                                 

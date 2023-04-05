@@ -97,10 +97,10 @@ class SiparisListe:
         sorgu = None
         if self.siparisDurum == 1 or self.siparisDurum == 2:
             sorgu = self.data.getStoreList(
-                "{call PytService_SiparisUrunListesi_t8(?)}",(self.siparisDurum)
+                "{call PytService_SiparisUrunListesi_t9(?)}",(self.siparisDurum)
             )
         if self.siparisDurum == 3:
-            sorgu = self.data.getList("{call PytService_SiparisUrunListesi_Sevk3_Tn5}")
+            sorgu = self.data.getList("{call PytService_SiparisUrunListesi_Sevk3_Tn6}")
        
         siparisResult = self.data.getStoreList(
             """
@@ -163,11 +163,11 @@ class SiparisListe:
         sorgu = None
         if self.siparisDurum == 1 or self.siparisDurum == 2:
             sorgu = self.data.getStoreList(
-                "{call PytService_SiparisUrunListesi_t6(?)}",(self.siparisDurum)
+                "{call PytService_SiparisUrunListesi_t7(?)}",(self.siparisDurum)
             )
             """PytService_SiparisUrunListesi3"""
         if self.siparisDurum == 3:
-            sorgu = self.data.getList("{call PytService_SiparisUrunListesi_Sevk4_Tn3}")
+            sorgu = self.data.getList("{call PytService_SiparisUrunListesi_Sevk4_Tn4}")
        
         siparisResult = self.data.getStoreList(
             """
@@ -226,7 +226,7 @@ class SiparisListe:
         
         
         sorgu = self.data.getStoreList(
-             "{call PytService_SiparisUrunListesi_SiparisNo2_2(?)}",(siparisNo)
+             "{call PytService_SiparisUrunListesi_SiparisNo2_3(?)}",(siparisNo)
         )
        
          
@@ -315,12 +315,10 @@ class SiparisListe:
                 
             else:
                 model.siparisMiktari = item.SiparisMiktari
-                model.adet = 0
-                
+                model.adet = 0 
             if(item.BirimAdi == 'M2'):
                 model.mt2 = item.SiparisMiktari
-                model.siparisMiktari = item.SiparisMiktari
-                
+                model.siparisMiktari = item.SiparisMiktari  
             else:
                 model.siparisMiktari = item.SiparisMiktari
                 model.mt2 = 0
@@ -341,7 +339,7 @@ class SiparisListe:
                 model.uretimMiktari = item.UretimMiktari
                 model.tedarikciForm = self.__getTedarikciFormDurum(model.siparisNo,item.TedarikciId)
                 model.urunDurumRenk = self.__getUrunDurumRenk(model.tedarikciForm,model.uretimMiktari,model.siparisMiktari,sure,item.TedarikciId,model.marketing,item.disarda)
-            
+                model.isf_alis_fiyati_durum = self.__getIsfandAlisFiyatiRenkDurum(model.tedarikciForm,item.TedarikciId,model.marketing,item.disarda,item.AlisFiyati)
             
             model.birimFiyat = item.SatisFiyati
            
@@ -369,18 +367,35 @@ class SiparisListe:
 
         return durum
 
+    def __getIsfandAlisFiyatiRenkDurum(self,tedarikciFormDurum,tedarikciId,marketing,disarda,alisFiyati):
+        renk = 'black'
+        if(marketing == 'Mekmar'):
+            if(tedarikciId != 1 or tedarikciId != 123):
+                if(tedarikciFormDurum == False or tedarikciId==32 or alisFiyati == '' or alisFiyati == None or alisFiyati == 0):
+                    renk = 'red'
+                else:
+                    renk = 'black'
+            else:
+                renk = 'black'
+        else:
+            renk = 'black'
+        return renk
+    
+    
     def __getUrunDurumRenk(self,tedarikciFormDurum,uretimMiktari,siparisMiktari,sure,tedarikciId,marketing,disarda):
         renk = 'transparent'
-
         if tedarikciFormDurum == False or tedarikciId==32:
             renk = 'red'
         if  marketing !='Mekmar' and ( tedarikciId == 1 or tedarikciId  == 123 ):
             if uretimMiktari == siparisMiktari:
                 renk = 'green'
+                
             elif uretimMiktari >= siparisMiktari:
                 renk = 'black'
+                
             else:
                 renk = 'transparent'
+                
         else:
             if uretimMiktari > 0:
                 if uretimMiktari == siparisMiktari:
