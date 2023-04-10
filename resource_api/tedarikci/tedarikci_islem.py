@@ -241,15 +241,16 @@ class TedarikciIslem:
                                     delete SiparisFaturaKayitTB where YuklemeEvrakID=3 and EvrakAdi=?
                                 
                                 """,(evrakAdi))
-        if(len(evrakAdi.split('-'))>2):
+        if(len(evrakAdi.split('-'))==2 or len(evrakAdi.split('-'))== 3) :
+            evrakAdiS = evrakAdi.split('-')
+            tedarikciAdi = evrakAdiS[0]
+            siparisNo = evrakAdiS[1].split('.')[0]
+            
+        else:
             evrakAdiS = evrakAdi.split('-')
             tedarikciAdi = evrakAdiS[0] + '-' + evrakAdiS[1]
             siparisNo = evrakAdiS[2].split('.')[0]
             
-        else:
-            evrakAdiS = evrakAdi.split('-')
-            tedarikciAdi = evrakAdiS[0]
-            siparisNo = evrakAdiS[1].split('.')[0]
         tedarikciId = self.data.getStoreList("""
                                     select ID from TedarikciTB where FirmaAdi=?
                                 

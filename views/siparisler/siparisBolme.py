@@ -79,19 +79,6 @@ class SiparisBolme:
                                                         select * from OdemelerTB where SiparisNo=?
                                                     """,(siparisNo))
             
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
             if len(resultOdemeler)>0:
                 if len(siparisNo.split('-'))>0:
                     self.__odemelerUpdate(siparisNo,pesinat,kalanSiparisNo)
@@ -343,6 +330,8 @@ class SiparisBolme:
         baslik =  siparis['kayit_kisi'] + " tarafından işlendi ."
         
         body = """
+        Proforma bilgilerini, peşinatı, ödemeler tablosunu, kasa ve m2 bilgilerini kontrol etmeyi unutma.......
+        <br/>
         <table >
             <tr style ="background-color: orange;">
                 <th style ="color: white;background-color: orange;text-align: left;  padding-bottom: 12px; padding-top: 12px; padding-top: 12px;padding: 8px; font-family: Arial, Helvetica, sans-serif; border-collapse: collapse;width: 50px;">
