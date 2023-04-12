@@ -96,7 +96,6 @@ class ExcelCiktiIslem:
             return False
 
     def seleksiyon_rapor_ciktisi(self,data_list):
-
         try:
             source_path = 'resource_api/raporlar/sablonlar/seleksiyon_listesi.xlsx'
             target_path = 'resource_api/raporlar/dosyalar/seleksiyon_listesi.xlsx'
@@ -122,12 +121,13 @@ class ExcelCiktiIslem:
                 sayfa.cell(satir,column=9,value=item['boy'])
                 sayfa.cell(satir,column=10,value=item['kenar'])
                 sayfa.cell(satir,column=11,value=item['kutuadet'])
-                sayfa.cell(satir,column=12,value=item['m2'])
-                sayfa.cell(satir,column=13,value=item['adet'])
-                sayfa.cell(satir,column=14,value=item['mt'])
-                sayfa.cell(satir,column=15,value=item['ton'])
-                sayfa.cell(satir,column=16,value=item['siparisaciklama'])
-                sayfa.cell(satir,column=17,value=item['aciklama'])
+                sayfa.cell(satir,column=12,value=item['kasaadet'])
+                sayfa.cell(satir,column=13,value=item['m2'])
+                sayfa.cell(satir,column=14,value=item['adet'])
+                sayfa.cell(satir,column=15,value=item['mt'])
+                sayfa.cell(satir,column=16,value=item['ton'])
+                sayfa.cell(satir,column=17,value=item['siparisaciklama'])
+                sayfa.cell(satir,column=18,value=item['aciklama'])
 
                
                 

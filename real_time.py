@@ -28,8 +28,8 @@ def anaSayfaDegisiklikEvent(data):
     emit('anaSayfaDegisiklikEmit',data,broadcast=True)
 
 @socketio.on('tahsilat_kayitdegisim_event')
-def tahsilat_kayitdegisim_event(siparisno):
-    emit('tahsilat_kayitdegisim_emit',siparisno,broadcast=True)
+def tahsilat_kayitdegisim_event(musteriId):
+    emit('tahsilat_kayitdegisim_emit',musteriId,broadcast=True)
 
 @socketio.on('musteri_kayitdegisim_event')
 def musteri_kayitdegisim_event():
@@ -64,8 +64,8 @@ def mekmar_com_galleria_list_event():
     emit('mekmar_com_galleria_list_emit',broadcast=True)
 
 @socketio.on('isf_form_load_event')
-def isf_form_load_event():
-    emit('isf_form_load_emit',broadcast=True)
+def isf_form_load_event(siparisNo):
+    emit('isf_form_load_emit',siparisNo,broadcast=True)
     
 @socketio.on('send_message_home_event')
 def send_message_home_event(info):

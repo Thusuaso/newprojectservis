@@ -38,6 +38,7 @@ from resource_api.efesfinans.efinansRestApi import EfesGelenSiparisvYuklenenler
 from resource_api.teklifler.bgpProject import *
 from resource_api.mekmar_com.Galleria import *
 from resource_api.notification import NotificationIslemApi,NotificationListApi,NotificationIslemAnsweredApi,NotificationIslemFollowApi,NotificationIslemFollowAnsweredApi
+from resource_api.controls import ProformaKayitKontrolApi
 app = Flask(__name__)
 
 api = Api(app)
@@ -742,7 +743,8 @@ api.add_resource(NotificationListApi,'/notification/getList/<int:id>',methods=['
 api.add_resource(NotificationIslemAnsweredApi,'/notification/islemler/ansered',methods=['POST','PUT'])
 api.add_resource(NotificationIslemFollowApi,'/notification/islemler/follow',methods=['POST'])
 api.add_resource(NotificationIslemFollowAnsweredApi,'/notification/islemler/follow/answered',methods=['POST'])
-
+#Controls
+api.add_resource(ProformaKayitKontrolApi,'/controls/proforma/<string:siparisNo>',methods=['GET'])
 
 
 if __name__ == '__main__':
