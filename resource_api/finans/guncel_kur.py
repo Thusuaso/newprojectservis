@@ -25,11 +25,11 @@ class DovizListem:
         
         if (xy.strftime("%A") == "Saturday"):
             gun = str(int(gun) - 1)
-            if len(gun) ==1:
-                gun = "0" + str(gun)
-                
-            if len(ay) ==1:
-                ay = "0"+ str(ay)
+        if len(gun) == 1:
+            gun = "0" + str(gun)
+            
+        if len(ay) == 1:
+            ay = "0"+ str(ay)
 
         
         else:
@@ -39,14 +39,14 @@ class DovizListem:
                 
             if len(ay) ==1:
                 ay = "0"+ str(ay)
-                
+          
         if(int(nowDay) == int(gun) and int(ay) == int(nowMonth)):
             
             
             return
                 
         
-        
+    
         # URL = "https://www.tcmb.gov.tr/kurlar/202111/02112021.xml"
         URL = "https://www.tcmb.gov.tr/kurlar/"+str(yil)+str(ay)+"/"+str(gun)+str(ay)+str(yil)+".xml"
 
