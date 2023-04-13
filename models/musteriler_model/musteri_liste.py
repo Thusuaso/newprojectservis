@@ -18,6 +18,8 @@ class MusteriListeSchema(Schema):
     isim = fields.String()
     satisci = fields.String()
     notlar = fields.String()
+    musteri_sira = fields.Int()
+    sonkullanici = fields.Boolean()
 
 class MusteriListeModel:
     id = None
@@ -35,6 +37,8 @@ class MusteriListeModel:
     isim = ""
     satisci=""
     notlar = ""
+    musteri_sira= 0
+    sonkullanici = False 
 
 class MusteriSiparisListeSchema(Schema):
 

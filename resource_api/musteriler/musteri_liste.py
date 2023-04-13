@@ -34,13 +34,12 @@ class MusteriIslem:
             from
             MusterilerTB m,YeniTeklif_UlkeTB u,KullaniciTB k
             where u.Id=m.UlkeId and k.ID=m.MusteriTemsilciId 
-            order by m.ID desc
-
+            order by m.ID
             """
         )
 
         liste = list()
-
+        sira = 1
         for item in result:
 
             model = MusteriListeModel()
@@ -58,6 +57,8 @@ class MusteriIslem:
             model.sira = item.Sira
             model.satisci = item.Satisci
             model.sonkullanici = item.SonKullanici
+            model.musteri_sira = sira
+            sira += 1
             liste.append(model)
 
         schema = MusteriListeSchema(many=True)
