@@ -25,6 +25,8 @@ class NumuneFinansAnaListe:
 
             """
         )
+        self.numuneDetayBankaList = []
+    
     #numune finans listesini gösteren method
     def getNumuneList(self,yil):
 
@@ -52,27 +54,30 @@ class NumuneFinansAnaListe:
         )
 
         liste = list()
-        
+        self.numuneDetayBankaList = self.data.getStoreList("""
+                                                        select 
+                                                        sum(nod.Tutar) as Tutar,
+                                                        ym.MusteriAdi
+                                                        from NumuneOdemelerTB nod
+                                                        inner join NumunelerTB n on n.NumuneNo = nod.NumuneNo
+                                                        inner join YeniTeklif_MusterilerTB ym on n.MusteriID = ym.Id
+                                                        where YEAR(n.NumuneTarihi) =?
+														group by
+															ym.MusteriAdi
+
+                                                      """,(yil))
         for item in result:
 
             model = NumuneFinansAnaListeModel()
-         
             model.id = item.Id
             model.kuryeSatis = item.kuryeSatis
             model.kuryeAlis = item.kuryeAlis  
-
             model.TL_Alis = item.TL_Alis
             model.TL_Satis = item.TL_Satis  
-
             model.Euro_Alis = item.Euro_Alis
             model.Euro_Satis = item.Euro_Satis     
-           
             model.musteriadi = item.MusteriAdi
-            
-         
-          
-           
-           
+            model.gelenBedel = self.__getFloatControl(self.__getNumuneDetayBankaList(item.MusteriAdi))
             liste.append(model)
 
         schema = NumuneFinansAnaListeSchema(many=True)
@@ -118,7 +123,20 @@ class NumuneFinansAnaListe:
 
         return sorted(schema.dump(liste), key=lambda x:x['bedel'],reverse=True)
 
+    def __getNumuneDetayBankaList(self,musteriadi):
+        for item in self.numuneDetayBankaList:
+            
+            if musteriadi == item.MusteriAdi:                
+                return item.Tutar
+            else:
+                continue
 
+    def __getFloatControl(self,tutar):
+        if(tutar == None):
+            return 0
+        else:
+            return float(tutar)
+    
     def getYilListesi(self):
 
         result = self.data.getList(

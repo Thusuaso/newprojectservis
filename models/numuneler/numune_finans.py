@@ -10,7 +10,7 @@ class NumuneFinansAnaListeSchema(Schema):
     TL_Satis = fields.Float()
     Euro_Alis = fields.Float()
     Euro_Satis = fields.Float()
-
+    gelenBedel = fields.Float()
 class NumuneFinansAnaListeModel:
     id = None
     musteriadi = ""
@@ -20,6 +20,7 @@ class NumuneFinansAnaListeModel:
     TL_Satis = 0
     Euro_Alis = 0
     Euro_Satis = 0
+    gelenBedel = 0
     
 
 class NumuneFinansAyrintiSchema(Schema):

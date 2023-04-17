@@ -543,6 +543,69 @@ class ExcelCiktiIslem:
             return False     
 
     
+    def numuneler_ciktisi(self,data):
+        try:
+            source_path = 'resource_api/raporlar/sablonlar/numuneler_excel.xlsx'
+            target_path = 'resource_api/raporlar/dosyalar/numuneler_excel.xlsx'
+            shutil.copy2(source_path, target_path)
+            kitap = load_workbook(target_path)
+            sayfa = kitap.get_sheet_by_name('Sayfa1')
+            satir = 2
+            for item in data:
+                sayfa.cell(satir,column=1,value=item['musteriadi'])
+                sayfa.cell(satir,column=2,value=item['kuryeAlis'])
+                sayfa.cell(satir,column=3,value=item['kuryeSatis']) 
+                sayfa.cell(satir,column=4,value=item['TL_Alis']) 
+                sayfa.cell(satir,column=5,value=item['TL_Satis'])  
+                sayfa.cell(satir,column=6,value=item['Euro_Alis'])  
+                sayfa.cell(satir,column=7,value=item['Euro_Satis'])  
+                sayfa.cell(satir,column=8,value=item['gelenBedel'])  
+                satir += 1
+            kitap.save(target_path)
+            kitap.close()
+            return True
+        except Exception as e:
+            print('ExcelCiktiIslem urunler_uretim_excel Hata : ',str(e))
+            return False   
+    
+    def numuneler_po_ciktisi(self,data):
+        try:
+            
+            print("numuneler_po_ciktisi",data)
+            
+            source_path = 'resource_api/raporlar/sablonlar/numuneler_po_excel.xlsx'
+            target_path = 'resource_api/raporlar/dosyalar/numuneler_po_excel.xlsx'
+            shutil.copy2(source_path, target_path)
+            kitap = load_workbook(target_path)
+            sayfa = kitap.get_sheet_by_name('Sayfa1')
+            satir = 2
+            for item in data:
+                sayfa.cell(satir,column=1,value=item['numuneNo'])
+                sayfa.cell(satir,column=2,value=item['musteriadi'])
+                sayfa.cell(satir,column=3,value=item['tarih']) 
+                sayfa.cell(satir,column=4,value=item['gonderi_tipi']) 
+                sayfa.cell(satir,column=5,value=item['banka_secimi'])  
+                sayfa.cell(satir,column=6,value=item['usdAlis'])  
+                sayfa.cell(satir,column=7,value=item['usdSatis'])  
+                sayfa.cell(satir,column=8,value=item['euroAlis'])  
+                sayfa.cell(satir,column=9,value=item['euroSatis'])  
+                sayfa.cell(satir,column=10,value=item['tlAlis'])  
+                sayfa.cell(satir,column=11,value=item['tlSatis'])
+                sayfa.cell(satir,column=112,value=item['gelenBedel'])  
+                  
+                
+
+                satir += 1
+            kitap.save(target_path)
+            kitap.close()
+            return True
+        except Exception as e:
+            print('ExcelCiktiIslem urunler_uretim_excel Hata : ',str(e))
+            return False   
+    
+    
+    
+    
     def urunler_uretim_excel(self,data_list):
      
         try:

@@ -14,21 +14,23 @@ class NumuneListe:
               select
                     n.NumuneNo,
                     n.Miktar,
-                
                     n.NumuneTarihi,
                     m.MusteriAdi,
                     n.Aciklama,
+					n.Euro_Alis as EuroAlis,
+					n.Euro_Satis as EuroSatis,
+					n.KuryeAlis as UsdAlis,
+					n.KuryeSatis as UsdSatis,
+					n.TL_Alis as TlAlis,
+					n.TL_Satis as TlSatis,
                     (select lower(i.KullaniciAdi)from KullaniciTB i where i.ID=n.NumuneTemsilci) as temsilci,
                     (select i.Image from KullaniciTB i where i.ID=n.NumuneTemsilci) as imageTag,
-                    
                     (select kt.Urun from NumuneKategoriTB kt where kt.ID=n.KategoriID) as kategori,
-                    
-
                     (select b.BirimAdi from UrunBirimTB b where b.ID=n.UrunBirimi) as birim,
 					n.YuklemeTarihi,
 					(select ngt.GonderiAdi from NumuneGonderiTipi ngt where ngt.ID = n.GonderiTipi) as GonderiTipi,
-					(select nbc.BankaAdi from NumuneBankaSecim nbc where nbc.ID = n.BankaSecim) as BankaSecimi
-
+					(select nbc.BankaAdi from NumuneBankaSecim nbc where nbc.ID = n.BankaSecim) as BankaSecimi,
+                    (select nod.Tutar from NumuneOdemelerTB nod where nod.NumuneNo = n.NumuneNo) as GelenBedel
                 from  NumunelerTB n , YeniTeklif_MusterilerTB m
                  where n.MusteriID=m.Id and year( n.NumuneTarihi) = ?
                 
@@ -45,7 +47,12 @@ class NumuneListe:
             model.tarih = tarihIslem.getDate(item.NumuneTarihi).strftime("%d-%m-%Y")
             model.temsilci= item.temsilci
             model.musteriadi = item.MusteriAdi
-           
+            model.usdAlis = self.__getFloatControl(item.UsdAlis)
+            model.usdSatis = self.__getFloatControl(item.UsdSatis)
+            model.euroAlis = self.__getFloatControl(item.EuroAlis)
+            model.euroSatis = self.__getFloatControl(item.EuroSatis)
+            model.tlAlis = self.__getFloatControl(item.TlAlis)
+            model.tlSatis = self.__getFloatControl(item.TlSatis)
            
             model.kategori = item.kategori 
            
@@ -54,6 +61,7 @@ class NumuneListe:
             model.banka_secimi = item.BankaSecimi
             model.gonderi_tipi = item.GonderiTipi
             model.aciklama = item.Aciklama
+            model.gelenBedel = self.__getFloatControl(item.GelenBedel)
             if item.temsilci == 'ozlem':
                 model.link = 'https://mekmar-image.fra1.digitaloceanspaces.com/personel/avatar5.png'
             elif item.temsilci == 'semih':
@@ -72,5 +80,9 @@ class NumuneListe:
      
         return schema.dump(liste)
 
-   
+    def __getFloatControl(self,value):
+        if(value == None):
+            return 0
+        else:
+            return value
    

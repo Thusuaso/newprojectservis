@@ -203,6 +203,8 @@ api.add_resource(NumuneAyrintRestList,'/numunefinans/listeler/numuneAyrintiListe
 
 api.add_resource(NumuneBankayaGelenAyrinti,"/islemler/numune/bankayagelen/<string:banka>/<int:yil>",methods=['GET'])
 
+api.add_resource(NumunelerPoExcelListApi,'/raporlar/listeler/numuneler/numunePoExcellCikti',methods=['GET','POST'])
+
 
 api.add_resource(NumuneTahsilatIslemList,'/numune/finans/liste/musteriTahsilatListe/<int:musteriid>/<string:siparisno>',methods=['GET'])
 api.add_resource(NumuneTahsilatKayitIslem,'/numune/finans/islemler/tahsilatKayitDegistirme',methods=['GET','POST','PUT'])
@@ -662,6 +664,10 @@ api.add_resource(AtlantaStokApi,'/raporlar/listeler/atlanta/stoklistesi',methods
 api.add_resource(AtlantaStokAyrintiApi,'/raporlar/listeler/atlanta/ayrinti/stoklistesi/<string:skuNo>',methods=['GET'])
 
 api.add_resource(AtlantaStokExcelApi,'/raporlar/listeler/atlanta/stokExcelCikti', methods=['GET','POST'])
+api.add_resource(NumunelerExcelApi,'/raporlar/listeler/numuneler/numuneExcellCikti', methods=['GET','POST'])
+
+
+
 api.add_resource(UrunlerUretimListApi,'/raporlar/listeler/urunlerUretimListesi',methods=['GET'])
 api.add_resource(UrunlerUretimListAyrintiApi,'/raporlar/listeler/urunlerUretimAyrintiListesi/<int:urunKartId>',methods=['GET'])
 api.add_resource(UrunlerUretimExcelApi,'/raporlar/listeler/uretilenSipExcelListe',methods=['GET','POST'])

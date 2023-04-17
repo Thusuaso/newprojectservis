@@ -1484,9 +1484,30 @@ class AtlantaStokExcelApi(Resource):
   
     def get(self):
         
-        excel_path = 'resource_api/raporlar/dosyalar/Atlanta_SM_stock.xlsx'
+        excel_path = 'resource_api/raporlar/dosyalar/numuneler_excel.xlsx'
 
         return send_file(excel_path,as_attachment=True)      
+
+class NumunelerExcelApi(Resource):
+    def post(self):
+        data = request.get_json()
+        islem = ExcelCiktiIslem()
+        result = islem.numuneler_ciktisi(data)
+        return jsonify({'status' : result})
+    def get(self):
+        excel_path = 'resource_api/raporlar/dosyalar/numuneler_excel.xlsx'
+        return send_file(excel_path,as_attachment=True)
+
+
+class NumunelerPoExcelListApi(Resource):
+    def post(self):
+        data = request.get_json()
+        islem = ExcelCiktiIslem()
+        result = islem.numuneler_po_ciktisi(data)
+        return jsonify({'status':result})
+    def get(self):
+        excel_path = 'resource_api/raporlar/dosyalar/numuneler_po_excel.xlsx'
+        return send_file(excel_path,as_attachment=True)
 
 class FooterCanvasPDF(Resource):
 
