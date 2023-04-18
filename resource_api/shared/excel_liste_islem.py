@@ -51,9 +51,12 @@ class ExcellCiktiIslem:
                 if(item['kenar']):
                     if (item['kenar']=='VAR'):
                         kenar = 1
+                    elif(item['kenar'] == 'Various'):
+                        kenar = 1
                     else: 
                         kenar = item['kenar'].replace(',','.')
                         kenar = float(kenar)
+                        
                 
                 else:
                     kenar=1
