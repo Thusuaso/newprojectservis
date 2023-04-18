@@ -591,7 +591,7 @@ class ExcelCiktiIslem:
                 sayfa.cell(satir,column=9,value=item['euroSatis'])  
                 sayfa.cell(satir,column=10,value=item['tlAlis'])  
                 sayfa.cell(satir,column=11,value=item['tlSatis'])
-                sayfa.cell(satir,column=112,value=item['gelenBedel'])  
+                sayfa.cell(satir,column=12,value=item['gelenBedel'])  
                   
                 
 
