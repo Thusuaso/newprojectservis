@@ -36,12 +36,19 @@ class UrunKart:
             return { 'kayitDurum' : False, 'hataMesaj' : str(e) }
 
     def guncelle(self,kart):
+        
         result = {
 
         }
 
         try:
-            
+            kart['urunId'] = self.__urunId(kart['urunAdi'])
+            kart['olcuId'] = self.__olcuId(kart['en'],kart['boy'],kart['kenar'])
+            kart['kategoriId'] = self.__kategoriId(kart['kategoriAdi'])
+            kart['yuzeyId'] = self.__yuzeyId(kart['yuzeyIslem'])
+            kayitKontrol = self.__kartKontrol(kart)
+            if kayitKontrol == False:
+                return { 'kayitDurum' : False,'hataMesaj' : "kart daha önceden kaydı var" }
             self.data.update_insert(
                 """
                 update UrunKartTB set UrunID=?,YuzeyID=?,OlcuID=?,
