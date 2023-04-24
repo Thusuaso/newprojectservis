@@ -99,11 +99,16 @@ class TahsilatIslem:
                     1,item['aciklama'],item['tutar'],item['masraf'],kullaniciid,item['kur']
                 )
             )
+            
             self.mailGonder(item['siparisno'],'Yeni Tahsilat Girişi',item['tutar'],item['tarih'],item['masraf'],item['kullaniciadi'])
             info =item['kullaniciadi'].capitalize() + ', ' + item['siparisno'] + ' $' + str(item['tutar']) +' Tahsilat Girişi Yaptı'
             DegisiklikMain().setYapilanDegisiklikBilgisi(item['kullaniciadi'].capitalize(),info)
-            yukleme_tarihi=""
-            DegisiklikMain().setMaliyetDegisiklik(info,item['kullaniciadi'].capitalize(),item['siparisno'],yukleme_tarihi)
+            yTarihi = self.data.getStoreList("""
+                                        select YuklemeTarihi from SiparislerTB where SiparisNo=?
+                                   
+                                   """,(item['siparisno']))[0].YuklemeTarihi
+ 
+            DegisiklikMain().setMaliyetDegisiklik(info,item['kullaniciadi'].capitalize(),item['siparisno'],self.dateConvert(yTarihi))
 
             data = {
                 'status':True,
@@ -113,7 +118,13 @@ class TahsilatIslem:
         except Exception as e:
             print('Tahsilat Kaydet Hata : ',str(e))
             return False
-
+    def dateConvert(self,date_v):
+        if (date_v) : 
+            forMat = '%d-%m-%Y'
+            date_v = datetime.datetime.strptime(date_v, forMat)
+            return date_v.date()
+        else:
+            return None
     def tahsilatGuncelle(self,item):
         tarih = item['tarih']
         forMat = '%d-%m-%Y'
@@ -142,8 +153,11 @@ class TahsilatIslem:
             self.mailGonder(item['siparisno'],'Tahsilat Değiştirme',item['tutar'],item['tarih'],item['masraf'],item['kullaniciadi'])
             info =item['kullaniciadi'] + ' ' + item['siparisno'] + ' ' + 'ya Tahsilat Değişikliği Yaptı'
             DegisiklikMain().setYapilanDegisiklikBilgisi(item['kullaniciadi'],info)
-            yukleme_tarihi=""
-            DegisiklikMain().setMaliyetDegisiklik(info,item['kullaniciadi'].capitalize(),item['siparisno'],yukleme_tarihi)
+            yTarihi = self.data.getStoreList("""
+                                        select YuklemeTarihi from SiparislerTB where SiparisNo=?
+                                   
+                                   """,(item['siparisno']))[0].YuklemeTarihi
+            DegisiklikMain().setMaliyetDegisiklik(info,item['kullaniciadi'].capitalize(),item['siparisno'],self.dateConvert(yTarihi))
             data = {
                 'status':True,
                 'siparisno':item['siparisno']
@@ -167,6 +181,15 @@ class TahsilatIslem:
                 """,(id)
             )
             self.mailGonder(result[0][3],'Tahsilat Silme İşlemi',str(float(result[0][7])),result[0][1],result[0][8],result[0][10])
+            yTarihi = self.data.getStoreList("""
+                                        select YuklemeTarihi from SiparislerTB where SiparisNo=?
+                                   
+                                   """,(result[0][3]))[0].YuklemeTarihi
+            if (yTarihi == None):
+                
+                yukleme_tarihi=""
+            else:
+                yukleme_tarihi = yTarihi
             if result[0][10] == 12:
                 info ='Hüseyin' + ' ' + result[0][3] + ' ' + 'nın Tahsilatını Sildi.'
                 DegisiklikMain().setYapilanDegisiklikBilgisi('Hüseyin',info)

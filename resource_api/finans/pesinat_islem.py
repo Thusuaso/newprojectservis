@@ -1,5 +1,5 @@
 from helpers import SqlConnect,MailService,DegisiklikMain
-
+import datetime
 
 class FinansPesinatIslem:
 
@@ -47,8 +47,15 @@ class FinansPesinatIslem:
            
             info =_item['kullaniciadi'].capitalize() + ', ' + item['siparis_no'] + ' $' + str(item['tutar']) + ' Peşinat Girişi Yaptı'
             DegisiklikMain().setYapilanDegisiklikBilgisi(_item['kullaniciadi'].capitalize(),info)
-            yukleme_tarihi=""
-            DegisiklikMain().setMaliyetDegisiklik(info,_item['kullaniciadi'].capitalize(),item['siparis_no'],yukleme_tarihi)
+            
+            yTarih = self.data.getStoreList("""
+                                                select YuklemeTarihi from SiparislerTB where SiparisNo=?
+                                            
+                                            """,(item['siparis_no']))[0].YuklemeTarihi
+                
+                
+                
+            DegisiklikMain().setMaliyetDegisiklik(info,_item['kullaniciadi'].capitalize(),item['siparis_no'],self.dateConvert(yTarih))
             MailService('Peşinat Tahsilat Bildirimi ',"huseyin@mekmarmarble.com",mail_konu)
             MailService('Peşinat Tahsilat Bildirimi ',"mehmet@mekmer.com",mail_konu)
           
@@ -61,7 +68,13 @@ class FinansPesinatIslem:
             print('PesinatIslem pesinat_kaydet Hata :',str(e))
             return False
 
-    
+    def dateConvert(self,date_v):
+        if (date_v) : 
+            forMat = '%d-%m-%Y'
+            date_v = datetime.datetime.strptime(date_v, forMat)
+            return date_v.date()
+        else:
+            return None
     def __siparisKontrol(self,item):
 
         result = self.data.getStoreList(

@@ -137,7 +137,7 @@ class KonteynerFaturalar:
                                    
                                    """,(item['siparisno']))
             info = item['siparisno'] + ' po ya ' + item['faturaNo'] + ' fatura no ile ' + item['fatura_tur_list']['name'] + ' faturası $ ' + item['Tutar_dolar'] + ' ve $ ' +  item['kur'] + ' kur girilmiştir.'
-            DegisiklikMain().setMaliyetDegisiklik(info,'Huseyin',item['siparisno'],result[0][1])
+            DegisiklikMain().setMaliyetDegisiklik(info,'Huseyin',item['siparisno'],self.dateConvert(result[0][1]))
             
             
             info = 'Huseyin Konteyner Fatura Girişi Yaptı.'
@@ -146,7 +146,14 @@ class KonteynerFaturalar:
         except Exception as e:
             print('konteynerKaydet  Hata : ',str(e))
         return False
-        
+    
+    def dateConvert(self,date_v):
+        if (date_v) : 
+            forMat = '%d-%m-%Y'
+            date_v = datetime.datetime.strptime(date_v, forMat)
+            return date_v.date()
+        else:
+            return None
         
     def __urunId(self,item):
         

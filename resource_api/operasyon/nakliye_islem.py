@@ -103,13 +103,21 @@ class NakliyeIslem:
                                    
                                    """,(key['siparisno']))
                 info = key['siparisno'] + ' po ya ' + key['faturaNo'] + ' fatura no ile ' + ' Nakliye faturası $ ' + key['Tutar_dolar'] + ' ve $ ' +  key['kur'] + ' kur girilmiştir.'
-                DegisiklikMain().setMaliyetDegisiklik(info,'Huseyin',key['siparisno'],result[0][1])
+                DegisiklikMain().setMaliyetDegisiklik(info,'Huseyin',key['siparisno'],self.dateConvert(result[0][1]))
             
         info = "Huseyin Nakliye Faturası Girişi Yaptı"
         DegisiklikMain().setYapilanDegisiklikBilgisi('Huseyin',info)
              
         print('nakliyeKaydet  Hata : ')
         return True
+    
+    def dateConvert(self,date_v):
+        if (date_v) : 
+            forMat = '%d-%m-%Y'
+            date_v = datetime.datetime.strptime(date_v, forMat)
+            return date_v.date()
+        else:
+            return None
     def masraflarSendMail(self,item,siparisNo,nowDate,y_tarihi):
         body = """
         <table >
