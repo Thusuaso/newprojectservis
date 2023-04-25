@@ -10,6 +10,7 @@ from resource_api.kontroller.uretimkontrolRestApi import *
 from resource_api.siparisler.faturaKesimTurList import FaturaKesimTurList
 from resource_api.siparisler.tedarikciRaporApi import *
 from resource_api.siparisler.dosyaislem import *
+from resource_api.siparisler.siparis_satisci_info import *
 
 
 

@@ -15,3 +15,4 @@ class StokListFilterAyrintiApi(Resource):
         stok = StokListFilter()
         liste = stok.getStokListFilterAyrinti(urunKartId)
         return liste
+    

@@ -20,5 +20,6 @@ class SiparisHepsiListResource(Resource):
         result2= siparis.getSiparisUrunHepsiList()
         
         return result2      
-       
+    
+
 

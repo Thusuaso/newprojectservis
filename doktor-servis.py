@@ -81,6 +81,7 @@ api.add_resource(SiparisUrun,'/siparisler/siparisUrun/<string:siparisNo>')
 api.add_resource(TeklifKategoriResource,'/teklifler/kategori')
 api.add_resource(MusteriResource,'/teklifler/musteri')
 api.add_resource(UlkeResource,'/teklifler/ulkeler')
+api.add_resource(SiparisSatisciInfoApi,'/uretim/satisci/info',methods=['GET'])
 
 ################################################BGP Projects################################################
 api.add_resource(BgpProjectApi,'/bgpProject/SaveBgpProject/<string:projectName>/<int:temsilci>/<string:bgpUlkeAdi>/<string:ulkeLogo>',methods=['GET'])
@@ -311,7 +312,6 @@ api.add_resource(PoProductList,'/islemler/seleksiyon/seleksiyonProductList/<stri
 api.add_resource(UretimSeleksiyonUrunKartApi,'/seleksiyon/islemler/urunKartBilgileri',methods=['GET'])
 
 api.add_resource(UretimSeleksiyonFazlasiMiApi,'/seleksiyon/islemler/uretimFazlasiMi/<string:po>/<int:urunkartid>',methods=['POST','GET'])
-
 
 
 api.add_resource(UretimOzetListApi,'/seleksiyon/listeler/uretimOzetList',methods=['GET'])
