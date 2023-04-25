@@ -132,7 +132,7 @@ api.add_resource(UlkeyeGoreMusteriListAyrintiApi,'/listeler/ulkeyeGoreMusteriLis
 #api.add_resource(MusteriSiparisListesi,'/listeler/musteriSiparisList')
 api.add_resource(KullaniciList,'/listeler/kullaniciList')
 api.add_resource(OperasyonKullaniciList,'/listeler/OperasyonKullaniciList')
-
+api.add_resource(SsOpChangeApi,'/uretim/satisci/change/<string:po>/<int:ss>/<int:op>',methods=['GET'])
 #raporlar
 api.add_resource(SiparisMasrafList,'/raporlar/siparisMasrafList/<string:siparisNo>')
 api.add_resource(SiparisCekiList,'/raporlar/siparisCekiList/<string:siparisNo>')

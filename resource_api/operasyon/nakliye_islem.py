@@ -112,12 +112,10 @@ class NakliyeIslem:
         return True
     
     def dateConvert(self,date_v):
-        if (date_v) : 
-            forMat = '%d-%m-%Y'
-            date_v = datetime.datetime.strptime(date_v, forMat)
-            return date_v.date()
+        if date_v != None : 
+            return date_v
         else:
-            return None
+            return ""
     def masraflarSendMail(self,item,siparisNo,nowDate,y_tarihi):
         body = """
         <table >

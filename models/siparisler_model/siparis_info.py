@@ -15,3 +15,11 @@ class SatisciInfoModel:
     satisci_adi = ""
     operasyon_id = 0
     operasyon_adi = ""
+    
+class SatisciInfoOzetSchema(Schema):
+    ad = fields.String()
+    adet = fields.Int()
+    
+class SatisciInfoOzetModel:
+    ad = ""
+    adet = 0
