@@ -1,4 +1,5 @@
 from helpers import SqlConnect
+from helpers import MailService
 from models.siparisler_model import *
 class SatisciInfo:
     def __init__(self):
@@ -102,10 +103,27 @@ class SatisciInfo:
     def setSatisciInfo(self,po,ss,op):
         try:
             
+            old = self.data.getStoreList("""
+                                        select SiparisSahibi,Operasyon from SiparislerTB where SiparisNo=?
+                                   """,(po))[0]
+            
+            if(old.SiparisSahibi != ss):
+                self.data.update_insert("""
+                                           update SiparislerTB SET SiparisSahibi=? where SiparisNo=? 
+                                        """,(ss,po))
+                mail = self.data.getStoreList("""
+                                        select MailAdres from KullaniciTB where ID=?
+                                   """,(ss))[0]
+                MailService()
+                
+            
             self.data.update_insert("""
                                         update SiparislerTB SET Operasyon=?,SiparisSahibi=? where SiparisNo=?
-                                    
                                     """,(op,ss,po))
+            
+            
+            
+            
             return True
         except Exception as e:
             return False

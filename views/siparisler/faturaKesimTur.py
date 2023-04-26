@@ -1,7 +1,7 @@
 from models.siparisler_model import FaturaKesimTurSchema,FaturaKesimTurModel
 from helpers import SqlConnect
 
-class faturaKesimTur:
+class FaturaKesimTur():
 
     def __init__(self):
         self.data = SqlConnect().data

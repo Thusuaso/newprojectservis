@@ -6,6 +6,6 @@ from views.siparisler.listeler.ocakList import *
 
 from resource_api.kontroller.kontrolRestApi import *
 from resource_api.kontroller.uretimkontrolRestApi import *
-from views.siparisler.faturaKesimTur import faturaKesimTur
+from views.siparisler.faturaKesimTur import FaturaKesimTur
 from views.siparisler.satisci_info import *
 
