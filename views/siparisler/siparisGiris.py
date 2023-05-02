@@ -1176,10 +1176,10 @@ class SiparisGiris:
                                 {degismeyen[0][4]} {degismeyen[0][7]} 
                             </td>
                             <td style ="border: 1px solid #ddd; padding: 8px;  font-family: Arial, Helvetica, sans-serif;border-collapse: collapse; width: 100px;">
-                                {degismeyen[0][2]}
+                                {round(float(degismeyen[0][2]),3)}
                             </td>
                             <td style ="border: 1px solid #ddd; padding: 8px;  font-family: Arial, Helvetica, sans-serif;border-collapse: collapse; width: 100px;">
-                                {float(degismeyen[0][3])}
+                                {round(float(degismeyen[0][3]),3)}
                             </td>
                         </tr>
                 
@@ -1211,10 +1211,10 @@ class SiparisGiris:
                             {float(degismeyen[i][0][4])} {degismeyen[i][0][7]} 
                             </td>
                             <td style ="border: 1px solid #ddd; padding: 8px;  font-family: Arial, Helvetica, sans-serif;border-collapse: collapse; width: 100px;">
-                            {float(degismeyen[i][0][2])}
+                            {round(float(degismeyen[i][0][2]),3)}
                             </td>
                             <td style ="border: 1px solid #ddd; padding: 8px;  font-family: Arial, Helvetica, sans-serif;border-collapse: collapse; width: 100px;">
-                            {float(degismeyen[i][0][3])}
+                            {round(float(degismeyen[i][0][3]),3)}
                             </td>
                         </tr>
                 
@@ -1244,10 +1244,10 @@ class SiparisGiris:
                             {float(item['miktar'])} {item['urunbirimAdi']} 
                         </td>
                         <td style ="border: 1px solid #ddd; padding: 8px;  font-family: Arial, Helvetica, sans-serif;border-collapse: collapse; width: 100px;background-color:{self.__kontrol(item['alisFiyati'],sayac,degismeyen,5)}">
-                            {float(item['alisFiyati'])}
+                            {round(float(item['alisFiyati']),3)}
                         </td>
                         <td style ="border: 1px solid #ddd; padding: 8px;  font-family: Arial, Helvetica, sans-serif;border-collapse: collapse; width: 100px;background-color:{self.__kontrol(item['satisFiyati'],sayac,degismeyen,6)}">
-                            {float(item['satisFiyati'])}
+                            {round(float(item['satisFiyati']),3)}
                         </td>
                     </tr>
             
@@ -1332,10 +1332,10 @@ class SiparisGiris:
                                 {degismeyen[0][4]} {degismeyen[0][7]} 
                             </td>
                             <td style ="border: 1px solid #ddd; padding: 8px;  font-family: Arial, Helvetica, sans-serif;border-collapse: collapse; width: 100px;">
-                                {degismeyen[0][2]}
+                                {round(float(degismeyen[0][2]),3)}
                             </td>
                             <td style ="border: 1px solid #ddd; padding: 8px;  font-family: Arial, Helvetica, sans-serif;border-collapse: collapse; width: 100px;">
-                                {float(degismeyen[0][3])}
+                                {round(float(degismeyen[0][3]),3)}
                             </td>
                         </tr>
                 
@@ -1365,10 +1365,10 @@ class SiparisGiris:
                             {float(degismeyen[i][0][4])} {degismeyen[i][0][7]} 
                             </td>
                             <td style ="border: 1px solid #ddd; padding: 8px;  font-family: Arial, Helvetica, sans-serif;border-collapse: collapse; width: 100px;">
-                            {float(degismeyen[i][0][2])}
+                            {round(float(degismeyen[i][0][2]),3)}
                             </td>
                             <td style ="border: 1px solid #ddd; padding: 8px;  font-family: Arial, Helvetica, sans-serif;border-collapse: collapse; width: 100px;">
-                            {float(degismeyen[i][0][3])}
+                            {round(float(degismeyen[i][0][3]),3)}
                             </td>
                         </tr>
                 
@@ -1399,10 +1399,10 @@ class SiparisGiris:
                             {float(item['miktar'])} {item['urunbirimAdi']} 
                         </td>
                         <td style ="border: 1px solid #ddd; padding: 8px;  font-family: Arial, Helvetica, sans-serif;border-collapse: collapse; width: 100px;background-color:{self.__kontrol(item['alisFiyati'],sayac,degismeyen,5)}">
-                            {float(item['alisFiyati'])}
+                            {round(float(item['alisFiyati']),3)}
                         </td>
                         <td style ="border: 1px solid #ddd; padding: 8px;  font-family: Arial, Helvetica, sans-serif;border-collapse: collapse; width: 100px;background-color:{self.__kontrol(item['satisFiyati'],sayac,degismeyen,6)}">
-                            {float(item['satisFiyati'])}
+                            {round(float(item['satisFiyati']),3)}
                         </td>
                     </tr>
 

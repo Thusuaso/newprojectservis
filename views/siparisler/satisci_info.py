@@ -104,24 +104,52 @@ class SatisciInfo:
         try:
             
             old = self.data.getStoreList("""
-                                        select SiparisSahibi,Operasyon from SiparislerTB where SiparisNo=?
+                                        select 
+										
+										
+										s.SiparisSahibi,
+										s.Operasyon,
+										(select k.KullaniciAdi from KullaniciTB k where k.ID = s.SiparisSahibi) as SiparisSahibiAd,
+										(select k.KullaniciAdi from KullaniciTB k where k.ID = s.Operasyon) as OperasyonAd
+
+										
+										
+										from SiparislerTB s where s.SiparisNo=?
                                    """,(po))[0]
             
-            if(old.SiparisSahibi != ss):
+            if(old.SiparisSahibi != ss and old.Operasyon == op):
                 self.data.update_insert("""
                                            update SiparislerTB SET SiparisSahibi=? where SiparisNo=? 
                                         """,(ss,po))
                 mail = self.data.getStoreList("""
-                                        select MailAdres from KullaniciTB where ID=?
+                                        select MailAdres,KullaniciAdi from KullaniciTB where ID=?
                                    """,(ss))[0]
-                MailService()
                 
+                MailService(po + ' ya ait satışçı değişti.',mail.MailAdres, po + ' ya ait satışçı ' + old.SiparisSahibiAd + ' => ' + mail.KullaniciAdi + ' devredilmiştir.')
+            elif (old.SiparisSahibi == ss and old.Operasyon != op):
+                self.data.update_insert("""
+                                           update SiparislerTB SET Operasyon=? where SiparisNo=? 
+                                        """,(op,po))
+                mail = self.data.getStoreList("""
+                                        select MailAdres,KullaniciAdi from KullaniciTB where ID=?
+                                   """,(op))[0]
+                
+                MailService(po + ' ya ait satışçı değişti.',mail.MailAdres, po + ' ya ait operasyoncu ' + old.OperasyonAd + ' => ' + mail.KullaniciAdi + ' devredilmiştir.')
             
-            self.data.update_insert("""
-                                        update SiparislerTB SET Operasyon=?,SiparisSahibi=? where SiparisNo=?
-                                    """,(op,ss,po))
-            
-            
+            elif (old.SiparisSahibi != ss and old.Operasyon != op):
+                self.data.update_insert("""
+                                           update SiparislerTB SET SiparisSahibi=? , Operasyon=? where SiparisNo=? 
+                                        """,(ss,op,po))
+                siparisSahibiMail = self.data.getStoreList("""
+                                        select MailAdres,KullaniciAdi from KullaniciTB where ID=?
+                                   """,(ss))[0]
+                operasyonMail = self.data.getStoreList("""
+                                        select MailAdres,KullaniciAdi from KullaniciTB where ID=?
+                                   """,(op))[0]
+                
+                MailService(po + ' ya ait satışçı değişti.',siparisSahibiMail.MailAdres, po + ' ya ait satışçı ' + old.SiparisSahibiAd + ' => ' + siparisSahibiMail.KullaniciAdi + ' devredilmiştir.')
+                MailService(po + ' ya ait satışçı değişti.',operasyonMail.MailAdres, po + ' ya ait operasyoncu ' + old.OperasyonAd + ' => ' + operasyonMail.KullaniciAdi + ' devredilmiştir.')
+                
             
             
             return True
