@@ -630,7 +630,7 @@ api.add_resource(UretimRaporApi,'/raporlar/listeler/uretimRaporuHepsi',methods=[
 api.add_resource(UretimRaporTarihApi,'/raporlar/listeler/uretimRaporTarih/<string:tarih>',methods=['GET'])
 api.add_resource(UretimRaporIkiTarihApi,'/raporlar/listeler/uretimRaporIkiTarih/<string:ilk_tarih>/<string:son_tarih>',methods=['GET'])
 api.add_resource(UretimRaporExcelApi,'/raporlar/dosyalar/uretimRaporExcelListe',methods=['GET','POST'])
-
+api.add_resource(TekliflerRaporExcelApi,'/raporlar/dosyalar/tekliflerRaporExcelListe',methods=['GET','POST'])
 
 api.add_resource(SevkiyatRaporHepsiMekmerApi,'/raporlar/listeler/sevkiyatRaporHepsiMekmer/<string:tarih>',methods=['GET'])
 api.add_resource(SevkiyatRaporAllMekmerApi,'/raporlar/listeler/sevkiyatRaporAllMekmer',methods=['GET'])

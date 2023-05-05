@@ -185,6 +185,28 @@ class UretimRaporExcelApi(Resource):
         excel_path = 'resource_api/raporlar/dosyalar/uretim_listesi.xlsx'
 
         return send_file(excel_path,as_attachment=True)
+    
+
+class TekliflerRaporExcelApi(Resource):
+
+    def post(self):
+
+        data_list = request.get_json()
+        
+        islem = ExcelCiktiIslem()
+        
+        result = islem.teklifler_rapor_ciktisi(data_list)
+
+        return jsonify({'status' : result})
+
+    def get(self):
+
+        excel_path = 'resource_api/raporlar/dosyalar/teklifler_listesi.xlsx'
+
+        return send_file(excel_path,as_attachment=True)
+
+
+
 
 class OcakRaporExcellApi(Resource):
 

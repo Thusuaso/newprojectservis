@@ -223,6 +223,45 @@ class ExcelCiktiIslem:
             print('ExcelCiktiIslem depoCikti Hata : ',str(e))
             return False
 
+    def teklifler_rapor_ciktisi(self,data_list):
+        try:
+            source_path = 'resource_api/raporlar/sablonlar/teklifler_listesi.xlsx'
+            target_path = 'resource_api/raporlar/dosyalar/teklifler_listesi.xlsx'
+
+            shutil.copy2(source_path, target_path)
+            kitap = load_workbook(target_path)
+            sayfa = kitap.get_sheet_by_name('Sayfa1')    
+            satir = 2
+
+            for item in data_list:
+                
+                sayfa.cell(satir,column=1,value=item['teklifno'])
+                sayfa.cell(satir,column=2,value=item['tarih'])
+                sayfa.cell(satir,column=3,value=item['kullaniciadi'])
+                sayfa.cell(satir,column=4,value=item['musteriadi'])
+                sayfa.cell(satir,column=5,value=item['ulkeadi'])
+                sayfa.cell(satir,column=6,value=item['kategoriadi'])
+                sayfa.cell(satir,column=7,value=item['urunadi'])
+                sayfa.cell(satir,column=8,value=item['islemadi'])
+                sayfa.cell(satir,column=9,value=item['enboy'])
+                sayfa.cell(satir,column=10,value=item['kalinlik'])
+                sayfa.cell(satir,column=11,value=item['birim'])
+                sayfa.cell(satir,column=12,value=item['fobfiyat'])
+                sayfa.cell(satir,column=13,value=item['tekliffiyat'])
+                
+                
+                
+                
+                satir += 1
+
+            kitap.save(target_path)
+            kitap.close()
+
+            return True
+
+        except Exception as e:
+            print('ExcelCiktiIslem depoCikti Hata : ',str(e))
+            return False
 
     
     
