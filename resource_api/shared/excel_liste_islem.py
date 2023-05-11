@@ -90,7 +90,37 @@ class ExcellCiktiIslem:
          except Exception as e:
             print('ceki_listesi_excel  Hata : ',str(e))
             return False  
-        
+    
+    
+    def mk_sevk_sip_rapor_excel(self,data):
+        try:
+            source_path = 'resource_api/shared/sablonlar/mk_sevk_sip_listesi.xlsx'
+            target_path = 'resource_api/shared/dosyalar/mk_sevk_sip_listesi.xlsx'
+
+            shutil.copy2(source_path, target_path)
+
+            kitap = load_workbook(target_path)
+            sayfa = kitap.get_sheet_by_name('Sayfa1')
+
+            satir = 2
+           
+            for item in data:
+
+                sayfa.cell(satir,column=1,value=item['musteriadi'])
+                sayfa.cell(satir,column=2,value=item['siparisfob'])
+                sayfa.cell(satir,column=3,value=item['yuklenenfob'])
+                sayfa.cell(satir,column=4,value=item['yuklenenddp'])
+                
+                satir += 1
+          
+            kitap.save(target_path)
+            kitap.close()
+
+            return True
+
+        except Exception as e:
+            print('ceki_listesi_excel  Hata : ',str(e))
+            return False     
     
         
         

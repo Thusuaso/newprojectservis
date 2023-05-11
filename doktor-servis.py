@@ -751,7 +751,9 @@ api.add_resource(NotificationIslemFollowApi,'/notification/islemler/follow',meth
 api.add_resource(NotificationIslemFollowAnsweredApi,'/notification/islemler/follow/answered',methods=['POST'])
 #Controls
 api.add_resource(ProformaKayitKontrolApi,'/controls/proforma/<string:siparisNo>',methods=['GET'])
-
+####
+api.add_resource(MkSevkSipRaporApi,'/raporlar/mkrapor/sevksip/<int:yil>',methods=['GET'])
+api.add_resource(MkSevkSipRaporExcelApi,'/raporlar/mkrapor/sevksip/excel',methods=['GET','POST'])
 
 if __name__ == '__main__':
     app.run(port=5000,debug=True) #https://doktor-servis.mekmar.com/raporlar/listeler/uretimRaporuHepsi

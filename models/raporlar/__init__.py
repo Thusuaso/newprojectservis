@@ -20,3 +20,4 @@ from models.raporlar.orderProducts import *
 from models.raporlar.ceyreklik_raporlar import * 
 from models.raporlar.mekmarRaporlari import *
 from models.raporlar.logs import *
+from models.raporlar.mkraporlar.raporlar import *

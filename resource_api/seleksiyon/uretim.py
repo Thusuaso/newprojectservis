@@ -358,7 +358,6 @@ class Uretim:
         
     def getProductCrateControl(self,data):
         try:
-            print("getProductCrateControl",data)
             uretim = self.data.getStoreList("""
                                                 select Miktar from UretimTB where SiparisAciklama=? and UrunKartID=?
                                             
@@ -378,7 +377,7 @@ class Uretim:
                 
             uretimMiktari += float(data['miktar']) * int(data['kasaadet'])
             
-            if(uretimMiktari > siparisMiktari):
+            if round(float(uretimMiktari),2) > round(float(siparisMiktari),2):
                 return True
             else:
                 return False

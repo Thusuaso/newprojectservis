@@ -36,6 +36,10 @@ class LogsMaliyet:
                 model.yil = item.Year
                 model.ay = item.Month
                 model.gun = item.Day
+                model.yuklenen_bu_ay_sip = item.YuklenenBuAyHaric
+                model.yuklenen_yil_sonu_tahmin = item.YuklenenYilSonuTahmin
+                model.siparis_bu_ay = item.SiparisBuAyHaric
+                model.siparis_yil_sonu_tahmin = item.SiparisYilSonuTahmin
                 liste.append(model)
             schema = LogsMaliyetSchema(many=True)
             return schema.dump(liste)

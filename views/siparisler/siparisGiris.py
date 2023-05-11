@@ -312,15 +312,7 @@ class SiparisGiris:
         
         try:
                 
-            mailListesi = []
-            for item in degisenMasraflar:
-                if(item['isChange'] == 1):
-                    mailListesi.append(self.__maliyetDegisimSendMail(item,siparis['siparisNo']))
             
-            for item in mailListesi:
-                info = item['degisenAdi'] + ' $' + str(item['eskiDeger']) + ' dan $' + str(item['yeniDeger']) + ' e değişti.'
-
-                DegisiklikMain().setMaliyetDegisiklik(info,siparis['kayit_kisi'],siparis['siparisNo'],siparis['yuklemeTarihi'])
 
             if(siparis['siparisDurumId']==1 and (siparis['odemeTurId']==1 or siparis['odemeTurId'] ==2) ):
                 MailService(siparis['siparisNo'] + " nolu Sipariş Tahsil Edilmeli", "huseyin@mekmarmarble.com", siparis['siparisNo'] + ' nolu yeni sipariş bekleyende, tahsilatını gerçekleştirip üretime alınız!') 
@@ -453,7 +445,15 @@ class SiparisGiris:
                 'status':True,
             }
           
+            mailListesi = []
+            for item in degisenMasraflar:
+                if(item['isChange'] == 1):
+                    mailListesi.append(self.__maliyetDegisimSendMail(item,siparis['siparisNo']))
             
+            for item in mailListesi:
+                info = item['degisenAdi'] + ' $' + str(item['eskiDeger']) + ' dan $' + str(item['yeniDeger']) + ' e değişti.'
+
+                DegisiklikMain().setMaliyetDegisiklik(info,siparis['kayit_kisi'],siparis['siparisNo'],siparis['yuklemeTarihi'])
               
             return data
         except Exception as e:

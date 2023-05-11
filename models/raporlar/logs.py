@@ -10,7 +10,10 @@ class LogsMaliyetSchema(Schema):
     yil = fields.String()
     ay = fields.String()
     gun = fields.String()
-    
+    yuklenen_bu_ay_sip = fields.Float()
+    yuklenen_yil_sonu_tahmin = fields.Float()
+    siparis_bu_ay = fields.Float()
+    siparis_yil_sonu_tahmin = fields.Float()
 class LogsMaliyetModel:
     id = 0
     kayit_tarihi = ""
@@ -21,3 +24,7 @@ class LogsMaliyetModel:
     yil = ""
     ay = ""
     gun = ""
+    yuklenen_bu_ay_sip = 0
+    yuklenen_yil_sonu_tahmin = 0
+    siparis_bu_ay = 0
+    siparis_yil_sonu_tahmin = 0
