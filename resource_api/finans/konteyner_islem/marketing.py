@@ -1,7 +1,7 @@
 
 import datetime
 from helpers import SqlConnect
-from models.finans import MarketingSchema,MarketingModel,BdDepoSchema,BdDepoModel,AylikYuklemeSchema,AylikYuklemeModel,MarketingAyrintiSchema,MarketingAyrintiModel,MarketingMonthLoadModel,MarketingMonthLoadSchema,MarketingMonthLoadAyrintiModel,MarketingMonthLoadAyrintiSchema
+from models.finans import *
 from openpyxl import *
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Protection, Font
 
@@ -63,9 +63,8 @@ class Marketing:
                                                                  """)
         self.icPiyasaAyrintiMasraflar = []
         self.mekmerAyrintiMasraflar = []
+        self.poBazindaNavlun = []
 
-    
-    
     def getMarketingYuklemeHepsi(self):
         result = self.data.getList("""
                                             select 	
@@ -119,7 +118,7 @@ class Marketing:
         schema = MarketingSchema(many=True)
         return schema.dump(self.liste)
     
-    def getMarketingYukleme(self,month):
+    def getMarketingYukleme(self,year):
         
         result = self.data.getStoreList("""
                                             select 	
@@ -129,11 +128,11 @@ class Marketing:
                                                 inner join SiparislerTB s on s.MusteriID = m.ID
                                                 inner join SiparisUrunTB su on su.SiparisNo = s.SiparisNo
                                             where 	
-                                                YEAR(s.YuklemeTarihi) = YEAR(GETDATE()) and s.SiparisDurumID =3 and MONTH(s.YuklemeTarihi) =?
+                                                YEAR(s.YuklemeTarihi) = ? and s.SiparisDurumID =3 
                                             group by
                                                 m.Marketing
 
-                                        """,(month))
+                                        """,(year))
         
         self.navlunYukleme = self.data.getStoreList("""
                                                 select 	
@@ -147,12 +146,12 @@ class Marketing:
                                                 from MusterilerTB m	
                                                     inner join SiparislerTB s on s.MusteriID = m.ID
                                                 where 	
-                                                    YEAR(s.YuklemeTarihi) = YEAR(GETDATE()) and s.SiparisDurumID =3 and MONTH(s.YuklemeTarihi) =?
+                                                    YEAR(s.YuklemeTarihi) = ? and s.SiparisDurumID =3
                                                 group by
                                                     m.Marketing
                                                                                             
                                              
-                                             """,(month))
+                                             """,(year))
         
         
         for item in result:
@@ -173,7 +172,7 @@ class Marketing:
         schema = MarketingSchema(many=True)
         return schema.dump(self.liste)
     
-    def getMarketingDetail(self,month):
+    def getMarketingDetail(self,year):
         try:
             result = self.data.getStoreList("""
                                                 select            
@@ -185,7 +184,7 @@ class Marketing:
                                     
                                                             
                                         (          
-                                        Select Sum(u.SatisToplam) from SiparislerTB s, SiparisUrunTB u where s.SiparisNo=u.SiparisNo and s.SiparisDurumID=3 and s.MusteriID=m.ID and Year(s.YuklemeTarihi)=Year(GetDate()) and MONTH(s.YuklemeTarihi) = ?  
+                                        Select Sum(u.SatisToplam) from SiparislerTB s, SiparisUrunTB u where s.SiparisNo=u.SiparisNo and s.SiparisDurumID=3 and s.MusteriID=m.ID and Year(s.YuklemeTarihi)=?
                                             
                                         ) as Toplam 
 
@@ -193,7 +192,7 @@ class Marketing:
                                                     from            
                                                     MusterilerTB m
                                             
-                                            """,(month))
+                                            """,(year))
             self.marketingNavlun = self.data.getStoreList("""
                                                 select            
                  m.ID as MusteriId,            
@@ -204,23 +203,23 @@ class Marketing:
  
                            
     (          
-     Select Sum(s.NavlunSatis) from SiparislerTB s where s.SiparisDurumID=3 and s.MusteriID=m.ID and Year(s.YuklemeTarihi)=Year(GetDate()) and MONTH(s.YuklemeTarihi) = ?  
+     Select Sum(s.NavlunSatis) from SiparislerTB s where s.SiparisDurumID=3 and s.MusteriID=m.ID and Year(s.YuklemeTarihi)=?  
           
     ) +
 	(          
-     Select Sum(s.DetayTutar_1) from SiparislerTB s where s.SiparisDurumID=3 and s.MusteriID=m.ID and Year(s.YuklemeTarihi)=Year(GetDate()) and MONTH(s.YuklemeTarihi) = ?
+     Select Sum(s.DetayTutar_1) from SiparislerTB s where s.SiparisDurumID=3 and s.MusteriID=m.ID and Year(s.YuklemeTarihi)=?
           
     ) +
 	(          
-     Select Sum(s.DetayTutar_2) from SiparislerTB s where s.SiparisDurumID=3 and s.MusteriID=m.ID and Year(s.YuklemeTarihi)=Year(GetDate()) and MONTH(s.YuklemeTarihi) = ?  
+     Select Sum(s.DetayTutar_2) from SiparislerTB s where s.SiparisDurumID=3 and s.MusteriID=m.ID and Year(s.YuklemeTarihi)=?  
           
     )+
 	(          
-     Select Sum(s.DetayTutar_3) from SiparislerTB s where s.SiparisDurumID=3 and s.MusteriID=m.ID and Year(s.YuklemeTarihi)=Year(GetDate()) and MONTH(s.YuklemeTarihi) = ?  
+     Select Sum(s.DetayTutar_3) from SiparislerTB s where s.SiparisDurumID=3 and s.MusteriID=m.ID and Year(s.YuklemeTarihi)=? 
           
     ) +
 	(          
-     Select Sum(s.DetayTutar_4) from SiparislerTB s where s.SiparisDurumID=3 and s.MusteriID=m.ID and Year(s.YuklemeTarihi)=Year(GetDate()) and MONTH(s.YuklemeTarihi) = ?  
+     Select Sum(s.DetayTutar_4) from SiparislerTB s where s.SiparisDurumID=3 and s.MusteriID=m.ID and Year(s.YuklemeTarihi)=?  
           
     ) as Masraflar
 
@@ -228,7 +227,7 @@ class Marketing:
                 from            
                 MusterilerTB m
                                             
-                                            """,(month,month,month,month,month))    
+                                            """,(year,year,year,year,year))    
         
             liste = list()
             for item in result:
@@ -388,8 +387,6 @@ class Marketing:
         schema = MarketingSchema(many=True)
         return schema.dump(liste)
 
- 
-
     def getMarketingDepo(self,month):
         result = self.data.getStoreList("""
                                             select 
@@ -460,16 +457,14 @@ class Marketing:
                 continue
             else:
                 return item.Navlun + item.DetayTutar1 + item.DetayTutar2 + item.DetayTutar3 + item.DetayTutar4
-            
-            
+                  
     def __getNavlunUretim(self,marketing):
         for item in self.navlunUretim:
             if item.Marketing != marketing:
                 continue
             else:
                 return item.Navlun
-            
-            
+               
     def getBdDepoList(self):
         result =self.data.getList("""
                             select 
@@ -500,7 +495,6 @@ class Marketing:
         
         schema = BdDepoSchema(many=True)
         return schema.dump(liste)
-    
     
     def getYuklemeAylikList(self):
         
@@ -648,11 +642,6 @@ class Marketing:
 
             satir = 2
             satir2 = 2
-            toplamSatisBuyil = 0
-            toplamSatisGecenyil = 0
-            toplamSatisOncekiyil = 0
-            toplamSatisOnDokuzyil = 0
-            toplamSatisOnSekizyil = 0
             toplamSatisTotal = 0
             toplamSatisTotalCfr = 0
             border = Border(left=Side(border_style="thin",color='FF000000'),right=Side(border_style="thin",color='FF000000'),top=Side(border_style="thin",color='FF000000'),bottom=Side(border_style="thin",color='FF000000'))
@@ -662,55 +651,17 @@ class Marketing:
                 sayfa.cell(satir,column=2,value=item['marketing']).border = border
                 sayfa.cell(satir,column=3,value=item['ulkeAdi']).border = border
                 
-                if(item['satisToplamiBuYil'] != None):
-                    sayfa.cell(satir,column=4,value=item['satisToplamiBuYil']).border = border
+                
+                if(item['toplam'] != None):
+                    sayfa.cell(satir,column=4,value=item['toplam']).border = border
                 else:
                     sayfa.cell(satir,column=4,value=0).border = border
-                
-                if(item['satisToplamiGecenYil'] != None):
-                    sayfa.cell(satir,column=5,value=item['satisToplamiGecenYil']).border = border
+                    
+                if(item['toplam'] != None):
+                    sayfa.cell(satir,column=5,value=item['toplamCfr']).border = border
                 else:
                     sayfa.cell(satir,column=5,value=0).border = border
-                
-                if(item['satisToplamiOncekiYil'] != None):
-                    sayfa.cell(satir,column=6,value=item['satisToplamiOncekiYil']).border = border
-                else:
-                    sayfa.cell(satir,column=6,value=0).border = border
-                    
-                if(item['satisToplamiOnDokuzYil'] != None):
-                    sayfa.cell(satir,column=7,value=item['satisToplamiOnDokuzYil']).border = border
-                else:
-                    sayfa.cell(satir,column=7,value=0).border = border
-                
-                if(item['satisToplamiOnSekizYil'] != None):
-                    sayfa.cell(satir,column=8,value=item['satisToplamiOnSekizYil']).border = border
-                else:
-                    sayfa.cell(satir,column=8,value=0).border = border
-                
-                
-                
-                if(item['toplam'] != None):
-                    sayfa.cell(satir,column=9,value=item['toplam']).border = border
-                else:
-                    sayfa.cell(satir,column=9,value=0).border = border
-                    
-                if(item['toplam'] != None):
-                    sayfa.cell(satir,column=10,value=item['toplamCfr']).border = border
-                else:
-                    sayfa.cell(satir,column=10,value=0).border = border
 
-                if(item['satisToplamiBuYil'] != None):
-                    toplamSatisBuyil += item['satisToplamiBuYil']
-                if(item['satisToplamiGecenYil'] != None):
-                    toplamSatisGecenyil += item['satisToplamiGecenYil']
-                if(item['satisToplamiOncekiYil'] != None):
-                    toplamSatisOncekiyil += item['satisToplamiOncekiYil']
-                if(item['satisToplamiOnDokuzYil'] != None):
-                    toplamSatisOnDokuzyil += item['satisToplamiOnDokuzYil']
-                
-                if(item['satisToplamiOnSekizYil'] != None):
-                    toplamSatisOnSekizyil += item['satisToplamiOnSekizYil']
-                
                 if(item['toplam'] != None):
                     toplamSatisTotal += item['toplam']
                     
@@ -722,24 +673,10 @@ class Marketing:
                 
                 satir += 1
             a1=sayfa.cell(satir,column=1,value='Toplam').font = Font(color='f44336',bold=True)
-            a1.border = border
-            a2 = sayfa.cell(satir,column=4,value=self.__getNoneType(toplamSatisBuyil)).font = Font(color='f44336',bold=True)
-            a2.border = border
-            a3=sayfa.cell(satir,column=5,value=self.__getNoneType(toplamSatisGecenyil)).font = Font(color='f44336',bold=True)
-            a3.border = border
             
-            a4=sayfa.cell(satir,column=6,value=self.__getNoneType(toplamSatisOncekiyil)).font = Font(color='f44336',bold=True)
-            a4.border = border
-            a5=sayfa.cell(satir,column=7,value=self.__getNoneType(toplamSatisOnDokuzyil)).font = Font(color='f44336',bold=True)
-            a5.border = border
-            
-            a6=sayfa.cell(satir,column=8,value=self.__getNoneType(toplamSatisOnSekizyil)).font = Font(color='f44336',bold=True)
-            a6.border = border
-            
-            
-            a7 = sayfa.cell(satir,column=9,value=self.__getNoneType(toplamSatisTotal)).font = Font(color='f44336',bold=True)
+            a7 = sayfa.cell(satir,column=4,value=self.__getNoneType(toplamSatisTotal)).font = Font(color='f44336',bold=True)
             a7.border = border
-            a8=sayfa.cell(satir,column=10,value=self.__getNoneType(toplamSatisTotalCfr)).font = Font(color='f44336',bold=True)
+            a8=sayfa.cell(satir,column=5,value=self.__getNoneType(toplamSatisTotalCfr)).font = Font(color='f44336',bold=True)
             a8.border = border
             
             
@@ -751,18 +688,18 @@ class Marketing:
 
                 sayfa.cell(satir,column=1,value=item['marketing']).border=border
                 
-                if(item['fobToplam'] != None):
-                    sayfa.cell(satir,column=2,value=item['fobToplam']).border=border
+                if(item['toplam'] != None):
+                    sayfa.cell(satir,column=2,value=item['toplam']).border=border
                 else:
                     sayfa.cell(satir,column=2,value=0).border=border
                 
-                if(item['cfrToplam'] != None):
-                    sayfa.cell(satir,column=3,value=item['cfrToplam']).border=border
+                if(item['toplamCfr'] != None):
+                    sayfa.cell(satir,column=3,value=item['toplamCfr']).border=border
                 else:
                     sayfa.cell(satir,column=3,value=0).border=border
 
-                toplamYuklemeFobProduct += self.__getNoneType(item['fobToplam'])
-                toplamYuklemeCfrProduct += self.__getNoneType(item['cfrToplam'])
+                toplamYuklemeFobProduct += self.__getNoneType(item['toplam'])
+                toplamYuklemeCfrProduct += self.__getNoneType(item['toplamCfr'])
                 
                 
                 satir += 1
@@ -780,20 +717,17 @@ class Marketing:
             toplamCfr = 0
             for item in data['imperialHomes']:
                 sayfa2.cell(satir2,column=1,value=item['musteriAdi']).border = border
-                sayfa2.cell(satir2,column=2,value=self.__getNoneType(item['satisToplamiBuYil'])).border = border
-                sayfa2.cell(satir2,column=3,value=self.__getNoneType(item['toplam'])).border = border
-                sayfa2.cell(satir2,column=4,value=self.__getNoneType(item['toplamCfr'])).border = border
+                sayfa2.cell(satir2,column=2,value=self.__getNoneType(item['toplam'])).border = border
+                sayfa2.cell(satir2,column=3,value=self.__getNoneType(item['toplamCfr'])).border = border
                 buyilToplam += self.__getNoneType(item['satisToplamiBuYil'])
                 toplamFob += self.__getNoneType(item['toplam'])
                 toplamCfr += self.__getNoneType(item['toplamCfr'])
                 satir2 += 1
             b1 = sayfa2.cell(satir2,column=1,value='Toplam').font = Font(color='f44336',bold=True)
             b1.border = border
-            b2 = sayfa2.cell(satir2,column=2,value=buyilToplam).font = Font(color='f44336',bold=True)
-            b2.border = border
-            b3=sayfa2.cell(satir2,column=3,value=toplamFob).font = Font(color='f44336',bold=True)
+            b3=sayfa2.cell(satir2,column=2,value=toplamFob).font = Font(color='f44336',bold=True)
             b3.border = border
-            b4=sayfa2.cell(satir2,column=4,value=toplamCfr).font = Font(color='f44336',bold=True)
+            b4=sayfa2.cell(satir2,column=3,value=toplamCfr).font = Font(color='f44336',bold=True)
             b4.border = border
             
             
@@ -803,24 +737,21 @@ class Marketing:
             toplamFobMekmar = 0
             toplamCfrMekmar = 0
             for item in data['mekmar']:
-                sayfa2.cell(satir3,column=6,value=item['musteriAdi']).border = border
-                sayfa2.cell(satir3,column=7,value=self.__getNoneType(item['satisToplamiBuYil'])).border = border
-                sayfa2.cell(satir3,column=8,value=self.__getNoneType(item['toplam'])).border = border
-                sayfa2.cell(satir3,column=9,value=self.__getNoneType(item['toplamCfr'])).border = border
+                sayfa2.cell(satir3,column=5,value=item['musteriAdi']).border = border
+                sayfa2.cell(satir3,column=6,value=self.__getNoneType(item['toplam'])).border = border
+                sayfa2.cell(satir3,column=7,value=self.__getNoneType(item['toplamCfr'])).border = border
                 buyilToplamMekmar += self.__getNoneType(item['satisToplamiBuYil'])
                 toplamFobMekmar += self.__getNoneType(item['toplam'])
                 toplamCfrMekmar += self.__getNoneType(item['toplamCfr'])
                 
                 satir3 += 1
-            c1=sayfa2.cell(satir3,column=6,value='Toplam').font = Font(color='f44336',bold=True)
+            c1=sayfa2.cell(satir3,column=5,value='Toplam').font = Font(color='f44336',bold=True)
             c1.border = border
-            c2=sayfa2.cell(satir3,column=7,value=self.__getNoneType(buyilToplamMekmar)).font = Font(color='f44336',bold=True)
-            c2.border = border
             
-            c3=sayfa2.cell(satir3,column=8,value=self.__getNoneType(toplamFobMekmar)).font = Font(color='f44336',bold=True)
+            c3=sayfa2.cell(satir3,column=6,value=self.__getNoneType(toplamFobMekmar)).font = Font(color='f44336',bold=True)
             c3.border = border
             
-            c4=sayfa2.cell(satir3,column=9,value=self.__getNoneType(toplamCfrMekmar)).font = Font(color='f44336',bold=True)
+            c4=sayfa2.cell(satir3,column=7,value=self.__getNoneType(toplamCfrMekmar)).font = Font(color='f44336',bold=True)
             c4.border = border
             
             
@@ -829,22 +760,19 @@ class Marketing:
             toplamFobIcPiyasa = 0
             toplamCfrIcPiyasa = 0
             for item in data['icPiyasa']:
-                sayfa2.cell(satir4,column=11,value=item['musteriAdi']).border = border
-                sayfa2.cell(satir4,column=12,value=self.__getNoneType(item['satisToplamiBuYil'])).border = border
-                sayfa2.cell(satir4,column=13,value=self.__getNoneType(item['toplam'])).border = border
-                sayfa2.cell(satir4,column=14,value=self.__getNoneType(item['toplamCfr'])).border = border
+                sayfa2.cell(satir4,column=9,value=item['musteriAdi']).border = border
+                sayfa2.cell(satir4,column=10,value=self.__getNoneType(item['toplam'])).border = border
+                sayfa2.cell(satir4,column=11,value=self.__getNoneType(item['toplamCfr'])).border = border
                 buyilToplamIcPiyasa += self.__getNoneType(item['satisToplamiBuYil'])
                 toplamFobIcPiyasa += self.__getNoneType(item['toplam'])
                 toplamCfrIcPiyasa += self.__getNoneType(item['toplamCfr'])
                 
                 satir4 += 1
-            d1=sayfa2.cell(satir4,column=11,value='Toplam').font = Font(color='f44336',bold=True)
+            d1=sayfa2.cell(satir4,column=9,value='Toplam').font = Font(color='f44336',bold=True)
             d1.border = border
-            d2=sayfa2.cell(satir4,column=12,value=buyilToplamIcPiyasa).font = Font(color='f44336',bold=True)
-            d2.border = border
-            d3=sayfa2.cell(satir4,column=13,value=toplamFobIcPiyasa).font = Font(color='f44336',bold=True)
+            d3=sayfa2.cell(satir4,column=10,value=toplamFobIcPiyasa).font = Font(color='f44336',bold=True)
             d3.border = border
-            d4=sayfa2.cell(satir4,column=14,value=toplamCfrIcPiyasa).font = Font(color='f44336',bold=True)
+            d4=sayfa2.cell(satir4,column=11,value=toplamCfrIcPiyasa).font = Font(color='f44336',bold=True)
             d4.border = border
                 
 
@@ -854,24 +782,21 @@ class Marketing:
             toplamFobMekmer = 0
             toplamCfrMekmer = 0
             for item in data['mekmer']:
-                sayfa2.cell(satir5,column=16,value=item['musteriAdi']).border = border
-                sayfa2.cell(satir5,column=17,value=self.__getNoneType(item['satisToplamiBuYil'])).border = border
-                sayfa2.cell(satir5,column=18,value=self.__getNoneType(item['toplam'])).border = border
-                sayfa2.cell(satir5,column=19,value=self.__getNoneType(item['toplamCfr'])).border = border
+                sayfa2.cell(satir5,column=13,value=item['musteriAdi']).border = border
+                sayfa2.cell(satir5,column=14,value=self.__getNoneType(item['toplam'])).border = border
+                sayfa2.cell(satir5,column=15,value=self.__getNoneType(item['toplamCfr'])).border = border
                 buyilToplamMekmer += self.__getNoneType(item['satisToplamiBuYil'])
                 toplamFobMekmer += self.__getNoneType(item['toplam'])
                 toplamCfrMekmer += self.__getNoneType(item['toplamCfr'])
                 
                 satir5 += 1
-            e1=sayfa2.cell(satir5,column=16,value='Toplam').font = Font(color='f44336',bold=True)
+            e1=sayfa2.cell(satir5,column=13,value='Toplam').font = Font(color='f44336',bold=True)
             e1.border = border
-            e2=sayfa2.cell(satir5,column=17,value=buyilToplamMekmer).font = Font(color='f44336',bold=True)
-            e2.border = border
             
-            e3=sayfa2.cell(satir5,column=18,value=toplamFobMekmer).font = Font(color='f44336',bold=True)
+            e3=sayfa2.cell(satir5,column=14,value=toplamFobMekmer).font = Font(color='f44336',bold=True)
             e3.border = border
             
-            e4=sayfa2.cell(satir5,column=19,value=toplamCfrMekmer).font = Font(color='f44336',bold=True)
+            e4=sayfa2.cell(satir5,column=15,value=toplamCfrMekmer).font = Font(color='f44336',bold=True)
             e4.border = border
 
                 
@@ -931,37 +856,6 @@ class Marketing:
             a3=sayfa.cell(satir,column=3,value=toplamYuklemeCfr).font = Font(color='f44336',bold=True)
             a3.border=border
             
-            
-            
-            
-            
-            toplamYuklemeFobWarehouse = 0
-            toplamYuklemeCfrWarehouse = 0
-            for item in data['byMarketingWarehouseLoad']:
-
-                sayfa.cell(satir3,column=5,value=item['marketing']).border=border
-                
-                if(item['fobToplam'] != None):
-                    sayfa.cell(satir3,column=6,value=item['fobToplam']).border=border
-                else:
-                    sayfa.cell(satir3,column=6,value=0).border=border
-                
-                if(item['cfrToplam'] != None):
-                    sayfa.cell(satir3,column=7,value=item['cfrToplam']).border=border
-                else:
-                    sayfa.cell(satir3,column=7,value=0).border=border
-
-                toplamYuklemeFobWarehouse += self.__getNoneType(item['fobToplam'])
-                toplamYuklemeCfrWarehouse += self.__getNoneType(item['cfrToplam'])
-                
-                
-                satir3 += 1
-            c1=sayfa.cell(satir3,column=5,value='Toplam').font = Font(color='f44336',bold=True)
-            c1.border=border
-            c2=sayfa.cell(satir3,column=6,value=toplamYuklemeFobWarehouse).font = Font(color='f44336',bold=True)
-            c2.border=border
-            c3=sayfa.cell(satir3,column=7,value=toplamYuklemeCfrWarehouse).font = Font(color='f44336',bold=True)
-            c3.border=border
             
             toplamYuklemeFobImperialHomes = 0
             toplamYuklemeCfrImperialHomes = 0
@@ -1132,8 +1026,7 @@ class Marketing:
         if value == None:
             return 0
         else:
-            return value
-        
+            return float(value)
         
     def getMarketingMonthIcPiyasaLoad(self):
         try:
@@ -1166,7 +1059,6 @@ class Marketing:
         for item in self.navlunveDigerleriMonth:
             if item.Month == month:
                 return self.__getNoneType(item.Masraf)
-    
     
     def getMarketingMonthMekmerLoad(self):
         try:
@@ -1314,4 +1206,108 @@ class Marketing:
         for item in self.mekmerAyrintiMasraflar:
             if item.SiparisNo == siparisNo:
                 return self.__getNoneType(item.Navlun),self.__getNoneType(item.Detay1),self.__getNoneType(item.Detay2),self.__getNoneType(item.Detay3),self.__getNoneType(item.Detay4)
-     
+    
+    def getPoBazindaYillikSiparisler(self,yil):
+        try:
+            result = self.data.getStoreList("""
+                                                select 
+                                                    s.SiparisNo,
+                                                    m.FirmaAdi,
+                                                    sum(su.SatisToplam) as SiparisToplam,
+													st.TeslimTur,
+                                                    s.SiparisTarihi
+                                                from SiparislerTB s
+                                                    inner join SiparisUrunTB su on su.SiparisNo = s.SiparisNo
+                                                    inner join MusterilerTB m on m.ID = s.MusteriID
+													inner join SiparisTeslimTurTB st on st.ID = s.TeslimTurID
+                                                where YEAR(s.SiparisTarihi)= ? and m.Marketing = 'Mekmar'
+
+                                                group by
+                                                    s.SiparisNo,m.FirmaAdi,st.TeslimTur,s.SiparisTarihi
+                                                order by sum(su.SatisToplam) desc
+                                            """,(yil))
+            self.poBazindaNavlun = self.data.getStoreList("""
+                                                            select 
+                                                                s.SiparisNo,
+                                                                m.FirmaAdi,
+                                                                s.NavlunSatis + s.DetayTutar_1 + s.DetayTutar_2 + s.DetayTutar_3 + s.DetayTutar_4 as GelenTotal
+
+                                                            from SiparislerTB s
+                                                                inner join MusterilerTB m on m.ID = s.MusteriID
+                                                            where YEAR(s.SiparisTarihi)= ? and m.Marketing = 'Mekmar'
+                                                          
+                                                          """,(yil))
+            liste = list()
+            for item in result:
+                model = PoBazindaYillikModel()
+                model.po = item.SiparisNo
+                model.fob = self.__getNoneType(item.SiparisToplam)
+                model.ddp = model.fob + self.__getNoneType(self.__getPoBazindaNavlun(item.SiparisNo))
+                model.teslim = item.TeslimTur
+                model.firma = item.FirmaAdi
+                model.tarih = item.SiparisTarihi
+                liste.append(model)
+            schema = PoBazindaYillikSchema(many=True)
+            return schema.dump(liste)
+            
+        except Exception as e:
+            print('getPoBazindaYillikSiparisler hata',str(e))
+            return False
+        
+    def __getPoBazindaNavlun(self,po):
+        for item in self.poBazindaNavlun:
+            if(item.SiparisNo == po):
+                return item.GelenTotal
+            
+    def getPoBazindaYillikSiparislerExcel(self,data):
+        try:
+            source_path = r"resource_api/raporlar/sablonlar/by_po_uretim_liste.xlsx"
+            target_path = r"resource_api/raporlar/dosyalar/by_po_uretim_liste.xlsx"
+
+            shutil.copy2(source_path,target_path)
+
+            kitap = load_workbook(target_path)
+            sayfa = kitap.get_sheet_by_name('Sayfa1')
+
+            satir = 2
+            toplamYuklemeFob = 0
+            toplamYuklemeCfr = 0
+            border = Border(left=Side(border_style="thin",color='FF000000'),right=Side(border_style="thin",color='FF000000'),top=Side(border_style="thin",color='FF000000'),bottom=Side(border_style="thin",color='FF000000'))
+            for item in data:
+                sayfa.cell(satir,column=1,value=item['tarih']).border=border
+                sayfa.cell(satir,column=2,value=item['firma']).border=border
+                sayfa.cell(satir,column=3,value=item['po']).border=border
+                sayfa.cell(satir,column=4,value=item['teslim']).border=border
+                
+                
+                if(item['fob'] != None):
+                    sayfa.cell(satir,column=5,value=item['fob']).border=border
+                else:
+                    sayfa.cell(satir,column=5,value=0).border=border
+                
+                if(item['ddp'] != None):
+                    sayfa.cell(satir,column=6,value=item['ddp']).border=border
+                else:
+                    sayfa.cell(satir,column=6,value=0).border=border
+
+                toplamYuklemeFob += self.__getNoneType(item['fob'])
+                toplamYuklemeCfr += self.__getNoneType(item['ddp'])
+                
+                
+                satir += 1
+            a1=sayfa.cell(satir,column=1,value='Toplam').font = Font(color='f44336',bold=True)
+            a1.border=border
+            a2=sayfa.cell(satir,column=5,value=toplamYuklemeFob).font = Font(color='f44336',bold=True)
+            a2.border=border
+            a3=sayfa.cell(satir,column=6,value=toplamYuklemeCfr).font = Font(color='f44336',bold=True)
+            a3.border=border
+            
+
+            kitap.save(target_path)
+            kitap.close()
+
+            return True
+
+        except Exception as e:
+            print('ExcelCiktiIslem byMarketingExcellCikti Hata : ',str(e))
+            return False

@@ -174,93 +174,28 @@ class MusteriBazindaUretim:
     
     def __init__(self):
         self.data = SqlConnect().data
-        self.result = self.data.getList("""
+        self.navlun = []
+    def getMusteriBazindaUretim(self,yil):
+        result = self.data.getStoreList("""
                                             select            
-                 m.ID as MusteriId,            
-                 m.FirmaAdi as MusteriAdi,               
-                 m.Marketing,
-                (select yu.UlkeAdi from YeniTeklif_UlkeTB yu where yu.Id = m.UlkeId ) as Ulke,
-          
- 
-                           
-    (          
-     Select Sum(SatisToplam) from SiparislerTB s, SiparisUrunTB u where s.SiparisNo=u.SiparisNo and s.SiparisDurumID=2 and s.MusteriID=m.ID and Year(s.SiparisTarihi)=Year(GetDate())          
-          
-    ) as BuYilUretim ,
-	(          
-     Select Sum(SatisToplam) from SiparislerTB s, SiparisUrunTB u where s.SiparisNo=u.SiparisNo and s.SiparisDurumID=2 and s.MusteriID=m.ID and Year(s.SiparisTarihi)=Year(GetDate())   - 1       
-          
-    ) as GecenYilUretim ,
-	(          
-     Select Sum(SatisToplam) from SiparislerTB s, SiparisUrunTB u where s.SiparisNo=u.SiparisNo and s.SiparisDurumID=2 and s.MusteriID=m.ID and Year(s.SiparisTarihi)=Year(GetDate())  -2        
-          
-    ) as OncekiYilUretim ,
-	(          
-     Select Sum(SatisToplam) from SiparislerTB s, SiparisUrunTB u where s.SiparisNo=u.SiparisNo and s.SiparisDurumID=2 and s.MusteriID=m.ID and Year(s.SiparisTarihi)=Year(GetDate()) -3         
-          
-    ) as OnDokuzYilUretim ,
-	(          
-     Select Sum(SatisToplam) from SiparislerTB s, SiparisUrunTB u where s.SiparisNo=u.SiparisNo and s.SiparisDurumID=2 and s.MusteriID=m.ID and Year(s.SiparisTarihi)=Year(GetDate()) -4        
-          
-    ) as OnSekizYilUretim 
-                       
-          
-                     
-          
-            
-                from            
-                MusterilerTB m
-                                           
-                                           
-                                           """)
-        self.navlun = self.data.getList("""
-                                            select            
-                 m.ID as MusteriId,            
-                 m.FirmaAdi as MusteriAdi,               
-                 m.Marketing,
-				 (select yu.UlkeAdi from YeniTeklif_UlkeTB yu where yu.Id = m.UlkeId ),
- 
-                 (
-					select sum(s.NavlunSatis) from SiparislerTB s where s.SiparisDurumID=2 and s.MusteriID = m.ID 
-				 ) + 
-				 (
-					select sum(s.DetayTutar_1) from SiparislerTB s where s.SiparisDurumID=2 and s.MusteriID = m.ID 
-					
-				 )+
-
-				 (
-					select sum(s.DetayTutar_2) from SiparislerTB s where s.SiparisDurumID=2 and s.MusteriID = m.ID 
-					
-				 )
-				 +
-
-				 (
-					select sum(s.DetayTutar_3) from SiparislerTB s where s.SiparisDurumID=2 and s.MusteriID = m.ID 
-					
-				 )
-				 +
-
-				 (
-					select sum(s.DetayTutar_4) from SiparislerTB s where s.SiparisDurumID=2 and s.MusteriID = m.ID 
-					
-				 )
-                    as Digerleri
-                       
-          
-                     
-          
-            
-                from            
-                MusterilerTB m
-
-				order by Marketing
+                                                    m.ID as MusteriId,            
+                                                    m.FirmaAdi as MusteriAdi,               
+                                                    m.Marketing,
+                                                    (select yu.UlkeAdi from YeniTeklif_UlkeTB yu where yu.Id = m.UlkeId ) as Ulke,  
+                                            (          
+                                                Select Sum(SatisToplam) from SiparislerTB s, SiparisUrunTB u where s.SiparisNo=u.SiparisNo and s.SiparisDurumID=2 and s.MusteriID=m.ID and Year(s.SiparisTarihi)=?          
+                                                
+                                            ) as FOB,
+                                            (
+                                                select sum(s.NavlunSatis) + sum(DetayTutar_1) + sum(DetayTutar_2) + sum(DetayTutar_3) + sum(DetayTutar_4) from SiparislerTB s where s.SiparisDurumID=2 and s.MusteriID = m.ID and YEAR(s.SiparisTarihi) = ?
+                                            ) as CustPaid
+                                                from            
+                                                MusterilerTB m
                                         
-                                        
-                                        """)
-    def getMusteriBazindaUretim(self):
+                                        """,(yil,yil))
         liste= list()
-        for item in self.result:
-            if(item.BuYilUretim == None and item.GecenYilUretim == None and item.OncekiYilUretim == None and item.OnDokuzYilUretim == None):
+        for item in result:
+            if(item.FOB == None and item.CustPaid == None):
                 continue
             else:
                 model = MusteriBazindaUretimModel()
@@ -270,26 +205,61 @@ class MusteriBazindaUretim:
                 else:
                     model.marketing = item.Marketing
                 model.ulkeAdi = item.Ulke
-                model.satisToplamiBuYil =  item.BuYilUretim
-                model.satisToplamiGecenYil = item.GecenYilUretim
-                model.satisToplamiOncekiYil = item.OncekiYilUretim
-                model.satisToplamiOnDokuzYil = item.OnDokuzYilUretim
-                model.satisToplamiOnSekizYil = item.OnSekizYilUretim
-                model.toplam  = self.__getNone(item.BuYilUretim) + self.__getNone(item.GecenYilUretim) + self.__getNone(item.OncekiYilUretim) + self.__getNone(item.OnDokuzYilUretim) + self.__getNone(item.OnSekizYilUretim)
-                model.toplamCfr = self.__getNone(item.BuYilUretim) + self.__getNone(item.GecenYilUretim) + self.__getNone(item.OncekiYilUretim) + self.__getNone(item.OnDokuzYilUretim) + self.__getNone(item.OnSekizYilUretim) + self.__getNavlun(item.MusteriId)
+                model.toplam  = item.FOB
+                model.toplamCfr = self.__getNone(item.FOB) + self.__getNone(item.CustPaid)
                 liste.append(model)
                 
         schema = MusteriBazindaUretimSchema(many=True)
         return schema.dump(liste) 
-        
     
-    def __getNavlun(self,musteriId):
+    def getMarketing(self,yil):
+        try:
+            sipTotal = self.data.getStoreList("""
+                                                select 	
+                                                sum(su.SatisToplam) as Toplam,
+                                                m.Marketing as Marketing
+                                            from MusterilerTB m	
+                                                inner join SiparislerTB s on s.MusteriID = m.ID
+                                                inner join SiparisUrunTB su on su.SiparisNo = s.SiparisNo
+                                            where 	
+                                                    s.SiparisDurumID = 2 and YEAR(s.SiparisTarihi) = ?
+                                            group by
+                                                m.Marketing
+                                            """,(yil))
+            self.navlun = self.data.getStoreList("""
+                                                    select 	
+                                                    sum(s.NavlunSatis) + sum(s.DetayTutar_1) + sum(s.DetayTutar_2) + sum(s.DetayTutar_3) + sum(s.DetayTutar_4) as Navlun,
+                                                    m.Marketing as Marketing
+                                                from MusterilerTB m	
+                                                    inner join SiparislerTB s on s.MusteriID = m.ID
+                                                where 	
+                                                    s.SiparisDurumID=2 and YEAR(s.SiparisTarihi)=?
+                                                group by
+                                                    m.Marketing
+                                                 
+                                                 """,(yil))
+            
+            liste = list()
+            for item in sipTotal:
+                model = MusteriBazindaUretimModel()
+                model.marketing = item.Marketing
+                model.toplam = self.__getNone(item.Toplam)
+                model.toplamCfr = item.Toplam + self.__getNone(self.__getNavlunUretim(item.Marketing))
+                liste.append(model)
+            schema = MusteriBazindaUretimSchema(many=True)
+            return schema.dump(liste)
+        except Exception as e:
+            print('getMarketing hata',str(e))
+            return False
+    
+    def __getNavlunUretim(self,marketing):
         for item in self.navlun:
-            if item.MusteriId != musteriId:
+            if item.Marketing != marketing:
                 continue
             else:
-                return self.__getNone(item.Digerleri)
+                return item.Navlun       
     
+
             
     def __getNone(self,result):
         if(result == None):

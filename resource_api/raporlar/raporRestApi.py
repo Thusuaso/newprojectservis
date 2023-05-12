@@ -1446,10 +1446,15 @@ class OrderRaporApi(Resource):
     
     
 class MusteriBazindaUretimApi(Resource):
-    def get(self):
+    def get(self,yil):
         islem = MusteriBazindaUretim()
-        result = islem.getMusteriBazindaUretim()
-        return jsonify(result)
+        uretim = islem.getMusteriBazindaUretim(yil)
+        marketing = islem.getMarketing(yil)
+        data = {
+            'uretim':uretim,
+            'marketing':marketing
+        }
+        return jsonify(data)
 
     
         

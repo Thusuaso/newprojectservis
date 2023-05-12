@@ -77,3 +77,18 @@ class MarketingMonthLoadAyrintiSchema(Schema):
     detay3 = fields.Float()
     detay4 = fields.Float()
     ddp = fields.Float()
+    
+class PoBazindaYillikSchema(Schema):
+    po = fields.String()
+    fob = fields.Float()
+    ddp = fields.Float()
+    teslim = fields.String()
+    firma = fields.String()
+    tarih = fields.String()
+class PoBazindaYillikModel:
+    po = ""
+    fob = 0
+    ddp = 0
+    teslim = ""
+    firma = ""
+    tarih = ""

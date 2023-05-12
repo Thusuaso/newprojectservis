@@ -45,26 +45,38 @@ class MarketingListeApi(Resource):
         }
         
         return jsonify(data)
+    
+class ByPoSiparisApi(Resource):
+    def get(self,yil):
+        islem = Marketing()
+        poBazinda = islem.getPoBazindaYillikSiparisler(yil)
+        return jsonify(poBazinda)
+    
+class ByPoSiparisExcelApi(Resource):
+    def post(self):
+        data = request.get_json()
+        islem = Marketing()
+        result = islem.getPoBazindaYillikSiparislerExcel(data)
+        return result    
+    
+    def get(self):
+        excel_path = 'resource_api/raporlar/dosyalar/by_po_uretim_liste.xlsx'
+        return send_file(excel_path,as_attachment=True) 
 
 class ByMarketingYuklemeApi(Resource):
-    def get(self,month):
+    def get(self,year):
         islem = Marketing()
-        if(month == 0):
-            marketingYukleme = islem.getMarketingYuklemeHepsi()
-            marketingUretim = islem.getMarketingUretim()
-            marketingDepo = islem.getMarketingDepoHepsi()
-            marketingYuklemeDetail = islem.getMarketingDetailHepsi()
-        else:
-            marketingYukleme = islem.getMarketingYukleme(month)
-            marketingUretim = islem.getMarketingUretim()
-            marketingDepo = islem.getMarketingDepo(month)
-            marketingYuklemeDetail = islem.getMarketingDetail(month)
-        data={
-            'marketingYukleme':marketingYukleme,
-            'marketingUretim':marketingUretim,
-            'marketingDepo':marketingDepo,
-            'marketingYuklemeDetail':marketingYuklemeDetail
-        }
+
+        marketingYukleme = islem.getMarketingYukleme(year)
+        marketingUretim = islem.getMarketingUretim()
+        marketingDepo = islem.getMarketingDepo(year)
+        marketingYuklemeDetail = islem.getMarketingDetail(year)
+        data = {
+                'marketingYukleme':marketingYukleme,
+                'marketingUretim':marketingUretim,
+                'marketingDepo':marketingDepo,
+                'marketingYuklemeDetail':marketingYuklemeDetail
+            }
         return jsonify(data)
 
 class ByMarketingYuklemeExcelApi(Resource):

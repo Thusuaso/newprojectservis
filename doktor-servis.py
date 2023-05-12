@@ -695,14 +695,16 @@ api.add_resource(MaliyetRaporuAyrintiApi,'/maliyet/ayrinti/listeler/maliyetListe
 
 
 api.add_resource(MarketingListeApi,'/finans/listeler/marketing',methods=['GET'])
-api.add_resource(ByMarketingYuklemeApi,'/finans/listeler/byMarketing/<int:month>',methods=['GET'])
+api.add_resource(ByMarketingYuklemeApi,'/finans/listeler/byMarketing/<int:year>',methods=['GET'])
 api.add_resource(ByMarketingYuklemeExcelApi,"/raporlar/dosyalar/marketingExcellCikti",methods=['POST','GET'])
 api.add_resource(ByCustomersYuklemeExcelApi,"/raporlar/dosyalar/customersExcellCikti",methods=['POST','GET'])
 api.add_resource(ByMarketingDetailExcelApi,"/raporlar/dosyalar/byMarketingAyrintiExcellCikti",methods=['POST','GET'])
-api.add_resource(MusteriBazindaUretimApi,'/raporlar/musteri/uretim',methods=['GET','POST'])
+api.add_resource(MusteriBazindaUretimApi,'/raporlar/musteri/uretim/<int:yil>',methods=['GET','POST'])
 api.add_resource(ByMarketingMonthLoadApi,'/raporlar/marketing/ayBazinda/yukleme',methods=['POST','GET'])
 api.add_resource(ByMarketingMonthLoadIcPiyasaAyrintiApi,'/raporlar/marketing/ayBazinda/yuklemeIcPiyasaAyrinti/<int:month>',methods=['POST','GET'])
 api.add_resource(ByMarketingMonthLoadMekmerAyrintiApi,'/raporlar/marketing/ayBazinda/yuklemeMekmerAyrinti/<int:month>',methods=['POST','GET'])
+api.add_resource(ByPoSiparisApi,'/raporlar/marketing/poBazinda/siparisPoBazinda/<int:yil>',methods=['GET'])
+api.add_resource(ByPoSiparisExcelApi,'/raporlar/marketing/poBazinda/siparisPoBazinda/excel',methods=['GET','POST'])
 
 api.add_resource(MonthMarketingExcellCikti,'/raporlar/musteri/monthMarketingExcell',methods=['GET','POST'])
 api.add_resource(MonthMarketingAyrintiExcellCikti,'/raporlar/musteri/monthMarketingAyrintiExcell',methods=['GET','POST'])
