@@ -108,8 +108,8 @@ class ExcellCiktiIslem:
 
                 sayfa.cell(satir,column=1,value=item['musteriadi'])
                 sayfa.cell(satir,column=2,value=float(item['siparisfob']))
-                sayfa.cell(satir,column=3,value=float(item['yuklenenfob']))
-                sayfa.cell(satir,column=4,value=float(item['yuklenenddp']))
+                sayfa.cell(satir,column=3,value=float(item['yuklenenddp']))
+                sayfa.cell(satir,column=4,value=float(item['total']))
                 
                 satir += 1
           

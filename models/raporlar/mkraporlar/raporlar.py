@@ -11,6 +11,7 @@ class MkRaporlarSevkSipSchema(Schema):
     musteriadi = fields.String()
     siparistarihi = fields.String()
     yuklemetarihi = fields.String()
+    total = fields.Float()
 class MkRaporlarSevkSipModel:
     po = ""
     tarih = ""
@@ -24,4 +25,5 @@ class MkRaporlarSevkSipModel:
     musteriadi = ""
     siparistarihi = ""
     yuklemetarihi = ""
+    total = 0
     

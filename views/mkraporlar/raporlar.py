@@ -48,6 +48,7 @@ class MkRaporlar:
                 model.yuklenenfob = self.__noneControl(item.BuYilYuklenenler)
                 model.yuklenenddp = model.yuklenenfob + self.__noneControl(self.__getYuklenenMasraf(item.FirmaAdi))
                 model.musteriadi = item.FirmaAdi
+                model.total = model.siparisfob + model.yuklenenddp
                 liste.append(model)
             schema = MkRaporlarSevkSipSchema(many=True)
             return schema.dump(liste)

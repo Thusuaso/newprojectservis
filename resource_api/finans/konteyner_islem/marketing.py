@@ -638,8 +638,7 @@ class Marketing:
 
             kitap = load_workbook(target_path)
             sayfa = kitap.get_sheet_by_name('Sayfa1')
-
-            satir = 2
+            satir = 3
             satir2 = 2
             toplamSatisTotal = 0
             toplamSatisTotalCfr = 0
@@ -681,8 +680,9 @@ class Marketing:
             
             toplamYuklemeFobProduct = 0
             toplamYuklemeCfrProduct = 0
+            sayfa.cell(satir + 1,column=1,value= datetime.datetime.now().strftime("%x") + ' Tarihi İtibariyle Siparişler')
+            sayfa.merge_cells(start_row=satir + 1, start_column=1, end_row=satir + 1, end_column=3)
             satir += 2
-            sayfa.cell(satir,column=2,value='Marketing Halihazırdaki Üretim')
             for item in data['byMarketingProduct']:
 
                 sayfa.cell(satir,column=1,value=item['marketing']).border=border
@@ -699,7 +699,6 @@ class Marketing:
 
                 toplamYuklemeFobProduct += self.__getNoneType(item['toplam'])
                 toplamYuklemeCfrProduct += self.__getNoneType(item['toplamCfr'])
-                
                 
                 satir += 1
             b1=sayfa.cell(satir,column=1,value='Toplam').font = Font(color='f44336',bold=True)
@@ -821,8 +820,8 @@ class Marketing:
 
             kitap = load_workbook(target_path)
             sayfa = kitap.get_sheet_by_name('Sayfa1')
-
-            satir = 3
+            sayfa.cell(1,column=1,value='01/01/2023 - '+ datetime.datetime.now().strftime('%x') + ' Arası Yüklenen Siparişler')
+            satir = 4
             toplamYuklemeFob = 0
             toplamYuklemeCfr = 0
             border = Border(left=Side(border_style="thin",color='FF000000'),right=Side(border_style="thin",color='FF000000'),top=Side(border_style="thin",color='FF000000'),bottom=Side(border_style="thin",color='FF000000'))
@@ -1225,8 +1224,8 @@ class Marketing:
 
             kitap = load_workbook(target_path)
             sayfa = kitap.get_sheet_by_name('Sayfa1')
-
-            satir = 2
+            sayfa.cell(1,column=1,value=datetime.datetime.now().strftime('%Y') + ' YILI BAŞINDAN İTİBAREN ALINAN SİPARİŞLER')
+            satir = 3
             toplamYuklemeFob = 0
             toplamYuklemeCfr = 0
             border = Border(left=Side(border_style="thin",color='FF000000'),right=Side(border_style="thin",color='FF000000'),top=Side(border_style="thin",color='FF000000'),bottom=Side(border_style="thin",color='FF000000'))
