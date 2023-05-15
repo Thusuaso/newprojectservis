@@ -631,14 +631,13 @@ class Marketing:
     
     def byCustomersExcellCikti(self,data):
         try:
-            source_path = r"resource_api/raporlar/sablonlar/by_customers_excel.xlsx"
-            target_path = r"resource_api/raporlar/dosyalar/by_customers_excel.xlsx"
+            source_path = "resource_api/raporlar/sablonlar/by_customers_excel.xlsx"
+            target_path = "resource_api/raporlar/dosyalar/by_customers_excel.xlsx"
 
             shutil.copy2(source_path,target_path)
 
             kitap = load_workbook(target_path)
             sayfa = kitap.get_sheet_by_name('Sayfa1')
-            sayfa2 = kitap.get_sheet_by_name('Sayfa2')
 
             satir = 2
             satir2 = 2
@@ -716,18 +715,18 @@ class Marketing:
             toplamFob = 0
             toplamCfr = 0
             for item in data['imperialHomes']:
-                sayfa2.cell(satir2,column=1,value=item['musteriAdi']).border = border
-                sayfa2.cell(satir2,column=2,value=self.__getNoneType(item['toplam'])).border = border
-                sayfa2.cell(satir2,column=3,value=self.__getNoneType(item['toplamCfr'])).border = border
+                sayfa.cell(satir2,column=7,value=item['musteriAdi']).border = border
+                sayfa.cell(satir2,column=8,value=self.__getNoneType(item['toplam'])).border = border
+                sayfa.cell(satir2,column=9,value=self.__getNoneType(item['toplamCfr'])).border = border
                 buyilToplam += self.__getNoneType(item['satisToplamiBuYil'])
                 toplamFob += self.__getNoneType(item['toplam'])
                 toplamCfr += self.__getNoneType(item['toplamCfr'])
                 satir2 += 1
-            b1 = sayfa2.cell(satir2,column=1,value='Toplam').font = Font(color='f44336',bold=True)
+            b1 = sayfa.cell(satir2,column=7,value='Toplam').font = Font(color='f44336',bold=True)
             b1.border = border
-            b3=sayfa2.cell(satir2,column=2,value=toplamFob).font = Font(color='f44336',bold=True)
+            b3=sayfa.cell(satir2,column=8,value=toplamFob).font = Font(color='f44336',bold=True)
             b3.border = border
-            b4=sayfa2.cell(satir2,column=3,value=toplamCfr).font = Font(color='f44336',bold=True)
+            b4=sayfa.cell(satir2,column=9,value=toplamCfr).font = Font(color='f44336',bold=True)
             b4.border = border
             
             
@@ -737,21 +736,21 @@ class Marketing:
             toplamFobMekmar = 0
             toplamCfrMekmar = 0
             for item in data['mekmar']:
-                sayfa2.cell(satir3,column=5,value=item['musteriAdi']).border = border
-                sayfa2.cell(satir3,column=6,value=self.__getNoneType(item['toplam'])).border = border
-                sayfa2.cell(satir3,column=7,value=self.__getNoneType(item['toplamCfr'])).border = border
+                sayfa.cell(satir3,column=11,value=item['musteriAdi']).border = border
+                sayfa.cell(satir3,column=12,value=self.__getNoneType(item['toplam'])).border = border
+                sayfa.cell(satir3,column=13,value=self.__getNoneType(item['toplamCfr'])).border = border
                 buyilToplamMekmar += self.__getNoneType(item['satisToplamiBuYil'])
                 toplamFobMekmar += self.__getNoneType(item['toplam'])
                 toplamCfrMekmar += self.__getNoneType(item['toplamCfr'])
                 
                 satir3 += 1
-            c1=sayfa2.cell(satir3,column=5,value='Toplam').font = Font(color='f44336',bold=True)
+            c1=sayfa.cell(satir3,column=11,value='Toplam').font = Font(color='f44336',bold=True)
             c1.border = border
             
-            c3=sayfa2.cell(satir3,column=6,value=self.__getNoneType(toplamFobMekmar)).font = Font(color='f44336',bold=True)
+            c3=sayfa.cell(satir3,column=12,value=self.__getNoneType(toplamFobMekmar)).font = Font(color='f44336',bold=True)
             c3.border = border
             
-            c4=sayfa2.cell(satir3,column=7,value=self.__getNoneType(toplamCfrMekmar)).font = Font(color='f44336',bold=True)
+            c4=sayfa.cell(satir3,column=13,value=self.__getNoneType(toplamCfrMekmar)).font = Font(color='f44336',bold=True)
             c4.border = border
             
             
@@ -760,19 +759,19 @@ class Marketing:
             toplamFobIcPiyasa = 0
             toplamCfrIcPiyasa = 0
             for item in data['icPiyasa']:
-                sayfa2.cell(satir4,column=9,value=item['musteriAdi']).border = border
-                sayfa2.cell(satir4,column=10,value=self.__getNoneType(item['toplam'])).border = border
-                sayfa2.cell(satir4,column=11,value=self.__getNoneType(item['toplamCfr'])).border = border
+                sayfa.cell(satir4,column=15,value=item['musteriAdi']).border = border
+                sayfa.cell(satir4,column=16,value=self.__getNoneType(item['toplam'])).border = border
+                sayfa.cell(satir4,column=17,value=self.__getNoneType(item['toplamCfr'])).border = border
                 buyilToplamIcPiyasa += self.__getNoneType(item['satisToplamiBuYil'])
                 toplamFobIcPiyasa += self.__getNoneType(item['toplam'])
                 toplamCfrIcPiyasa += self.__getNoneType(item['toplamCfr'])
                 
                 satir4 += 1
-            d1=sayfa2.cell(satir4,column=9,value='Toplam').font = Font(color='f44336',bold=True)
+            d1=sayfa.cell(satir4,column=15,value='Toplam').font = Font(color='f44336',bold=True)
             d1.border = border
-            d3=sayfa2.cell(satir4,column=10,value=toplamFobIcPiyasa).font = Font(color='f44336',bold=True)
+            d3=sayfa.cell(satir4,column=16,value=toplamFobIcPiyasa).font = Font(color='f44336',bold=True)
             d3.border = border
-            d4=sayfa2.cell(satir4,column=11,value=toplamCfrIcPiyasa).font = Font(color='f44336',bold=True)
+            d4=sayfa.cell(satir4,column=17,value=toplamCfrIcPiyasa).font = Font(color='f44336',bold=True)
             d4.border = border
                 
 
@@ -782,21 +781,21 @@ class Marketing:
             toplamFobMekmer = 0
             toplamCfrMekmer = 0
             for item in data['mekmer']:
-                sayfa2.cell(satir5,column=13,value=item['musteriAdi']).border = border
-                sayfa2.cell(satir5,column=14,value=self.__getNoneType(item['toplam'])).border = border
-                sayfa2.cell(satir5,column=15,value=self.__getNoneType(item['toplamCfr'])).border = border
+                sayfa.cell(satir5,column=19,value=item['musteriAdi']).border = border
+                sayfa.cell(satir5,column=20,value=self.__getNoneType(item['toplam'])).border = border
+                sayfa.cell(satir5,column=21,value=self.__getNoneType(item['toplamCfr'])).border = border
                 buyilToplamMekmer += self.__getNoneType(item['satisToplamiBuYil'])
                 toplamFobMekmer += self.__getNoneType(item['toplam'])
                 toplamCfrMekmer += self.__getNoneType(item['toplamCfr'])
                 
                 satir5 += 1
-            e1=sayfa2.cell(satir5,column=13,value='Toplam').font = Font(color='f44336',bold=True)
+            e1=sayfa.cell(satir5,column=19,value='Toplam').font = Font(color='f44336',bold=True)
             e1.border = border
             
-            e3=sayfa2.cell(satir5,column=14,value=toplamFobMekmer).font = Font(color='f44336',bold=True)
+            e3=sayfa.cell(satir5,column=20,value=toplamFobMekmer).font = Font(color='f44336',bold=True)
             e3.border = border
             
-            e4=sayfa2.cell(satir5,column=15,value=toplamCfrMekmer).font = Font(color='f44336',bold=True)
+            e4=sayfa.cell(satir5,column=21,value=toplamCfrMekmer).font = Font(color='f44336',bold=True)
             e4.border = border
 
                 
@@ -815,34 +814,23 @@ class Marketing:
     
     def byMarketingDetailExcellCikti(self,data):
         try:
-            source_path = r"resource_api/raporlar/sablonlar/by_marketing_detail_excel.xlsx"
-            target_path = r"resource_api/raporlar/dosyalar/by_marketing_detail_excel.xlsx"
+            source_path = "resource_api/raporlar/sablonlar/by_marketing_detail_excel.xlsx"
+            target_path = "resource_api/raporlar/dosyalar/by_marketing_detail_excel.xlsx"
 
             shutil.copy2(source_path,target_path)
 
             kitap = load_workbook(target_path)
             sayfa = kitap.get_sheet_by_name('Sayfa1')
-            sayfa2 = kitap.get_sheet_by_name('Sayfa2')
 
             satir = 3
-            satir2 = 3
-            satir3 = 3
             toplamYuklemeFob = 0
             toplamYuklemeCfr = 0
             border = Border(left=Side(border_style="thin",color='FF000000'),right=Side(border_style="thin",color='FF000000'),top=Side(border_style="thin",color='FF000000'),bottom=Side(border_style="thin",color='FF000000'))
             for item in data['byMarketingLoadMonth']:
 
                 sayfa.cell(satir,column=1,value=item['marketing']).border=border
-                
-                if(item['fobToplam'] != None):
-                    sayfa.cell(satir,column=2,value=item['fobToplam']).border=border
-                else:
-                    sayfa.cell(satir,column=2,value=0).border=border
-                
-                if(item['cfrToplam'] != None):
-                    sayfa.cell(satir,column=3,value=item['cfrToplam']).border=border
-                else:
-                    sayfa.cell(satir,column=3,value=0).border=border
+                sayfa.cell(satir,column=2,value=self.__getNoneType(item['fobToplam'])).border=border
+                sayfa.cell(satir,column=3,value=self.__getNoneType(item['cfrToplam'])).border=border
 
                 toplamYuklemeFob += self.__getNoneType(item['fobToplam'])
                 toplamYuklemeCfr += self.__getNoneType(item['cfrToplam'])
@@ -864,28 +852,22 @@ class Marketing:
                 
                 for item in data['imperialHomes']:
 
-                    sayfa2.cell(satir4,column=1,value=item['musteri']).border=border
+                    sayfa.cell(satir4,column=5,value=item['musteri']).border=border
                     
-                    if(item['toplamFob'] != None):
-                        sayfa2.cell(satir4,column=2,value=item['toplamFob']).border=border
-                    else:
-                        sayfa2.cell(satir4,column=2,value=0).border=border
+                    sayfa.cell(satir4,column=6,value=self.__getNoneType(item['toplamFob'])).border=border
                     
-                    if(item['toplamCfr'] != None):
-                        sayfa2.cell(satir4,column=3,value=item['toplamCfr']).border=border
-                    else:
-                        sayfa2.cell(satir4,column=3,value=0).border=border
+                    sayfa.cell(satir4,column=7,value=self.__getNoneType(item['toplamCfr'])).border=border
 
                     toplamYuklemeFobImperialHomes += self.__getNoneType(item['toplamFob'])
                     toplamYuklemeCfrImperialHomes += self.__getNoneType(item['toplamCfr'])
                     
                     
                     satir4 += 1
-                d1=sayfa2.cell(satir4,column=1,value='Toplam').font = Font(color='f44336',bold=True)
+                d1=sayfa.cell(satir4,column=5,value='Toplam').font = Font(color='f44336',bold=True)
                 d1.border=border
-                d2=sayfa2.cell(satir4,column=2,value=toplamYuklemeCfrImperialHomes).font = Font(color='f44336',bold=True)
+                d2=sayfa.cell(satir4,column=6,value=toplamYuklemeCfrImperialHomes).font = Font(color='f44336',bold=True)
                 d2.border=border
-                d3=sayfa2.cell(satir4,column=3,value=toplamYuklemeCfrImperialHomes).font = Font(color='f44336',bold=True)
+                d3=sayfa.cell(satir4,column=7,value=toplamYuklemeCfrImperialHomes).font = Font(color='f44336',bold=True)
                 d3.border=border
             
             toplamYuklemeFobMekmar = 0
@@ -895,29 +877,21 @@ class Marketing:
                 
                 for item in data['mekmar']:
 
-                    sayfa2.cell(satir5,column=5,value=item['musteri']).border=border
-                    
-                    if(item['toplamFob'] != None):
-                        sayfa2.cell(satir5,column=6,value=item['toplamFob']).border=border
-                    else:
-                        sayfa2.cell(satir5,column=6,value=0).border=border
-                    
-                    if(item['toplamCfr'] != None):
-                        sayfa2.cell(satir5,column=7,value=item['toplamCfr']).border=border
-                    else:
-                        sayfa2.cell(satir5,column=7,value=0).border=border
+                    sayfa.cell(satir5,column=9,value=item['musteri']).border=border
+                    sayfa.cell(satir5,column=10,value=self.__getNoneType(item['toplamFob'])).border=border
+                    sayfa.cell(satir5,column=11,value=self.__getNoneType(item['toplamCfr'])).border=border
 
                     toplamYuklemeFobMekmar += self.__getNoneType(item['toplamFob'])
                     toplamYuklemeCfrMekmar += self.__getNoneType(item['toplamCfr'])
                     
                     
                     satir5 += 1
-                e1=sayfa2.cell(satir5,column=5,value='Toplam').font = Font(color='f44336',bold=True)
+                e1=sayfa.cell(satir5,column=9,value='Toplam').font = Font(color='f44336',bold=True)
                 e1.border=border
-                e2=sayfa2.cell(satir5,column=6,value=toplamYuklemeFobMekmar).font = Font(color='f44336',bold=True)
+                e2=sayfa.cell(satir5,column=10,value=float(toplamYuklemeFobMekmar)).font = Font(color='f44336',bold=True)
                 e2.border=border
                 
-                e3=sayfa2.cell(satir5,column=7,value=toplamYuklemeCfrMekmar).font = Font(color='f44336',bold=True)
+                e3=sayfa.cell(satir5,column=11,value=float(toplamYuklemeCfrMekmar)).font = Font(color='f44336',bold=True)
                 e3.border=border
                 
             
@@ -928,28 +902,20 @@ class Marketing:
                 
                 for item in data['mekmer']:
 
-                    sayfa2.cell(satir6,column=9,value=item['musteri']).border=border
-                    
-                    if(item['toplamFob'] != None):
-                        sayfa2.cell(satir6,column=10,value=item['toplamFob']).border=border
-                    else:
-                        sayfa2.cell(satir6,column=10,value=0).border=border
-                    
-                    if(item['toplamCfr'] != None):
-                        sayfa2.cell(satir6,column=11,value=item['toplamCfr']).border=border
-                    else:
-                        sayfa2.cell(satir6,column=11,value=0).border=border
+                    sayfa.cell(satir6,column=13,value=item['musteri']).border=border
+                    sayfa.cell(satir6,column=14,value=self.__getNoneType(item['toplamFob'])).border=border                    
+                    sayfa.cell(satir6,column=15,value=self.__getNoneType(item['toplamCfr'])).border=border
 
                     toplamYuklemeFobMekmer += self.__getNoneType(item['toplamFob'])
                     toplamYuklemeCfrMekmer += self.__getNoneType(item['toplamCfr'])
                     
                     
                     satir6 += 1
-                g1 = sayfa2.cell(satir6,column=9,value='Toplam').font = Font(color='f44336',bold=True)
+                g1 = sayfa.cell(satir6,column=13,value='Toplam').font = Font(color='f44336',bold=True)
                 g1.border=border
-                g2= sayfa2.cell(satir6,column=10,value=toplamYuklemeFobMekmer).font = Font(color='f44336',bold=True)
+                g2= sayfa.cell(satir6,column=14,value=float(toplamYuklemeFobMekmer)).font = Font(color='f44336',bold=True)
                 g2.border=border
-                g3=sayfa2.cell(satir6,column=11,value=toplamYuklemeCfrMekmer).font = Font(color='f44336',bold=True)
+                g3=sayfa.cell(satir6,column=15,value=float(toplamYuklemeCfrMekmer)).font = Font(color='f44336',bold=True)
                 g3.border=border
                
             # toplamYuklemeFobEfes = 0
@@ -988,28 +954,19 @@ class Marketing:
                 
                 for item in data['icPiyasa']:
 
-                    sayfa2.cell(satir8,column=13,value=item['musteri']).border=border
-                    
-                    if(item['toplamFob'] != None):
-                        sayfa2.cell(satir8,column=14,value=item['toplamFob']).border=border
-                    else:
-                        sayfa2.cell(satir8,column=14,value=0).border=border
-                    
-                    if(item['toplamCfr'] != None):
-                        sayfa2.cell(satir8,column=15,value=item['toplamCfr']).border=border
-                    else:
-                        sayfa2.cell(satir8,column=15,value=0).border=border
+                    sayfa.cell(satir8,column=17,value=item['musteri']).border=border
+                    sayfa.cell(satir8,column=18,value=self.__getNoneType(item['toplamFob'])).border=border
+                    sayfa.cell(satir8,column=19,value=self.__getNoneType(item['toplamCfr'])).border=border
 
                     toplamYuklemeFobIcPiyasa += self.__getNoneType(item['toplamFob'])
                     toplamYuklemeCfrIcPiyasa += self.__getNoneType(item['toplamCfr'])
                     
-                    
                     satir8 += 1
-                h1 = sayfa2.cell(satir8,column=13,value='Toplam').font = Font(color='f44336',bold=True)
+                h1 = sayfa.cell(satir8,column=17,value='Toplam').font = Font(color='f44336',bold=True)
                 h1.border=border
-                h2=sayfa2.cell(satir8,column=14,value=toplamYuklemeFobIcPiyasa).font = Font(color='f44336',bold=True)
+                h2=sayfa.cell(satir8,column=18,value=float(toplamYuklemeFobIcPiyasa)).font = Font(color='f44336',bold=True)
                 h2.border=border
-                h3=sayfa2.cell(satir8,column=15,value=toplamYuklemeCfrIcPiyasa).font = Font(color='f44336',bold=True)
+                h3=sayfa.cell(satir8,column=19,value=float(toplamYuklemeCfrIcPiyasa)).font = Font(color='f44336',bold=True)
                 h3.border=border
                
             
@@ -1261,8 +1218,8 @@ class Marketing:
             
     def getPoBazindaYillikSiparislerExcel(self,data):
         try:
-            source_path = r"resource_api/raporlar/sablonlar/by_po_uretim_liste.xlsx"
-            target_path = r"resource_api/raporlar/dosyalar/by_po_uretim_liste.xlsx"
+            source_path = "resource_api/raporlar/sablonlar/by_po_uretim_liste.xlsx"
+            target_path = "resource_api/raporlar/dosyalar/by_po_uretim_liste.xlsx"
 
             shutil.copy2(source_path,target_path)
 
