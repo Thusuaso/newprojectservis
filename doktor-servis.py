@@ -39,6 +39,7 @@ from resource_api.teklifler.bgpProject import *
 from resource_api.mekmar_com.Galleria import *
 from resource_api.notification import NotificationIslemApi,NotificationListApi,NotificationIslemAnsweredApi,NotificationIslemFollowApi,NotificationIslemFollowAnsweredApi
 from resource_api.controls import ProformaKayitKontrolApi
+from resource_api.yapilacaklar import YapilacaklarYapildiStatusApi,YapilacaklarModelApi,YapilacaklarListApi,YapilacaklarKullanicilarListApi,YapilacaklarIslemApi,YapilacaklarDeleteApi,YapilacaklarListGorevVerenApi
 app = Flask(__name__)
 
 api = Api(app)
@@ -756,6 +757,13 @@ api.add_resource(ProformaKayitKontrolApi,'/controls/proforma/<string:siparisNo>'
 ####
 api.add_resource(MkSevkSipRaporApi,'/raporlar/mkrapor/sevksip/<int:yil>',methods=['GET'])
 api.add_resource(MkSevkSipRaporExcelApi,'/raporlar/mkrapor/sevksip/excel',methods=['GET','POST'])
-
+#Yapilacaklar
+api.add_resource(YapilacaklarModelApi,'/yapilacaklar/model',methods=['GET'])
+api.add_resource(YapilacaklarListApi,'/yapilacaklar/list/<int:userId>',methods=['GET'])
+api.add_resource(YapilacaklarListGorevVerenApi,'/yapilacaklar/list/gorevveren/<int:userId>',methods=['GET'])
+api.add_resource(YapilacaklarKullanicilarListApi,'/yapilacaklar/kullaniclar/list',methods=['GET'])
+api.add_resource(YapilacaklarIslemApi,'/yapilacaklar/save',methods=['GET','POST','PUT'])
+api.add_resource(YapilacaklarYapildiStatusApi,'/yapilacaklar/yapildi',methods=['POST'])
+api.add_resource(YapilacaklarDeleteApi,'/yapilacaklar/delete/<int:id>',methods=['GET'])
 if __name__ == '__main__':
     app.run(port=5000,debug=True) #https://doktor-servis.mekmar.com/raporlar/listeler/uretimRaporuHepsi

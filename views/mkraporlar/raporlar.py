@@ -56,6 +56,9 @@ class MkRaporlar:
             print('mkRaporlarSevkSip hata',str(e))
             return False
     
+    
+    
+    
     def mkRaporlarSevkSipPo(self,yil):
         try:
             data = self.sql.getStoreList("""

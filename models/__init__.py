@@ -13,3 +13,4 @@ from models.urunler import *
 from models.olculer import *
 from models.takvim import *
 from models.uretimtakip import *
+from models.yapilacaklar import *
