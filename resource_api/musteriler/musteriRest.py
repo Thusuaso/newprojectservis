@@ -15,6 +15,19 @@ class MusteriListeApi(Resource):
 
         return musteri_listesi
 
+class MusteriListeYilApi(Resource):
+    def get(self,year):
+        islem = MusteriIslem()
+        musteriler = islem.getMusteriListesiYil(year)
+        return musteriler
+
+class MusteriYilListesiApi(Resource):
+    def get(self):
+        islem = MusteriIslem()
+        musteri_yil_listesi = islem.getMusteriYilListesi()
+        return musteri_yil_listesi
+    
+
 class MusteriSiparisListesiApi(Resource):
     def get(self):
 

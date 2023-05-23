@@ -65,6 +65,79 @@ class MusteriIslem:
 
         return schema.dump(liste)
 
+    def getMusteriListesiYil(self,year):
+        result = self.data.getStoreList(
+            """
+            select
+            m.ID,
+            m.FirmaAdi,
+            m.Unvan,
+            m.Adres,
+            m.Marketing,
+            u.UlkeAdi,
+            u.Png_Flags,
+            k.KullaniciAdi as Temsilci,
+            m.Devir,
+            m.Ozel,
+            m.Telefon,
+            m.Sira,
+			m.Notlar,
+            m.SonKullanici,
+			(select KullaniciAdi from KullaniciTB ku where ku.ID = m.Satisci) as Satisci
+            from
+            MusterilerTB m,YeniTeklif_UlkeTB u,KullaniciTB k
+            where u.Id=m.UlkeId and k.ID=m.MusteriTemsilciId and YEAR(m.KayitTarihi) = ?
+            order by m.ID
+            """,(year)
+        )
+
+        liste = list()
+        sira = 1
+        for item in result:
+
+            model = MusteriListeModel()
+            model.id = item.ID
+            model.musteriadi = item.FirmaAdi
+            model.unvan = item.Unvan
+            model.adres = item.Adres
+            model.marketing = item.Marketing
+            model.ulkeadi = item.UlkeAdi
+            model.logo = item.Png_Flags
+            model.temsilci = item.Temsilci
+            model.devir = item.Devir
+            model.ozel = item.Ozel
+            model.telefon = item.Telefon
+            model.sira = item.Sira
+            model.satisci = item.Satisci
+            model.sonkullanici = item.SonKullanici
+            model.musteri_sira = sira
+            sira += 1
+            liste.append(model)
+
+        schema = MusteriListeSchema(many=True)
+
+        return schema.dump(liste)
+
+
+
+    def getMusteriYilListesi(self):
+        result = self.data.getList("""
+                                    select YEAR(SiparisTarihi) as Yil from SiparislerTB group by YEAR(SiparisTarihi) order by YEAR(SiparisTarihi) desc
+                                   """)
+        liste = list()
+        for item in result:
+            model = MusteriSipYilListModel()
+            model.yil = item.Yil
+            liste.append(model)
+        schema = MusteriSipYilListSchema(many=True)
+        return schema.dump(liste)
+
+        
+    
+    
+    
+    
+    
     def excelCiktiAl(self,data_list):
 
 

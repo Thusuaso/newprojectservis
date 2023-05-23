@@ -39,7 +39,7 @@ from resource_api.teklifler.bgpProject import *
 from resource_api.mekmar_com.Galleria import *
 from resource_api.notification import NotificationIslemApi,NotificationListApi,NotificationIslemAnsweredApi,NotificationIslemFollowApi,NotificationIslemFollowAnsweredApi
 from resource_api.controls import ProformaKayitKontrolApi
-from resource_api.yapilacaklar import YapilacaklarYapildiStatusApi,YapilacaklarModelApi,YapilacaklarListApi,YapilacaklarKullanicilarListApi,YapilacaklarIslemApi,YapilacaklarDeleteApi,YapilacaklarListGorevVerenApi
+from resource_api.yapilacaklar import YapilacaklarYapildiStatusApi,YapilacaklarModelApi,YapilacaklarListApi,YapilacaklarListAllApi,YapilacaklarKullanicilarListApi,YapilacaklarIslemApi,YapilacaklarDeleteApi,YapilacaklarListGorevVerenApi
 app = Flask(__name__)
 
 api = Api(app)
@@ -491,6 +491,11 @@ api.add_resource(IsfControlApi,'/islemler/tedarikci/isfControl/<string:evrakAdi>
 
 #musteriler
 api.add_resource(MusteriListeApi,'/musteriler/listeler/musteriListesi',methods=['GET'])
+api.add_resource(MusteriListeYilApi,'/musteriler/listeler/musteriListesi/yil/<int:year>',methods=['GET'])
+
+
+api.add_resource(MusteriYilListesiApi,'/raporlar/musteriler/siparisler/yillar',methods=['GET'])
+
 api.add_resource(MusteriSiparisListesiApi,'/musteriler/listeler/musteriSiparisListesi',methods=['GET'])
 api.add_resource(MusteriSiparisAyrintiCardApi,'/musteriler/listeler/musteriSiparisAyrintiCard',methods=['GET'])
 api.add_resource(MusteriYeniModelApi,'/musteriler/listeler/yeniMusteriModel',methods=['GET'])
@@ -760,6 +765,7 @@ api.add_resource(MkSevkSipRaporExcelApi,'/raporlar/mkrapor/sevksip/excel',method
 #Yapilacaklar
 api.add_resource(YapilacaklarModelApi,'/yapilacaklar/model',methods=['GET'])
 api.add_resource(YapilacaklarListApi,'/yapilacaklar/list/<int:userId>',methods=['GET'])
+api.add_resource(YapilacaklarListAllApi,'/yapilacaklar/list/all',methods=['GET'])
 api.add_resource(YapilacaklarListGorevVerenApi,'/yapilacaklar/list/gorevveren/<int:userId>',methods=['GET'])
 api.add_resource(YapilacaklarKullanicilarListApi,'/yapilacaklar/kullaniclar/list',methods=['GET'])
 api.add_resource(YapilacaklarIslemApi,'/yapilacaklar/save',methods=['GET','POST','PUT'])

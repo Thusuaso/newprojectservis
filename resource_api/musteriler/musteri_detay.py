@@ -184,11 +184,11 @@ class MusteriDetayIslem:
                     FirmaAdi,Unvan,UlkeId,Marketing,Aktif,
                     Sira,Mt_No,MusteriTemsilciId,
                     KullaniciID,MailAdresi,Telefon,
-                    Devir,Ozel,Adres,MusteriOncelik,Satisci,Notlar,SonKullanici
+                    Devir,Ozel,Adres,MusteriOncelik,Satisci,Notlar,SonKullanici,KayitTarihi
                 )
                 values
                 (
-                    ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?
+                    ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?
                 )
                 """,
                 (
@@ -197,7 +197,7 @@ class MusteriDetayIslem:
                     item['mt_no'],item['musteri_temsilci_id'],
                     item['kullanici_id'],item['mail_adresi'],
                     item['telefon'],item['devir'],item['ozel'],
-                    item['adres'],item['selectOncelik'],item['satisci'],item['notlar'],item['sonkullanici']
+                    item['adres'],item['selectOncelik'],item['satisci'],item['notlar'],item['sonkullanici'],item['kayit_tarihi']
                 )
             )
 

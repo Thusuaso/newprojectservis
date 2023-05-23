@@ -18,6 +18,18 @@ class YapilacaklarListApi(Resource):
                 }
         return jsonify(data)
     
+class YapilacaklarListAllApi(Resource):
+    def get(self):
+        islem = Yapilacaklar()
+        yapilmadi = islem.getYapilacaklarYapilmadiListAll()
+        yapildi = islem.getYapilacaklarYapildiListAll()
+        data = {
+            'yapilmadi':yapilmadi,
+            'yapildi':yapildi
+        }
+        return jsonify(data)
+        
+    
 class YapilacaklarListGorevVerenApi(Resource):
     def get(self,userId):
         islem = Yapilacaklar()

@@ -110,6 +110,89 @@ class Yapilacaklar:
             print('getYapilacaklarYapilmadiList hata',str(e))
             return False 
     
+    def getYapilacaklarYapilmadiListAll(self):
+        try:
+            data = self.sql.getList("""
+                                            select 
+                                                ID,
+                                                GorevSahibiAdi,
+                                                GorevSahibiId,
+                                                Yapilacak,
+                                                Yapildi,
+                                                GorevVerenID,
+                                                GorevVerenAdi,
+                                                GirisTarihi,
+                                                YapildiTarihi,
+                                                YapilacakOncelik
+
+                                            from Yapilacaklar
+
+                                            where Yapildi=0
+                                            order by
+												YapilacakOncelik 
+                                        """)
+            liste = list()
+            for item in data:
+                model = YapilacaklarModel()
+                model.id = item.ID
+                model.gorev_sahibi_adi = item.GorevSahibiAdi
+                model.gorev_sahibi_id = item.GorevSahibiId
+                model.yapilacak = item.Yapilacak
+                model.gorev_veren_id = item.GorevVerenID
+                model.gorev_veren_adi = item.GorevVerenAdi
+                model.girisTarihi = item.GirisTarihi
+                model.yapildiTarihi = item.YapildiTarihi
+                model.oncelik = item.YapilacakOncelik
+                model.userStatus = False
+                liste.append(model)
+            schema = YapilacaklarSchema(many = True)
+            return schema.dump(liste)
+        except Exception as e:
+            print('getYapilacaklarYapilmadiList hata',str(e))
+            return False               
+    def getYapilacaklarYapildiListAll(self):
+        try:
+            data = self.sql.getList("""
+                                            select 
+                                                ID,
+                                                GorevSahibiAdi,
+                                                GorevSahibiId,
+                                                Yapilacak,
+                                                Yapildi,
+                                                GorevVerenID,
+                                                GorevVerenAdi,
+                                                GirisTarihi,
+                                                YapildiTarihi,
+                                                YapilacakOncelik
+
+                                            from Yapilacaklar
+
+                                            where Yapildi=1
+                                            order by
+												YapilacakOncelik 
+                                        """)
+            liste = list()
+            for item in data:
+                model = YapilacaklarModel()
+                model.id = item.ID
+                model.gorev_sahibi_adi = item.GorevSahibiAdi
+                model.gorev_sahibi_id = item.GorevSahibiId
+                model.yapilacak = item.Yapilacak
+                model.gorev_veren_id = item.GorevVerenID
+                model.gorev_veren_adi = item.GorevVerenAdi
+                model.girisTarihi = item.GirisTarihi
+                model.yapildiTarihi = item.YapildiTarihi
+                model.oncelik = item.YapilacakOncelik
+                model.userStatus = False
+                liste.append(model)
+            schema = YapilacaklarSchema(many = True)
+            return schema.dump(liste)
+        except Exception as e:
+            print('getYapilacaklarYapilmadiList hata',str(e))
+            return False 
+    
+    
+    
     
     def getYapilacaklarYapilmadiGorevVerenList(self,userId):
         try:

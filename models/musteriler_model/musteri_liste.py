@@ -39,6 +39,15 @@ class MusteriListeModel:
     notlar = ""
     musteri_sira= 0
     sonkullanici = False 
+    
+class MusteriSipYilListSchema(Schema):
+    yil = fields.Int()
+class MusteriSipYilListModel:
+    yil = 0
+
+
+
+
 
 class MusteriSiparisListeSchema(Schema):
 
