@@ -1,5 +1,6 @@
 from helpers import MailService,SqlConnect,TarihIslemler
 import datetime
+from datetime import date
 
 
 class MusteriEta:
@@ -104,7 +105,31 @@ class MusteriEta:
                     MailService(subject,item.MailAdres,body)
                  
                     MailService(subject,"huseyin@mekmarmarble.com",body)
-                   
+    
+    
+    def setEtaControlNotificationStatus(self,po,etaSure):
+        print(po,etaSure)
+        if(etaSure == '12'):
+            self.data.update_insert("""
+                                        update SiparislerTB SET EtaHControlOn = 1 where SiparisNo=?
+                                    
+                                    """,(po))
+        elif(etaSure == '6'):
+            self.data.update_insert("""
+                                        update SiparislerTB SET EtaHControlBes = 1 where SiparisNo=?
+                                    
+                                    """,(po))
+        elif(etaSure == '3'):
+            self.data.update_insert("""
+                                        update SiparislerTB SET EtaHControlBir = 1 where SiparisNo=?
+                                    
+                                    """,(po))
+        elif(etaSure == '0'):
+            self.data.update_insert("""
+                                        update SiparislerTB SET EtaHControlUlasti = 1 where SiparisNo=?
+                                    
+                                    """,(po))
+        return True     
 
 
     def __mailKontrol(self,kullaniciadi,siparisno,tarih):
@@ -229,37 +254,40 @@ class MusteriEta:
     def getEtaControl(self):
         try:
             result = self.data.getList("""
-                                        select 
-                                            s.SiparisNo,
-                                            Eta,
-                                            EtaYaklasanSureOn,
-                                            EtaYaklasanSureBes,
-                                            EtaYaklasanSureBir,
-                                            s.SiparisSahibi,
-                                            s.Operasyon,
-                                            EtaUlasti,
-											(select sum(su.SatisToplam) from SiparisUrunTB su where su.SiparisNo = s.SiparisNo) + s.NavlunSatis as SatisToplam
-											
-                                        from 
-                                            SiparislerTB s
-											
-                                        where 
-                                            s.Eta is not null and 
-                                            YEAR(s.Eta)= YEAR(GetDate()) and
-											Month(s.Eta) >= Month(GetDate()) and
-											Day(s.Eta) >= Day(GetDate())
+                                        select
+            s.ID,
+            s.SiparisNo,
+            m.FirmaAdi as MusteriAdi,
+            (select k.ID from KullaniciTB k where k.ID=s.Operasyon ) as Operasyon,           
+            (select k.ID from KullaniciTB k where k.ID=s.SiparisSahibi ) as SiparisSahibi,
+            s.Eta,
+            s.KonteynerNo,
+            s.YuklemeTarihi,
+            s.KonsimentoDurum,
+			s.EtaYaklasanSureOn,
+			s.EtaYaklasanSureBes,
+			s.EtaYaklasanSureBir,
+			s.EtaUlasti,
+			(select sum(su.SatisToplam) from SiparisUrunTB su where su.SiparisNo = s.SiparisNo) as SatisToplam
+            from
+            SiparislerTB s,MusterilerTB m
+            where s.MusteriID=m.ID
+            and s.SiparisDurumID=3 and s.Takip=1
+			and s.Eta is not null
+            order by s.ID desc
+
                                        """)
             day,month,year = self.getToday()
             if len(result)>0:
-                
                 for item in result:
                     eta = str(item.Eta)
                     eta = eta.split("-")
-                    etaYear = eta[0]
-                    etaMonth = eta[1]
-                    etaDay = eta[2]
-                    
-                    if int(etaDay) - int(day) == 10 and int(month) == int(etaMonth):
+                    etaYear = int(eta[0])
+                    etaMonth = int(eta[1])
+                    etaDay = int(eta[2])
+                    eta1 = date(etaYear,etaMonth,etaDay)
+                    eta2 = date(year,month,day)
+                    if (eta1 - eta2).days == 12:
                         if item.EtaYaklasanSureOn != True:
                             odemelerTop,isOdemeler = self.getOdemeler(item.SiparisNo)
                             kalanOdeme = 0
@@ -268,12 +296,12 @@ class MusteriEta:
                                 kalanOdeme = item.SatisToplam - odemelerTop
                             else:
                                 odemelerBilgisi = "Henüz ödenmiş bedel bulunmamaktadır."
-                            self.sendMailEta(item.SiparisNo,item.SiparisSahibi,item.Operasyon,item.Eta,'10',item.SatisToplam,kalanOdeme,odemelerBilgisi,odemelerTop)
+                            self.sendMailEta(item.SiparisNo,item.SiparisSahibi,item.Operasyon,item.Eta,'12',item.SatisToplam,kalanOdeme,odemelerBilgisi,odemelerTop)
                             self.data.update_insert("""
                                                     update SiparislerTB SET EtaYaklasanSureOn = 1 where SiparisNo=?
                                                 
                                                 """,(item.SiparisNo))
-                    elif int(etaDay) - int(day) == 5 and int(month) == int(etaMonth):
+                    elif (eta1 - eta2).days == 6:
                         if item.EtaYaklasanSureBes != True:
                             odemelerTop,isOdemeler = self.getOdemeler(item.SiparisNo)
                             kalanOdeme = 0
@@ -282,12 +310,11 @@ class MusteriEta:
                                 kalanOdeme = item.SatisToplam - odemelerTop
                             else:
                                 odemelerBilgisi = "Henüz ödenmiş bedel bulunmamaktadır."
-                            self.sendMailEta(item.SiparisNo,item.SiparisSahibi,item.Operasyon,item.Eta,'5',item.SatisToplam,kalanOdeme,odemelerBilgisi,odemelerTop)
+                            self.sendMailEta(item.SiparisNo,item.SiparisSahibi,item.Operasyon,item.Eta,'6',item.SatisToplam,kalanOdeme,odemelerBilgisi,odemelerTop)
                             self.data.update_insert("""
-                                                        update SiparislerTB SET EtaYaklasanSureBes = 1 where SiparisNo=?
-                                                    
-                                                    """,(item.SiparisNo))
-                    elif int(etaDay) - int(day) == 1 and int(month) == int(etaMonth):
+                                                    update SiparislerTB SET EtaYaklasanSureBes = 1 where SiparisNo=?
+                                                """,(item.SiparisNo))
+                    elif (eta1 - eta2).days == 3:
                         if item.EtaYaklasanSureBir != True:
                             odemelerTop,isOdemeler = self.getOdemeler(item.SiparisNo)
                             kalanOdeme = 0
@@ -296,12 +323,11 @@ class MusteriEta:
                                 kalanOdeme = item.SatisToplam - odemelerTop
                             else:
                                 odemelerBilgisi = "Henüz ödenmiş bedel bulunmamaktadır."
-                            self.sendMailEta(item.SiparisNo,item.SiparisSahibi,item.Operasyon,item.Eta,'1',item.SatisToplam,kalanOdeme,odemelerBilgisi,odemelerTop)
+                            self.sendMailEta(item.SiparisNo,item.SiparisSahibi,item.Operasyon,item.Eta,'3',item.SatisToplam,kalanOdeme,odemelerBilgisi,odemelerTop)
                             self.data.update_insert("""
-                                                        update SiparislerTB SET EtaYaklasanSureBir = 1 where SiparisNo=?
-                                                    
-                                                    """,(item.SiparisNo))
-                    elif int(etaDay) == int(day)  and int(month) == int(etaMonth):
+                                                    update SiparislerTB SET EtaYaklasanSureBir = 1 where SiparisNo=?
+                                                """,(item.SiparisNo))
+                    elif (eta1 - eta2).days == 0:
                         if item.EtaUlasti != True:
                             odemelerTop,isOdemeler = self.getOdemeler(item.SiparisNo)
                             kalanOdeme = 0
@@ -310,15 +336,17 @@ class MusteriEta:
                                 kalanOdeme = item.SatisToplam - odemelerTop
                             else:
                                 odemelerBilgisi = "Henüz ödenmiş bedel bulunmamaktadır."
-                            self.sendMailEta(item.SiparisNo,item.SiparisSahibi,item.Operasyon,item.Eta,'Tebrikler Konteynır Başarıyla Ulaştı',item.SatisToplam,kalanOdeme,odemelerBilgisi,odemelerTop)
+                            self.sendMailEta(item.SiparisNo,item.SiparisSahibi,item.Operasyon,item.Eta,'0',item.SatisToplam,kalanOdeme,odemelerBilgisi,odemelerTop)
                             self.data.update_insert("""
-                                                        update SiparislerTB SET EtaUlasti = 1 where SiparisNo=?
-                                                    
-                                                    """,(item.SiparisNo))
+                                                    update SiparislerTB SET EtaYaklasanSureBir = 1 where SiparisNo=?
+                                                """,(item.SiparisNo))
+
+
                     else:
                         pass
-                
-                
+            else:
+                pass
+            
             
         except Exception as e:
             print("getEtaControl Hata",str(e))
@@ -398,8 +426,12 @@ class MusteriEta:
                         {etaKalanSure}
                         </td>
                         <td style ="border: 1px solid #ddd; padding: 8px;  font-family: Arial, Helvetica, sans-serif;border-collapse: collapse; width: 100px;">
+                        {satisToplam}
+                        </td>
+                        <td style ="border: 1px solid #ddd; padding: 8px;  font-family: Arial, Helvetica, sans-serif;border-collapse: collapse; width: 100px;">
                         {odemelerBilgisi}
                         </td>
+                        
                         
 
                     </tr>
@@ -473,9 +505,12 @@ class MusteriEta:
             
             body += "</table>"
             if( siparisSahibiMail[0].SiparisSahibi == operasyonMail[0].SiparisSahibi):
+                MailService(siparisno + "Po'ya Ait Eta Yaklaşan Süre",'huseyin@mekmarmarble.com',body)
                 
                 MailService(siparisno + "Po'ya Ait Eta Yaklaşan Süre",siparisSahibiMail[0].SiparisSahibi,body)
             else:
+                MailService(siparisno + "Po'ya Ait Eta Yaklaşan Süre",'huseyin@mekmarmarble.com',body)
+                
                 MailService(siparisno + "Po'ya Ait Eta Yaklaşan Süre",siparisSahibiMail[0].SiparisSahibi,body)
                 MailService(siparisno + "Po'ya Ait Eta Yaklaşan Süre",operasyonMail[0].SiparisSahibi,body)
             return True
@@ -501,9 +536,174 @@ class MusteriEta:
             print("Eta Bilgilendirme Odemeleri Hata",str(e))
             return False 
 
+    def getEtaControlNotification(self):
+        try:
+            result = self.data.getList("""
+                                        select
+                                            s.ID,
+                                            s.SiparisNo,
+                                            m.FirmaAdi as MusteriAdi,
+                                            (select k.ID from KullaniciTB k where k.ID=s.Operasyon ) as Operasyon,           
+                                            (select k.ID from KullaniciTB k where k.ID=s.SiparisSahibi ) as SiparisSahibi,
+                                            (select k.KullaniciAdi from KullaniciTB k where k.ID=s.Operasyon ) as OperasyonAdi,           
+                                            (select k.KullaniciAdi from KullaniciTB k where k.ID=s.SiparisSahibi ) as SiparisSahibiAdi,
+                                            s.Eta,
+                                            s.KonteynerNo,
+                                            s.YuklemeTarihi,
+                                            s.KonsimentoDurum,
+                                            s.EtaYaklasanSureOn,
+                                            s.EtaYaklasanSureBes,
+                                            s.EtaYaklasanSureBir,
+                                            s.EtaUlasti,
+                                            (select sum(su.SatisToplam) from SiparisUrunTB su where su.SiparisNo = s.SiparisNo) as SatisToplam,
+                                            s.EtaHControlOn,
+                                            s.EtaHControlBes,
+                                            s.EtaHControlBir,
+                                            s.EtaHControlUlasti
 
+                                            from
+                                            SiparislerTB s,MusterilerTB m
+                                            where s.MusteriID=m.ID
+                                            and s.SiparisDurumID=3 and s.Takip=1
+                                            and s.Eta is not null 
+                                            order by s.ID desc
 
-    
+                                       """)
+            day,month,year = self.getToday()
+            liste = list()
+            
+            if len(result)>0:
+                for item in result:
+                    eta = str(item.Eta)
+                    eta = eta.split("-")
+                    etaYear = int(eta[0])
+                    etaMonth = int(eta[1])
+                    etaDay = int(eta[2])
+                    eta1 = date(etaYear,etaMonth,etaDay)
+                    eta2 = date(year,month,day)
+                    if (eta1 - eta2).days == 12:
+                        if(item.EtaHControlOn == True):
+                            continue
+                        else:
+                            odemelerTop,isOdemeler = self.getOdemeler(item.SiparisNo)
+                            kalanOdeme = 0
+                            odemelerBilgisi = ""
+                            if isOdemeler:
+                                kalanOdeme = item.SatisToplam - odemelerTop
+                                odemelerBilgisi = "Ödemesi Gelmiştir."
+                                
+                            else:
+                                kalanOdeme = item.SatisToplam
+                                odemelerBilgisi = "Henüz ödenmiş bedel bulunmamaktadır."
+                            data = {
+                                    'po':item.SiparisNo,
+                                    'musteri':item.MusteriAdi,
+                                    'operasyon':item.OperasyonAdi,
+                                    'siparisci':item.SiparisSahibiAdi,
+                                    'etaSure':(eta1 - eta2).days,
+                                    'yuklemeTarihi':item.YuklemeTarihi,
+                                    'etaTarihi':item.Eta,
+                                    'satisBedel':item.SatisToplam,
+                                    'odenen':odemelerTop,
+                                    'kalan':kalanOdeme,
+                                    'odemelerBilgisi':odemelerBilgisi
+                                   }
+                            liste.append(data)
+                        
+                    elif (eta1 - eta2).days == 6:
+                        if(item.EtaHControlBes == True):
+                            continue
+                        else:
+                            odemelerTop,isOdemeler = self.getOdemeler(item.SiparisNo)
+                            kalanOdeme = 0
+                            odemelerBilgisi = ""
+                            if isOdemeler:
+                                kalanOdeme = item.SatisToplam - odemelerTop
+                                odemelerBilgisi = "Ödemesi Gelmiştir."
+                                
+                            else:
+                                kalanOdeme = item.SatisToplam
+                                
+                                odemelerBilgisi = "Henüz ödenmiş bedel bulunmamaktadır."
+                            data = {
+                                'po':item.SiparisNo,
+                                'musteri':item.MusteriAdi,
+                                'operasyon':item.OperasyonAdi,
+                                'siparisci':item.SiparisSahibiAdi,
+                                'etaSure':(eta1 - eta2).days,
+                                'yuklemeTarihi':item.YuklemeTarihi,
+                                'etaTarihi':item.Eta,
+                                'satisBedel':item.SatisToplam,
+                                'odenen':odemelerTop,
+                                'kalan':kalanOdeme,
+                                'odemelerBilgisi':odemelerBilgisi
+                            }
+                            liste.append(data)
+                    elif (eta1 - eta2).days == 3:
+                        if(item.EtaHControlBir == True):
+                            continue
+                        else:
+                            odemelerTop,isOdemeler = self.getOdemeler(item.SiparisNo)
+                            kalanOdeme = 0
+                            odemelerBilgisi = ""
+                            if isOdemeler:
+                                kalanOdeme = item.SatisToplam - odemelerTop
+                                odemelerBilgisi = "Ödemesi Gelmiştir."
+                                
+                            else:
+                                kalanOdeme = item.SatisToplam
+                                odemelerBilgisi = "Henüz ödenmiş bedel bulunmamaktadır."
+                            data = {
+                                'po':item.SiparisNo,
+                                'musteri':item.MusteriAdi,
+                                'operasyon':item.OperasyonAdi,
+                                'siparisci':item.SiparisSahibiAdi,
+                                'etaSure':(eta1 - eta2).days,
+                                'yuklemeTarihi':item.YuklemeTarihi,
+                                'etaTarihi':item.Eta,
+                                'satisBedel':item.SatisToplam,
+                                'odenen':odemelerTop,
+                                'kalan':kalanOdeme,
+                                'odemelerBilgisi':odemelerBilgisi
+                            }
+                            liste.append(data)
+                    elif (eta1 - eta2).days == 0:
+                        if(item.EtaHControlUlasti == True):
+                            odemelerTop,isOdemeler = self.getOdemeler(item.SiparisNo)
+                            kalanOdeme = 0
+                            odemelerBilgisi = ""
+                            if isOdemeler:
+                                kalanOdeme = item.SatisToplam - odemelerTop
+                                odemelerBilgisi = "Ödemesi Gelmiştir."
+                                
+                            else:
+                                kalanOdeme = item.SatisToplam
+                                
+                                odemelerBilgisi = "Henüz ödenmiş bedel bulunmamaktadır."
+                            data = {
+                                'po':item.SiparisNo,
+                                'musteri':item.MusteriAdi,
+                                'operasyon':item.OperasyonAdi,
+                                'siparisci':item.SiparisSahibiAdi,
+                                'etaSure':(eta1 - eta2).days,
+                                'yuklemeTarihi':item.YuklemeTarihi,
+                                'etaTarihi':item.Eta,
+                                'satisBedel':item.SatisToplam,
+                                'odenen':odemelerTop,
+                                'kalan':kalanOdeme,
+                                'odemelerBilgisi':odemelerBilgisi
+                            }
+                            liste.append(data)
+                    
+                    else:
+                        pass
+            else:
+                pass
+            return liste
+
+        except Exception as e:
+            print('getEtaControlNotification hata',str(e))
+            return False
 class EtaTarihiYaklasan:
     def __init__(self):
         self.data = SqlConnect().data
