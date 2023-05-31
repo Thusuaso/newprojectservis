@@ -55,7 +55,10 @@ class YapilacaklarIslemApi(Resource):
         return {'status':status}
     
     def put(self):
-        pass
+        data = request.get_json()
+        islem = Yapilacaklar()
+        status = islem.update(data)
+        return {'status':status}
     
 class YapilacaklarYapildiStatusApi(Resource):
     def post(self):

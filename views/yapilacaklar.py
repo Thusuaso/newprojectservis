@@ -318,7 +318,14 @@ class Yapilacaklar:
         except Exception as e:
             print('yapilacaklar save hata',str(e))
             return False
-        
+    
+    def update(self,data):
+        self.sql.update_insert("""
+                                   update Yapilacaklar SET GorevSahibiAdi=?,GorevSahibiId=?,Yapilacak=? where ID=? 
+                               """,(data['gorev_sahibi_adi'],data['gorev_sahibi_id'],data['yapilacak'],data['id']))
+        return True
+    
+    
     def setYapilacaklarDelete(self,id):
         try:
             self.sql.update_insert("""
