@@ -17,7 +17,7 @@ class Yapilacaklar:
                              """)
             liste = list()
             for item in data:
-                if(item.ID == 44 or item.ID == 19 or item.ID == 47):
+                if(item.ID == 44 or item.ID == 19 or item.ID == 47 or item.ID == 10):
                     model = YapilacaklarKullanicilarModel()
                     model.id = item.ID
                     model.kullanici = item.KullaniciAdi
