@@ -153,6 +153,8 @@ class KullaniciSchema(Schema):
      musteri_id = fields.Int()
      musteri = fields.String()
      ulkeAdi = fields.String()
+     
+     sonSiparisTarihi = fields.String()
      logo = fields.String()
      BuYil = fields.Float()
      GecenYil = fields.Float()
@@ -184,7 +186,7 @@ class KullaniciModel:
     BuYil = 0
     GecenYil = 0
     OncekiYil = 0
-
+    sonSiparisTarihi = ""
     OnDokuzYili = 0
     OnSekizYili = 0
     OnYediYili = 0

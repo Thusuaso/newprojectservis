@@ -9,7 +9,7 @@ class GenelMusteriListesi:
     def __init__(self):
 
         self.data = SqlConnect().data
-      
+
     
     def getGenelMusteriSiparis(self):
         liste = list()
@@ -193,6 +193,7 @@ class GenelMusteriListesi:
                         model.OnUcYili += self.getisNoneType(i.OnUcYilCiro)
                         model.OnUcYiliOncesi = self.getisNoneType(item.OnUcYilOncesiCiro) + self.getisNoneType(item.RealOnUcCiro)
                         model.Toplam += self.getisNoneType(i.GenelCiro)
+                        
                     if i.MusteriId ==34:
                         model.GecenYil += self.getisNoneType(i.GecenYilCiro)
                         model.OncekiYil += self.getisNoneType(i.OncekiYilCiro)
@@ -228,6 +229,7 @@ class GenelMusteriListesi:
                 model.OnUcYili = self.getisNoneType(item.OnUcYilCiro)
                 model.OnUcYiliOncesi = self.getisNoneType(item.OnUcYilOncesiCiro) + self.getisNoneType(item.RealOnUcCiro)
                 model.Toplam = self.getisNoneType(item.GenelCiro) - self.getisNoneType(item.BuYilCiro) + self.getisNoneType(item.OnUcYilOncesiCiro)
+                
                 for i in result:
                     if i.MusteriId == 32:
                         model.GecenYil += self.getisNoneType(i.GecenYilCiro)
@@ -264,6 +266,7 @@ class GenelMusteriListesi:
                 model.OnUcYili = self.getisNoneType(item.OnUcYilCiro)
                 model.OnUcYiliOncesi = self.getisNoneType(item.OnUcYilOncesiCiro) + self.getisNoneType(item.RealOnUcCiro)
                 model.Toplam = self.getisNoneType(item.GenelCiro) - self.getisNoneType(item.BuYilCiro) + self.getisNoneType(item.OnUcYilOncesiCiro)
+                
                 for i in result:
                     if i.MusteriId == 260:
                         model.GecenYil += self.getisNoneType(i.GecenYilCiro)
@@ -332,6 +335,7 @@ class GenelMusteriListesi:
                 model.OnUcYili = self.getisNoneType(item.OnUcYilCiro)
                 model.OnUcYiliOncesi = self.getisNoneType(item.OnUcYilOncesiCiro) + self.getisNoneType(item.RealOnUcCiro)
                 model.Toplam = self.getisNoneType(item.GenelCiro) - self.getisNoneType(item.BuYilCiro) + self.getisNoneType(item.OnUcYilOncesiCiro)
+                
                 for i in result:
                     if i.MusteriId == 120:
                         model.GecenYil += self.getisNoneType(i.GecenYilCiro)
@@ -381,8 +385,11 @@ class GenelMusteriListesi:
                 model.OnUcYili = self.getisNoneType(item.OnUcYilCiro)
                 model.OnUcYiliOncesi = self.getisNoneType(item.OnUcYilOncesiCiro) + self.getisNoneType(item.RealOnUcCiro)
                 model.Toplam = self.getisNoneType(item.GenelCiro) - self.getisNoneType(item.BuYilCiro) + self.getisNoneType(item.OnUcYilOncesiCiro)
+                
                 for i in result:
                     if i.MusteriId == 15:
+                        model.BuYilUretim = self.getisNoneType(i.BuYilUretim)
+                        model.BuYilSevkiyat = self.getisNoneType(i.BuYilSevkiyat)
                         model.GecenYil += self.getisNoneType(i.GecenYilCiro)
                         model.OncekiYil += self.getisNoneType(i.OncekiYilCiro)
                         model.OnDokuzYili += self.getisNoneType(i.OndokuzYilCiro)
@@ -394,6 +401,8 @@ class GenelMusteriListesi:
                         model.OnUcYili += self.getisNoneType(i.OnUcYilCiro)
                         model.Toplam += self.getisNoneType(i.GenelCiro)
                     if i.MusteriId == 205:
+                        model.BuYilUretim = self.getisNoneType(i.BuYilUretim)
+                        model.BuYilSevkiyat = self.getisNoneType(i.BuYilSevkiyat)
                         model.GecenYil += self.getisNoneType(i.GecenYilCiro)
                         model.OncekiYil += self.getisNoneType(i.OncekiYilCiro)
                         model.OnDokuzYili += self.getisNoneType(i.OndokuzYilCiro)
@@ -405,6 +414,8 @@ class GenelMusteriListesi:
                         model.OnUcYili += self.getisNoneType(i.OnUcYilCiro)
                         model.Toplam += self.getisNoneType(i.GenelCiro)    
                     if i.MusteriId == 12:
+                        model.BuYilUretim = self.getisNoneType(i.BuYilUretim)
+                        model.BuYilSevkiyat = self.getisNoneType(i.BuYilSevkiyat)
                         model.GecenYil += self.getisNoneType(i.GecenYilCiro)
                         model.OncekiYil += self.getisNoneType(i.OncekiYilCiro)
                         model.OnDokuzYili += self.getisNoneType(i.OndokuzYilCiro)
@@ -416,6 +427,8 @@ class GenelMusteriListesi:
                         model.OnUcYili += self.getisNoneType(i.OnUcYilCiro)
                         model.Toplam += self.getisNoneType(i.GenelCiro)    
                     if i.MusteriId == 61:
+                        model.BuYilUretim = self.getisNoneType(i.BuYilUretim)
+                        model.BuYilSevkiyat = self.getisNoneType(i.BuYilSevkiyat)
                         model.GecenYil += self.getisNoneType(i.GecenYilCiro)
                         model.OncekiYil += self.getisNoneType(i.OncekiYilCiro)
                         model.OnDokuzYili += self.getisNoneType(i.OndokuzYilCiro)
@@ -436,8 +449,8 @@ class GenelMusteriListesi:
                 model.ulkeAdi = item.UlkeAdi
                 model.logo = item.UlkeLogo
                 model.temsilci = item.Temsilci
-                model.BuYilUretim = item.BuYilUretim
-                model.BuYilSevkiyat = item.BuYilSevkiyat
+                model.BuYilUretim = self.getisNoneType(item.BuYilUretim)
+                model.BuYilSevkiyat = self.getisNoneType(item.BuYilSevkiyat)
                 model.BuYil = item.BuYilCiro
                 model.GecenYil = self.getisNoneType(item.GecenYilCiro)
                 model.OncekiYil = self.getisNoneType(item.OncekiYilCiro)
@@ -450,6 +463,7 @@ class GenelMusteriListesi:
                 model.OnUcYili = self.getisNoneType(item.OnUcYilCiro)
                 model.OnUcYiliOncesi = self.getisNoneType(item.OnUcYilOncesiCiro) + self.getisNoneType(item.RealOnUcCiro)
                 model.Toplam = self.getisNoneType(item.GenelCiro) - self.getisNoneType(item.BuYilCiro) + self.getisNoneType(item.OnUcYilOncesiCiro)
+                
                 for i in result:
                     if i.Marketing == 'İç Piyasa':
                         if i.MusteriId ==56:
@@ -462,6 +476,8 @@ class GenelMusteriListesi:
                             continue
                         if i.MusteriId ==196:
                             continue
+                        model.BuYilUretim += self.getisNoneType(i.BuYilUretim)
+                        model.BuYilSevkiyat += self.getisNoneType(i.BuYilSevkiyat)
                         model.GecenYil += self.getisNoneType(i.GecenYilCiro)
                         model.OncekiYil += self.getisNoneType(i.OncekiYilCiro)
                         model.OnDokuzYili += self.getisNoneType(i.OndokuzYilCiro)
@@ -520,6 +536,9 @@ class GenelMusteriListesi:
 
 
         return schema.dump(liste)     
+    
+
+            
     
     def isIcSiparis(self,id):
         icSiparisMusterileri=[7,
@@ -600,7 +619,27 @@ class GenelMusteriListesi:
                 6524,
                 6526,
                 7530,
-                7538]
+                7538,
+                7581,
+                7647,
+                7638,
+                7636,
+                7632,
+                7629,
+                7627,
+                7623,
+                7617,
+                7613,
+                7611,
+                7609,
+                7608,
+                7606,
+                7601,
+                7598,
+                7592,
+                7591,
+                7589
+                ]
         for i in icSiparisMusterileri:
             if id == i:
                 
@@ -623,11 +662,10 @@ class GenelMusteriListesi:
         
     def getisNoneType(self,value):
 
-        if value != None:
-            return float(value)
+        if value == None:
+            return 0
         else:
-            value = 0
-            return value
+            return float(value)
    
    
     def getCustomersDetailList(self,sipNo):
