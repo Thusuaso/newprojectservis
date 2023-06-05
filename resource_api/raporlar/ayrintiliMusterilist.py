@@ -15,7 +15,7 @@ class GenelMusteriListesi:
         liste = list()
         
         result = self.data.getList(
-            "{call musteri_bazinda_tum_genel_ciro_son_5 }"
+            "{call musteri_bazinda_tum_genel_ciro_son_7 }"
           )
 
         liste = list()
@@ -178,7 +178,7 @@ class GenelMusteriListesi:
                 model.OnBesYili = self.getisNoneType(item.OnBesYilCiro)
                 model.OnDortYili = self.getisNoneType(item.OnDortYilCiro)
                 model.OnUcYili = self.getisNoneType(item.OnUcYilCiro)
-                model.OnUcYiliOncesi = item.OnUcYilOncesiCiro
+                model.OnUcYiliOncesi = self.getisNoneType(item.OnUcYilOncesiCiro) + self.getisNoneType(item.RealOnUcCiro)
                 model.Toplam = self.getisNoneType(item.GenelCiro) - self.getisNoneType(item.BuYilCiro) + self.getisNoneType(item.OnUcYilOncesiCiro)
                 for i in result:
                     if i.MusteriId == 6:
@@ -191,6 +191,7 @@ class GenelMusteriListesi:
                         model.OnBesYili += self.getisNoneType(i.OnBesYilCiro)
                         model.OnDortYili += self.getisNoneType(i.OnDortYilCiro)
                         model.OnUcYili += self.getisNoneType(i.OnUcYilCiro)
+                        model.OnUcYiliOncesi = self.getisNoneType(item.OnUcYilOncesiCiro) + self.getisNoneType(item.RealOnUcCiro)
                         model.Toplam += self.getisNoneType(i.GenelCiro)
                     if i.MusteriId ==34:
                         model.GecenYil += self.getisNoneType(i.GecenYilCiro)
@@ -202,6 +203,7 @@ class GenelMusteriListesi:
                         model.OnBesYili += self.getisNoneType(i.OnBesYilCiro)
                         model.OnDortYili += self.getisNoneType(i.OnDortYilCiro)
                         model.OnUcYili += self.getisNoneType(i.OnUcYilCiro)
+                        model.OnUcYiliOncesi = self.getisNoneType(item.OnUcYilOncesiCiro) + self.getisNoneType(item.RealOnUcCiro)
                         model.Toplam += self.getisNoneType(i.GenelCiro)
                 model.marketing = item.Marketing
                 model.oncelik = item.MusteriOncelik
@@ -224,7 +226,7 @@ class GenelMusteriListesi:
                 model.OnBesYili = self.getisNoneType(item.OnBesYilCiro)
                 model.OnDortYili = self.getisNoneType(item.OnDortYilCiro)
                 model.OnUcYili = self.getisNoneType(item.OnUcYilCiro)
-                model.OnUcYiliOncesi = item.OnUcYilOncesiCiro
+                model.OnUcYiliOncesi = self.getisNoneType(item.OnUcYilOncesiCiro) + self.getisNoneType(item.RealOnUcCiro)
                 model.Toplam = self.getisNoneType(item.GenelCiro) - self.getisNoneType(item.BuYilCiro) + self.getisNoneType(item.OnUcYilOncesiCiro)
                 for i in result:
                     if i.MusteriId == 32:
@@ -237,6 +239,7 @@ class GenelMusteriListesi:
                         model.OnBesYili += self.getisNoneType(i.OnBesYilCiro)
                         model.OnDortYili += self.getisNoneType(i.OnDortYilCiro)
                         model.OnUcYili += self.getisNoneType(i.OnUcYilCiro)
+                        model.OnUcYiliOncesi = self.getisNoneType(item.OnUcYilOncesiCiro) + self.getisNoneType(item.RealOnUcCiro)
                         model.Toplam += self.getisNoneType(i.GenelCiro)
                 model.marketing = item.Marketing
                 model.oncelik = item.MusteriOncelik
@@ -259,7 +262,7 @@ class GenelMusteriListesi:
                 model.OnBesYili = self.getisNoneType(item.OnBesYilCiro)
                 model.OnDortYili = self.getisNoneType(item.OnDortYilCiro)
                 model.OnUcYili = self.getisNoneType(item.OnUcYilCiro)
-                model.OnUcYiliOncesi = item.OnUcYilOncesiCiro
+                model.OnUcYiliOncesi = self.getisNoneType(item.OnUcYilOncesiCiro) + self.getisNoneType(item.RealOnUcCiro)
                 model.Toplam = self.getisNoneType(item.GenelCiro) - self.getisNoneType(item.BuYilCiro) + self.getisNoneType(item.OnUcYilOncesiCiro)
                 for i in result:
                     if i.MusteriId == 260:
@@ -327,7 +330,7 @@ class GenelMusteriListesi:
                 model.OnBesYili = self.getisNoneType(item.OnBesYilCiro)
                 model.OnDortYili = self.getisNoneType(item.OnDortYilCiro)
                 model.OnUcYili = self.getisNoneType(item.OnUcYilCiro)
-                model.OnUcYiliOncesi = item.OnUcYilOncesiCiro
+                model.OnUcYiliOncesi = self.getisNoneType(item.OnUcYilOncesiCiro) + self.getisNoneType(item.RealOnUcCiro)
                 model.Toplam = self.getisNoneType(item.GenelCiro) - self.getisNoneType(item.BuYilCiro) + self.getisNoneType(item.OnUcYilOncesiCiro)
                 for i in result:
                     if i.MusteriId == 120:
@@ -376,7 +379,7 @@ class GenelMusteriListesi:
                 model.OnBesYili = self.getisNoneType(item.OnBesYilCiro)
                 model.OnDortYili = self.getisNoneType(item.OnDortYilCiro)
                 model.OnUcYili = self.getisNoneType(item.OnUcYilCiro)
-                model.OnUcYiliOncesi = item.OnUcYilOncesiCiro
+                model.OnUcYiliOncesi = self.getisNoneType(item.OnUcYilOncesiCiro) + self.getisNoneType(item.RealOnUcCiro)
                 model.Toplam = self.getisNoneType(item.GenelCiro) - self.getisNoneType(item.BuYilCiro) + self.getisNoneType(item.OnUcYilOncesiCiro)
                 for i in result:
                     if i.MusteriId == 15:
@@ -445,7 +448,7 @@ class GenelMusteriListesi:
                 model.OnBesYili = self.getisNoneType(item.OnBesYilCiro)
                 model.OnDortYili = self.getisNoneType(item.OnDortYilCiro)
                 model.OnUcYili = self.getisNoneType(item.OnUcYilCiro)
-                model.OnUcYiliOncesi = item.OnUcYilOncesiCiro
+                model.OnUcYiliOncesi = self.getisNoneType(item.OnUcYilOncesiCiro) + self.getisNoneType(item.RealOnUcCiro)
                 model.Toplam = self.getisNoneType(item.GenelCiro) - self.getisNoneType(item.BuYilCiro) + self.getisNoneType(item.OnUcYilOncesiCiro)
                 for i in result:
                     if i.Marketing == 'İç Piyasa':
@@ -499,7 +502,7 @@ class GenelMusteriListesi:
                 model.OnBesYili = item.OnBesYilCiro
                 model.OnDortYili = item.OnDortYilCiro
                 model.OnUcYili = item.OnUcYilCiro
-                model.OnUcYiliOncesi = item.OnUcYilOncesiCiro
+                model.OnUcYiliOncesi = self.getisNoneType(item.OnUcYilOncesiCiro) + self.getisNoneType(item.RealOnUcCiro)
                 model.Toplam = self.getisNoneType(item.GenelCiro) - self.getisNoneType(item.BuYilCiro) + self.getisNoneType(item.OnUcYilOncesiCiro)
                 
                 

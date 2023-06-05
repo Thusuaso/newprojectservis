@@ -12,7 +12,10 @@ class ExcelCiktiIslemMusteri:
         try:
             source_path = 'resource_api/raporlar/sablonlar/musteri_listesi.xlsx'
             target_path = 'resource_api/raporlar/dosyalar/musteri_listesi.xlsx'
-
+            thin_border = Border(left=Side(style='thin'), 
+                     right=Side(style='thin'), 
+                     top=Side(style='thin'), 
+                     bottom=Side(style='thin'))
             shutil.copy2(source_path, target_path)
             
 
@@ -20,83 +23,85 @@ class ExcelCiktiIslemMusteri:
             sayfa = kitap.get_sheet_by_name('Sayfa1')
 
             satir = 2
-
+            sira = 1
             for item in data_list:
-                sayfa.cell(satir,column=1,value=item['musteri'])
-                sayfa.cell(satir,column=2,value=item['ulkeAdi'])
-                sayfa.cell(satir,column=3,value=item['temsilci'])
+                sayfa.cell(satir,column=1,value=sira).border = thin_border
+                
+                sayfa.cell(satir,column=2,value=item['musteri']).border = thin_border
+                sayfa.cell(satir,column=3,value=item['ulkeAdi']).border = thin_border
+                sayfa.cell(satir,column=4,value=item['temsilci']).border = thin_border
                 
                 if item['Toplam'] == None:
-                    sayfa.cell(satir,column=4,value=0)
+                    sayfa.cell(satir,column=5,value=0)
                 else:
-                    sayfa.cell(satir,column=4,value=item['Toplam'])
+                    sayfa.cell(satir,column=5,value=item['Toplam'])
                 
                 
                 
                 if item['BuYilUretim'] == None:
-                    sayfa.cell(satir,column=5,value=0) 
-                else:
-                    sayfa.cell(satir,column=5,value=item['BuYilUretim']) 
-
-                if item['BuYilSevkiyat'] == None:
                     sayfa.cell(satir,column=6,value=0) 
                 else:
-                    sayfa.cell(satir,column=6,value=item['BuYilSevkiyat']) 
+                    sayfa.cell(satir,column=6,value=item['BuYilUretim']) 
+
+                if item['BuYilSevkiyat'] == None:
+                    sayfa.cell(satir,column=7,value=0) 
+                else:
+                    sayfa.cell(satir,column=7,value=item['BuYilSevkiyat']) 
                 
                 
 
                 if item['GecenYil'] == None:
-                    sayfa.cell(satir,column=7,value=0) 
-                else:
-                    sayfa.cell(satir,column=7,value=item['GecenYil']) 
-
-                if item['OncekiYil'] == None:
                     sayfa.cell(satir,column=8,value=0) 
                 else:
-                    sayfa.cell(satir,column=8,value=item['OncekiYil'])
-                    
-                if item['OnDokuzYili'] == None:
+                    sayfa.cell(satir,column=8,value=item['GecenYil']) 
+
+                if item['OncekiYil'] == None:
                     sayfa.cell(satir,column=9,value=0) 
                 else:
-                    sayfa.cell(satir,column=9,value=item['OnDokuzYili']) 
+                    sayfa.cell(satir,column=9,value=item['OncekiYil'])
                     
-                if item['OnSekizYili'] == None:
+                if item['OnDokuzYili'] == None:
                     sayfa.cell(satir,column=10,value=0) 
                 else:
-                    sayfa.cell(satir,column=10,value=item['OnSekizYili'])                 
-                
-                if item['OnYediYili'] == None:
+                    sayfa.cell(satir,column=10,value=item['OnDokuzYili']) 
+                    
+                if item['OnSekizYili'] == None:
                     sayfa.cell(satir,column=11,value=0) 
                 else:
-                    sayfa.cell(satir,column=11,value=item['OnYediYili']) 
+                    sayfa.cell(satir,column=11,value=item['OnSekizYili'])                 
                 
-                if item['OnAltiYili'] == None:
+                if item['OnYediYili'] == None:
                     sayfa.cell(satir,column=12,value=0) 
                 else:
-                    sayfa.cell(satir,column=12,value=item['OnAltiYili']) 
-                    
-                if item['OnBesYili'] == None:
+                    sayfa.cell(satir,column=12,value=item['OnYediYili']) 
+                
+                if item['OnAltiYili'] == None:
                     sayfa.cell(satir,column=13,value=0) 
                 else:
-                    sayfa.cell(satir,column=13,value=item['OnBesYili']) 
+                    sayfa.cell(satir,column=13,value=item['OnAltiYili']) 
+                    
+                if item['OnBesYili'] == None:
+                    sayfa.cell(satir,column=14,value=0) 
+                else:
+                    sayfa.cell(satir,column=14,value=item['OnBesYili']) 
                 
                 
                 if item['OnDortYili'] == None:
-                    sayfa.cell(satir,column=14,value=0) 
-                else:
-                    sayfa.cell(satir,column=14,value=item['OnDortYili']) 
-                
-                if item['OnUcYili'] == None:
                     sayfa.cell(satir,column=15,value=0) 
                 else:
-                    sayfa.cell(satir,column=15,value=item['OnUcYili']) 
+                    sayfa.cell(satir,column=15,value=item['OnDortYili']) 
                 
-                if item['OnUcYiliOncesi'] == None:
+                if item['OnUcYili'] == None:
                     sayfa.cell(satir,column=16,value=0) 
                 else:
-                    sayfa.cell(satir,column=16,value=item['OnUcYiliOncesi']) 
+                    sayfa.cell(satir,column=16,value=item['OnUcYili']) 
                 
+                if item['OnUcYiliOncesi'] == None:
+                    sayfa.cell(satir,column=17,value=0) 
+                else:
+                    sayfa.cell(satir,column=17,value=item['OnUcYiliOncesi']) 
                 
+                sira +=1
                 
              
 

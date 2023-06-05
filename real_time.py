@@ -98,5 +98,10 @@ def get_yapilacaklar_list_event():
 @socketio.on('get_yapilacaklar_status_event')
 def get_yapilacaklar_status_event():
     emit('get_yapilacaklar_status_on',broadcast=True)
+    
+@socketio.on('get_maliyet_hata_list_event')
+def get_maliyet_hata_list_event():
+    emit('get_maliyet_hata_list_on',broadcast=True)
+    
 if __name__ == '__main__':
     socketio.run(app,port=5001)

@@ -775,5 +775,9 @@ api.add_resource(YapilacaklarDeleteApi,'/yapilacaklar/delete/<int:id>',methods=[
 
 api.add_resource(EtaYaklasanTarihBildirimApi,'/eta/yaklasan/bildirim/list',methods=['GET'])
 api.add_resource(EtaYaklasanTarihBildirimStatusApi,'/eta/yaklasan/bildirim/status/<string:po>/<string:etaSure>',methods=['GET'])
+
+api.add_resource(MaliyetHataRaporIslemApi,'/raporlar/maliyet/hatalar',methods=['GET','POST','PUT'])
+api.add_resource(MaliyetHataRaporModelApi,'/raporlar/maliyet/hatalar/model',methods=['GET'])
+api.add_resource(MaliyetHataRaporDeleteApi,'/raporlar/maliyet/hatalar/delete/<int:id>',methods=['DELETE'])
 if __name__ == '__main__':
     app.run(port=5000,debug=True) #https://doktor-servis.mekmar.com/raporlar/listeler/uretimRaporuHepsi
