@@ -638,7 +638,8 @@ class GenelMusteriListesi:
                 7598,
                 7592,
                 7591,
-                7589
+                7589,
+                7650
                 ]
         for i in icSiparisMusterileri:
             if id == i:
