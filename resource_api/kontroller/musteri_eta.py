@@ -336,9 +336,9 @@ class MusteriEta:
                                 kalanOdeme = item.SatisToplam - odemelerTop
                             else:
                                 odemelerBilgisi = "Henüz ödenmiş bedel bulunmamaktadır."
-                            self.sendMailEta(item.SiparisNo,item.SiparisSahibi,item.Operasyon,item.Eta,'0',item.SatisToplam,kalanOdeme,odemelerBilgisi,odemelerTop)
+                            self.sendMailEta(item.SiparisNo,item.SiparisSahibi,item.Operasyon,item.Eta,'Eta Başarıyla Ulaştı',item.SatisToplam,kalanOdeme,odemelerBilgisi,odemelerTop)
                             self.data.update_insert("""
-                                                    update SiparislerTB SET EtaYaklasanSureBir = 1 where SiparisNo=?
+                                                    update SiparislerTB SET EtaUlasti = 1 where SiparisNo=?
                                                 """,(item.SiparisNo))
 
 
