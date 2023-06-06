@@ -321,8 +321,8 @@ class Yapilacaklar:
     
     def update(self,data):
         self.sql.update_insert("""
-                                   update Yapilacaklar SET GorevSahibiAdi=?,GorevSahibiId=?,Yapilacak=? where ID=? 
-                               """,(data['gorev_sahibi_adi'],data['gorev_sahibi_id'],data['yapilacak'],data['id']))
+                                   update Yapilacaklar SET GorevSahibiAdi=?,GorevSahibiId=?,Yapilacak=?,YapilacakOncelik=? where ID=? 
+                               """,(data['gorev_sahibi_adi'],data['gorev_sahibi_id'],data['yapilacak'],data['oncelik'],data['id']))
         return True
     
     

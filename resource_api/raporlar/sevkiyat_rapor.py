@@ -1034,7 +1034,8 @@ class SevkiyatRapor:
                 ol.En,
                 ol.Boy,
                 ol.Kenar,
-				u.UrunKartID
+				u.UrunKartID,
+				u.KutuIciAdet
 				
 
                 from 
@@ -1136,7 +1137,8 @@ class SevkiyatRapor:
                 ol.En,
                 ol.Boy,
                 ol.Kenar,
-				u.UrunKartID
+				u.UrunKartID,
+				u.KutuIciAdet
 
                 from 
 
@@ -1236,7 +1238,8 @@ class SevkiyatRapor:
                 ol.En,
                 ol.Boy,
                 ol.Kenar,
-				u.UrunKartID
+				u.UrunKartID,
+                u.KutuIciAdet
 
                 from 
 
@@ -1334,7 +1337,8 @@ class SevkiyatRapor:
                 ol.En,
                 ol.Boy,
                 ol.Kenar,
-				u.UrunKartID
+				u.UrunKartID,
+                u.KutuIciAdet
 
                 from 
 
@@ -1531,5 +1535,5 @@ class SevkiyatRapor:
         model.toplam = item.Toplam
         model.kategori = item.Kategori
         model.urunKartID = item.UrunKartID
-
+        model.kutuiciadet = item.KutuIciAdet
         return model
