@@ -294,8 +294,12 @@ class MusteriEta:
                             odemelerBilgisi = ""
                             if isOdemeler:
                                 kalanOdeme = item.SatisToplam - odemelerTop
+                                if(kalanOdeme >0):
+                                    self.sendMailEtaSpecial(item.SiparisNo,item.SiparisSahibi,item.Operasyon,item.Eta,'12',item.SatisToplam,kalanOdeme,odemelerTop)
                             else:
                                 odemelerBilgisi = "Henüz ödenmiş bedel bulunmamaktadır."
+                                self.sendMailEtaSpecial(item.SiparisNo,item.SiparisSahibi,item.Operasyon,item.Eta,'12',item.SatisToplam,kalanOdeme,odemelerTop)
+                                
                             self.sendMailEta(item.SiparisNo,item.SiparisSahibi,item.Operasyon,item.Eta,'12',item.SatisToplam,kalanOdeme,odemelerBilgisi,odemelerTop)
                             self.data.update_insert("""
                                                     update SiparislerTB SET EtaYaklasanSureOn = 1 where SiparisNo=?
@@ -308,8 +312,11 @@ class MusteriEta:
                             odemelerBilgisi = ""
                             if isOdemeler:
                                 kalanOdeme = item.SatisToplam - odemelerTop
+                                if(kalanOdeme >0):
+                                    self.sendMailEtaSpecial(item.SiparisNo,item.SiparisSahibi,item.Operasyon,item.Eta,'12',item.SatisToplam,kalanOdeme,odemelerTop)
                             else:
                                 odemelerBilgisi = "Henüz ödenmiş bedel bulunmamaktadır."
+                                self.sendMailEtaSpecial(item.SiparisNo,item.SiparisSahibi,item.Operasyon,item.Eta,'12',item.SatisToplam,kalanOdeme,odemelerTop)
                             self.sendMailEta(item.SiparisNo,item.SiparisSahibi,item.Operasyon,item.Eta,'6',item.SatisToplam,kalanOdeme,odemelerBilgisi,odemelerTop)
                             self.data.update_insert("""
                                                     update SiparislerTB SET EtaYaklasanSureBes = 1 where SiparisNo=?
@@ -321,8 +328,11 @@ class MusteriEta:
                             odemelerBilgisi = ""
                             if isOdemeler:
                                 kalanOdeme = item.SatisToplam - odemelerTop
+                                if(kalanOdeme >0):
+                                    self.sendMailEtaSpecial(item.SiparisNo,item.SiparisSahibi,item.Operasyon,item.Eta,'12',item.SatisToplam,kalanOdeme,odemelerTop)
                             else:
                                 odemelerBilgisi = "Henüz ödenmiş bedel bulunmamaktadır."
+                                self.sendMailEtaSpecial(item.SiparisNo,item.SiparisSahibi,item.Operasyon,item.Eta,'12',item.SatisToplam,kalanOdeme,odemelerTop)
                             self.sendMailEta(item.SiparisNo,item.SiparisSahibi,item.Operasyon,item.Eta,'3',item.SatisToplam,kalanOdeme,odemelerBilgisi,odemelerTop)
                             self.data.update_insert("""
                                                     update SiparislerTB SET EtaYaklasanSureBir = 1 where SiparisNo=?
@@ -334,8 +344,11 @@ class MusteriEta:
                             odemelerBilgisi = ""
                             if isOdemeler:
                                 kalanOdeme = item.SatisToplam - odemelerTop
+                                if(kalanOdeme >0):
+                                    self.sendMailEtaSpecial(item.SiparisNo,item.SiparisSahibi,item.Operasyon,item.Eta,'12',item.SatisToplam,kalanOdeme,odemelerTop)
                             else:
                                 odemelerBilgisi = "Henüz ödenmiş bedel bulunmamaktadır."
+                                self.sendMailEtaSpecial(item.SiparisNo,item.SiparisSahibi,item.Operasyon,item.Eta,'12',item.SatisToplam,kalanOdeme,odemelerTop)
                             self.sendMailEta(item.SiparisNo,item.SiparisSahibi,item.Operasyon,item.Eta,'Eta Başarıyla Ulaştı',item.SatisToplam,kalanOdeme,odemelerBilgisi,odemelerTop)
                             self.data.update_insert("""
                                                     update SiparislerTB SET EtaUlasti = 1 where SiparisNo=?
@@ -517,6 +530,96 @@ class MusteriEta:
         except Exception as e:
             print("sendMailEta Hata",str(e))
             return False
+    
+    def sendMailEtaSpecial(self,siparisno,siparisSahibi,operasyon,eta,etaKalanSure,satisToplam,kalanOdeme,odemelerTop):
+        try:
+            siparisSahibiName = self.data.getStoreList("""
+                                                            select KullaniciAdi from KullaniciTB where ID=?
+                                                       
+                                                       """,(siparisSahibi))
+            operasyonName = self.data.getStoreList("""
+                                                            select KullaniciAdi from KullaniciTB where ID=?
+                                                       
+                                                       """,(operasyon))
+            
+
+
+            body = """
+                <table >
+                <tr style ="background-color: #f2f2f2;">
+                    <th style ="color: white;background-color: #00b4ff;text-align: left;  padding-bottom: 12px; padding-top: 12px; padding-top: 12px;padding: 8px; font-family: Arial, Helvetica, sans-serif; border-collapse: collapse;width: 50px;">
+                    Sipariş Numarası
+                    </th>
+                    <th style ="color: white;background-color: #00b4ff;text-align: left;  padding-bottom: 12px; padding-top: 12px; padding-top: 12px;padding: 8px; font-family: Arial, Helvetica, sans-serif; border-collapse: collapse;width: 100px;">
+                    Sipariş Sahibi
+                    </th>
+                    <th  style ="color: white;background-color: #00b4ff;text-align: left;  padding-bottom: 12px; padding-top: 12px; padding-top: 12px;padding: 8px; font-family: Arial, Helvetica, sans-serif; border-collapse: collapse;width: 100px;">
+                    Operasyon
+                    </th>
+                    <th  style ="color: white;background-color: #00b4ff;text-align: left;  padding-bottom: 12px; padding-top: 12px; padding-top: 12px;padding: 8px; font-family: Arial, Helvetica, sans-serif; border-collapse: collapse;width: 100px;">
+                    Eta Tarihi
+                    </th>
+                    <th  style ="color: white;background-color: #00b4ff;text-align: left;  padding-bottom: 12px; padding-top: 12px; padding-top: 12px;padding: 8px; font-family: Arial, Helvetica, sans-serif; border-collapse: collapse;width: 100px;">
+                    Eta Kalan Süresi
+                    </th>
+                    <th  style ="color: white;background-color: #00b4ff;text-align: left;  padding-bottom: 12px; padding-top: 12px; padding-top: 12px;padding: 8px; font-family: Arial, Helvetica, sans-serif; border-collapse: collapse;width: 100px;">
+                        Sipariş Toplam Bedeli
+                    </th>
+                    <th  style ="color: white;background-color: #00b4ff;text-align: left;  padding-bottom: 12px; padding-top: 12px; padding-top: 12px;padding: 8px; font-family: Arial, Helvetica, sans-serif; border-collapse: collapse;width: 100px;">
+                        Yapılan Ödeme
+                    </th>
+                    <th  style ="color: white;background-color: #00b4ff;text-align: left;  padding-bottom: 12px; padding-top: 12px; padding-top: 12px;padding: 8px; font-family: Arial, Helvetica, sans-serif; border-collapse: collapse;width: 100px;">
+                        Kalan Ödeme
+                    </th>
+                    
+                </tr>
+                """
+                    
+            body += f"""
+                        <tr style ="background-color: #ddd;">
+                        <td style ="border: 1px solid #ddd; padding: 8px;  font-family: Arial, Helvetica, sans-serif;border-collapse: collapse; width: 100px;">
+                        {siparisno}
+                        </td>
+                        <td style ="border: 1px solid #ddd; padding: 8px;  font-family: Arial, Helvetica, sans-serif;border-collapse: collapse; width: 100px;">
+                        {siparisSahibiName[0].KullaniciAdi}
+                        </td>
+                        <td style ="border: 1px solid #ddd; padding: 8px;  font-family: Arial, Helvetica, sans-serif;border-collapse: collapse; width: 100px;">
+                        {operasyonName[0].KullaniciAdi}
+                        </td>
+                        <td style ="border: 1px solid #ddd; padding: 8px;  font-family: Arial, Helvetica, sans-serif;border-collapse: collapse; width: 150px;">
+                        {eta}
+                        </td>
+                        <td style ="border: 1px solid #ddd; padding: 8px;  font-family: Arial, Helvetica, sans-serif;border-collapse: collapse; width: 100px;">
+                        {etaKalanSure}
+                        </td>
+                        <td style ="border: 1px solid #ddd; padding: 8px;  font-family: Arial, Helvetica, sans-serif;border-collapse: collapse; width: 100px;">
+                        $ {satisToplam}
+                        </td>
+                        <td style ="border: 1px solid #ddd; padding: 8px;  font-family: Arial, Helvetica, sans-serif;border-collapse: collapse; width: 100px;">
+                        $ {odemelerTop}
+                        </td>
+                        <td style ="border: 1px solid #ddd; padding: 8px;  font-family: Arial, Helvetica, sans-serif;border-collapse: collapse; width: 100px;color:red;">
+                        
+                        $ {kalanOdeme}
+                        </td>
+
+                    </tr>
+                    """
+            
+            
+            
+            body += "</table>"
+            
+            baslik = "Acil! Yaklaşan Eta Özel Maili"
+            
+            MailService(baslik,'mehmet@mekmer.com',body)
+            
+                
+            return True
+        except Exception as e:
+            print("sendMailEta Hata",str(e))
+            return False
+    
     
     def getOdemeler(self,siparisno):
         try:
