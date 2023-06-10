@@ -74,7 +74,7 @@ class ExcellCiktiIslem:
                     
                     
                 sayfa.cell(satir,column=11,value=kg)
-                sayfa.cell(satir,column=12,value=kg+30)
+                sayfa.cell(satir,column=12,value=kg + 30)
                 sayfa.cell(satir,column=13,value=item['kasaOlcusu'])
                 
                 
