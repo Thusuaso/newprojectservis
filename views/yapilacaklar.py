@@ -48,7 +48,7 @@ class Yapilacaklar:
 
                                             where GorevSahibiId =? and Yapildi=0
                                             order by
-												YapilacakOncelik 
+												GirisTarihi desc
                                         """,(userId))
             liste = list()
             for item in data:
@@ -88,7 +88,7 @@ class Yapilacaklar:
 
                                             where GorevSahibiId =? and Yapildi=1
                                             order by
-												YapilacakOncelik 
+												GirisTarihi  desc
                                         """,(userId))
             liste = list()
             for item in data:
@@ -129,7 +129,7 @@ class Yapilacaklar:
 
                                             where Yapildi=0
                                             order by
-												YapilacakOncelik 
+												GirisTarihi desc
                                         """)
             liste = list()
             for item in data:
@@ -169,7 +169,7 @@ class Yapilacaklar:
 
                                             where Yapildi=1
                                             order by
-												YapilacakOncelik 
+												GirisTarihi  desc
                                         """)
             liste = list()
             for item in data:
@@ -213,7 +213,7 @@ class Yapilacaklar:
 
                                             where GorevVerenID =? and Yapildi=0
                                             order by
-												YapilacakOncelik 
+												GirisTarihi desc
                                         """,(userId))
             liste = list()
             for item in data:
@@ -254,7 +254,7 @@ class Yapilacaklar:
 
                                             where GorevVerenID =? and Yapildi=1
                                             order by
-												YapilacakOncelik 
+												GirisTarihi desc
                                         """,(userId))
             liste = list()
             for item in data:
