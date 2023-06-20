@@ -314,6 +314,7 @@ class Yapilacaklar:
                                             data['oncelik'],
                                         )
                                    )
+            
             return True
         except Exception as e:
             print('yapilacaklar save hata',str(e))

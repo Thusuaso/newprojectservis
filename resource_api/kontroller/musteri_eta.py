@@ -90,7 +90,6 @@ class MusteriEta:
             yuklemeTarihi = tarihIslem.getDate(item.YuklemeTarihi).strftime("%d-%m-%Y")
             bugun = datetime.date.today()
             sontarih_str = yuklemeTarihi.split('-')
-            print(sontarih_str[2])
             sontarih = datetime.date(int(sontarih_str[2]),int(sontarih_str[1]),int(sontarih_str[0]))
             kalan_sure = (bugun - sontarih).days
 
@@ -108,7 +107,6 @@ class MusteriEta:
     
     
     def setEtaControlNotificationStatus(self,po,etaSure):
-        print(po,etaSure)
         if(etaSure == '12'):
             self.data.update_insert("""
                                         update SiparislerTB SET EtaHControlOn = 1 where SiparisNo=?
