@@ -1435,8 +1435,8 @@ class SevkiyatRapor:
                 ol.En,
                 ol.Boy,
                 ol.Kenar,
-				u.UrunKartID
-
+				u.UrunKartID,
+                u.KutuIciAdet
                 from 
 
                 SevkiyatTB s
